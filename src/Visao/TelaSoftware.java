@@ -39,7 +39,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
     LogSistemaDao controlLog = new LogSistemaDao();
     LogSistema objLogSys = new LogSistema();
     // Variáveis para gravar o log
-    String nomeModuloTela = "Cadastro:Software(Sitemas):Manutenção";
+    String nomeModuloTela = "Cadastro:Software(Sistemas):Manutenção";
     String horaMov;
     String dataModFinal;
     String statusMov;
