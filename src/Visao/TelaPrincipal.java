@@ -34,6 +34,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private TelaOcorrenciasHD objOcr = null;
     private TelaSolicitantes objSoli = null;
     private TelaUsuarios objUser = null;
+    private TelaSoftware objSoftware = null;
     //
     public static int codigoUser = 0;
     public static int codUserAcesso = 0;
@@ -795,6 +796,36 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jSoftwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSoftwareActionPerformed
         // TODO add your handling code here:
+        buscarAcessoUsuario(telaCadastroUsuarios);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroUsuarios) && codAbrir == 1) {
+            if (objSoftware == null || objSoftware.isClosed()) {
+                objSoftware = new TelaSoftware();
+                TelaPrincipal.jPainelPrincipal.add(objSoftware);
+                objSoftware.setVisible(true);
+            } else {
+                if (objSoftware.isVisible()) {
+                    if (objSoftware.isIcon()) { // Se esta minimizado
+                        try {
+                            objSoftware.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objSoftware.toFront(); // traz para frente
+                        objSoftware.pack();//volta frame 
+                    }
+                } else {
+                    objSoftware = new TelaSoftware();
+                    TelaPrincipal.jPainelPrincipal.add(objSoftware);//adicona frame ao JDesktopPane  
+                    objSoftware.setVisible(true);
+                }
+            }
+            try {
+                objSoftware.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
     }//GEN-LAST:event_jSoftwareActionPerformed
 
     private void jModulosSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jModulosSistemaActionPerformed

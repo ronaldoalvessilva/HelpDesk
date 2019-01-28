@@ -1077,9 +1077,9 @@ public class TelaSolicitantes extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
                 }
                 if (acao == 2) {
-                    objSoli.setUsuarioInsert(nameUser);
-                    objSoli.setDataInsert(dataModFinal);
-                    objSoli.setHorarioInsert(horaMov);
+                    objSoli.setUsuarioUp(nameUser);
+                    objSoli.setDataUp(dataModFinal);
+                    objSoli.setHorarioUp(horaMov);
                     objSoli.setIdSolicitante(Integer.valueOf(jIdSolicitante.getText()));
                     control.alterarSolicitante(objSoli);
                     //
