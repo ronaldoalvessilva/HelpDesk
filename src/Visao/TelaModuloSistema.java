@@ -8,9 +8,9 @@ package Visao;
 import Controle.ModeloTabela;
 import Dao.ConexaoBancoDados;
 import Dao.LogSistemaDao;
-import Dao.softwareDao;
+import Dao.modulosDao;
 import Modelo.LogSistema;
-import Modelo.Software;
+import Modelo.Modulos;
 import static Visao.LoginHD.nameUser;
 import static Visao.TelaPrincipal.codAbrir;
 import static Visao.TelaPrincipal.codAlterar;
@@ -24,7 +24,7 @@ import static Visao.TelaPrincipal.jDataSistema;
 import static Visao.TelaPrincipal.jHoraSistema;
 import static Visao.TelaPrincipal.jPainelPrincipal;
 import static Visao.TelaPrincipal.nomeTela;
-import static Visao.TelaPrincipal.telaCadastroSistemas;
+import static Visao.TelaPrincipal.telaCadastroModulos;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -39,16 +39,16 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author ronal
  */
-public class TelaSoftware extends javax.swing.JInternalFrame {
+public class TelaModuloSistema extends javax.swing.JInternalFrame {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
-    Software objSoft = new Software();
-    softwareDao softDao = new softwareDao();
+    Modulos objMod = new Modulos();
+    modulosDao modDao = new modulosDao();
     //
     LogSistemaDao controlLog = new LogSistemaDao();
     LogSistema objLogSys = new LogSistema();
     // Variáveis para gravar o log
-    String nomeModuloTela = "Cadastro:Software(Sistemas):Manutenção";
+    String nomeModuloTela = "Cadastro:Módulos:Manutenção";
     String horaMov;
     String dataModFinal;
     String statusMov;
@@ -56,12 +56,13 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
     int flag, acao;
     String dataInicial, dataFinal, dataBrasil;
     String dataEntrada;
-    String idSoftware;
+    String codigoModulo;
+    String idModulo;
 
     /**
-     * Creates new form TelaSoftware
+     * Creates new form TelaModuloSistema
      */
-    public TelaSoftware() {
+    public TelaModuloSistema() {
         initComponents();
         corCampos();
         formatarCampos();
@@ -92,7 +93,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         jPesqTituloOcorrencia = new javax.swing.JTextField();
         jBtPesqSolicitante = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTabelaSoftware = new javax.swing.JTable();
+        jTabelaModulos = new javax.swing.JTable();
         jPanel31 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
         jLabel63 = new javax.swing.JLabel();
@@ -105,14 +106,18 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jIdSoftware = new javax.swing.JTextField();
-        jDescricaoSoftware = new javax.swing.JTextField();
-        jVersao = new javax.swing.JTextField();
-        jComboBoxStatusSoftware = new javax.swing.JComboBox<>();
+        jIdModulo = new javax.swing.JTextField();
+        jNomeModulo = new javax.swing.JTextField();
+        jNomeSoftware = new javax.swing.JTextField();
+        jBtPesquisarSoftware = new javax.swing.JButton();
+        jComboBoxStatusModulo = new javax.swing.JComboBox<>();
         jDataCadastro = new com.toedter.calendar.JDateChooser();
+        jLabel6 = new javax.swing.JLabel();
+        jIdSoftware = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jObservacao = new javax.swing.JTextArea();
+        jBtAuditoria = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jBtNovo = new javax.swing.JButton();
         jBtAlterar = new javax.swing.JButton();
@@ -120,18 +125,10 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         jBtSalvar = new javax.swing.JButton();
         jBtCancelar = new javax.swing.JButton();
         jBtSair = new javax.swing.JButton();
-        jLabelNovo = new javax.swing.JLabel();
-        jLabelAlterar = new javax.swing.JLabel();
-        jLabelExcluir = new javax.swing.JLabel();
-        jLabelSalvar = new javax.swing.JLabel();
-        jLabelCancelar = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jBtAuditoria = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("...::: Software(Sistema) :::...");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191524_16.png"))); // NOI18N
+        setTitle("...::: Módulos do Sistema :::...");
 
         jTabbedPane1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
@@ -200,9 +197,20 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
                     .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(292, 292, 292)
+                                .addComponent(jBtPesqData, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(jPesqTituloOcorrencia, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtPesqSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(11, 11, 11))
                     .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(jCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -217,15 +225,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
                                 .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(31, 31, 31))
                             .addComponent(jCheckBox1, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jBtPesqData, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jPesqTituloOcorrencia, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtPesqSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(11, 11, 11))))
+                        .addContainerGap())))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,7 +237,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
                         .addComponent(jCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel14))
                     .addComponent(jCheckBox1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jBtPesqSolicitante)
                     .addGroup(jPanel6Layout.createSequentialGroup()
@@ -254,8 +254,8 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabelaSoftware.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jTabelaSoftware.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaModulos.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTabelaModulos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -263,21 +263,21 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
                 "Código", "Data", "Status", "Software(Sistema)"
             }
         ));
-        jTabelaSoftware.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTabelaModulos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTabelaSoftwareMouseClicked(evt);
+                jTabelaModulosMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(jTabelaSoftware);
-        if (jTabelaSoftware.getColumnModel().getColumnCount() > 0) {
-            jTabelaSoftware.getColumnModel().getColumn(0).setMinWidth(70);
-            jTabelaSoftware.getColumnModel().getColumn(0).setMaxWidth(70);
-            jTabelaSoftware.getColumnModel().getColumn(1).setMinWidth(70);
-            jTabelaSoftware.getColumnModel().getColumn(1).setMaxWidth(70);
-            jTabelaSoftware.getColumnModel().getColumn(2).setMinWidth(80);
-            jTabelaSoftware.getColumnModel().getColumn(2).setMaxWidth(80);
-            jTabelaSoftware.getColumnModel().getColumn(3).setMinWidth(380);
-            jTabelaSoftware.getColumnModel().getColumn(3).setMaxWidth(380);
+        jScrollPane2.setViewportView(jTabelaModulos);
+        if (jTabelaModulos.getColumnModel().getColumnCount() > 0) {
+            jTabelaModulos.getColumnModel().getColumn(0).setMinWidth(70);
+            jTabelaModulos.getColumnModel().getColumn(0).setMaxWidth(70);
+            jTabelaModulos.getColumnModel().getColumn(1).setMinWidth(70);
+            jTabelaModulos.getColumnModel().getColumn(1).setMaxWidth(70);
+            jTabelaModulos.getColumnModel().getColumn(2).setMinWidth(80);
+            jTabelaModulos.getColumnModel().getColumn(2).setMaxWidth(80);
+            jTabelaModulos.getColumnModel().getColumn(3).setMinWidth(380);
+            jTabelaModulos.getColumnModel().getColumn(3).setMaxWidth(380);
         }
 
         jPanel31.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED)));
@@ -332,11 +332,9 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -347,10 +345,9 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -373,29 +370,45 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         jLabel3.setText("Data Cadastro");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setText("Descrição do Software(Sistema)");
+        jLabel4.setText("Nome do Módulo");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel5.setText("Versão");
+        jLabel5.setText("Software (Sistema)");
+
+        jIdModulo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jIdModulo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jIdModulo.setEnabled(false);
+
+        jNomeModulo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jNomeModulo.setEnabled(false);
+
+        jNomeSoftware.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jNomeSoftware.setEnabled(false);
+
+        jBtPesquisarSoftware.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
+        jBtPesquisarSoftware.setToolTipText("Pesquisar Software");
+        jBtPesquisarSoftware.setContentAreaFilled(false);
+        jBtPesquisarSoftware.setEnabled(false);
+        jBtPesquisarSoftware.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtPesquisarSoftwareActionPerformed(evt);
+            }
+        });
+
+        jComboBoxStatusModulo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxStatusModulo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "Inativo" }));
+        jComboBoxStatusModulo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBoxStatusModulo.setEnabled(false);
+
+        jDataCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jDataCadastro.setEnabled(false);
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setText("Código");
 
         jIdSoftware.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jIdSoftware.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jIdSoftware.setEnabled(false);
-
-        jDescricaoSoftware.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jDescricaoSoftware.setEnabled(false);
-
-        jVersao.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jVersao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jVersao.setEnabled(false);
-
-        jComboBoxStatusSoftware.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxStatusSoftware.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "Inativo" }));
-        jComboBoxStatusSoftware.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jComboBoxStatusSoftware.setEnabled(false);
-
-        jDataCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jDataCadastro.setEnabled(false);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel7.setText("Observação");
@@ -407,71 +420,99 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         jObservacao.setEnabled(false);
         jScrollPane1.setViewportView(jObservacao);
 
+        jBtAuditoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/book_open.png"))); // NOI18N
+        jBtAuditoria.setToolTipText("Auditoria");
+        jBtAuditoria.setContentAreaFilled(false);
+        jBtAuditoria.setEnabled(false);
+        jBtAuditoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtAuditoriaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(22, 22, 22)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDescricaoSoftware)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel7)
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel1)
-                                        .addComponent(jIdSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel2)
-                                        .addComponent(jComboBoxStatusSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jDataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel3)))
-                                .addComponent(jLabel4)
-                                .addComponent(jScrollPane1))
+                            .addComponent(jLabel7)
                             .addComponent(jLabel5)
-                            .addComponent(jVersao, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jIdModulo, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jComboBoxStatusModulo, 0, 210, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jDataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jNomeModulo, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jNomeSoftware, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jIdSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtPesquisarSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jBtAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jDataCadastro, jVersao});
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jIdModulo, jIdSoftware});
 
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jComboBoxStatusSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jIdSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
+                    .addComponent(jComboBoxStatusModulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jIdModulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
                 .addComponent(jLabel4)
+                .addGap(5, 5, 5)
+                .addComponent(jNomeModulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDescricaoSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jIdSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtPesquisarSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtAuditoria))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jVersao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addComponent(jNomeSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
 
         jBtNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/page_add.png"))); // NOI18N
+        jBtNovo.setText("Novo");
         jBtNovo.setContentAreaFilled(false);
         jBtNovo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBtNovo.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
@@ -483,6 +524,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         });
 
         jBtAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/8437_16x16.png"))); // NOI18N
+        jBtAlterar.setText("Alterar");
         jBtAlterar.setContentAreaFilled(false);
         jBtAlterar.setEnabled(false);
         jBtAlterar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -495,6 +537,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         });
 
         jBtExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/3630_16x16.png"))); // NOI18N
+        jBtExcluir.setText("Excluir");
         jBtExcluir.setContentAreaFilled(false);
         jBtExcluir.setEnabled(false);
         jBtExcluir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -507,6 +550,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         });
 
         jBtSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/1294_16x16.png"))); // NOI18N
+        jBtSalvar.setText("Gravar");
         jBtSalvar.setContentAreaFilled(false);
         jBtSalvar.setEnabled(false);
         jBtSalvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -519,6 +563,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         });
 
         jBtCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Button_Close_Icon_16.png"))); // NOI18N
+        jBtCancelar.setText("Cancelar");
         jBtCancelar.setContentAreaFilled(false);
         jBtCancelar.setEnabled(false);
         jBtCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -531,6 +576,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         });
 
         jBtSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Log_Out_Icon_16.png"))); // NOI18N
+        jBtSair.setText("Sair");
         jBtSair.setContentAreaFilled(false);
         jBtSair.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBtSair.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
@@ -541,105 +587,35 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabelNovo.setText("Novo");
-
-        jLabelAlterar.setText("Alterar");
-        jLabelAlterar.setEnabled(false);
-
-        jLabelExcluir.setText("Excluir");
-        jLabelExcluir.setEnabled(false);
-
-        jLabelSalvar.setText("Gravar");
-        jLabelSalvar.setEnabled(false);
-
-        jLabelCancelar.setText("Cancelar");
-        jLabelCancelar.setEnabled(false);
-
-        jLabel13.setText("Sair");
-
-        jBtAuditoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/book_open.png"))); // NOI18N
-        jBtAuditoria.setToolTipText("Auditoria");
-        jBtAuditoria.setContentAreaFilled(false);
-        jBtAuditoria.setEnabled(false);
-        jBtAuditoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtAuditoriaActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabelNovo)
-                    .addComponent(jBtNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabelAlterar)
-                    .addComponent(jBtAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabelExcluir)
-                    .addComponent(jBtExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabelSalvar)
-                    .addComponent(jBtSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabelCancelar)
-                    .addComponent(jBtCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel13)
-                    .addComponent(jBtSair, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBtAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jBtNovo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtAlterar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtExcluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtSalvar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtCancelar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtSair))
         );
-
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtAlterar, jBtCancelar, jBtExcluir, jBtNovo, jBtSair, jBtSalvar});
-
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jBtNovo)
-                            .addComponent(jBtSair))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelNovo)
-                            .addComponent(jLabel13)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelAlterar, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabelExcluir, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jBtCancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelSalvar)
-                            .addComponent(jLabelCancelar)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jBtAlterar)
-                            .addComponent(jBtExcluir)
-                            .addComponent(jBtSalvar))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jBtAuditoria)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jBtSair)
+                    .addComponent(jBtCancelar)
+                    .addComponent(jBtSalvar)
+                    .addComponent(jBtExcluir)
+                    .addComponent(jBtAlterar)
+                    .addComponent(jBtNovo))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
-
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtAlterar, jBtCancelar, jBtExcluir, jBtNovo, jBtSair, jBtSalvar});
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -648,11 +624,9 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -660,7 +634,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -670,16 +644,16 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        setBounds(450, 80, 408, 404);
+        setBounds(450, 50, 450, 455);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtPesqCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesqCodigoActionPerformed
@@ -689,8 +663,8 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         if (jCodigo.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
         } else {
-            pesquisarSolicitantes("SELECT * FROM SOFTWARE "
-                    + "WHERE IdSoftware='" + jCodigo.getText() + "'");
+            pesquisarSolicitantes("SELECT * FROM MODULOS "
+                    + "WHERE IdModulo='" + jCodigo.getText() + "'");
         }
     }//GEN-LAST:event_jBtPesqCodigoActionPerformed
 
@@ -712,7 +686,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
                     SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
                     dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
                     dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                    pesquisarSolicitantes("SELECT * FROM SOFTWARE "
+                    pesquisarSolicitantes("SELECT * FROM MODULOS "
                             + "WHERE DataCadastro BETWEEN'" + dataInicial + "' "
                             + "AND '" + dataFinal + "'");
                 }
@@ -725,7 +699,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         count = 0;
         flag = 1;
         if (evt.getStateChange() == evt.SELECTED) {
-            this.pesquisarSolicitantes("SELECT * FROM SOFTWARE");
+            this.pesquisarSolicitantes("SELECT * FROM MODULOS");
         } else {
             jtotalRegistros.setText("");
             limparTabela();
@@ -738,55 +712,61 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         if (jPesqTituloOcorrencia.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "É necessário informar um nome ou parte do nome para pesquuisa.");
         } else {
-            pesquisarSolicitantes("SELECT * FROM SOFTWARE "
+            pesquisarSolicitantes("SELECT * FROM MODULOS "
                     + "WHERE DescricaoSoftware "
                     + "LIKE'%" + jPesqTituloOcorrencia + "%'");
         }
     }//GEN-LAST:event_jBtPesqSolicitanteMouseClicked
 
-    private void jTabelaSoftwareMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaSoftwareMouseClicked
+    private void jTabelaModulosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaModulosMouseClicked
         // TODO add your handling code here:
         flag = 1;
         if (flag == 1) {
-            String idSoftware = "" + jTabelaSoftware.getValueAt(jTabelaSoftware.getSelectedRow(), 0);
-            jCodigo.setText(idSoftware);
+            String idModulos = "" + jTabelaModulos.getValueAt(jTabelaModulos.getSelectedRow(), 0);
+            jCodigo.setText(idModulos);
             //
-            if (!jIdSoftware.getText().equals("")) {
+            if (!jIdModulo.getText().equals("")) {
                 bloquearCampos();
                 bloquearBotoes();
                 jBtNovo.setEnabled(true);
                 jBtAlterar.setEnabled(true);
                 jBtExcluir.setEnabled(true);
                 jBtAuditoria.setEnabled(true);
-                //
-                jLabelNovo.setEnabled(true);
-                jLabelAlterar.setEnabled(true);
-                jLabelExcluir.setEnabled(true);
             }
             //
             conecta.abrirConexao();
             try {
-                conecta.executaSQL("SELECT * FROM SOFTWARE "
-                        + "WHERE IdSoftware='" + idSoftware + "'");
+                conecta.executaSQL("SELECT * FROM MODULOS "
+                        + "INNER JOIN SOFTWARE "
+                        + "ON MODULOS.IdSoftware=SOFTWARE.IdSoftware "
+                        + "WHERE MODULOS.IdModulo='" + idModulos + "'");
                 conecta.rs.first();
-                jIdSoftware.setText(String.valueOf(conecta.rs.getInt("IdSoftware")));
-                jComboBoxStatusSoftware.setSelectedItem(conecta.rs.getString("StatusSoftware"));
+                jIdModulo.setText(String.valueOf(conecta.rs.getInt("IdModulo")));
+                jComboBoxStatusModulo.setSelectedItem(conecta.rs.getString("StatusModulo"));
                 jDataCadastro.setDate(conecta.rs.getDate("DataCadastro"));
-                jDescricaoSoftware.setText(conecta.rs.getString("DescricaoSoftware"));
-                jVersao.setText(conecta.rs.getString("VersaoSoftware"));
-                jObservacao.setText(conecta.rs.getString("ObservacaoSoftware"));
+                jNomeModulo.setText(conecta.rs.getString("DescricaoModulo"));
+                jIdSoftware.setText(conecta.rs.getString("IdSoftware"));
+                jNomeSoftware.setText(conecta.rs.getString("DescricaoSoftware"));
+                jObservacao.setText(conecta.rs.getString("ObservacaoModulo"));
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
             }
 
             conecta.desconecta();
         }
-    }//GEN-LAST:event_jTabelaSoftwareMouseClicked
+    }//GEN-LAST:event_jTabelaModulosMouseClicked
+
+    private void jBtPesquisarSoftwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisarSoftwareActionPerformed
+        // TODO add your handling code here:
+        TelaPesquisaSoftware objPesqSoft = new TelaPesquisaSoftware();
+        TelaPrincipal.jPainelPrincipal.add(objPesqSoft);
+        objPesqSoft.show();
+    }//GEN-LAST:event_jBtPesquisarSoftwareActionPerformed
 
     private void jBtNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroSistemas);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroSistemas) && codIncluir == 1) {
+        buscarAcessoUsuario(telaCadastroModulos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroModulos) && codIncluir == 1) {
             statusMov = "Incluiu";
             horaMov = jHoraSistema.getText();
             dataModFinal = jDataSistema.getText();
@@ -799,8 +779,8 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
 
     private void jBtAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroSistemas);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroSistemas) && codAlterar == 1) {
+        buscarAcessoUsuario(telaCadastroModulos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroModulos) && codAlterar == 1) {
             statusMov = "Alterou";
             horaMov = jHoraSistema.getText();
             dataModFinal = jDataSistema.getText();
@@ -813,20 +793,20 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
 
     private void jBtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroSistemas);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroSistemas) && codExcluir == 1) {
+        buscarAcessoUsuario(telaCadastroModulos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroModulos) && codExcluir == 1) {
             verificarChamados();
             statusMov = "Excluiu";
             horaMov = jHoraSistema.getText();
             dataModFinal = jDataSistema.getText();
-            if (jIdSoftware.getText().equals(idSoftware)) {
-                JOptionPane.showMessageDialog(rootPane, "Não é possível excluir esse software, existe chamados associado a esse solicitante.");
+            if (jIdSoftware.getText().equals(idModulo)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível excluir esse Módulo, existe chamados associado a esse solicitante.");
             } else {
                 int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
                         JOptionPane.YES_NO_OPTION);
                 if (resposta == JOptionPane.YES_OPTION) {
-                    objSoft.setCodigo(Integer.valueOf(jIdSoftware.getText()));
-                    softDao.excluirSoftware(objSoft);
+                    objMod.setIdModulo(Integer.valueOf(jIdModulo.getText()));
+                    modDao.excluirModulo(objMod);
                     Excluir();
                 }
             }
@@ -837,23 +817,26 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
 
     private void jBtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSalvarActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroSistemas);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroSistemas) && codGravar == 1) {
+        buscarAcessoUsuario(telaCadastroModulos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroModulos) && codGravar == 1) {
             if (jDataCadastro.getDate() == null) {
-                JOptionPane.showMessageDialog(rootPane, "Informe a data de cadastro.");
-            } else if (jDescricaoSoftware.getText().equals("")) {
-                JOptionPane.showMessageDialog(rootPane, "Informe a descrição do software.");
+                JOptionPane.showMessageDialog(rootPane, "");
+            } else if (jNomeModulo.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "");
+            } else if (jIdSoftware.getText().equals("") || jNomeSoftware.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "");
             } else {
-                objSoft.setStatusSoft((String) jComboBoxStatusSoftware.getSelectedItem());
-                objSoft.setDataCadastro(jDataCadastro.getDate());
-                objSoft.setDescricaoSoftware(jDescricaoSoftware.getText());
-                objSoft.setVersaoSoft(jVersao.getText());
-                objSoft.setObservacaoSoft(jObservacao.getText());
+                objMod.setStatusModulo((String) jComboBoxStatusModulo.getSelectedItem());
+                objMod.setDataCadastro(jDataCadastro.getDate());
+                objMod.setNomeModulo(jNomeModulo.getText());
+                objMod.setIdSoftware(Integer.valueOf(jIdSoftware.getText()));
+                objMod.setNomeSoftware(jNomeSoftware.getText());
+                objMod.setObservacao(jObservacao.getText());
                 if (acao == 1) {
-                    objSoft.setUsuarioInsert(nameUser);
-                    objSoft.setDataInsert(dataModFinal);
-                    objSoft.setHorarioInsert(horaMov);
-                    softDao.incluirSoftware(objSoft);
+                    objMod.setUsuarioInsert(nameUser);
+                    objMod.setDataInsert(dataModFinal);
+                    objMod.setHorarioInsert(horaMov);
+                    modDao.incluirModulo(objMod);
                     buscarID();
                     //
                     objLog();
@@ -862,11 +845,11 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
                 }
                 if (acao == 2) {
-                    objSoft.setUsuarioUp(nameUser);
-                    objSoft.setDataUp(dataModFinal);
-                    objSoft.setHorarioUp(horaMov);
-                    objSoft.setCodigo(Integer.valueOf(jIdSoftware.getText()));
-                    softDao.alterarSoftware(objSoft);
+                    objMod.setUsuarioUp(nameUser);
+                    objMod.setDataUp(dataModFinal);
+                    objMod.setHorarioUp(horaMov);
+                    objMod.setIdModulo(Integer.valueOf(jIdModulo.getText()));
+                    modDao.alterarModulo(objMod);
                     //
                     objLog();
                     controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
@@ -891,9 +874,9 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
 
     private void jBtAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAuditoriaActionPerformed
         // TODO add your handling code here:
-        TelaAuditoriaSoftware objAudiSol = new TelaAuditoriaSoftware();
-        jPainelPrincipal.add(objAudiSol);
-        objAudiSol.show();
+        TelaAuditoriaModulos objAudiMod = new TelaAuditoriaModulos();
+        jPainelPrincipal.add(objAudiMod);
+        objAudiMod.show();
     }//GEN-LAST:event_jBtAuditoriaActionPerformed
 
 
@@ -906,18 +889,18 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtPesqCodigo;
     private javax.swing.JButton jBtPesqData;
     private javax.swing.JButton jBtPesqSolicitante;
+    private javax.swing.JButton jBtPesquisarSoftware;
     private javax.swing.JButton jBtSair;
     private javax.swing.JButton jBtSalvar;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JTextField jCodigo;
-    private javax.swing.JComboBox<String> jComboBoxStatusSoftware;
+    private javax.swing.JComboBox<String> jComboBoxStatusModulo;
     private com.toedter.calendar.JDateChooser jDataCadastro;
     private com.toedter.calendar.JDateChooser jDataPesFinal;
     private com.toedter.calendar.JDateChooser jDataPesqInicial;
-    private javax.swing.JTextField jDescricaoSoftware;
+    public static javax.swing.JTextField jIdModulo;
     public static javax.swing.JTextField jIdSoftware;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -926,13 +909,11 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabelAlterar;
-    private javax.swing.JLabel jLabelCancelar;
-    private javax.swing.JLabel jLabelExcluir;
-    private javax.swing.JLabel jLabelNovo;
-    private javax.swing.JLabel jLabelSalvar;
+    private javax.swing.JTextField jNomeModulo;
+    public static javax.swing.JTextField jNomeSoftware;
     private javax.swing.JTextArea jObservacao;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -946,8 +927,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTabelaSoftware;
-    private javax.swing.JTextField jVersao;
+    private javax.swing.JTable jTabelaModulos;
     private javax.swing.JLabel jtotalRegistros;
     // End of variables declaration//GEN-END:variables
 
@@ -957,20 +937,22 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
     }
 
     public void corCampos() {
-        jIdSoftware.setBackground(Color.white);
-        jComboBoxStatusSoftware.setBackground(Color.white);
+        jIdModulo.setBackground(Color.white);
+        jComboBoxStatusModulo.setBackground(Color.white);
         jDataCadastro.setBackground(Color.white);
-        jDescricaoSoftware.setBackground(Color.white);
-        jVersao.setBackground(Color.white);
+        jNomeModulo.setBackground(Color.white);
+        jIdSoftware.setBackground(Color.white);
+        jNomeSoftware.setBackground(Color.white);
         jObservacao.setBackground(Color.white);
     }
 
     public void bloquearCampos() {
-        jIdSoftware.setEnabled(!true);
-        jComboBoxStatusSoftware.setEnabled(!true);
+        jIdModulo.setEnabled(!true);
+        jComboBoxStatusModulo.setEnabled(!true);
         jDataCadastro.setEnabled(!true);
-        jDescricaoSoftware.setEnabled(!true);
-        jVersao.setEnabled(!true);
+        jNomeModulo.setEnabled(!true);
+        jIdSoftware.setEnabled(!true);
+        jNomeSoftware.setEnabled(!true);
         jObservacao.setEnabled(!true);
     }
 
@@ -981,36 +963,29 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         jBtSalvar.setEnabled(!true);
         jBtCancelar.setEnabled(!true);
         jBtAuditoria.setEnabled(!true);
-        //
-        jLabelNovo.setEnabled(!true);
-        jLabelAlterar.setEnabled(!true);
-        jLabelExcluir.setEnabled(!true);
-        jLabelSalvar.setEnabled(!true);
-        jLabelCancelar.setEnabled(!true);
+        jBtPesquisarSoftware.setEnabled(!true);
     }
 
     public void Novo() {
-        jIdSoftware.setText("");
-        jComboBoxStatusSoftware.setSelectedItem("Ativo");
+        jIdModulo.setText("");
+        jComboBoxStatusModulo.setSelectedItem("Ativo");
         jDataCadastro.setCalendar(Calendar.getInstance());
-        jDescricaoSoftware.setText("");
-        jVersao.setText("");
+        jNomeModulo.setText("");
+        jIdSoftware.setText("");
+        jNomeSoftware.setText("");
         jObservacao.setText("");
         //
         bloquearCampos();
         bloquearBotoes();
         //
-        jComboBoxStatusSoftware.setEnabled(true);
+        jComboBoxStatusModulo.setEnabled(true);
         jDataCadastro.setEnabled(true);
-        jDescricaoSoftware.setEnabled(true);
-        jVersao.setEnabled(true);
+        jNomeModulo.setEnabled(true);
         jObservacao.setEnabled(true);
         //
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
-        //
-        jLabelSalvar.setEnabled(true);
-        jLabelCancelar.setEnabled(true);
+        jBtPesquisarSoftware.setEnabled(true);
     }
 
     public void Alterar() {
@@ -1018,32 +993,30 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         bloquearCampos();
         bloquearBotoes();
         //
-        jComboBoxStatusSoftware.setEnabled(true);
+        jComboBoxStatusModulo.setEnabled(true);
         jDataCadastro.setEnabled(true);
-        jDescricaoSoftware.setEnabled(true);
-        jVersao.setEnabled(true);
+        jIdSoftware.setEnabled(true);
+        jNomeSoftware.setEnabled(true);
         jObservacao.setEnabled(true);
         //
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
-        //
-        jLabelSalvar.setEnabled(true);
-        jLabelCancelar.setEnabled(true);
+        jBtPesquisarSoftware.setEnabled(true);
     }
 
     public void Excluir() {
-        jIdSoftware.setText("");
-        jComboBoxStatusSoftware.setSelectedItem("Ativo");
+        jIdModulo.setText("");
+        jComboBoxStatusModulo.setSelectedItem("Ativo");
         jDataCadastro.setDate(null);
-        jDescricaoSoftware.setText("");
-        jVersao.setText("");
+        jNomeModulo.setText("");
+        jIdSoftware.setText("");
+        jNomeSoftware.setText("");
         jObservacao.setText("");
         //
         bloquearCampos();
         bloquearBotoes();
         //
         jBtNovo.setEnabled(true);
-        jLabelNovo.setEnabled(true);
     }
 
     public void Salvar() {
@@ -1051,45 +1024,33 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         bloquearBotoes();
         //
         jBtNovo.setEnabled(true);
-        jLabelNovo.setEnabled(true);
-        //
         jBtAlterar.setEnabled(true);
-        jLabelAlterar.setEnabled(true);
-        //
         jBtExcluir.setEnabled(true);
-        jLabelExcluir.setEnabled(true);
-        //
         jBtAuditoria.setEnabled(true);
     }
 
     public void Cancelar() {
         //
-        if (jIdSoftware.getText().equals("")) {
-            jIdSoftware.setText("");
-            jComboBoxStatusSoftware.setSelectedItem("Ativo");
+        if (jIdModulo.getText().equals("")) {
+            jIdModulo.setText("");
+            jComboBoxStatusModulo.setSelectedItem("Ativo");
             jDataCadastro.setDate(null);
-            jDescricaoSoftware.setText("");
-            jVersao.setText("");
+            jNomeModulo.setText("");
+            jIdSoftware.setText("");
+            jNomeSoftware.setText("");
             jObservacao.setText("");
             //
             bloquearCampos();
             bloquearBotoes();
             //
             jBtNovo.setEnabled(true);
-            jLabelNovo.setEnabled(true);
         } else {
             bloquearCampos();
             bloquearBotoes();
             //
             jBtNovo.setEnabled(true);
-            jLabelNovo.setEnabled(true);
-            //
-            jBtAlterar.setEnabled(true);
-            jLabelAlterar.setEnabled(true);
-            //
+            jBtAlterar.setEnabled(true);         //
             jBtExcluir.setEnabled(true);
-            jLabelExcluir.setEnabled(true);
-            //
             jBtAuditoria.setEnabled(true);
         }
     }
@@ -1099,7 +1060,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         try {
             conecta.executaSQL("SELECT * FROM SOFTWARE");
             conecta.rs.last();
-            jIdSoftware.setText(conecta.rs.getString("IdSoftware"));
+            jIdModulo.setText(conecta.rs.getString("IdSoftware"));
         } catch (Exception e) {
         }
         conecta.desconecta();
@@ -1111,7 +1072,7 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
             conecta.executaSQL("SELECT * FROM CHAMADOS_SUPORTE "
                     + "WHERE IdSoftware='" + jIdSoftware.getText() + "'");
             conecta.rs.first();
-            idSoftware = conecta.rs.getString("IdSoftware");
+            codigoModulo = conecta.rs.getString("IdSoftware");
         } catch (Exception e) {
         }
         conecta.desconecta();
@@ -1142,24 +1103,24 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
                 String ano = dataBrasil.substring(0, 4);
                 dataBrasil = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(count)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{conecta.rs.getInt("IdSoftware"), dataBrasil, conecta.rs.getString("StatusSoftware"), conecta.rs.getString("DescricaoSoftware")});
+                dados.add(new Object[]{conecta.rs.getInt("IdModulo"), dataBrasil, conecta.rs.getString("StatusModulo"), conecta.rs.getString("DescricaoModulo")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS !!!");
         }
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
-        jTabelaSoftware.setModel(modelo);
-        jTabelaSoftware.getColumnModel().getColumn(0).setPreferredWidth(70);
-        jTabelaSoftware.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaSoftware.getColumnModel().getColumn(1).setPreferredWidth(70);
-        jTabelaSoftware.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaSoftware.getColumnModel().getColumn(2).setPreferredWidth(80);
-        jTabelaSoftware.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaSoftware.getColumnModel().getColumn(3).setPreferredWidth(380);
-        jTabelaSoftware.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaSoftware.getTableHeader().setReorderingAllowed(false);
-        jTabelaSoftware.setAutoResizeMode(jTabelaSoftware.AUTO_RESIZE_OFF);
-        jTabelaSoftware.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTabelaModulos.setModel(modelo);
+        jTabelaModulos.getColumnModel().getColumn(0).setPreferredWidth(70);
+        jTabelaModulos.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaModulos.getColumnModel().getColumn(1).setPreferredWidth(70);
+        jTabelaModulos.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaModulos.getColumnModel().getColumn(2).setPreferredWidth(80);
+        jTabelaModulos.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaModulos.getColumnModel().getColumn(3).setPreferredWidth(380);
+        jTabelaModulos.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaModulos.getTableHeader().setReorderingAllowed(false);
+        jTabelaModulos.setAutoResizeMode(jTabelaModulos.AUTO_RESIZE_OFF);
+        jTabelaModulos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         alinharCamposTabela();
         conecta.desconecta();
     }
@@ -1168,18 +1129,18 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         ArrayList dados = new ArrayList();
         String[] Colunas = new String[]{"Código", "Data", "Status", "Software(Sistema)"};
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
-        jTabelaSoftware.setModel(modelo);
-        jTabelaSoftware.getColumnModel().getColumn(0).setPreferredWidth(70);
-        jTabelaSoftware.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaSoftware.getColumnModel().getColumn(1).setPreferredWidth(70);
-        jTabelaSoftware.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaSoftware.getColumnModel().getColumn(2).setPreferredWidth(80);
-        jTabelaSoftware.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaSoftware.getColumnModel().getColumn(3).setPreferredWidth(380);
-        jTabelaSoftware.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaSoftware.getTableHeader().setReorderingAllowed(false);
-        jTabelaSoftware.setAutoResizeMode(jTabelaSoftware.AUTO_RESIZE_OFF);
-        jTabelaSoftware.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTabelaModulos.setModel(modelo);
+        jTabelaModulos.getColumnModel().getColumn(0).setPreferredWidth(70);
+        jTabelaModulos.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaModulos.getColumnModel().getColumn(1).setPreferredWidth(70);
+        jTabelaModulos.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaModulos.getColumnModel().getColumn(2).setPreferredWidth(80);
+        jTabelaModulos.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaModulos.getColumnModel().getColumn(3).setPreferredWidth(380);
+        jTabelaModulos.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaModulos.getTableHeader().setReorderingAllowed(false);
+        jTabelaModulos.setAutoResizeMode(jTabelaModulos.AUTO_RESIZE_OFF);
+        jTabelaModulos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         modelo.getLinhas().clear();
     }
 
@@ -1191,9 +1152,9 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         centralizado.setHorizontalAlignment(SwingConstants.CENTER);
         direita.setHorizontalAlignment(SwingConstants.RIGHT);
         //
-        jTabelaSoftware.getColumnModel().getColumn(0).setCellRenderer(centralizado);
-        jTabelaSoftware.getColumnModel().getColumn(1).setCellRenderer(centralizado);
-        jTabelaSoftware.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+        jTabelaModulos.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+        jTabelaModulos.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+        jTabelaModulos.getColumnModel().getColumn(2).setCellRenderer(centralizado);
     }
 
     public void buscarAcessoUsuario(String nomeTelaAcesso) {
@@ -1222,4 +1183,5 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         }
         conecta.desconecta();
     }
+
 }

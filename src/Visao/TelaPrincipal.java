@@ -35,6 +35,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private TelaSolicitantes objSoli = null;
     private TelaUsuarios objUser = null;
     private TelaSoftware objSoftware = null;
+    private TelaModuloSistema objModulo = null;
     //
     public static int codigoUser = 0;
     public static int codUserAcesso = 0;
@@ -796,8 +797,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jSoftwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSoftwareActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroUsuarios);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroUsuarios) && codAbrir == 1) {
+        buscarAcessoUsuario(telaCadastroSistemas);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroSistemas) && codAbrir == 1) {
             if (objSoftware == null || objSoftware.isClosed()) {
                 objSoftware = new TelaSoftware();
                 TelaPrincipal.jPainelPrincipal.add(objSoftware);
@@ -830,6 +831,36 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jModulosSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jModulosSistemaActionPerformed
         // TODO add your handling code here:
+        buscarAcessoUsuario(telaCadastroModulos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroModulos) && codAbrir == 1) {
+            if (objModulo == null || objModulo.isClosed()) {
+                objModulo = new TelaModuloSistema();
+                TelaPrincipal.jPainelPrincipal.add(objModulo);
+                objModulo.setVisible(true);
+            } else {
+                if (objModulo.isVisible()) {
+                    if (objModulo.isIcon()) { // Se esta minimizado
+                        try {
+                            objModulo.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objModulo.toFront(); // traz para frente
+                        objModulo.pack();//volta frame 
+                    }
+                } else {
+                    objModulo = new TelaModuloSistema();
+                    TelaPrincipal.jPainelPrincipal.add(objModulo);//adicona frame ao JDesktopPane  
+                    objModulo.setVisible(true);
+                }
+            }
+            try {
+                objModulo.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
     }//GEN-LAST:event_jModulosSistemaActionPerformed
 
     private void jAgendaRecadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgendaRecadosActionPerformed
