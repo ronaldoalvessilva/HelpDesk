@@ -36,6 +36,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private TelaUsuarios objUser = null;
     private TelaSoftware objSoftware = null;
     private TelaModuloSistema objModulo = null;
+    
+    private TelaAgendaCompromissos objAgendaComp = null;
     //
     public static int codigoUser = 0;
     public static int codUserAcesso = 0;
@@ -869,6 +871,31 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jAgendaCompromissoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgendaCompromissoActionPerformed
         // TODO add your handling code here:
+        if (objAgendaComp == null || objAgendaComp.isClosed()) {
+                objAgendaComp = new TelaAgendaCompromissos();
+                TelaPrincipal.jPainelPrincipal.add(objAgendaComp);
+                objAgendaComp.setVisible(true);
+            } else {
+                if (objAgendaComp.isVisible()) {
+                    if (objAgendaComp.isIcon()) { // Se esta minimizado
+                        try {
+                            objAgendaComp.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objAgendaComp.toFront(); // traz para frente
+                        objAgendaComp.pack();//volta frame 
+                    }
+                } else {
+                    objAgendaComp = new TelaAgendaCompromissos();
+                    TelaPrincipal.jPainelPrincipal.add(objAgendaComp);//adicona frame ao JDesktopPane  
+                    objAgendaComp.setVisible(true);
+                }
+            }
+            try {
+                objAgendaComp.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
     }//GEN-LAST:event_jAgendaCompromissoActionPerformed
 
     private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
