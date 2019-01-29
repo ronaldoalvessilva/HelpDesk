@@ -151,21 +151,27 @@
             <Property name="text" type="java.lang.String" value="Desenvolvimento"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
+            <MenuItem class="javax.swing.JMenuItem" name="jConsultasSQL">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/Database 3 16x16.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Consultas SQL"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jConsultasSQLActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem8">
+            <MenuItem class="javax.swing.JMenuItem" name="jChamadosDesenvolvimento">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/240119191331_16.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Chamados"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jChamadosDesenvolvimentoActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

@@ -47,6 +47,7 @@ package Util.SQL;
  *
  * @author Philip Milne
  */
+import static groovy.ui.text.FindReplaceUtility.dispose;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -114,7 +115,7 @@ public final class TableExample implements LayoutManager {
             frame.setVisible(true);
         } else if (!frame.isVisible()) {
 //            System.exit(0);
-//            dispose();
+            dispose();
         }
     }
 
@@ -206,8 +207,10 @@ public final class TableExample implements LayoutManager {
             @Override
             public void windowClosing(WindowEvent e) {
 //                System.exit(0);
-//                dispose();
+                dispose();
             }
+
+           
         });
         frame.setBackground(Color.lightGray);
         frame.getContentPane().add(mainPanel);

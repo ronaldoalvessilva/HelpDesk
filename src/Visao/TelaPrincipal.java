@@ -9,6 +9,7 @@ import Controle.ModeloTabela;
 import Dao.ConexaoBancoDados;
 import Dao.telasSistemaDao;
 import Modelo.CadastroTelasSistema;
+import Util.SQL.TableExample;
 import static Visao.LoginHD.nameUser;
 import static Visao.TelaAgendaCompromissos.jAssunto;
 import static Visao.TelaAgendaCompromissos.jBtAlterarComp;
@@ -254,8 +255,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jChamadosSuporte = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
+        jConsultasSQL = new javax.swing.JMenuItem();
+        jChamadosDesenvolvimento = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
@@ -633,13 +634,23 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jMenu5.setText("Desenvolvimento");
 
-        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Database 3 16x16.png"))); // NOI18N
-        jMenuItem7.setText("Consultas SQL");
-        jMenu5.add(jMenuItem7);
+        jConsultasSQL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Database 3 16x16.png"))); // NOI18N
+        jConsultasSQL.setText("Consultas SQL");
+        jConsultasSQL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jConsultasSQLActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jConsultasSQL);
 
-        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191331_16.png"))); // NOI18N
-        jMenuItem8.setText("Chamados");
-        jMenu5.add(jMenuItem8);
+        jChamadosDesenvolvimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191331_16.png"))); // NOI18N
+        jChamadosDesenvolvimento.setText("Chamados");
+        jChamadosDesenvolvimento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jChamadosDesenvolvimentoActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jChamadosDesenvolvimento);
 
         jMenuBar1.add(jMenu5);
 
@@ -1009,6 +1020,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jChamadosSuporteActionPerformed
 
+    private void jConsultasSQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConsultasSQLActionPerformed
+        // TODO add your handling code here:
+        buscarAcessoUsuario(telaConsultasSql);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaConsultasSql) && codAbrir == 1) {
+            TableExample objSQL = new TableExample();
+            objSQL.createConnectionDialog();
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jConsultasSQLActionPerformed
+
+    private void jChamadosDesenvolvimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChamadosDesenvolvimentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jChamadosDesenvolvimentoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1062,7 +1088,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JMenuItem jChamadosDesenvolvimento;
     private javax.swing.JMenuItem jChamadosSuporte;
+    private javax.swing.JMenuItem jConsultasSQL;
     public static javax.swing.JTextField jDataSistema;
     private javax.swing.JMenuItem jEmpresa;
     public static javax.swing.JTextField jHoraSistema;
@@ -1081,8 +1109,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jModulosSistema;
     private javax.swing.JMenuItem jOcorrencias;
     public static javax.swing.JDesktopPane jPainelPrincipal;
