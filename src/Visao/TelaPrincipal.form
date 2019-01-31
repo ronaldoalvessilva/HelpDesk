@@ -129,7 +129,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu2">
           <Properties>
-            <Property name="mnemonic" type="int" value="104"/>
+            <Property name="mnemonic" type="int" value="83"/>
             <Property name="text" type="java.lang.String" value="Suporte T&#xe9;cnico"/>
           </Properties>
           <SubComponents>
@@ -148,6 +148,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu5">
           <Properties>
+            <Property name="mnemonic" type="int" value="68"/>
             <Property name="text" type="java.lang.String" value="Desenvolvimento"/>
           </Properties>
           <SubComponents>
@@ -177,6 +178,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu3">
           <Properties>
+            <Property name="mnemonic" type="int" value="82"/>
             <Property name="text" type="java.lang.String" value="Relat&#xf3;rios"/>
           </Properties>
           <SubComponents>
@@ -200,6 +202,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu6">
           <Properties>
+            <Property name="mnemonic" type="int" value="79"/>
             <Property name="text" type="java.lang.String" value="Sobre"/>
           </Properties>
         </Menu>
@@ -237,7 +240,7 @@
                       <Component id="jToolBar1" min="-2" pref="68" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jToolBar2" min="-2" pref="504" max="-2" attributes="0"/>
-                      <EmptySpace pref="190" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jToolBar4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jToolBar3" min="-2" pref="100" max="-2" attributes="0"/>
@@ -270,9 +273,9 @@
               <Component id="jPanel3" min="-2" pref="41" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
                   <Component id="jPanel6" alignment="0" max="32767" attributes="0"/>
                   <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
                   <Component id="jPanel1" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -424,21 +427,21 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                  <Component id="jButton5" linkSize="5" min="-2" pref="43" max="-2" attributes="0"/>
+                  <Component id="jBtEmpresa" linkSize="5" min="-2" pref="43" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton2" linkSize="5" min="-2" pref="45" max="-2" attributes="0"/>
+                  <Component id="jBtOcorrencias" linkSize="5" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton9" linkSize="5" min="-2" pref="49" max="-2" attributes="0"/>
+                  <Component id="jBtSolicitantes" linkSize="5" min="-2" pref="49" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton1" linkSize="5" min="-2" pref="41" max="-2" attributes="0"/>
+                  <Component id="jBtUsuarios" linkSize="5" min="-2" pref="41" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton10" linkSize="5" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="jBtSistemas" linkSize="5" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton11" linkSize="5" min="-2" pref="51" max="-2" attributes="0"/>
+                  <Component id="jBtModulos" linkSize="5" min="-2" pref="51" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton12" linkSize="5" min="-2" pref="44" max="-2" attributes="0"/>
+                  <Component id="jBtAgendaRecados" linkSize="5" min="-2" pref="44" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton13" min="-2" pref="51" max="-2" attributes="0"/>
+                  <Component id="jBtAgendaCompromisso" min="-2" pref="51" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -447,14 +450,14 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jButton1" linkSize="4" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
-                      <Component id="jButton5" linkSize="4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButton2" linkSize="4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButton9" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton10" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton11" linkSize="4" min="-2" pref="19" max="-2" attributes="0"/>
-                      <Component id="jButton12" linkSize="4" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton13" linkSize="4" min="-2" max="-2" attributes="0"/>
+                      <Component id="jBtUsuarios" linkSize="4" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
+                      <Component id="jBtEmpresa" linkSize="4" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jBtOcorrencias" linkSize="4" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jBtSolicitantes" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jBtSistemas" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jBtModulos" linkSize="4" min="-2" pref="19" max="-2" attributes="0"/>
+                      <Component id="jBtAgendaRecados" linkSize="4" min="-2" max="-2" attributes="0"/>
+                      <Component id="jBtAgendaCompromisso" linkSize="4" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
               </Group>
@@ -462,7 +465,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="jBtOcorrencias">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/250119203502_32.png"/>
@@ -470,8 +473,11 @@
             <Property name="toolTipText" type="java.lang.String" value="Ocorr&#xea;ncias"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtOcorrenciasActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton5">
+        <Component class="javax.swing.JButton" name="jBtEmpresa">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/240119171503_32.png"/>
@@ -479,8 +485,11 @@
             <Property name="toolTipText" type="java.lang.String" value="Empresa"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtEmpresaActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="jBtUsuarios">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/240119191013_32.png"/>
@@ -491,46 +500,69 @@
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtUsuariosActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton9">
+        <Component class="javax.swing.JButton" name="jBtSolicitantes">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/240119192047_32.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Solicitantes"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtSolicitantesActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton10">
+        <Component class="javax.swing.JButton" name="jBtSistemas">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/240119191527_32.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Sistemas"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtSistemasActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton11">
+        <Component class="javax.swing.JButton" name="jBtModulos">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/240119191721_32.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="M&#xf3;dulos"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtModulosActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton12">
+        <Component class="javax.swing.JButton" name="jBtAgendaRecados">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/240119193958_32.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Agenda de Recados"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtAgendaRecadosActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton13">
+        <Component class="javax.swing.JButton" name="jBtAgendaCompromisso">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/240119194051_32.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Agenda de Compromissos"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtAgendaCompromissoActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -708,27 +740,34 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton8" min="-2" pref="47" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace pref="42" max="32767" attributes="0"/>
+                  <Component id="jBtChamadosSuporte" min="-2" pref="39" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jButton8" min="-2" max="-2" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="jBtChamadosSuporte" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jButton8">
+        <Component class="javax.swing.JButton" name="jBtChamadosSuporte">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/240119192810_32.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Chamados Suporte"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtChamadosSuporteActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -753,25 +792,25 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton3" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="jBtConsultasDB" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton7" min="-2" pref="45" max="-2" attributes="0"/>
+                  <Component id="jBtChamadosDesenvol" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jButton6" min="-2" pref="42" max="-2" attributes="0"/>
+                  <Component id="jBtRelatorios" min="-2" pref="42" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jButton3" max="32767" attributes="0"/>
-              <Component id="jButton6" min="-2" max="-2" attributes="0"/>
-              <Component id="jButton7" alignment="0" min="-2" max="-2" attributes="0"/>
+              <Component id="jBtConsultasDB" max="32767" attributes="0"/>
+              <Component id="jBtRelatorios" min="-2" max="-2" attributes="0"/>
+              <Component id="jBtChamadosDesenvol" alignment="0" min="-2" max="-2" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jButton3">
+        <Component class="javax.swing.JButton" name="jBtConsultasDB">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/Database 3 32x32.png"/>
@@ -779,8 +818,11 @@
             <Property name="toolTipText" type="java.lang.String" value="Consultas SQL"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtConsultasDBActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton6">
+        <Component class="javax.swing.JButton" name="jBtRelatorios">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/240119193229_32.png"/>
@@ -788,8 +830,11 @@
             <Property name="toolTipText" type="java.lang.String" value="Relat&#xf3;rios"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtRelatoriosActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton7">
+        <Component class="javax.swing.JButton" name="jBtChamadosDesenvol">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/240119173806_32.png"/>
@@ -797,6 +842,9 @@
             <Property name="toolTipText" type="java.lang.String" value="Chamados Desnvolvimento"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtChamadosDesenvolActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
