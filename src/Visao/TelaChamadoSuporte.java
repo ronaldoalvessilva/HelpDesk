@@ -65,7 +65,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     //
     String statusEncerrado = "ENCERRADO NO SUPORTE TÉCNICO";
     String statusReabrir = "REABERTO NO SUPORTE TÉCNICO";
-    String statusDesenvol = "CHAMADO NO DESENVOLVIMENTO";
+    String statusDesenvol = "ENVIADO PARA O DESENVOLVIMENTO";
 
     /**
      * Creates new form TelaChamadoSuporte
@@ -1167,7 +1167,25 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         if (jStatusChamado.getText().equals(statusEncerrado)) {
             JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro.Registro já encerrado...");
         } else {
-
+            bloquearBotoes();
+            bloquearCampos();
+            int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente enviar para o desenvolvimento o registro selecionado?", "Confirmação",
+                    JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
+                objCHSup.setStatusCha(statusDesenvol);
+                objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                control.encerrarChamadoSup(objCHSup);
+                jStatusChamado.setText(statusDesenvol);
+                JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
+                //
+                jBtNovo.setEnabled(true);
+                jBtAlterar.setEnabled(true);
+                jBtExcluir.setEnabled(true);
+                //
+                jBtEncerrar.setEnabled(true);
+                jBtImprimir.setEnabled(true);
+                jBtEnviar.setEnabled(true);
+            }
         }
     }//GEN-LAST:event_jBtEnviarActionPerformed
 
@@ -1175,6 +1193,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (!jStatusChamado.getText().equals(statusEncerrado)) {
             JOptionPane.showMessageDialog(rootPane, "Registro não se encontra encerrado.");
+        } else if (jStatusChamado.getText().equals(statusDesenvol)) {
+            JOptionPane.showMessageDialog(rootPane, "Registro não pode ser reaberto, o mesmo encontra-se no desenvolvimento.");
         } else {
             bloquearBotoes();
             bloquearCampos();
