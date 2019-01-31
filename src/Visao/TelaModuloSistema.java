@@ -653,7 +653,7 @@ public class TelaModuloSistema extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        setBounds(450, 50, 450, 455);
+        setBounds(450, 50, 450, 452);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtPesqCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesqCodigoActionPerformed
@@ -1058,9 +1058,9 @@ public class TelaModuloSistema extends javax.swing.JInternalFrame {
     public void buscarID() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM SOFTWARE");
+            conecta.executaSQL("SELECT * FROM MODULOS");
             conecta.rs.last();
-            jIdModulo.setText(conecta.rs.getString("IdSoftware"));
+            jIdModulo.setText(conecta.rs.getString("IdModulo"));
         } catch (Exception e) {
         }
         conecta.desconecta();

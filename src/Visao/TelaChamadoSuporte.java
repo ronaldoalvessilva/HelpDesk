@@ -5,17 +5,88 @@
  */
 package Visao;
 
+import Controle.ModeloTabela;
+import Dao.ChamadosSuporteDao;
+import Dao.ConexaoBancoDados;
+import Dao.LogSistemaDao;
+import Modelo.ChamadoSuporte;
+import Modelo.LogSistema;
+import static Visao.LoginHD.nameUser;
+import static Visao.TelaPrincipal.codAbrir;
+import static Visao.TelaPrincipal.codAlterar;
+import static Visao.TelaPrincipal.codConsultar;
+import static Visao.TelaPrincipal.codExcluir;
+import static Visao.TelaPrincipal.codGravar;
+import static Visao.TelaPrincipal.codIncluir;
+import static Visao.TelaPrincipal.codUserAcesso;
+import static Visao.TelaPrincipal.codigoUser;
+import static Visao.TelaPrincipal.jDataSistema;
+import static Visao.TelaPrincipal.jHoraSistema;
+import static Visao.TelaPrincipal.jPainelPrincipal;
+import static Visao.TelaPrincipal.nomeTela;
+import static Visao.TelaPrincipal.telaChamadosSuporte;
+import java.awt.Color;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+
 /**
  *
  * @author ronal
  */
 public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
+    ConexaoBancoDados conecta = new ConexaoBancoDados();
+    ChamadoSuporte objCHSup = new ChamadoSuporte();
+    ChamadosSuporteDao control = new ChamadosSuporteDao();
+    //
+    LogSistemaDao controlLog = new LogSistemaDao();
+    LogSistema objLogSys = new LogSistema();
+    // Variáveis para gravar o log
+    String nomeModuloTela = "Suporte Técnico:Chamados:Manutenção";
+    String statusMov;
+    String horaMov;
+    String dataModFinal;
+    int flag, acao;
+    int count;
+    String dataInicial, dataFinal, dataBrasil;
+    String dataEntrada;
+    //
+    public static int idUnidade;
+    public static int idEmpresa;
+    public static int idSolicitante;
+    public static int idSoftware;
+    public static int idModulo;
+    //
+    String statusEncerrado = "ENCERRADO NO SUPORTE TÉCNICO";
+    String statusReabrir = "REABERTO NO SUPORTE TÉCNICO";
+    String statusDesenvol = "CHAMADO NO DESENVOLVIMENTO";
+
     /**
      * Creates new form TelaChamadoSuporte
      */
+    public static TelaPesquisaSolicitanteCH pesqSoli;
+    public static TelaPesquisaSoftwareModulo pesqSM;
+
     public TelaChamadoSuporte() {
         initComponents();
+        formatarCampos();
+        corCampos();
+    }
+
+    public void mostrarPesquisa() {
+        pesqSoli = new TelaPesquisaSolicitanteCH(this, true);
+        pesqSoli.setVisible(true);
+    }
+
+    public void mostrarPesquisaSoft() {
+        pesqSM = new TelaPesquisaSoftwareModulo(this, true);
+        pesqSM.setVisible(true);
     }
 
     /**
@@ -27,17 +98,10 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTabelaChamados = new javax.swing.JTable();
+        jTabelaChamdosSup = new javax.swing.JTable();
         jPanel31 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
         jLabel63 = new javax.swing.JLabel();
@@ -45,17 +109,17 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jtotalRegistros = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        jIdChamado = new javax.swing.JTextField();
+        jIdChamadoPesquisa = new javax.swing.JTextField();
         jBtPesqCHCodigo = new javax.swing.JButton();
         jCheckBoxTodosCH = new javax.swing.JCheckBox();
         jLabel13 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
+        jPesqSolicitante = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jDataCHInicial = new com.toedter.calendar.JDateChooser();
-        jDataCHFinal = new com.toedter.calendar.JDateChooser();
+        jDataPesqInicial = new com.toedter.calendar.JDateChooser();
+        jDataPesFinal = new com.toedter.calendar.JDateChooser();
         jBtPesqCHData = new javax.swing.JButton();
-        jButton18 = new javax.swing.JButton();
+        jBtSolicitante = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -63,125 +127,53 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        jDataChamado = new com.toedter.calendar.JDateChooser();
+        jIdChamado = new javax.swing.JTextField();
+        jStatusChamado = new javax.swing.JTextField();
+        jAtendente = new javax.swing.JTextField();
+        jHorarioInicio = new javax.swing.JFormattedTextField();
+        jHorarioTermino = new javax.swing.JFormattedTextField();
         jLabel11 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jButton12 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        jSoftware = new javax.swing.JTextField();
+        jModulo = new javax.swing.JTextField();
+        jBtPesquisaModulo = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
-        jButton15 = new javax.swing.JButton();
+        jSolicitante = new javax.swing.JTextField();
+        jBtPesquisaSoli = new javax.swing.JButton();
+        jUnidadePrisional = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextoSuporte = new javax.swing.JTextArea();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        jTextoDesenvolvimento = new javax.swing.JTextArea();
         jPanel8 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
+        jBtEncerrar = new javax.swing.JButton();
+        jBtImprimir = new javax.swing.JButton();
+        jBtEnviar = new javax.swing.JButton();
+        jBtReabrir = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
+        jBtNovo = new javax.swing.JButton();
+        jBtAlterar = new javax.swing.JButton();
+        jBtExcluir = new javax.swing.JButton();
+        jBtSalvar = new javax.swing.JButton();
+        jBtCancelar = new javax.swing.JButton();
+        jBtSair = new javax.swing.JButton();
+        jBtAuditoria = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setTitle("...::: Chamados de Suporte Técnico :::...");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204))));
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/page_add.png"))); // NOI18N
-        jButton1.setText("Novo");
-        jButton1.setContentAreaFilled(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/8437_16x16.png"))); // NOI18N
-        jButton2.setText("Alterar");
-        jButton2.setContentAreaFilled(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/191216104515_16.png"))); // NOI18N
-        jButton3.setText("Excluir");
-        jButton3.setContentAreaFilled(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/1294_16x16.png"))); // NOI18N
-        jButton4.setText("Gravar");
-        jButton4.setContentAreaFilled(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/shutdown-icone-6920-16.png"))); // NOI18N
-        jButton7.setText("Sair");
-        jButton7.setContentAreaFilled(false);
-        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton7.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Button_Close_Icon_16.png"))); // NOI18N
-        jButton13.setText("Cancelar");
-        jButton13.setContentAreaFilled(false);
-        jButton13.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton13.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jButton13.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton7)
-                .addGap(21, 21, 21))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButton1)
-                .addComponent(jButton2)
-                .addComponent(jButton3)
-                .addComponent(jButton4)
-                .addComponent(jButton7)
-                .addComponent(jButton13))
-        );
-
         jTabbedPane1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
-        jTabelaChamados.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jTabelaChamados.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaChamdosSup.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTabelaChamdosSup.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -189,18 +181,23 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 "Código", "Data", "Status", "Solicitante", "Unidade Prisional"
             }
         ));
-        jScrollPane1.setViewportView(jTabelaChamados);
-        if (jTabelaChamados.getColumnModel().getColumnCount() > 0) {
-            jTabelaChamados.getColumnModel().getColumn(0).setMinWidth(70);
-            jTabelaChamados.getColumnModel().getColumn(0).setMaxWidth(70);
-            jTabelaChamados.getColumnModel().getColumn(1).setMinWidth(80);
-            jTabelaChamados.getColumnModel().getColumn(1).setMaxWidth(80);
-            jTabelaChamados.getColumnModel().getColumn(2).setMinWidth(80);
-            jTabelaChamados.getColumnModel().getColumn(2).setMaxWidth(80);
-            jTabelaChamados.getColumnModel().getColumn(3).setMinWidth(300);
-            jTabelaChamados.getColumnModel().getColumn(3).setMaxWidth(300);
-            jTabelaChamados.getColumnModel().getColumn(4).setMinWidth(300);
-            jTabelaChamados.getColumnModel().getColumn(4).setMaxWidth(300);
+        jTabelaChamdosSup.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabelaChamdosSupMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTabelaChamdosSup);
+        if (jTabelaChamdosSup.getColumnModel().getColumnCount() > 0) {
+            jTabelaChamdosSup.getColumnModel().getColumn(0).setMinWidth(70);
+            jTabelaChamdosSup.getColumnModel().getColumn(0).setMaxWidth(70);
+            jTabelaChamdosSup.getColumnModel().getColumn(1).setMinWidth(80);
+            jTabelaChamdosSup.getColumnModel().getColumn(1).setMaxWidth(80);
+            jTabelaChamdosSup.getColumnModel().getColumn(2).setMinWidth(200);
+            jTabelaChamdosSup.getColumnModel().getColumn(2).setMaxWidth(200);
+            jTabelaChamdosSup.getColumnModel().getColumn(3).setMinWidth(300);
+            jTabelaChamdosSup.getColumnModel().getColumn(3).setMaxWidth(300);
+            jTabelaChamdosSup.getColumnModel().getColumn(4).setMinWidth(300);
+            jTabelaChamdosSup.getColumnModel().getColumn(4).setMaxWidth(300);
         }
 
         jPanel31.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED)));
@@ -209,7 +206,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jPanel31.setLayout(jPanel31Layout);
         jPanel31Layout.setHorizontalGroup(
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 639, Short.MAX_VALUE)
+            .addGap(0, 632, Short.MAX_VALUE)
         );
         jPanel31Layout.setVerticalGroup(
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,20 +250,30 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel12.setText("Código:");
 
-        jIdChamado.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jIdChamado.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jIdChamadoPesquisa.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jIdChamadoPesquisa.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jBtPesqCHCodigo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
         jBtPesqCHCodigo.setToolTipText("Pesquisa de Chamados por Código");
         jBtPesqCHCodigo.setContentAreaFilled(false);
+        jBtPesqCHCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtPesqCHCodigoActionPerformed(evt);
+            }
+        });
 
         jCheckBoxTodosCH.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jCheckBoxTodosCH.setText("Todos");
+        jCheckBoxTodosCH.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBoxTodosCHItemStateChanged(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel13.setText("Solicitante:");
 
-        jTextField10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jPesqSolicitante.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel14.setText("Data Inicial:");
@@ -274,15 +281,25 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel15.setText("Data Final:");
 
-        jDataCHInicial.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jDataPesqInicial.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
-        jDataCHFinal.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jDataPesFinal.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jBtPesqCHData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
         jBtPesqCHData.setContentAreaFilled(false);
+        jBtPesqCHData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtPesqCHDataActionPerformed(evt);
+            }
+        });
 
-        jButton18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
-        jButton18.setContentAreaFilled(false);
+        jBtSolicitante.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
+        jBtSolicitante.setContentAreaFilled(false);
+        jBtSolicitante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtSolicitanteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -297,23 +314,23 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPesqSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jIdChamado, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jIdChamadoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtPesqCHCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jCheckBoxTodosCH)
                         .addGap(31, 31, 31))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jDataCHInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDataCHFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -324,26 +341,26 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addGap(17, 17, 17)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel12)
-                    .addComponent(jIdChamado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jIdChamadoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtPesqCHCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBoxTodosCH))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                         .addComponent(jLabel15)
-                        .addComponent(jDataCHFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel14)
                         .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jDataCHInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPesqSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel10Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtPesqCHCodigo, jIdChamado});
+        jPanel10Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtPesqCHCodigo, jIdChamadoPesquisa});
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -368,7 +385,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -379,7 +396,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Listagem", jPanel3);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Código");
@@ -397,21 +414,32 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jLabel5.setForeground(new java.awt.Color(0, 102, 0));
         jLabel5.setText("Horário Inicio");
 
-        jDateChooser1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jDataChamado.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jDataChamado.setEnabled(false);
 
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jIdChamado.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jIdChamado.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jIdChamado.setEnabled(false);
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(204, 0, 0));
-        jTextField2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jTextField2.setDisabledTextColor(new java.awt.Color(204, 0, 0));
+        jStatusChamado.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jStatusChamado.setForeground(new java.awt.Color(204, 0, 0));
+        jStatusChamado.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jStatusChamado.setDisabledTextColor(new java.awt.Color(204, 0, 0));
+        jStatusChamado.setEnabled(false);
 
-        jTextField3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jAtendente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jAtendente.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jAtendente.setEnabled(false);
 
-        jFormattedTextField1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jHorarioInicio.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jHorarioInicio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jHorarioInicio.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jHorarioInicio.setEnabled(false);
 
-        jFormattedTextField2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jHorarioTermino.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jHorarioTermino.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jHorarioTermino.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jHorarioTermino.setEnabled(false);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(204, 0, 0));
@@ -426,32 +454,29 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jIdChamado, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jTextField2))
+                            .addComponent(jStatusChamado))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDataChamado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jFormattedTextField1)
+                            .addComponent(jHorarioInicio)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
-                        .addGap(103, 103, 103))))
+                            .addComponent(jHorarioTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11)))
+                    .addComponent(jAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(20, 20, 20))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -466,25 +491,19 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jStatusChamado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jIdChamado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDataChamado, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jHorarioInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jHorarioTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel6.setText("Empresa");
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel7.setText("Unidade Prisional");
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText("Software");
@@ -492,112 +511,99 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel9.setText("Módulo");
 
-        jTextField4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jSoftware.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jSoftware.setEnabled(false);
 
-        jTextField5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jModulo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jModulo.setEnabled(false);
 
-        jTextField6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-
-        jTextField7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-
-        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
-        jButton12.setContentAreaFilled(false);
-
-        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
-        jButton11.setContentAreaFilled(false);
-
-        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
-        jButton10.setContentAreaFilled(false);
-
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
-        jButton9.setContentAreaFilled(false);
+        jBtPesquisaModulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
+        jBtPesquisaModulo.setContentAreaFilled(false);
+        jBtPesquisaModulo.setEnabled(false);
+        jBtPesquisaModulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtPesquisaModuloActionPerformed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel10.setText("Solicitante");
 
-        jTextField8.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jSolicitante.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jSolicitante.setEnabled(false);
 
-        jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
-        jButton15.setContentAreaFilled(false);
+        jBtPesquisaSoli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
+        jBtPesquisaSoli.setContentAreaFilled(false);
+        jBtPesquisaSoli.setEnabled(false);
+        jBtPesquisaSoli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtPesquisaSoliActionPerformed(evt);
+            }
+        });
+
+        jUnidadePrisional.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jUnidadePrisional.setEnabled(false);
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setText("Unidade Prisional");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel8)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(268, 268, 268))
+                            .addComponent(jSolicitante))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel7)
+                            .addComponent(jUnidadePrisional, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtPesquisaSoli, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel8)
+                            .addComponent(jSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jModulo, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jBtPesquisaModulo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextField6, jTextField7});
-
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton11, jButton12});
-
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextField4, jTextField5});
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jModulo, jUnidadePrisional});
 
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jButton12)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton10))
+                    .addComponent(jSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jUnidadePrisional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtPesquisaSoli))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(9, 9, 9)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton9)
-                            .addComponent(jButton11))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9))
+                .addGap(9, 9, 9)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton15))
+                    .addComponent(jSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jModulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtPesquisaModulo))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -605,9 +611,10 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        jTextoSuporte.setColumns(20);
+        jTextoSuporte.setRows(5);
+        jTextoSuporte.setEnabled(false);
+        jScrollPane2.setViewportView(jTextoSuporte);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -615,24 +622,24 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Texto do Suporte", new javax.swing.ImageIcon(getClass().getResource("/Imagens/page_white_word.png")), jPanel6); // NOI18N
 
         jScrollPane3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane3.setViewportView(jTextArea2);
+        jTextoDesenvolvimento.setColumns(20);
+        jTextoDesenvolvimento.setRows(5);
+        jTextoDesenvolvimento.setEnabled(false);
+        jScrollPane3.setViewportView(jTextoDesenvolvimento);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -640,78 +647,196 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jTabbedPane2.addTab("Texto do Desenvolvimento", new javax.swing.ImageIcon(getClass().getResource("/Imagens/book_open.png")), jPanel7); // NOI18N
+        jTabbedPane2.addTab("Texto do Desenvolvimento", new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191331_16.png")), jPanel7); // NOI18N
 
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/061218140238_16.png"))); // NOI18N
-        jButton5.setText("Encerrar");
-        jButton5.setToolTipText("Encerrar Chamado");
+        jBtEncerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/061218140238_16.png"))); // NOI18N
+        jBtEncerrar.setText("Encerrar");
+        jBtEncerrar.setToolTipText("Encerrar Chamado");
+        jBtEncerrar.setEnabled(false);
+        jBtEncerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtEncerrarActionPerformed(evt);
+            }
+        });
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/gtklp-icone-3770-16.png"))); // NOI18N
-        jButton6.setText("Imprimir");
-        jButton6.setToolTipText("Imprimir Chamado");
+        jBtImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/gtklp-icone-3770-16.png"))); // NOI18N
+        jBtImprimir.setText("Imprimir");
+        jBtImprimir.setToolTipText("Imprimir Chamado");
+        jBtImprimir.setEnabled(false);
+        jBtImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtImprimirActionPerformed(evt);
+            }
+        });
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/40_16x16.png"))); // NOI18N
-        jButton8.setText("Enviar");
-        jButton8.setToolTipText("Enviar para Desenvolvimento");
+        jBtEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/40_16x16.png"))); // NOI18N
+        jBtEnviar.setText("Enviar");
+        jBtEnviar.setToolTipText("Enviar para Desenvolvimento");
+        jBtEnviar.setEnabled(false);
+        jBtEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtEnviarActionPerformed(evt);
+            }
+        });
 
-        jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fileopen.png"))); // NOI18N
-        jButton14.setText("Reabrir");
-        jButton14.setToolTipText("Reabrir Chamado");
+        jBtReabrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fileopen.png"))); // NOI18N
+        jBtReabrir.setText("Reabrir");
+        jBtReabrir.setToolTipText("Reabrir Chamado");
+        jBtReabrir.setEnabled(false);
+        jBtReabrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtReabrirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton14)
-                    .addComponent(jButton5)
-                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jBtReabrir)
+                    .addComponent(jBtEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBtImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBtEncerrar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel8Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton14, jButton5, jButton6, jButton8});
+        jPanel8Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtEncerrar, jBtEnviar, jBtImprimir, jBtReabrir});
 
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jButton5)
+                .addGap(23, 23, 23)
+                .addComponent(jBtEncerrar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
+                .addComponent(jBtImprimir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton8)
+                .addComponent(jBtEnviar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton14)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addComponent(jBtReabrir)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
+
+        jBtNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/page_add.png"))); // NOI18N
+        jBtNovo.setText("Novo");
+        jBtNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtNovoActionPerformed(evt);
+            }
+        });
+
+        jBtAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/8437_16x16.png"))); // NOI18N
+        jBtAlterar.setText("Alterar");
+        jBtAlterar.setEnabled(false);
+        jBtAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtAlterarActionPerformed(evt);
+            }
+        });
+
+        jBtExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/191216104515_16.png"))); // NOI18N
+        jBtExcluir.setText("Excluir");
+        jBtExcluir.setEnabled(false);
+        jBtExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtExcluirActionPerformed(evt);
+            }
+        });
+
+        jBtSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/1294_16x16.png"))); // NOI18N
+        jBtSalvar.setText("Gravar");
+        jBtSalvar.setEnabled(false);
+        jBtSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtSalvarActionPerformed(evt);
+            }
+        });
+
+        jBtCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Button_Close_Icon_16.png"))); // NOI18N
+        jBtCancelar.setText("Cancelar");
+        jBtCancelar.setEnabled(false);
+        jBtCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtCancelarActionPerformed(evt);
+            }
+        });
+
+        jBtSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/shutdown-icone-6920-16.png"))); // NOI18N
+        jBtSair.setText("Sair");
+        jBtSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtSairActionPerformed(evt);
+            }
+        });
+
+        jBtAuditoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/book_open.png"))); // NOI18N
+        jBtAuditoria.setToolTipText("Auditoria");
+        jBtAuditoria.setContentAreaFilled(false);
+        jBtAuditoria.setEnabled(false);
+        jBtAuditoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtAuditoriaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBtAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBtNovo)
+                            .addComponent(jBtExcluir)
+                            .addComponent(jBtSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBtCancelar)
+                            .addComponent(jBtSair)))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jBtAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel9Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtAlterar, jBtCancelar, jBtExcluir, jBtNovo, jBtSair, jBtSalvar});
+
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jBtNovo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtAlterar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtExcluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtSalvar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtCancelar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtSair)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jBtAuditoria)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -722,30 +847,31 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 694, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTabbedPane2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel2, jPanel5});
+
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTabbedPane2)))
-                .addContainerGap())
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane2)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jTabbedPane1.addTab("Manutenção", jPanel4);
@@ -755,46 +881,409 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane1)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1))
+            .addComponent(jTabbedPane1)
         );
 
-        pack();
+        setBounds(250, 10, 856, 521);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBtPesqCHCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesqCHCodigoActionPerformed
+        // TODO add your handling code here:
+        count = 0;
+        flag = 1;
+        if (jIdChamadoPesquisa.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
+        } else {
+            preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                    + "INNER JOIN USUARIOS "
+                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                    + "INNER JOIN SOFTWARE "
+                    + "ON CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
+                    + "INNER JOIN MODULOS "
+                    + "ON CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
+                    + "INNER JOIN SOLICITANTES "
+                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                    + "WHERE IdCHSup='" + jIdChamadoPesquisa.getText() + "'");
+        }
+    }//GEN-LAST:event_jBtPesqCHCodigoActionPerformed
+
+    private void jBtPesqCHDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesqCHDataActionPerformed
+        // TODO add your handling code here:
+        count = 0;
+        flag = 1;
+        if (jDataPesqInicial.getDate() == null) {
+            JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+            jDataPesqInicial.requestFocus();
+        } else {
+            if (jDataPesFinal.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                jDataPesFinal.requestFocus();
+            } else {
+                if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
+                    JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                } else {
+                    SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
+                    dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                    dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+                    preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                            + "INNER JOIN USUARIOS "
+                            + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                            + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                            + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                            + "INNER JOIN SOFTWARE "
+                            + "ON CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
+                            + "INNER JOIN MODULOS "
+                            + "ON CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
+                            + "INNER JOIN SOLICITANTES "
+                            + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                            + "WHERE DataCha BETWEEN'" + dataInicial + "' "
+                            + "AND '" + dataFinal + "'");
+                }
+            }
+        }
+    }//GEN-LAST:event_jBtPesqCHDataActionPerformed
+
+    private void jBtSolicitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSolicitanteActionPerformed
+        // TODO add your handling code here:
+        count = 0;
+        if (jPesqSolicitante.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "É necessário informar um nome ou parte do nome para pesquuisa.");
+        } else {
+            preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                    + "INNER JOIN USUARIOS "
+                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                    + "INNER JOIN SOFTWARE "
+                    + "ON CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
+                    + "INNER JOIN MODULOS "
+                    + "ON CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
+                    + "INNER JOIN SOLICITANTES "
+                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
+                    + "WHERE SOLICITANTES.NomeSolicitante "
+                    + "LIKE'%" + jPesqSolicitante + "%'");
+        }
+    }//GEN-LAST:event_jBtSolicitanteActionPerformed
+
+    private void jCheckBoxTodosCHItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxTodosCHItemStateChanged
+        // TODO add your handling code here:
+        count = 0;
+        flag = 1;
+        if (evt.getStateChange() == evt.SELECTED) {
+            this.preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                    + "INNER JOIN USUARIOS "
+                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                    + "INNER JOIN SOFTWARE "
+                    + "ON CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
+                    + "INNER JOIN MODULOS "
+                    + "ON CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
+                    + "INNER JOIN SOLICITANTES "
+                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante");
+        } else {
+            jtotalRegistros.setText("");
+            limparTabelaFornecedor();
+        }
+    }//GEN-LAST:event_jCheckBoxTodosCHItemStateChanged
+
+    private void jBtNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoActionPerformed
+        // TODO add your handling code here:
+        buscarAcessoUsuario(telaChamadosSuporte);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codIncluir == 1) {
+            statusMov = "Incluiu";
+            horaMov = jHoraSistema.getText();
+            dataModFinal = jDataSistema.getText();
+            acao = 1;
+            Novo();
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jBtNovoActionPerformed
+
+    private void jBtAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarActionPerformed
+        // TODO add your handling code here:
+        buscarAcessoUsuario(telaChamadosSuporte);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codAlterar == 1) {
+            if (jStatusChamado.getText().equals(statusEncerrado)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encerrado...");
+            } else {
+                statusMov = "Alterou";
+                horaMov = jHoraSistema.getText();
+                dataModFinal = jDataSistema.getText();
+                acao = 2;
+                Alterar();
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jBtAlterarActionPerformed
+
+    private void jBtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirActionPerformed
+        // TODO add your handling code here:
+        buscarAcessoUsuario(telaChamadosSuporte);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codExcluir == 1) {
+            if (jStatusChamado.getText().equals(statusEncerrado)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível excluir esse registro. Registro já encerrado...");
+            } else {
+                statusMov = "Excluiu";
+                horaMov = jHoraSistema.getText();
+                dataModFinal = jDataSistema.getText();
+                int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
+                        JOptionPane.YES_NO_OPTION);
+                if (resposta == JOptionPane.YES_OPTION) {
+                    objCHSup.setIdSolicitante(Integer.valueOf(jIdChamado.getText()));
+                    control.excluirChamadoSup(objCHSup);
+                    Excluir();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jBtExcluirActionPerformed
+
+    private void jBtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSalvarActionPerformed
+        // TODO add your handling code here:
+        buscarAcessoUsuario(telaChamadosSuporte);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codIncluir == 1) {
+            if (jDataChamado.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data do chamado.");
+            } else if (jHorarioInicio.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o horário de inicio do chamado.");
+            } else if (jUnidadePrisional.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a unidade prisional.");
+            } else if (jSoftware.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe do software(sistema).");
+            } else if (jModulo.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o nome do módulo.");
+            } else if (jSolicitante.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o solicitante.");
+            } else {
+                objCHSup.setStatusCha(jStatusChamado.getText());
+                objCHSup.setDataCha(jDataChamado.getDate());
+                objCHSup.setHorarioInicio(jHorarioInicio.getText());
+                objCHSup.setHorarioTermino(jHoraSistema.getText());
+                objCHSup.setNomeUsuario(jAtendente.getText());;
+                objCHSup.setDescricaoUnidade(jUnidadePrisional.getText());
+                objCHSup.setDescricaoSoftware(jSoftware.getText());
+                objCHSup.setDescricaoModulo(jModulo.getText());
+                objCHSup.setIdSolicitante(idSolicitante);
+                objCHSup.setNomeSolicitante(jSolicitante.getText());
+                objCHSup.setTextoSuporte(jTextoSuporte.getText());
+                if (acao == 1) {
+                    objCHSup.setUsuarioInsert(nameUser);
+                    objCHSup.setDataInsert(dataModFinal);
+                    objCHSup.setHorarioInsert(horaMov);
+                    control.incluirChamadoSup(objCHSup);
+                    jHorarioTermino.setText(objCHSup.getHorarioTermino());
+                    buscarCodigo();
+                    //
+                    objLog();
+                    controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
+                    Salvar();
+                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                }
+                if (acao == 2) {
+                    objCHSup.setUsuarioUp(nameUser);
+                    objCHSup.setDataUp(dataModFinal);
+                    objCHSup.setHorarioUp(horaMov);
+                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                    control.alterarChamadoSup(objCHSup);
+                    jHorarioTermino.setText(objCHSup.getHorarioTermino());
+                    //
+                    objLog();
+                    controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
+                    Salvar();
+                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jBtSalvarActionPerformed
+
+    private void jBtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCancelarActionPerformed
+        // TODO add your handling code here:
+        Cancelar();
+    }//GEN-LAST:event_jBtCancelarActionPerformed
+
+    private void jBtSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSairActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jBtSairActionPerformed
+
+    private void jBtPesquisaModuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisaModuloActionPerformed
+        // TODO add your handling code here:
+        mostrarPesquisaSoft();
+    }//GEN-LAST:event_jBtPesquisaModuloActionPerformed
+
+    private void jBtPesquisaSoliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisaSoliActionPerformed
+        // TODO add your handling code here:
+        mostrarPesquisa();
+    }//GEN-LAST:event_jBtPesquisaSoliActionPerformed
+
+    private void jBtEncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtEncerrarActionPerformed
+        // TODO add your handling code here:
+        if (jStatusChamado.getText().equals(statusEncerrado)) {
+            JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encerrado...");
+        } else {
+            if (jTextoSuporte.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível encerrar o chamado sem um texto explicativo.");
+            } else {
+                bloquearBotoes();
+                bloquearCampos();
+                int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente encerrar registro selecionado?", "Confirmação",
+                        JOptionPane.YES_NO_OPTION);
+                if (resposta == JOptionPane.YES_OPTION) {
+                    objCHSup.setStatusCha(statusEncerrado);
+                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                    control.encerrarChamadoSup(objCHSup);
+                    jStatusChamado.setText(statusEncerrado);
+                    JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
+                    //
+                    jBtNovo.setEnabled(true);
+                    jBtAuditoria.setEnabled(true);
+                }
+            }
+        }
+    }//GEN-LAST:event_jBtEncerrarActionPerformed
+
+    private void jBtImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtImprimirActionPerformed
+        // TODO add your handling code here:
+        if (jIdChamado.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Não existe registro a ser impresso, selecione um registro antes de imprimir.");
+        } else {
+
+        }
+    }//GEN-LAST:event_jBtImprimirActionPerformed
+
+    private void jBtEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtEnviarActionPerformed
+        // TODO add your handling code here:
+        if (jStatusChamado.getText().equals(statusEncerrado)) {
+            JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro.Registro já encerrado...");
+        } else {
+
+        }
+    }//GEN-LAST:event_jBtEnviarActionPerformed
+
+    private void jBtReabrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtReabrirActionPerformed
+        // TODO add your handling code here:
+        if (!jStatusChamado.getText().equals(statusEncerrado)) {
+            JOptionPane.showMessageDialog(rootPane, "Registro não se encontra encerrado.");
+        } else {
+            bloquearBotoes();
+            bloquearCampos();
+            int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente reabrir o registro selecionado?", "Confirmação",
+                    JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
+                objCHSup.setStatusCha(statusReabrir);
+                objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                control.encerrarChamadoSup(objCHSup);
+                jStatusChamado.setText(statusReabrir);
+                JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
+                //
+                jBtNovo.setEnabled(true);
+                jBtAlterar.setEnabled(true);
+                jBtExcluir.setEnabled(true);
+                //
+                jBtEncerrar.setEnabled(true);
+                jBtImprimir.setEnabled(true);
+                jBtEnviar.setEnabled(true);
+            }
+        }
+    }//GEN-LAST:event_jBtReabrirActionPerformed
+
+    private void jBtAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAuditoriaActionPerformed
+        // TODO add your handling code here:
+        TelaAuditoriaCHSuporte objCHSup = new TelaAuditoriaCHSuporte();
+        jPainelPrincipal.add(objCHSup);
+        objCHSup.show();
+    }//GEN-LAST:event_jBtAuditoriaActionPerformed
+
+    private void jTabelaChamdosSupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaChamdosSupMouseClicked
+        // TODO add your handling code here:
+        flag = 1;
+        if (flag == 1) {
+            String idSoli = "" + jTabelaChamdosSup.getValueAt(jTabelaChamdosSup.getSelectedRow(), 0);
+            jIdChamadoPesquisa.setText(idSoli);
+            //            
+            if (!jIdChamado.getText().equals("")) {
+                bloquearCampos();
+                bloquearBotoes();
+                jBtNovo.setEnabled(true);
+                jBtAlterar.setEnabled(true);
+                jBtExcluir.setEnabled(true);
+                jBtAuditoria.setEnabled(true);
+            }
+            //
+            conecta.abrirConexao();
+            try {
+                conecta.executaSQL("SELECT * FROM CHAMADOS_SUPORTE "
+                        + "INNER JOIN USUARIOS "
+                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                        + "INNER JOIN SOFTWARE "
+                        + "ON CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
+                        + "INNER JOIN MODULOS "
+                        + "ON CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
+                        + "INNER JOIN SOLICITANTES "
+                        + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
+                        + "WHERE CHAMADOS_SUPORTE.IdCHSup='" + idSoli + "'");
+                conecta.rs.first();
+                jIdChamado.setText(String.valueOf(conecta.rs.getInt("IdCHSup")));
+                jStatusChamado.setText(conecta.rs.getString("StatusCha"));
+                jDataChamado.setDate(conecta.rs.getDate("DataCha"));
+                jHorarioInicio.setText(conecta.rs.getString("HorarioInicio"));
+                jHorarioTermino.setText(conecta.rs.getString("HorarioTermino"));
+                jAtendente.setText(conecta.rs.getString("NomeUsuario"));
+                idSolicitante = conecta.rs.getInt("IdSolicitante");
+                jSolicitante.setText(conecta.rs.getString("NomeSolicitante"));
+                idUnidade = conecta.rs.getInt("IdUnidEmp");
+                jUnidadePrisional.setText(conecta.rs.getString("DescricaoUnidade"));
+                jSoftware.setText(conecta.rs.getString("DescricaoSoftware"));
+                jModulo.setText(conecta.rs.getString("DescricaoModulo"));
+                jTextoSuporte.setText(conecta.rs.getString("TextoSuporte"));
+                jTextoDesenvolvimento.setText(conecta.rs.getString("TextoDesenvol"));
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
+            }
+            conecta.desconecta();
+        }
+    }//GEN-LAST:event_jTabelaChamdosSupMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField jAtendente;
+    private javax.swing.JButton jBtAlterar;
+    private javax.swing.JButton jBtAuditoria;
+    private javax.swing.JButton jBtCancelar;
+    private javax.swing.JButton jBtEncerrar;
+    private javax.swing.JButton jBtEnviar;
+    private javax.swing.JButton jBtExcluir;
+    private javax.swing.JButton jBtImprimir;
+    private javax.swing.JButton jBtNovo;
     private javax.swing.JButton jBtPesqCHCodigo;
     private javax.swing.JButton jBtPesqCHData;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton18;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
+    private javax.swing.JButton jBtPesquisaModulo;
+    private javax.swing.JButton jBtPesquisaSoli;
+    private javax.swing.JButton jBtReabrir;
+    private javax.swing.JButton jBtSair;
+    private javax.swing.JButton jBtSalvar;
+    private javax.swing.JButton jBtSolicitante;
     private javax.swing.JCheckBox jCheckBoxTodosCH;
-    private com.toedter.calendar.JDateChooser jDataCHFinal;
-    private com.toedter.calendar.JDateChooser jDataCHInicial;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JTextField jIdChamado;
+    private com.toedter.calendar.JDateChooser jDataChamado;
+    private com.toedter.calendar.JDateChooser jDataPesFinal;
+    private com.toedter.calendar.JDateChooser jDataPesqInicial;
+    private javax.swing.JFormattedTextField jHorarioInicio;
+    private javax.swing.JFormattedTextField jHorarioTermino;
+    public static javax.swing.JTextField jIdChamado;
+    private javax.swing.JTextField jIdChamadoPesquisa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -806,12 +1295,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
+    public static javax.swing.JTextField jModulo;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -824,23 +1312,299 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JTextField jPesqSolicitante;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    public static javax.swing.JTextField jSoftware;
+    public static javax.swing.JTextField jSolicitante;
+    private javax.swing.JTextField jStatusChamado;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTabelaChamados;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTable jTabelaChamdosSup;
+    private javax.swing.JTextArea jTextoDesenvolvimento;
+    private javax.swing.JTextArea jTextoSuporte;
+    public static javax.swing.JTextField jUnidadePrisional;
     private javax.swing.JLabel jtotalRegistros;
     // End of variables declaration//GEN-END:variables
+
+    public void formatarCampos() {
+        jTextoSuporte.setLineWrap(true);
+        jTextoSuporte.setWrapStyleWord(true);
+        //
+        jTextoDesenvolvimento.setLineWrap(true);
+        jTextoDesenvolvimento.setWrapStyleWord(true);
+    }
+
+    public void corCampos() {
+        jIdChamado.setBackground(Color.white);
+        jStatusChamado.setBackground(Color.white);
+        jDataChamado.setBackground(Color.white);
+        jHorarioInicio.setBackground(Color.white);
+        jHorarioTermino.setBackground(Color.white);
+        jAtendente.setBackground(Color.white);
+        jUnidadePrisional.setBackground(Color.white);
+        jSoftware.setBackground(Color.white);
+        jModulo.setBackground(Color.white);
+        jSolicitante.setBackground(Color.white);
+        jTextoSuporte.setBackground(Color.white);
+        jTextoDesenvolvimento.setBackground(Color.white);
+    }
+
+    public void bloquearCampos() {
+        jIdChamado.setEnabled(!true);
+        jStatusChamado.setEnabled(!true);
+        jDataChamado.setEnabled(!true);
+        jHorarioInicio.setEnabled(!true);
+        jHorarioTermino.setEnabled(!true);
+        jAtendente.setEnabled(!true);
+        jUnidadePrisional.setEnabled(!true);
+        jSoftware.setEnabled(!true);
+        jModulo.setEnabled(!true);
+        jSolicitante.setEnabled(!true);
+        jTextoSuporte.setEnabled(!true);
+        jTextoDesenvolvimento.setEnabled(!true);
+    }
+
+    public void bloquearBotoes() {
+        jBtNovo.setEnabled(!true);
+        jBtAlterar.setEnabled(!true);
+        jBtExcluir.setEnabled(!true);
+        jBtSalvar.setEnabled(!true);
+        jBtCancelar.setEnabled(!true);
+        jBtAuditoria.setEnabled(!true);
+        //
+        jBtEncerrar.setEnabled(!true);
+        jBtImprimir.setEnabled(!true);
+        jBtEnviar.setEnabled(!true);
+        jBtReabrir.setEnabled(!true);
+        //        
+        jBtPesquisaModulo.setEnabled(!true);
+        jBtPesquisaSoli.setEnabled(!true);
+    }
+
+    public void Novo() {
+        jIdChamado.setText("");
+        jStatusChamado.setText("ABERTO NO SUPORTE TÉCNICO");
+        jDataChamado.setCalendar(Calendar.getInstance());
+        jHorarioInicio.setText(jHoraSistema.getText());
+        jHorarioTermino.setText("");
+        jAtendente.setText(nameUser);
+        jUnidadePrisional.setText("");
+        jSoftware.setText("");
+        jModulo.setText("");
+        jSolicitante.setText("");
+        jTextoSuporte.setText("");
+        jTextoDesenvolvimento.setText("");
+        //   
+        bloquearCampos();
+        bloquearBotoes();
+        //
+        jTextoSuporte.setEnabled(true);
+        //BOTÕES DE PESQUISA        
+        jBtPesquisaModulo.setEnabled(true);
+        jBtPesquisaSoli.setEnabled(true);
+        //
+        jBtSalvar.setEnabled(true);
+        jBtCancelar.setEnabled(true);
+    }
+
+    public void Alterar() {
+        bloquearCampos();
+        bloquearBotoes();
+        jTextoSuporte.setEnabled(true);
+        //BOTÕES DE PESQUISA        
+        jBtPesquisaModulo.setEnabled(true);
+        jBtPesquisaSoli.setEnabled(true);
+        //
+        jBtSalvar.setEnabled(true);
+        jBtCancelar.setEnabled(true);
+    }
+
+    public void Excluir() {
+        jIdChamado.setText("");
+        jStatusChamado.setText("");
+        jDataChamado.setDate(null);
+        jHorarioInicio.setText("");
+        jHorarioTermino.setText("");
+        jAtendente.setText("");
+        jUnidadePrisional.setText("");
+        jSoftware.setText("");
+        jModulo.setText("");
+        jSolicitante.setText("");
+        jTextoSuporte.setText("");
+        jTextoDesenvolvimento.setText("");
+        //
+        bloquearCampos();
+        bloquearBotoes();
+        //
+        jBtNovo.setEnabled(true);
+    }
+
+    public void Salvar() {
+        bloquearCampos();
+        bloquearBotoes();
+        jBtNovo.setEnabled(true);
+        jBtAlterar.setEnabled(true);
+        jBtExcluir.setEnabled(true);
+        jBtAuditoria.setEnabled(true);
+        //
+        jBtEncerrar.setEnabled(true);
+        jBtImprimir.setEnabled(true);
+        jBtEnviar.setEnabled(true);
+    }
+
+    public void Cancelar() {
+        if (jIdChamado.getText().equals("")) {
+            jIdChamado.setText("");
+            jStatusChamado.setText("");
+            jDataChamado.setDate(null);
+            jHorarioInicio.setText("");
+            jHorarioTermino.setText("");
+            jAtendente.setText("");
+            jUnidadePrisional.setText("");
+            jSoftware.setText("");
+            jModulo.setText("");
+            jSolicitante.setText("");
+            jTextoSuporte.setText("");
+            jTextoDesenvolvimento.setText("");
+            bloquearCampos();
+            bloquearBotoes();
+            //
+            jBtNovo.setEnabled(true);
+        } else {
+            bloquearCampos();
+            bloquearBotoes();
+            //
+            jBtNovo.setEnabled(true);
+            jBtAlterar.setEnabled(true);
+            jBtExcluir.setEnabled(true);
+            jBtAuditoria.setEnabled(true);
+            //
+            jBtEncerrar.setEnabled(true);
+            jBtImprimir.setEnabled(true);
+            jBtEnviar.setEnabled(true);
+        }
+    }
+
+    public void buscarCodigo() {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM CHAMADOS_SUPORTE");
+            conecta.rs.last();
+            jIdChamado.setText(conecta.rs.getString("IdCHSup"));
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
+    }
+
+    public void preencherTabelaChamados(String sql) {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Solicitante", "Unidade Prisional"};
+        conecta.abrirConexao();
+        conecta.executaSQL(sql);
+        try {
+            conecta.rs.first();
+            do {
+                // Formatar a data no formato Brasil
+                dataBrasil = conecta.rs.getString("DataCha");
+                String dia = dataBrasil.substring(8, 10);
+                String mes = dataBrasil.substring(5, 7);
+                String ano = dataBrasil.substring(0, 4);
+                dataBrasil = dia + "/" + mes + "/" + ano;
+                count = count + 1;
+                jtotalRegistros.setText(Integer.toString(count)); // Converter inteiro em string para exibir na tela
+                dados.add(new Object[]{conecta.rs.getInt("IdCHSup"), dataBrasil, conecta.rs.getString("StatusCha"), conecta.rs.getString("NomeSolicitante"), conecta.rs.getString("DescricaoUnidade")});
+            } while (conecta.rs.next());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem exibidos....");
+        }
+        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+        jTabelaChamdosSup.setModel(modelo);
+        jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
+        jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
+        jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
+        jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
+        jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
+        jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+        jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
+        jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
+        jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+        alinhaCeluasTabelaFornecedor();
+        conecta.desconecta();
+    }
+
+    public void alinhaCeluasTabelaFornecedor() {
+        //
+        DefaultTableCellRenderer esquerda = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer direita = new DefaultTableCellRenderer();
+        esquerda.setHorizontalAlignment(SwingConstants.LEFT);
+        centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+        direita.setHorizontalAlignment(SwingConstants.RIGHT);
+        //
+        jTabelaChamdosSup.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+    }
+
+    public void limparTabelaFornecedor() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Solicitante", "Unidade Prisional"};
+        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+        jTabelaChamdosSup.setModel(modelo);
+        jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
+        jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
+        jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
+        jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
+        jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
+        jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+        jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
+        jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
+        jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        modelo.getLinhas().clear();
+    }
+
+    public void buscarAcessoUsuario(String nomeTelaAcesso) {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM USUARIOS "
+                    + "WHERE NomeUsuario='" + nameUser + "'");
+            conecta.rs.first();
+            codigoUser = conecta.rs.getInt("IdUsuario");
+        } catch (Exception e) {
+        }
+        try {
+            conecta.executaSQL("SELECT * FROM TELAS_ACESSO "
+                    + "WHERE IdUsuario='" + codigoUser + "' "
+                    + "AND NomeTela='" + nomeTelaAcesso + "'");
+            conecta.rs.first();
+            codUserAcesso = conecta.rs.getInt("IdUsuario");
+            codAbrir = conecta.rs.getInt("Abrir");
+            codIncluir = conecta.rs.getInt("Incluir");
+            codAlterar = conecta.rs.getInt("Alterar");
+            codExcluir = conecta.rs.getInt("Excluir");
+            codGravar = conecta.rs.getInt("Gravar");
+            codConsultar = conecta.rs.getInt("Consultar");
+            nomeTela = conecta.rs.getString("NomeTela");
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
+    }
+
+    public void objLog() {
+        objLogSys.setDataMov(dataModFinal);
+        objLogSys.setHorarioMov(horaMov);
+        objLogSys.setNomeModuloTela(nomeModuloTela);
+        objLogSys.setIdLancMov(Integer.valueOf(jIdChamado.getText()));
+        objLogSys.setNomeUsuarioLogado(nameUser);
+        objLogSys.setStatusMov(statusMov);
+    }
 }

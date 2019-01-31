@@ -105,7 +105,7 @@ public class TelaEmpresa extends javax.swing.JInternalFrame {
         jPanel30 = new javax.swing.JPanel();
         jLabel63 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTabelaFornecedorCOMPRAS = new javax.swing.JTable();
+        jTabelaEmpresas = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -301,8 +301,8 @@ public class TelaEmpresa extends javax.swing.JInternalFrame {
             .addComponent(jLabel63)
         );
 
-        jTabelaFornecedorCOMPRAS.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jTabelaFornecedorCOMPRAS.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaEmpresas.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTabelaEmpresas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -310,22 +310,22 @@ public class TelaEmpresa extends javax.swing.JInternalFrame {
                 "Código", "Razão Social", "Status", "CNPJ"
             }
         ));
-        jTabelaFornecedorCOMPRAS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jTabelaFornecedorCOMPRAS.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTabelaEmpresas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jTabelaEmpresas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTabelaFornecedorCOMPRASMouseClicked(evt);
+                jTabelaEmpresasMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTabelaFornecedorCOMPRAS);
-        if (jTabelaFornecedorCOMPRAS.getColumnModel().getColumnCount() > 0) {
-            jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(0).setMinWidth(50);
-            jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(0).setMaxWidth(50);
-            jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(1).setMinWidth(320);
-            jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(1).setMaxWidth(320);
-            jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(2).setMinWidth(50);
-            jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(2).setMaxWidth(50);
-            jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(3).setMinWidth(120);
-            jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(3).setMaxWidth(120);
+        jScrollPane1.setViewportView(jTabelaEmpresas);
+        if (jTabelaEmpresas.getColumnModel().getColumnCount() > 0) {
+            jTabelaEmpresas.getColumnModel().getColumn(0).setMinWidth(50);
+            jTabelaEmpresas.getColumnModel().getColumn(0).setMaxWidth(50);
+            jTabelaEmpresas.getColumnModel().getColumn(1).setMinWidth(320);
+            jTabelaEmpresas.getColumnModel().getColumn(1).setMaxWidth(320);
+            jTabelaEmpresas.getColumnModel().getColumn(2).setMinWidth(50);
+            jTabelaEmpresas.getColumnModel().getColumn(2).setMaxWidth(50);
+            jTabelaEmpresas.getColumnModel().getColumn(3).setMinWidth(120);
+            jTabelaEmpresas.getColumnModel().getColumn(3).setMaxWidth(120);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -1413,10 +1413,10 @@ public class TelaEmpresa extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jBtPesqNomeFornecedorActionPerformed
 
-    private void jTabelaFornecedorCOMPRASMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaFornecedorCOMPRASMouseClicked
+    private void jTabelaEmpresasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaEmpresasMouseClicked
         // TODO add your handling code here:
         if (flag == 1) {
-            String nomeForn = "" + jTabelaFornecedorCOMPRAS.getValueAt(jTabelaFornecedorCOMPRAS.getSelectedRow(), 1);
+            String nomeForn = "" + jTabelaEmpresas.getValueAt(jTabelaEmpresas.getSelectedRow(), 1);
             jPesqNomeFornecedor.setText(nomeForn);
             jBtNovo.setEnabled(!true);
             jBtAlterar.setEnabled(true);
@@ -1463,7 +1463,7 @@ public class TelaEmpresa extends javax.swing.JInternalFrame {
                     + "ON UNIDADE_PENAL_EMPRESA.IdEmpresa=EMPRESA.IdEmpresa "
                     + "WHERE UNIDADE_PENAL_EMPRESA.IdEmpresa='" + jIdEmpresa.getText() + "'");
         }
-    }//GEN-LAST:event_jTabelaFornecedorCOMPRASMouseClicked
+    }//GEN-LAST:event_jTabelaEmpresasMouseClicked
 
     private void jBtNovaUnidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovaUnidActionPerformed
         // TODO add your handling code here:
@@ -1749,7 +1749,7 @@ public class TelaEmpresa extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTabelaFornecedorCOMPRAS;
+    private javax.swing.JTable jTabelaEmpresas;
     private javax.swing.JTable jTabelaUnidade;
     private javax.swing.JFormattedTextField jTelefone;
     private javax.swing.JFormattedTextField jTelefone1;
@@ -2373,18 +2373,18 @@ public class TelaEmpresa extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem exibidos....");
         }
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
-        jTabelaFornecedorCOMPRAS.setModel(modelo);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(0).setPreferredWidth(50);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(1).setPreferredWidth(320);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(2).setPreferredWidth(50);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(3).setPreferredWidth(120);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaFornecedorCOMPRAS.getTableHeader().setReorderingAllowed(false);
-        jTabelaFornecedorCOMPRAS.setAutoResizeMode(jTabelaFornecedorCOMPRAS.AUTO_RESIZE_OFF);
-        jTabelaFornecedorCOMPRAS.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTabelaEmpresas.setModel(modelo);
+        jTabelaEmpresas.getColumnModel().getColumn(0).setPreferredWidth(50);
+        jTabelaEmpresas.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaEmpresas.getColumnModel().getColumn(1).setPreferredWidth(320);
+        jTabelaEmpresas.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaEmpresas.getColumnModel().getColumn(2).setPreferredWidth(50);
+        jTabelaEmpresas.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaEmpresas.getColumnModel().getColumn(3).setPreferredWidth(120);
+        jTabelaEmpresas.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaEmpresas.getTableHeader().setReorderingAllowed(false);
+        jTabelaEmpresas.setAutoResizeMode(jTabelaEmpresas.AUTO_RESIZE_OFF);
+        jTabelaEmpresas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
         alinhaCeluasTabelaFornecedor();
         conecta.desconecta();
@@ -2399,27 +2399,27 @@ public class TelaEmpresa extends javax.swing.JInternalFrame {
         centralizado.setHorizontalAlignment(SwingConstants.CENTER);
         direita.setHorizontalAlignment(SwingConstants.RIGHT);
         //
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(0).setCellRenderer(centralizado);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(2).setCellRenderer(centralizado);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(3).setCellRenderer(direita);
+        jTabelaEmpresas.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+        jTabelaEmpresas.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+        jTabelaEmpresas.getColumnModel().getColumn(3).setCellRenderer(direita);
     }
 
     public void limparTabelaFornecedor() {
         ArrayList dados = new ArrayList();
         String[] Colunas = new String[]{"Código", "Razão Social", "Status", "CNPJ"};
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
-        jTabelaFornecedorCOMPRAS.setModel(modelo);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(0).setPreferredWidth(50);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(1).setPreferredWidth(320);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(2).setPreferredWidth(50);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(3).setPreferredWidth(120);
-        jTabelaFornecedorCOMPRAS.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaFornecedorCOMPRAS.getTableHeader().setReorderingAllowed(false);
-        jTabelaFornecedorCOMPRAS.setAutoResizeMode(jTabelaFornecedorCOMPRAS.AUTO_RESIZE_OFF);
-        jTabelaFornecedorCOMPRAS.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTabelaEmpresas.setModel(modelo);
+        jTabelaEmpresas.getColumnModel().getColumn(0).setPreferredWidth(50);
+        jTabelaEmpresas.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaEmpresas.getColumnModel().getColumn(1).setPreferredWidth(320);
+        jTabelaEmpresas.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaEmpresas.getColumnModel().getColumn(2).setPreferredWidth(50);
+        jTabelaEmpresas.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaEmpresas.getColumnModel().getColumn(3).setPreferredWidth(120);
+        jTabelaEmpresas.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaEmpresas.getTableHeader().setReorderingAllowed(false);
+        jTabelaEmpresas.setAutoResizeMode(jTabelaEmpresas.AUTO_RESIZE_OFF);
+        jTabelaEmpresas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         modelo.getLinhas().clear();
     }
 

@@ -84,6 +84,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private TelaModuloSistema objModulo = null;
     private TelaRecados objjAgendaRec = null;
     private TelaAgendaCompromissos objAgendaComp = null;
+    private TelaChamadoSuporte objChamaSup = null;
     //
     String statusAgenda = "Pendente";
     String usuarioLogado, dataLanc;
@@ -155,6 +156,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     //CONSULTAS SQL
     String pNomeCSQL = "";
 
+    public static TelaTrocaSenha telaTrocaSenha;
+
     /**
      * Creates new form TelaPrincipal
      */
@@ -189,6 +192,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         pesquisarTelasAcessos();
         threadMensagem(); // A cada 5 minutos verifica mensagem   
+    }
+
+    public void mostrarTelaTrocaSenha() {
+        telaTrocaSenha = new TelaTrocaSenha(this, true);
+        telaTrocaSenha.setVisible(true);
     }
 
     TelaPrincipal(String text, String nameUser) {
@@ -448,6 +456,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton4.setFocusable(false);
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -729,14 +742,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtTrocarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtTrocarSenhaActionPerformed
         // TODO add your handling code here:
-//        mostrarTelaTrocaSenha();
+        mostrarTelaTrocaSenha();
     }//GEN-LAST:event_jBtTrocarSenhaActionPerformed
 
     private void jBtLogoffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtLogoffActionPerformed
         // Sair e voltar para troca de usuário
-//        dispose();
-//        TelaLoginSenhaCPK tls = new TelaLoginSenhaCPK(this, true);
-//        tls.setVisible(true);
+        dispose();
+        LoginHD tls = new LoginHD(this, true);
+        tls.setVisible(true);
     }//GEN-LAST:event_jBtLogoffActionPerformed
 
     private void jEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEmpresaActionPerformed
@@ -1018,6 +1031,36 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jChamadosSuporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChamadosSuporteActionPerformed
         // TODO add your handling code here:
+        buscarAcessoUsuario(telaChamadosSuporte);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codAbrir == 1) {
+            if (objChamaSup == null || objChamaSup.isClosed()) {
+                objChamaSup = new TelaChamadoSuporte();
+                TelaPrincipal.jPainelPrincipal.add(objChamaSup);
+                objChamaSup.setVisible(true);
+            } else {
+                if (objChamaSup.isVisible()) {
+                    if (objChamaSup.isIcon()) { // Se esta minimizado
+                        try {
+                            objChamaSup.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objChamaSup.toFront(); // traz para frente
+                        objChamaSup.pack();//volta frame 
+                    }
+                } else {
+                    objChamaSup = new TelaChamadoSuporte();
+                    TelaPrincipal.jPainelPrincipal.add(objChamaSup);//adicona frame ao JDesktopPane  
+                    objChamaSup.setVisible(true);
+                }
+            }
+            try {
+                objChamaSup.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
     }//GEN-LAST:event_jChamadosSuporteActionPerformed
 
     private void jConsultasSQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConsultasSQLActionPerformed
@@ -1034,6 +1077,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void jChamadosDesenvolvimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChamadosDesenvolvimentoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jChamadosDesenvolvimentoActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1245,6 +1293,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             pNomeACM = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
+        //CHAMADOS SUPORTE
+        try {
+            conecta.executaSQL("SELECT * FROM TELAS "
+                    + "WHERE NomeTela='" + telaChamadosSuporte + "'");
+            conecta.rs.first();
+            pNomeCSU = conecta.rs.getString("NomeTela");
+        } catch (SQLException ex) {
+        }
         // CADASTRO
         //EMPRESA/UNIDADES
         if (!pNomeCE.equals(telaCadastroEmpresa) || pNomeCE == null || pNomeCE.equals("")) {
@@ -1295,6 +1351,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         if (!pNomeACM.equals(telaAgendaCompromisso) || pNomeACM == null || pNomeACM.equals("")) {
             objCadastroTela.setNomeTela(telaAgendaCompromisso);
+            controle.incluirTelaAcesso(objCadastroTela);
+        }
+        //CHAMADOS SUPORTE  
+        if (!pNomeCSU.equals(telaChamadosSuporte) || pNomeCSU == null || pNomeCSU.equals("")) {
+            objCadastroTela.setNomeTela(telaChamadosSuporte);
             controle.incluirTelaAcesso(objCadastroTela);
         }
     }

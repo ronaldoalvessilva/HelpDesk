@@ -90,7 +90,7 @@ public class UsuarioDao {
 
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE USUARIOS SET SenhaUsuario=?,ConfirmaSenhaUsuario=? WHERE IdUsuario='" + objUser.getIdUsuario() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE USUARIOS SET SenhaUsuario=?,SenhaUsuario1=? WHERE IdUsuario='" + objUser.getIdUsuario() + "'");
             pst.setString(1, objUser.getSenhaUsuario());
             pst.setString(2, objUser.getSenhaUsuario1());
             pst.executeUpdate(); // Executa a inserção

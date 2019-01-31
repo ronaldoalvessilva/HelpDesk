@@ -882,7 +882,7 @@ public class TelaSolicitantes extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
         } else {
             pesquisarSolicitantes("SELECT * FROM SOLICITANTES "
-                    + "WHERE Solicitante='" + jCodigo.getText() + "'");
+                    + "WHERE IdSolicitante='" + jCodigo.getText() + "'");
         }
     }//GEN-LAST:event_jBtPesqCodigoActionPerformed
 
@@ -1085,8 +1085,8 @@ public class TelaSolicitantes extends javax.swing.JInternalFrame {
                     //
                     objLog();
                     controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
-                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
                     Salvar();
+                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");                    
                 }
             }
         } else {
