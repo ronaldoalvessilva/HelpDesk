@@ -1078,41 +1078,46 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
 
     private void jTabelaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaUsuariosMouseClicked
         // TODO add your handling code here:
-        String user = "" + jTabelaUsuarios.getValueAt(jTabelaUsuarios.getSelectedRow(), 0);
-        //
-        if (!jIdUsuario.getText().equals("")) {
-            bloquearBotoes();
-            bloquearCampos();
-            jBtNovo.setEnabled(true);
-            jBtAlterar.setEnabled(true);
-            jBtExcluir.setEnabled(true);
-        }
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT * FROM USUARIOS "
-                    + "WHERE IdUsuario='" + user + "'");
-            conecta.rs.first();
-            jIdUsuario.setText(String.valueOf(conecta.rs.getInt("IdUsuario")));
-            jComboBoxStatus.addItem(conecta.rs.getString("StatusUsuario"));
-            jDataCadastro.setDate(conecta.rs.getDate("DataCadastro"));
-            jNomeUsuario.setText(conecta.rs.getString("NomeUsuario"));
-            jSetorUsuario.setText(conecta.rs.getString("SetorUsuario"));
-            jCargo.setText(conecta.rs.getString("CargoUsuario"));
-            nivel = conecta.rs.getInt("NivelUsuario");
-            if (nivel == 0) {
-                nivelNome = "Desenvolvedor";
-            } else if (nivel == 1) {
-                nivelNome = "Suporte Técnico";
+        flag = 1;
+        if (flag == 1) {
+            String user = "" + jTabelaUsuarios.getValueAt(jTabelaUsuarios.getSelectedRow(), 0);
+            String nomeuser = "" + jTabelaUsuarios.getValueAt(jTabelaUsuarios.getSelectedRow(), 3);
+            jPesquisaUsuarioNome.setText(nomeuser);
+            //
+            if (!jIdUsuario.getText().equals("")) {
+                bloquearBotoes();
+                bloquearCampos();
+                jBtNovo.setEnabled(true);
+                jBtAlterar.setEnabled(true);
+                jBtExcluir.setEnabled(true);
             }
-            jComboBoxNivelAcesso.setSelectedItem(nivelNome);
-            jLogin.setText(conecta.rs.getString("LoginUsuario"));
-            jSenhaUsuario.setText(conecta.rs.getString("SenhaUsuario"));
-            jConfirmaSenha.setText(conecta.rs.getString("SenhaUsuario1"));
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "Não foi possível listar usuario\nERRO: " + ex);
+            conecta.abrirConexao();
+            try {
+                conecta.executaSQL("SELECT * FROM USUARIOS "
+                        + "WHERE IdUsuario='" + user + "'");
+                conecta.rs.first();
+                jIdUsuario.setText(String.valueOf(conecta.rs.getInt("IdUsuario")));
+                jComboBoxStatus.addItem(conecta.rs.getString("StatusUsuario"));
+                jDataCadastro.setDate(conecta.rs.getDate("DataCadastro"));
+                jNomeUsuario.setText(conecta.rs.getString("NomeUsuario"));
+                jSetorUsuario.setText(conecta.rs.getString("SetorUsuario"));
+                jCargo.setText(conecta.rs.getString("CargoUsuario"));
+                nivel = conecta.rs.getInt("NivelUsuario");
+                if (nivel == 0) {
+                    nivelNome = "Desenvolvedor";
+                } else if (nivel == 1) {
+                    nivelNome = "Suporte Técnico";
+                }
+                jComboBoxNivelAcesso.setSelectedItem(nivelNome);
+                jLogin.setText(conecta.rs.getString("LoginUsuario"));
+                jSenhaUsuario.setText(conecta.rs.getString("SenhaUsuario"));
+                jConfirmaSenha.setText(conecta.rs.getString("SenhaUsuario1"));
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(rootPane, "Não foi possível listar usuario\nERRO: " + ex);
+            }
+            preencherTabelaAcessos("SELECT * FROM TELAS_ACESSO "
+                    + "WHERE IdUsuario='" + jIdUsuario.getText() + "'");
         }
-        preencherTabelaAcessos("SELECT * FROM TELAS_ACESSO "
-                + "WHERE IdUsuario='" + jIdUsuario.getText() + "'");
     }//GEN-LAST:event_jTabelaUsuariosMouseClicked
 
     private void jBtNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoActionPerformed
