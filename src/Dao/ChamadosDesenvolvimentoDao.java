@@ -106,9 +106,9 @@ public class ChamadosDesenvolvimentoDao {
         pesquisarModulo(objCHSup.getDescricaoModulo());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO ITENS_CHAMADOS_DESENVOLVIMENTO (IdCHDes,IdCHDes,DataItemCh,HorarioInicio,HorarioTermino,IdSoftware,IdModulo,TextoSuporte,TextoDesenvol,TipoChamado,UsuarioInsert,DataInsert,HorarioInsert)VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO ITENS_CHAMADOS_DESENVOLVIMENTO (IdCHDes,IdItem,DataItemCh,HorarioInicio,HorarioTermino,IdSoftware,IdModulo,TextoSuporte,TextoDesenvol,TipoChamado,UsuarioInsert,DataInsert,HorarioInsert)VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setInt(1, objCHSup.getIdCHDes());
-            pst.setInt(2, objCHSup.getIdCHSup());
+            pst.setInt(2, objCHSup.getIdItemCh());
             pst.setTimestamp(3, new java.sql.Timestamp(objCHSup.getDataItemCh().getTime()));
             pst.setString(4, objCHSup.getHorarioInicio());
             pst.setString(5, objCHSup.getHorarioTermino());
@@ -133,9 +133,9 @@ public class ChamadosDesenvolvimentoDao {
         pesquisarModulo(objCHSup.getDescricaoModulo());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE ITENS_CHAMADOS_DESENVOLVIMENTO SET IdCHSup=?,DataItemCh=?,HorarioInicio=?,HorarioTermino=?,IdSoftware=?,IdModulo=?,TextoSuporte=?,TextoDesenvol=?,TipoChamado=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdItem='" + objCHSup.getIdItemCh() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE ITENS_CHAMADOS_DESENVOLVIMENTO SET IdCHDes=?,IdItem=?,DataItemCh=?,HorarioInicio=?,HorarioTermino=?,IdSoftware=?,IdModulo=?,TextoSuporte=?,TextoDesenvol=?,TipoChamado=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdItem='" + objCHSup.getIdItemCh() + "'");
             pst.setInt(1, objCHSup.getIdCHDes());
-            pst.setInt(2, objCHSup.getIdCHSup());
+            pst.setInt(2, objCHSup.getIdItemCh());
             pst.setTimestamp(3, new java.sql.Timestamp(objCHSup.getDataItemCh().getTime()));
             pst.setString(4, objCHSup.getHorarioInicio());
             pst.setString(5, objCHSup.getHorarioTermino());
@@ -200,6 +200,22 @@ public class ChamadosDesenvolvimentoDao {
             pst.setString(10, objCHSup.getUsuarioUp());
             pst.setString(11, objCHSup.getDataUp());
             pst.setString(12, objCHSup.getHorarioUp());
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\nERRO: " + ex);
+        }
+        conecta.desconecta();
+        return objCHSup;
+    }
+
+    // ATUALIZA A TABELA ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO
+    // RESPONDENDO AO CAMPO Utilizado "Sim" PARA QUE NÃO POSSA BUSCAR O MESMO REGISTRO.
+    public ChamadoSuporte repostaItensSupDes(ChamadoSuporte objCHSup) {
+
+        conecta.abrirConexao();
+        try {
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO SET Utilizado=? WHERE IdCHSup='" + objCHSup.getIdCHSup() + "' AND IdItem='" + objCHSup.getIdItemCh() + "'");
+            pst.setString(1, objCHSup.getUtiliza());
             pst.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\nERRO: " + ex);

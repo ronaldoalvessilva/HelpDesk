@@ -263,6 +263,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jBtChamadosSuporte = new javax.swing.JButton();
+        jBtRelatoriosSuporteTecnico = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jBtConsultasDB = new javax.swing.JButton();
         jBtRelatorios = new javax.swing.JButton();
@@ -292,8 +293,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jConsultasSQL = new javax.swing.JMenuItem();
         jChamadosDesenvolvimento = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem13 = new javax.swing.JMenuItem();
-        jMenuItem14 = new javax.swing.JMenuItem();
+        listagemChamadosSuporteTecnico = new javax.swing.JMenuItem();
+        listagemChamadosDesenvolvimento = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -521,21 +522,38 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jBtRelatoriosSuporteTecnico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119173544_32.png"))); // NOI18N
+        jBtRelatoriosSuporteTecnico.setContentAreaFilled(false);
+        jBtRelatoriosSuporteTecnico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtRelatoriosSuporteTecnicoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
+                .addContainerGap(58, Short.MAX_VALUE)
+                .addComponent(jBtRelatoriosSuporteTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtChamadosSuporte, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37))
+                .addContainerGap())
         );
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtChamadosSuporte, jBtRelatoriosSuporteTecnico});
+
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jBtChamadosSuporte)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBtChamadosSuporte)
+                    .addComponent(jBtRelatoriosSuporteTecnico))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtChamadosSuporte, jBtRelatoriosSuporteTecnico});
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204))));
         jPanel6.setToolTipText("Desenvolvimento");
@@ -735,13 +753,23 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu3.setMnemonic('R');
         jMenu3.setText("Relatórios");
 
-        jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/gtklp-icone-3770-16.png"))); // NOI18N
-        jMenuItem13.setText("Chamados Suporte Técnico");
-        jMenu3.add(jMenuItem13);
+        listagemChamadosSuporteTecnico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/gtklp-icone-3770-16.png"))); // NOI18N
+        listagemChamadosSuporteTecnico.setText("Chamados Suporte Técnico");
+        listagemChamadosSuporteTecnico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listagemChamadosSuporteTecnicoActionPerformed(evt);
+            }
+        });
+        jMenu3.add(listagemChamadosSuporteTecnico);
 
-        jMenuItem14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119193225_16.png"))); // NOI18N
-        jMenuItem14.setText("Chamados Desenvolvimento");
-        jMenu3.add(jMenuItem14);
+        listagemChamadosDesenvolvimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119193225_16.png"))); // NOI18N
+        listagemChamadosDesenvolvimento.setText("Chamados Desenvolvimento");
+        listagemChamadosDesenvolvimento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listagemChamadosDesenvolvimentoActionPerformed(evt);
+            }
+        });
+        jMenu3.add(listagemChamadosDesenvolvimento);
 
         jMenuBar1.add(jMenu3);
 
@@ -799,11 +827,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(jHoraSistema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPainelPrincipal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1547,6 +1575,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jBtRelatoriosActionPerformed
 
+    private void listagemChamadosSuporteTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listagemChamadosSuporteTecnicoActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(rootPane, "Em desenvolvimento...");
+    }//GEN-LAST:event_listagemChamadosSuporteTecnicoActionPerformed
+
+    private void listagemChamadosDesenvolvimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listagemChamadosDesenvolvimentoActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(rootPane, "Em desenvolvimento...");
+    }//GEN-LAST:event_listagemChamadosDesenvolvimentoActionPerformed
+
+    private void jBtRelatoriosSuporteTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtRelatoriosSuporteTecnicoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtRelatoriosSuporteTecnicoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1595,6 +1637,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jBtModulos;
     private javax.swing.JButton jBtOcorrencias;
     private javax.swing.JButton jBtRelatorios;
+    private javax.swing.JButton jBtRelatoriosSuporteTecnico;
     private javax.swing.JButton jBtSistemas;
     private javax.swing.JButton jBtSolicitantes;
     private javax.swing.JButton jBtTrocarSenha;
@@ -1619,8 +1662,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jModulosSistema;
     private javax.swing.JMenuItem jOcorrencias;
     public static javax.swing.JDesktopPane jPainelPrincipal;
@@ -1639,6 +1680,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar3;
     private javax.swing.JToolBar jToolBar4;
     private javax.swing.JMenuItem jUsuarios;
+    private javax.swing.JMenuItem listagemChamadosDesenvolvimento;
+    private javax.swing.JMenuItem listagemChamadosSuporteTecnico;
     // End of variables declaration//GEN-END:variables
 
     // Verificar a cada 5 minutos se o recado foi lido (10/01/2015)

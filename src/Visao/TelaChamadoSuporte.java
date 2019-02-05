@@ -1566,15 +1566,19 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             statusMov = "Incluiu";
             horaMov = jHoraSistema.getText();
             dataModFinal = jDataSistema.getText();
-            acao = 3;
-            if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
-                NovoItem();
-                alterarAdm();
+            if (jStatusChamado.getText().equals(statusEncerrado)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível alterar o registro, o mesmo já foi encerrado.");
             } else {
-                NovoItem();
-            }
-            if (rows != 0) {
-                verificarSofMod();
+                acao = 3;
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                    NovoItem();
+                    alterarAdm();
+                } else {
+                    NovoItem();
+                }
+                if (rows != 0) {
+                    verificarSofMod();
+                }
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1585,18 +1589,28 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         buscarAcessoUsuario(telaItensChamadoSuporte);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoSuporte) && codAlterar == 1) {
-            if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
-                statusMov = "Alterou";
-                horaMov = jHoraSistema.getText();
-                dataModFinal = jDataSistema.getText();
-                acao = 4;
-                alterarAdm();
+            if (jStatusChamado.getText().equals(statusEncerrado)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível alterar o registro, o mesmo já foi encerrado.");
+            } else if (jStatusChamado.getText().equals(statusDesenvol)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível alterar o registro, o mesmo já foi enviado para o desenvolvimento.");
             } else {
-                statusMov = "Alterou";
-                horaMov = jHoraSistema.getText();
-                dataModFinal = jDataSistema.getText();
-                acao = 4;
-                AlterarItem();
+                Integer rows = jTabelaItens.getRowCount();
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                    statusMov = "Alterou";
+                    horaMov = jHoraSistema.getText();
+                    dataModFinal = jDataSistema.getText();
+                    acao = 4;
+                    alterarAdm();
+                } else {
+                    statusMov = "Alterou";
+                    horaMov = jHoraSistema.getText();
+                    dataModFinal = jDataSistema.getText();
+                    acao = 4;
+                    AlterarItem();
+                }
+                if (rows != 0) {
+                    verificarSofMod();
+                }
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1610,17 +1624,23 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             statusMov = "Excluiu";
             horaMov = jHoraSistema.getText();
             dataModFinal = jDataSistema.getText();
-            int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
-                    JOptionPane.YES_NO_OPTION);
-            if (resposta == JOptionPane.YES_OPTION) {
-                objCHSup.setIdItemCh(Integer.valueOf(jIdItem.getText()));
-                control.excluirItensChamadoSup(objCHSup);
-                ExcluirItem();
-                preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
-                        + "INNER JOIN CHAMADOS_SUPORTE "
-                        + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
-                        + "WHERE ITENS_CHAMADOS_SUPORTE.IdCHSup='" + jIdChamado.getText() + "'");
-                JOptionPane.showMessageDialog(rootPane, "Registro excluido com sucesso.");
+            if (jStatusChamado.getText().equals(statusEncerrado)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível excluir o registro, o mesmo já foi encerrado.");
+            } else if (jStatusChamado.getText().equals(statusDesenvol)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível excluir o registro, o mesmo já foi enviado para o desenvolvimento.");
+            } else {
+                int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
+                        JOptionPane.YES_NO_OPTION);
+                if (resposta == JOptionPane.YES_OPTION) {
+                    objCHSup.setIdItemCh(Integer.valueOf(jIdItem.getText()));
+                    control.excluirItensChamadoSup(objCHSup);
+                    ExcluirItem();
+                    preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
+                            + "INNER JOIN CHAMADOS_SUPORTE "
+                            + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
+                            + "WHERE ITENS_CHAMADOS_SUPORTE.IdCHSup='" + jIdChamado.getText() + "'");
+                    JOptionPane.showMessageDialog(rootPane, "Registro excluido com sucesso.");
+                }
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -2164,8 +2184,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         conecta.desconecta();
     }
 
-    public void relatorioChamadosST() {
-        // IRÁ USAR SUB RELATÓRIO
+    public void relatorioChamadosST() {        
         try {
             conecta.abrirConexao();
             String path = "reports/relatorioChamadoSuporteTecnico.jasper";

@@ -30,15 +30,22 @@ import static Visao.TelaPrincipal.jHoraSistema;
 import static Visao.TelaPrincipal.jPainelPrincipal;
 import static Visao.TelaPrincipal.nomeTela;
 import static Visao.TelaPrincipal.telaChamadosDesenvolvimento;
+import static Visao.TelaPrincipal.telaItensChamadoDesenvolvimento;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -77,6 +84,11 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     String tipoSuporte = "DESENVOLVIMENTO";
     //
     String nomeAtendente = "";
+    //
+    String idRegChamadoDesc;
+    String idItemChamadoDesc;
+    String utilizado = "Sim";
+    int idItemCHSup;
 
     /**
      * Creates new form TelaChamadoSuporte
@@ -194,6 +206,18 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         jPanel7 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextoSuporte = new javax.swing.JTextArea();
+        jLabel17 = new javax.swing.JLabel();
+        jIdItemSup = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        jSoftwareSup = new javax.swing.JTextField();
+        jDataOcorrenciaSup = new com.toedter.calendar.JDateChooser();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jHorarioInicioSup = new javax.swing.JFormattedTextField();
+        jHorarioTerminoSup = new javax.swing.JFormattedTextField();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jModuloSup = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTabelaItens = new javax.swing.JTable();
 
@@ -416,13 +440,13 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Listagem", jPanel3);
@@ -533,7 +557,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jBtEncerrar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jBtImprimir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtEnviar)
@@ -981,7 +1005,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jBtPesquisaModulo)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1005,20 +1029,110 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         jTextoSuporte.setEnabled(false);
         jScrollPane2.setViewportView(jTextoSuporte);
 
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel17.setText("Código");
+
+        jIdItemSup.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jIdItemSup.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jIdItemSup.setEnabled(false);
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel18.setText("Software");
+
+        jSoftwareSup.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jSoftwareSup.setEnabled(false);
+
+        jDataOcorrenciaSup.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jDataOcorrenciaSup.setEnabled(false);
+
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel19.setText("Data Ocorrência");
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel20.setText("Horário Inicio");
+
+        jHorarioInicioSup.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jHorarioInicioSup.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jHorarioInicioSup.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jHorarioInicioSup.setEnabled(false);
+
+        jHorarioTerminoSup.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jHorarioTerminoSup.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jHorarioTerminoSup.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jHorarioTerminoSup.setEnabled(false);
+
+        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel21.setText("Horário Termino");
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel22.setText("Módulo");
+
+        jModuloSup.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jModuloSup.setEnabled(false);
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(jLabel18)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jSoftwareSup))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel22)
+                            .addComponent(jModuloSup, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17)
+                            .addComponent(jIdItemSup, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19)
+                            .addComponent(jDataOcorrenciaSup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jHorarioInicioSup)
+                            .addComponent(jLabel20))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel21)
+                            .addComponent(jHorarioTerminoSup, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(232, 232, 232)))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel21)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel20)
+                        .addComponent(jLabel17))
+                    .addComponent(jLabel19))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jIdItemSup, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDataOcorrenciaSup, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jHorarioInicioSup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jHorarioTerminoSup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jSoftwareSup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jModuloSup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1078,14 +1192,16 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Manutenção", jPanel4);
@@ -1094,16 +1210,16 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        setBounds(250, 10, 791, 548);
+        setBounds(250, 5, 791, 537);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtPesqCHCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesqCHCodigoActionPerformed
@@ -1424,7 +1540,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             if (jIdChamado.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Não existe registro a ser impresso, selecione um registro antes de imprimir.");
             } else {
-
+                relatorioChamadosST();
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1499,7 +1615,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
     private void jBtAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAuditoriaActionPerformed
         // TODO add your handling code here:
-        TelaAuditoriaCHSuporte objCHSup = new TelaAuditoriaCHSuporte();
+        TelaAuditoriaCHDesenvolvimento objCHSup = new TelaAuditoriaCHDesenvolvimento();
         jPainelPrincipal.add(objCHSup);
         objCHSup.show();
     }//GEN-LAST:event_jBtAuditoriaActionPerformed
@@ -1579,70 +1695,85 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
     private void jBtSalvarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSalvarItemActionPerformed
         // TODO add your handling code here:
-        if (jDataOcorrencia.getDate() == null) {
-            JOptionPane.showMessageDialog(rootPane, "Informe a data do chamado.");
-        } else if (jHorarioInicio.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "Informe o horário de inicio do chamado.");
-        } else if (jHorarioTermino.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "Informe o horário de termino do chamado.");
-        } else if (jSoftware.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "Informe do software(sistema).");
-        } else if (jModulo.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "Informe o nome do módulo.");
+        buscarAcessoUsuario(telaItensChamadoDesenvolvimento);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoDesenvolvimento) && codGravar == 1) {
+            if (jDataOcorrencia.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data do chamado.");
+            } else if (jHorarioInicio.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o horário de inicio do chamado.");
+            } else if (jSoftware.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe do software(sistema).");
+            } else if (jModulo.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o nome do módulo.");
+            } else {
+                objCHSup.setIdItemCh(Integer.valueOf(jIdItemSup.getText()));
+                objCHSup.setIdCHDes(Integer.valueOf(jIdChamado.getText()));
+                objCHSup.setDataItemCh(jDataOcorrencia.getDate());
+                objCHSup.setDescricaoSoftware(jSoftware.getText());
+                objCHSup.setDescricaoModulo(jModulo.getText());
+                objCHSup.setTextoSuporte(jTextoSuporte.getText());
+                objCHSup.setTextoDesenvol(jTextoDesenvolvimento.getText());
+                objCHSup.setTipoChamado(tipoSuporte);
+                objCHSup.setHorarioInicio(jHorarioInicio.getText());
+                if (acao == 3) {
+                    objCHSup.setUsuarioInsert(nameUser);
+                    objCHSup.setDataInsert(dataModFinal);
+                    objCHSup.setHorarioInsert(horaMov);
+                    if (jAtendente.getText().equals("ADMINISTRADOR DO SISTEMA")) {
+                        jHorarioTermino.setEnabled(true);
+                        objCHSup.setHorarioTermino(jHorarioTermino.getText());
+                    } else {
+                        objCHSup.setHorarioTermino(jHoraSistema.getText());
+                    }
+                    control.incluirItensSupDes(objCHSup);
+                    jHorarioTermino.setText(objCHSup.getHorarioTermino());
+                    buscarCodigoItem();
+                    verificarGravacaoItem();
+                    if (jIdChamado.getText().equals(idRegChamadoDesc) && jIdItem.getText().equals(idItemChamadoDesc)) {
+                        //RESPONDE "Sim" AO CAMPO Utilizao DA TABELA ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO
+                        objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                        objCHSup.setIdItemCh(Integer.valueOf(jIdItemSup.getText()));
+                        objCHSup.setUtiliza(utilizado);
+                        control.repostaItensSupDes(objCHSup);
+                        //
+                        objLog1();
+                        controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
+                        Salvar();
+                        preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
+                                + "INNER JOIN CHAMADOS_DESENVOLVIMENTO "
+                                + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes=CHAMADOS_DESENVOLVIMENTO.IdCHDes "
+                                + "WHERE ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamado.getText() + "'");
+                        JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro, tente novamente.");
+                    }
+                }
+                if (acao == 4) {
+                    objCHSup.setUsuarioUp(nameUser);
+                    objCHSup.setDataUp(dataModFinal);
+                    objCHSup.setHorarioUp(horaMov);
+                    if (jAtendente.getText().equals("ADMINISTRADOR DO SISTEMA")) {
+                        jHorarioTermino.setEnabled(true);
+                        objCHSup.setHorarioTermino(jHorarioTermino.getText());
+                    } else {
+                        objCHSup.setHorarioTermino(jHoraSistema.getText());
+                    }
+                    objCHSup.setIdItemCh(Integer.valueOf(jIdItem.getText()));
+                    control.alterarItensSupDes(objCHSup);
+                    jHorarioTermino.setText(objCHSup.getHorarioTermino());
+                    //
+                    objLog1();
+                    controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
+                    Salvar();
+                    preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
+                            + "INNER JOIN CHAMADOS_DESENVOLVIMENTO "
+                            + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes=CHAMADOS_DESENVOLVIMENTO.IdCHDes "
+                            + "WHERE ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamado.getText() + "'");
+                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                }
+            }
         } else {
-            objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-            objCHSup.setDataItemCh(jDataOcorrencia.getDate());
-            objCHSup.setDescricaoSoftware(jSoftware.getText());
-            objCHSup.setDescricaoModulo(jModulo.getText());
-            objCHSup.setTextoSuporte(jTextoSuporte.getText());
-            objCHSup.setTipoChamado(tipoSuporte);
-            objCHSup.setHorarioInicio(jHorarioInicio.getText());
-            if (acao == 3) {
-                objCHSup.setUsuarioInsert(nameUser);
-                objCHSup.setDataInsert(dataModFinal);
-                objCHSup.setHorarioInsert(horaMov);
-                if (jAtendente.getText().equals("ADMINISTRADOR DO SISTEMA")) {
-                    jHorarioTermino.setEnabled(true);
-                    objCHSup.setHorarioTermino(jHorarioTermino.getText());
-                } else {
-                    objCHSup.setHorarioTermino(jHoraSistema.getText());
-                }
-                control.incluirItensSupDes(objCHSup);
-                jHorarioTermino.setText(objCHSup.getHorarioTermino());
-                buscarCodigoItem();
-                //
-                objLog1();
-                controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
-                Salvar();
-                preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
-                        + "INNER JOIN CHAMADOS_SUPORTE "
-                        + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
-                        + "WHERE ITENS_CHAMADOS_SUPORTE.IdCHSup='" + jIdChamado.getText() + "'");
-                JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
-            }
-            if (acao == 4) {
-                objCHSup.setUsuarioUp(nameUser);
-                objCHSup.setDataUp(dataModFinal);
-                objCHSup.setHorarioUp(horaMov);
-                if (jAtendente.getText().equals("ADMINISTRADOR DO SISTEMA")) {
-                    jHorarioTermino.setEnabled(true);
-                    objCHSup.setHorarioTermino(jHorarioTermino.getText());
-                } else {
-                    objCHSup.setHorarioTermino(jHoraSistema.getText());
-                }
-                objCHSup.setIdItemCh(Integer.valueOf(jIdItem.getText()));
-                control.alterarItensSupDes(objCHSup);
-                jHorarioTermino.setText(objCHSup.getHorarioTermino());
-                //
-                objLog1();
-                controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
-                Salvar();
-                preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
-                        + "INNER JOIN CHAMADOS_SUPORTE "
-                        + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
-                        + "WHERE ITENS_CHAMADOS_SUPORTE.IdCHSup='" + jIdChamado.getText() + "'");
-                JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
-            }
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
     }//GEN-LAST:event_jBtSalvarItemActionPerformed
 
@@ -1653,51 +1784,96 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
     private void jBtAlterarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarItemActionPerformed
         // TODO add your handling code here:
-        Integer rows = jTabelaItens.getRowCount();
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
-            statusMov = "Alterou";
-            horaMov = jHoraSistema.getText();
-            dataModFinal = jDataSistema.getText();
-            acao = 4;
-            alterarAdm();
+        buscarAcessoUsuario(telaItensChamadoDesenvolvimento);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoDesenvolvimento) && codAlterar == 1) {
+            if (jStatusChamado.getText().equals(statusEncerrado)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível alterar o registro, o mesmo já foi encerrado.");
+            } else if (jStatusChamado.getText().equals(statusDesenvol)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível alterar o registro, o mesmo já foi enviado para o desenvolvimento.");
+            } else {
+                Integer rows = jTabelaItens.getRowCount();
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                    statusMov = "Alterou";
+                    horaMov = jHoraSistema.getText();
+                    dataModFinal = jDataSistema.getText();
+                    acao = 4;
+                    alterarAdm();
+                } else {
+                    statusMov = "Alterou";
+                    horaMov = jHoraSistema.getText();
+                    dataModFinal = jDataSistema.getText();
+                    acao = 4;
+                    AlterarItem();
+                }
+                if (rows != 0) {
+                    verificarSofMod();
+                }
+            }
         } else {
-            statusMov = "Alterou";
-            horaMov = jHoraSistema.getText();
-            dataModFinal = jDataSistema.getText();
-            acao = 4;
-            AlterarItem();
-        }
-        if (rows != 0) {
-            verificarSofMod();
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
     }//GEN-LAST:event_jBtAlterarItemActionPerformed
 
     private void jBtNovoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoItemActionPerformed
         // TODO add your handling code here:
-        statusMov = "Incluiu";
-        horaMov = jHoraSistema.getText();
-        dataModFinal = jDataSistema.getText();
-        acao = 3;
-        NovoItem();
-        alterarAdm();
+        buscarAcessoUsuario(telaItensChamadoDesenvolvimento);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoDesenvolvimento) && codIncluir == 1) {
+            Integer rows = jTabelaItens.getRowCount();
+            statusMov = "Incluiu";
+            horaMov = jHoraSistema.getText();
+            dataModFinal = jDataSistema.getText();
+            acao = 3;
+            if (jStatusChamado.getText().equals(statusEncerrado)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível alterar o registro, o mesmo já foi encerrado.");
+            } else {
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                    NovoItem();
+                    alterarAdm();
+                } else {
+                    NovoItem();
+                }
+                if (rows != 0) {
+                    verificarSofMod();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
     }//GEN-LAST:event_jBtNovoItemActionPerformed
 
     private void jBtExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirItemActionPerformed
         // TODO add your handling code here:
-        statusMov = "Excluiu";
-        horaMov = jHoraSistema.getText();
-        dataModFinal = jDataSistema.getText();
-        int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
-                JOptionPane.YES_NO_OPTION);
-        if (resposta == JOptionPane.YES_OPTION) {
-            objCHSup.setIdSolicitante(Integer.valueOf(jIdChamado.getText()));
-            control.excluirChamadoDesc(objCHSup);
-            ExcluirItem();
-            preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
-                    + "INNER JOIN CHAMADOS_SUPORTE "
-                    + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
-                    + "WHERE IdCHSup='" + jIdChamado.getText() + "'");
-            JOptionPane.showMessageDialog(rootPane, "Registro excluido com sucesso.");
+        buscarAcessoUsuario(telaItensChamadoDesenvolvimento);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoDesenvolvimento) && codExcluir == 1) {
+            statusMov = "Excluiu";
+            horaMov = jHoraSistema.getText();
+            dataModFinal = jDataSistema.getText();
+            if (jStatusChamado.getText().equals(statusEncerrado)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível excluir o registro, o mesmo já foi encerrado.");
+            } else if (jStatusChamado.getText().equals(statusDesenvol)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível excluir o registro, o mesmo já foi enviado para o desenvolvimento.");
+            } else {
+                int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
+                        JOptionPane.YES_NO_OPTION);
+                if (resposta == JOptionPane.YES_OPTION) {
+                    objCHSup.setIdCHDes(Integer.valueOf(jIdChamado.getText()));
+                    control.excluirChamadoDesc(objCHSup);
+                    //RESPONDE "Sim" AO CAMPO Utilizao DA TABELA ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO
+                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                    objCHSup.setIdItemCh(Integer.valueOf(jIdItemSup.getText()));
+                    objCHSup.setUtiliza(utilizado);
+                    control.repostaItensSupDes(objCHSup);
+                    //
+                    ExcluirItem();
+                    preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
+                            + "INNER JOIN CHAMADOS_DESENVOLVIMENTO "
+                            + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes=CHAMADOS_DESENVOLVIMENTO.IdCHDes "
+                            + "WHERE ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamado.getText() + "'");
+                    JOptionPane.showMessageDialog(rootPane, "Registro excluido com sucesso.");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
     }//GEN-LAST:event_jBtExcluirItemActionPerformed
 
@@ -1722,23 +1898,42 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             //
             conecta.abrirConexao();
             try {
-                conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
-                        + "INNER JOIN CHAMADOS_SUPORTE "
-                        + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
+                conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
+                        + "INNER JOIN CHAMADOS_DESENVOLVIMENTO "
+                        + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes=CHAMADOS_DESENVOLVIMENTO.IdCHDes "
                         + "INNER JOIN SOFTWARE "
-                        + "ON ITENS_CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
+                        + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdSoftware=SOFTWARE.IdSoftware "
                         + "INNER JOIN MODULOS "
-                        + "ON ITENS_CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
-                        + "WHERE ITENS_CHAMADOS_SUPORTE.IdItem='" + idItem + "'");
+                        + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdModulo=MODULOS.IdModulo "
+                        + "INNER JOIN ITENS_CHAMADOS_SUPORTE "
+                        + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdItem=ITENS_CHAMADOS_SUPORTE.IdItem "
+                        + "WHERE ITENS_CHAMADOS_DESENVOLVIMENTO.IdItemDes='" + idItem + "'");
                 conecta.rs.first();
-                jIdItem.setText(String.valueOf(conecta.rs.getInt("IdItem")));
+                jIdItem.setText(String.valueOf(conecta.rs.getInt("IdItemDes")));
+                idItemCHSup = conecta.rs.getInt("IdItem");
                 jDataOcorrencia.setDate(conecta.rs.getDate("DataItemCh"));
                 jHorarioInicio.setText(conecta.rs.getString("HorarioInicio"));
                 jHorarioTermino.setText(conecta.rs.getString("HorarioTermino"));
                 jSoftware.setText(conecta.rs.getString("DescricaoSoftware"));
                 jModulo.setText(conecta.rs.getString("DescricaoModulo"));
-                jTextoSuporte.setText(conecta.rs.getString("TextoSuporte"));
                 jTextoDesenvolvimento.setText(conecta.rs.getString("TextoDesenvol"));
+                //
+                conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
+                        + "INNER JOIN SOFTWARE "
+                        + "ON ITENS_CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
+                        + "INNER JOIN MODULOS "
+                        + "ON ITENS_CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
+                        + "INNER JOIN ITENS_CHAMADOS_DESENVOLVIMENTO "
+                        + "ON ITENS_CHAMADOS_SUPORTE.IdItem=ITENS_CHAMADOS_SUPORTE.IdItem "
+                        + "WHERE ITENS_CHAMADOS_SUPORTE.IdItem='" + idItemCHSup + "'");
+                conecta.rs.first();
+                jIdItemSup.setText(String.valueOf(conecta.rs.getInt("IdItem")));
+                jDataOcorrenciaSup.setDate(conecta.rs.getDate("DataItemCh"));
+                jHorarioInicioSup.setText(conecta.rs.getString("HorarioInicio"));
+                jHorarioTerminoSup.setText(conecta.rs.getString("HorarioTermino"));
+                jSoftwareSup.setText(conecta.rs.getString("DescricaoSoftware"));
+                jModuloSup.setText(conecta.rs.getString("DescricaoModulo"));
+                jTextoSuporte.setText(conecta.rs.getString("TextoSuporte"));
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
             }
@@ -1748,6 +1943,9 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
     private void jBtAuditoriaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAuditoriaItemActionPerformed
         // TODO add your handling code here:
+        TelaAuditoriaCHDesenvolvimentoItens objAudItens = new TelaAuditoriaCHDesenvolvimentoItens();
+        jPainelPrincipal.add(objAudItens);
+        objAudItens.show();
     }//GEN-LAST:event_jBtAuditoriaItemActionPerformed
 
 
@@ -1779,13 +1977,17 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox jCheckBoxTodosCH;
     private com.toedter.calendar.JDateChooser jDataChamado;
     private com.toedter.calendar.JDateChooser jDataOcorrencia;
+    public static com.toedter.calendar.JDateChooser jDataOcorrenciaSup;
     private com.toedter.calendar.JDateChooser jDataPesFinal;
     private com.toedter.calendar.JDateChooser jDataPesqInicial;
     private javax.swing.JFormattedTextField jHorarioInicio;
+    public static javax.swing.JFormattedTextField jHorarioInicioSup;
     private javax.swing.JFormattedTextField jHorarioTermino;
+    public static javax.swing.JFormattedTextField jHorarioTerminoSup;
     public static javax.swing.JTextField jIdChamado;
     private javax.swing.JTextField jIdChamadoPesquisa;
-    private javax.swing.JTextField jIdItem;
+    public static javax.swing.JTextField jIdItem;
+    public static javax.swing.JTextField jIdItemSup;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1794,7 +1996,13 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1804,6 +2012,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     public static javax.swing.JTextField jModulo;
+    public static javax.swing.JTextField jModuloSup;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
@@ -1823,6 +2032,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     public static javax.swing.JTextField jSoftware;
+    public static javax.swing.JTextField jSoftwareSup;
     public static javax.swing.JTextField jSolicitante;
     public static javax.swing.JTextField jStatusChamado;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -1856,8 +2066,14 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         jAtendente.setBackground(Color.white);
         jSoftware.setBackground(Color.white);
         jModulo.setBackground(Color.white);
-        jTextoSuporte.setBackground(Color.white);
         jTextoDesenvolvimento.setBackground(Color.white);
+        jIdItemSup.setBackground(Color.white);
+        jDataOcorrenciaSup.setBackground(Color.white);
+        jHorarioInicioSup.setBackground(Color.white);
+        jHorarioTerminoSup.setBackground(Color.white);
+        jSoftwareSup.setBackground(Color.white);
+        jModuloSup.setBackground(Color.white);
+        jTextoSuporte.setBackground(Color.white);
     }
 
     public void bloquearCampos() {
@@ -1875,6 +2091,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         jSolicitante.setEnabled(!true);
         jTextoSuporte.setEnabled(!true);
         jTextoDesenvolvimento.setEnabled(!true);
+        jTextoSuporte.setEnabled(!true);
     }
 
     public void bloquearBotoes() {
@@ -1959,7 +2176,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         bloquearBotoes();
         jHorarioInicio.setEnabled(true);
         jHorarioTermino.setEnabled(true);
-        jTextoSuporte.setEnabled(true);
+        jTextoDesenvolvimento.setEnabled(true);
         //
         jBtPesquisaModulo.setEnabled(true);
         jBtDownLoadChamados.setEnabled(true);
@@ -2023,7 +2240,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                     + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdSoftware=SOFTWARE.IdSoftware "
                     + "INNER JOIN MODULOS "
                     + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdModulo=MODULOS.IdModulo "
-                    + "WHERE IdCHSup='" + jIdChamado.getText() + "'");
+                    + "WHERE IdCHDes='" + jIdChamado.getText() + "'");
             conecta.rs.first();
             idSoftware = conecta.rs.getInt("IdSoftware");
             jSoftware.setText(conecta.rs.getString("DescricaoSoftware"));
@@ -2104,7 +2321,56 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO");
             conecta.rs.last();
             idItemChamado = conecta.rs.getInt("IdItem");
+            jIdItem.setText(conecta.rs.getString("IdItem"));
         } catch (Exception e) {
+        }
+        conecta.desconecta();
+    }
+
+    public void verificarGravacaoItem() {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
+                    + "WHERE IdCHDes='" + jIdChamado.getText() + "' "
+                    + "AND IdItem='" + jIdItem.getText() + "'");
+            conecta.rs.first();
+            idRegChamadoDesc = conecta.rs.getString("IdCHDes");
+            idItemChamadoDesc = conecta.rs.getString("IdItem");
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
+    }
+
+    public void relatorioChamadosST() {
+        try {
+            conecta.abrirConexao();
+            String path = "reports/relatorioChamadoDesenvolvimento.jasper";
+            conecta.executaSQL("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
+                    + "INNER JOIN USUARIOS "
+                    + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                    + "INNER JOIN SOLICITANTES "
+                    + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante "
+                    + "WHERE CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamado.getText() + "'");
+            HashMap parametros = new HashMap();
+            parametros.put("idChamado", jIdChamado.getText());
+            parametros.put("nomeUsuario", nameUser);
+            // Sub Relatório
+            try {
+                parametros.put("REPORT_CONNECTION", conecta.stmt.getConnection());
+            } catch (SQLException ex) {
+            }
+            JRResultSetDataSource relatResul = new JRResultSetDataSource(conecta.rs); // Passa o resulSet Preenchido para o relatorio                                   
+            JasperPrint jpPrint = JasperFillManager.fillReport(path, parametros, relatResul); // indica o caminmhodo relatório
+            JasperViewer jv = new JasperViewer(jpPrint, false); // Cria instancia para impressao          
+            jv.setExtendedState(JasperViewer.MAXIMIZED_BOTH); // Maximizar o relatório
+            jv.setTitle("Relatório de Chamado no Desenvolvimento");
+            jv.setVisible(true); // Chama o relatorio para ser visualizado                                    
+            jv.toFront(); // Traz o relatorio para frente da aplicação            
+            conecta.desconecta();
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(rootPane, "Erro ao chamar o Relatório. \n\nERRO :" + e);
         }
         conecta.desconecta();
     }
@@ -2199,7 +2465,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 dataEntrada = dia + "/" + mes + "/" + ano;
                 count0 = count0 + 1;
                 jtotalRegistros.setText(Integer.toString(count0)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{conecta.rs.getInt("IdItem"), dataEntrada, conecta.rs.getString("HorarioInicio"), conecta.rs.getString("HorarioTermino"), conecta.rs.getString("TextoSuporte")});
+                dados.add(new Object[]{conecta.rs.getInt("IdItemDes"), dataEntrada, conecta.rs.getString("HorarioInicio"), conecta.rs.getString("HorarioTermino"), conecta.rs.getString("TextoSuporte")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
         }

@@ -7,9 +7,16 @@ package Visao;
 
 import Controle.ModeloTabela;
 import Dao.ConexaoBancoDados;
-import static Visao.TelaChamadoDesenvolvimento.jIdChamado;
+import static Visao.TelaChamadoDesenvolvimento.jDataOcorrenciaSup;
+import static Visao.TelaChamadoDesenvolvimento.jHorarioInicioSup;
+import static Visao.TelaChamadoDesenvolvimento.jHorarioTerminoSup;
+import static Visao.TelaChamadoDesenvolvimento.jIdItemSup;
+import static Visao.TelaChamadoDesenvolvimento.idModulo;
 import static Visao.TelaChamadoDesenvolvimento.jModulo;
+import static Visao.TelaChamadoDesenvolvimento.jModuloSup;
+import static Visao.TelaChamadoDesenvolvimento.idSoftware;
 import static Visao.TelaChamadoDesenvolvimento.jSoftware;
+import static Visao.TelaChamadoDesenvolvimento.jSoftwareSup;
 import static Visao.TelaChamadoDesenvolvimento.jTextoSuporte;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -31,6 +38,7 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
     String dataInicial, dataFinal, dataBrasil;
     String dataEntrada;
     String tipoSuporte = "SUPORTE TÉCNICO";
+    String utilizado = "Não";
 
     /**
      * Creates new form TelaBuscarChamadosSuporte
@@ -200,7 +208,7 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Código", "Data", "Solicitante", "Texto do Suporte Técnico"
+                "Código", "Item", "Data", "Hora Inicial", "Hora Termino", "Solicitante", "Texto do Suporte Técnico"
             }
         ));
         jTabelaChamdosSup.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -212,12 +220,18 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
         if (jTabelaChamdosSup.getColumnModel().getColumnCount() > 0) {
             jTabelaChamdosSup.getColumnModel().getColumn(0).setMinWidth(70);
             jTabelaChamdosSup.getColumnModel().getColumn(0).setMaxWidth(70);
-            jTabelaChamdosSup.getColumnModel().getColumn(1).setMinWidth(80);
-            jTabelaChamdosSup.getColumnModel().getColumn(1).setMaxWidth(80);
-            jTabelaChamdosSup.getColumnModel().getColumn(2).setMinWidth(300);
-            jTabelaChamdosSup.getColumnModel().getColumn(2).setMaxWidth(300);
-            jTabelaChamdosSup.getColumnModel().getColumn(3).setMinWidth(550);
-            jTabelaChamdosSup.getColumnModel().getColumn(3).setMaxWidth(550);
+            jTabelaChamdosSup.getColumnModel().getColumn(1).setMinWidth(70);
+            jTabelaChamdosSup.getColumnModel().getColumn(1).setMaxWidth(70);
+            jTabelaChamdosSup.getColumnModel().getColumn(2).setMinWidth(80);
+            jTabelaChamdosSup.getColumnModel().getColumn(2).setMaxWidth(80);
+            jTabelaChamdosSup.getColumnModel().getColumn(3).setMinWidth(80);
+            jTabelaChamdosSup.getColumnModel().getColumn(3).setMaxWidth(80);
+            jTabelaChamdosSup.getColumnModel().getColumn(4).setMinWidth(80);
+            jTabelaChamdosSup.getColumnModel().getColumn(4).setMaxWidth(80);
+            jTabelaChamdosSup.getColumnModel().getColumn(5).setMinWidth(250);
+            jTabelaChamdosSup.getColumnModel().getColumn(5).setMaxWidth(250);
+            jTabelaChamdosSup.getColumnModel().getColumn(6).setMinWidth(550);
+            jTabelaChamdosSup.getColumnModel().getColumn(6).setMaxWidth(550);
         }
 
         jPanel32.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED)));
@@ -340,19 +354,16 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
         if (jIdChamadoPesquisa.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
         } else {
-            preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
-                    + "INNER JOIN USUARIOS "
-                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                    + "INNER JOIN SOFTWARE "
-                    + "ON CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
-                    + "INNER JOIN MODULOS "
-                    + "ON CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
+            preencherTabelaChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO "
+                    + "INNER JOIN CHAMADOS_SUPORTE "
+                    + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
                     + "INNER JOIN SOLICITANTES "
-                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
-                    + "WHERE CHAMADOS_SUPORTE.IdCHSup='" + jIdChamadoPesquisa.getText() + "' "
-                    + "AND CHAMADOS_SUPORTE.TipoChamado='" + tipoSuporte + "'");
+                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
+                    + "INNER JOIN MODULOS "
+                    + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdModulo=MODULOS.IdModulo "
+                    + "INNER JOIN SOFTWARE "
+                    + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdSoftware=SOFTWARE.IdSoftware  "
+                    + "WHERE ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdCHSup='" + jIdChamadoPesquisa.getText() + "' AND ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.Utilizado='" + utilizado + "'");
         }
     }//GEN-LAST:event_jBtPesqCHCodigoActionPerformed
 
@@ -361,20 +372,15 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
         count = 0;
         flag = 1;
         if (evt.getStateChange() == evt.SELECTED) {
-            this.preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
-                    + "INNER JOIN USUARIOS "
-                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                    + "INNER JOIN SOFTWARE "
-                    + "ON CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
-                    + "INNER JOIN MODULOS "
-                    + "ON CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
+            this.preencherTabelaChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO "
+                    + "INNER JOIN CHAMADOS_SUPORTE "
+                    + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
                     + "INNER JOIN SOLICITANTES "
                     + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
-                    + "INNER JOIN ITENS_CHAMADOS_SUPORTE "
-                    + "ON CHAMADOS_SUPORTE.IdCHSup=ITENS_CHAMADOS_SUPORTE.IdCHSup "
-                    + "WHERE ITENS_CHAMADOS_SUPORTE.TipoChamado='" + tipoSuporte + "'");
+                    + "INNER JOIN MODULOS "
+                    + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdModulo=MODULOS.IdModulo "
+                    + "INNER JOIN SOFTWARE "
+                    + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdSoftware=SOFTWARE.IdSoftware WHERE ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.Utilizado='" + utilizado + "'");
         } else {
             jtotalRegistros.setText("");
             limparTabelaFornecedor();
@@ -399,22 +405,17 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
                     SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
                     dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
                     dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                    preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
-                            + "INNER JOIN USUARIOS "
-                            + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                            + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                            + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                            + "INNER JOIN SOFTWARE "
-                            + "ON CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
-                            + "INNER JOIN MODULOS "
-                            + "ON CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
+                    preencherTabelaChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO "
+                            + "INNER JOIN CHAMADOS_SUPORTE "
+                            + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
                             + "INNER JOIN SOLICITANTES "
                             + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
-                            + "INNER JOIN ITENS_CHAMADOS_SUPORTE "
-                            + "ON CHAMADOS_SUPORTE.IdCHSup=ITENS_CHAMADOS_SUPORTE.IdCHSup  "
-                            + "WHERE DataCha BETWEEN'" + dataInicial + "' "
-                            + "AND '" + dataFinal + "' "
-                            + "AND ITENS_CHAMADOS_SUPORTE.TipoChamado='" + tipoSuporte + "'");
+                            + "INNER JOIN MODULOS "
+                            + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdModulo=MODULOS.IdModulo "
+                            + "INNER JOIN SOFTWARE "
+                            + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdSoftware=SOFTWARE.IdSoftware  "
+                            + "WHERE DataItemCha BETWEEN'" + dataInicial + "' "
+                            + "AND '" + dataFinal + "' AND ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.Utilizado='" + utilizado + "'");
                 }
             }
         }
@@ -426,21 +427,16 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
         if (jPesqSolicitante.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "É necessário informar um nome ou parte do nome para pesquuisa.");
         } else {
-            preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
-                    + "INNER JOIN USUARIOS "
-                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                    + "INNER JOIN SOFTWARE "
-                    + "ON CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
-                    + "INNER JOIN MODULOS "
-                    + "ON CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
+            preencherTabelaChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO "
+                    + "INNER JOIN CHAMADOS_SUPORTE "
+                    + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
                     + "INNER JOIN SOLICITANTES "
                     + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
-                    + "INNER JOIN ITENS_CHAMADOS_SUPORTE "
-                    + "ON CHAMADOS_SUPORTE.IdCHSup=ITENS_CHAMADOS_SUPORTE.IdCHSup "
-                    + "WHERE SOLICITANTES.NomeSolicitante LIKE'%" + jPesqSolicitante.getText() + "%' "
-                    + "AND ITENS_CHAMADOS_SUPORTE.TipoChamado='" + tipoSuporte + "'");
+                    + "INNER JOIN MODULOS "
+                    + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdModulo=MODULOS.IdModulo "
+                    + "INNER JOIN SOFTWARE "
+                    + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdSoftware=SOFTWARE.IdSoftware "
+                    + "WHERE SOLICITANTES.NomeSolicitante LIKE'%" + jPesqSolicitante.getText() + "%' AND ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.Utilizado='" + utilizado + "'");
         }
     }//GEN-LAST:event_jBtSolicitanteActionPerformed
 
@@ -448,8 +444,11 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
         // TODO add your handling code here:
         flag = 1;
         if (flag == 1) {
-            String idSoli = "" + jTabelaChamdosSup.getValueAt(jTabelaChamdosSup.getSelectedRow(), 0);
-            jIdChamadoPesquisa.setText(idSoli);
+            String idChamado = "" + jTabelaChamdosSup.getValueAt(jTabelaChamdosSup.getSelectedRow(), 1);
+            jIdChamadoPesquisa.setText(idChamado);
+            //
+            String solicitante= "" + jTabelaChamdosSup.getValueAt(jTabelaChamdosSup.getSelectedRow(), 5);
+            jPesqSolicitante.setText(solicitante);
         }
     }//GEN-LAST:event_jTabelaChamdosSupMouseClicked
 
@@ -457,30 +456,34 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
         // TODO add your handling code here:
         flag = 1;
         if (flag == 1) {
-            String idSoli = "" + jTabelaChamdosSup.getValueAt(jTabelaChamdosSup.getSelectedRow(), 0);
+            String idSoli = "" + jTabelaChamdosSup.getValueAt(jTabelaChamdosSup.getSelectedRow(), 1);
             jIdChamadoPesquisa.setText(idSoli);
             //
             conecta.abrirConexao();
             try {
-                conecta.executaSQL("SELECT * FROM CHAMADOS_SUPORTE "
-                        + "INNER JOIN USUARIOS "
-                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                        + "INNER JOIN SOFTWARE "
-                        + "ON CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
-                        + "INNER JOIN MODULOS "
-                        + "ON CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
+                conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO "
+                        + "INNER JOIN CHAMADOS_SUPORTE "
+                        + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
                         + "INNER JOIN SOLICITANTES "
                         + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
-                        + "INNER JOIN ITENS_CHAMADOS_SUPORTE "
-                        + "ON CHAMADOS_SUPORTE.IdCHSup=ITENS_CHAMADOS_SUPORTE.IdCHSup "
-                        + "WHERE CHAMADOS_SUPORTE.IdCHSup='" + idSoli + "'");
+                        + "INNER JOIN MODULOS "
+                        + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdModulo=MODULOS.IdModulo "
+                        + "INNER JOIN SOFTWARE "
+                        + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdSoftware=SOFTWARE.IdSoftware "
+                        + "WHERE ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdItem='" + idSoli + "'");
                 conecta.rs.first();
-                jIdChamado.setText(String.valueOf(conecta.rs.getInt("IdCHSup")));
-                jSoftware.setText(conecta.rs.getString("DescricaoSoftware"));
-                jModulo.setText(conecta.rs.getString("DescricaoModulo"));
+                jIdItemSup.setText(String.valueOf(conecta.rs.getInt("IdItem")));
+                jDataOcorrenciaSup.setDate(conecta.rs.getDate("DataItemCh"));
+                jHorarioInicioSup.setText(conecta.rs.getString("HorarioInicio"));
+                jHorarioTerminoSup.setText(conecta.rs.getString("HorarioTermino"));
+                jSoftwareSup.setText(conecta.rs.getString("DescricaoSoftware"));                
+                jModuloSup.setText(conecta.rs.getString("DescricaoModulo"));
                 jTextoSuporte.setText(conecta.rs.getString("TextoSuporte"));
+                //
+                idSoftware = conecta.rs.getInt("IdSoftware");                
+                jSoftware.setText(conecta.rs.getString("DescricaoSoftware"));
+                idModulo = conecta.rs.getInt("IdModulo");   
+                jModulo.setText(conecta.rs.getString("DescricaoModulo"));
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
             }
@@ -563,7 +566,7 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
 
     public void preencherTabelaChamados(String sql) {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Código", "Data", "Solicitante", "Texto do Suporte Técnico"};
+        String[] Colunas = new String[]{"Código", "Item", "Data", "Hora Inicial", "Hora Termino", "Solicitante", "Texto do Suporte Técnico"};
         conecta.abrirConexao();
         conecta.executaSQL(sql);
         try {
@@ -577,7 +580,7 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
                 dataBrasil = dia + "/" + mes + "/" + ano;
                 count = count + 1;
                 jtotalRegistros.setText(Integer.toString(count)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{conecta.rs.getInt("IdItem"), dataBrasil, conecta.rs.getString("NomeSolicitante"), conecta.rs.getString("TextoSuporte")});
+                dados.add(new Object[]{conecta.rs.getInt("IdCHSup"), conecta.rs.getInt("IdItem"), dataBrasil, conecta.rs.getString("HorarioInicio"), conecta.rs.getString("HorarioTermino"),conecta.rs.getString("NomeSolicitante"), conecta.rs.getString("TextoSuporte")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem exibidos....");
@@ -585,13 +588,19 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
         jTabelaChamdosSup.setModel(modelo);
         jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
-        jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);        
-        jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(200);
+        jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(70);
         jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(300);
+        jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(70);
         jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(550);
+        jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(80);
         jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(80);
+        jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(250);
+        jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(6).setPreferredWidth(550);
+        jTabelaChamdosSup.getColumnModel().getColumn(6).setResizable(false);
         jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
         jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
         jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -610,21 +619,31 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
         direita.setHorizontalAlignment(SwingConstants.RIGHT);
         //
         jTabelaChamdosSup.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+        jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+        jTabelaChamdosSup.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+        jTabelaChamdosSup.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+        jTabelaChamdosSup.getColumnModel().getColumn(4).setCellRenderer(centralizado);
     }
 
     public void limparTabelaFornecedor() {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Código", "Data", "Solicitante", "Texto do Suporte Técnico"};
+        String[] Colunas = new String[]{"Código", "Item", "Data", "Hora Inicial", "Hora Termino", "Solicitante", "Texto do Suporte Técnico"};
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
         jTabelaChamdosSup.setModel(modelo);
         jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
-        jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);        
-        jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(200);
+        jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(70);
         jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(300);
+        jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(70);
         jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(550);
+        jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(80);
         jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(80);
+        jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(250);
+        jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(6).setPreferredWidth(550);
+        jTabelaChamdosSup.getColumnModel().getColumn(6).setResizable(false);
         jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
         jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
         jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
