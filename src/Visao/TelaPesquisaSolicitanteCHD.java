@@ -7,10 +7,11 @@ package Visao;
 
 import Controle.ModeloTabela;
 import Dao.ConexaoBancoDados;
-import static Visao.TelaChamadoSuporte.jSoftware;
-import static Visao.TelaChamadoSuporte.idSoftware;
-import static Visao.TelaChamadoSuporte.jModulo;
-import static Visao.TelaChamadoSuporte.idModulo;
+import static Visao.TelaChamadoDesenvolvimento.jUnidadePrisional;
+import static Visao.TelaChamadoDesenvolvimento.idEmpresa;
+import static Visao.TelaChamadoDesenvolvimento.idUnidade;
+import static Visao.TelaChamadoDesenvolvimento.idSolicitante;
+import static Visao.TelaChamadoDesenvolvimento.jSolicitante;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -22,7 +23,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author ronal
  */
-public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
+public class TelaPesquisaSolicitanteCHD extends javax.swing.JDialog {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     //
@@ -32,12 +33,12 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
     /**
      * Creates new form TelaPesquisaSolicitanteCH
      */
-    public static TelaChamadoSuporte chamaSup;
+    public static TelaChamadoDesenvolvimento chamaSupD;
 
-    public TelaPesquisaSoftwareModulo(TelaChamadoSuporte parent, boolean modal) {
-        this.chamaSup = parent;
+    public TelaPesquisaSolicitanteCHD(TelaChamadoDesenvolvimento parent, boolean modal) {
+        this.chamaSupD = parent;
         this.setModal(modal);
-        setLocationRelativeTo(chamaSup);
+        setLocationRelativeTo(chamaSupD);
         initComponents();
     }
 
@@ -55,11 +56,11 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jCodigo = new javax.swing.JTextField();
         jNomeSolicitantePes = new javax.swing.JTextField();
-        jBtSoftware = new javax.swing.JButton();
+        jBtSolicitante = new javax.swing.JButton();
         jBtCodigo = new javax.swing.JButton();
         jCheckBoxTodos = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTabelaSoftwareModulo = new javax.swing.JTable();
+        jTabelaSolicitantes = new javax.swing.JTable();
         jPanel31 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
         jLabel63 = new javax.swing.JLabel();
@@ -77,18 +78,18 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
         jLabel1.setText("Código:");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel2.setText("Nome do Software:");
+        jLabel2.setText("Nome Solicitante:");
 
         jCodigo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jNomeSolicitantePes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
-        jBtSoftware.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
-        jBtSoftware.setToolTipText("Pesquisar Solicitante pelo nome.");
-        jBtSoftware.setContentAreaFilled(false);
-        jBtSoftware.addActionListener(new java.awt.event.ActionListener() {
+        jBtSolicitante.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
+        jBtSolicitante.setToolTipText("Pesquisar Solicitante pelo nome.");
+        jBtSolicitante.setContentAreaFilled(false);
+        jBtSolicitante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtSoftwareActionPerformed(evt);
+                jBtSolicitanteActionPerformed(evt);
             }
         });
 
@@ -123,7 +124,7 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jNomeSolicitantePes, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jBtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -146,34 +147,34 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel2)
                     .addComponent(jNomeSolicitantePes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtSoftware))
+                    .addComponent(jBtSolicitante))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabelaSoftwareModulo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jTabelaSoftwareModulo.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaSolicitantes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTabelaSolicitantes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "Nome do Software", "Versão", "Nome do Módulo"
+                "Código", "Nome do Solicitante", "Unidade Prisional", "Cidade"
             }
         ));
-        jTabelaSoftwareModulo.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTabelaSolicitantes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTabelaSoftwareModuloMouseClicked(evt);
+                jTabelaSolicitantesMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTabelaSoftwareModulo);
-        if (jTabelaSoftwareModulo.getColumnModel().getColumnCount() > 0) {
-            jTabelaSoftwareModulo.getColumnModel().getColumn(0).setMinWidth(60);
-            jTabelaSoftwareModulo.getColumnModel().getColumn(0).setMaxWidth(60);
-            jTabelaSoftwareModulo.getColumnModel().getColumn(1).setMinWidth(350);
-            jTabelaSoftwareModulo.getColumnModel().getColumn(1).setMaxWidth(350);
-            jTabelaSoftwareModulo.getColumnModel().getColumn(2).setMinWidth(100);
-            jTabelaSoftwareModulo.getColumnModel().getColumn(2).setMaxWidth(100);
-            jTabelaSoftwareModulo.getColumnModel().getColumn(3).setMinWidth(250);
-            jTabelaSoftwareModulo.getColumnModel().getColumn(3).setMaxWidth(250);
+        jScrollPane1.setViewportView(jTabelaSolicitantes);
+        if (jTabelaSolicitantes.getColumnModel().getColumnCount() > 0) {
+            jTabelaSolicitantes.getColumnModel().getColumn(0).setMinWidth(60);
+            jTabelaSolicitantes.getColumnModel().getColumn(0).setMaxWidth(60);
+            jTabelaSolicitantes.getColumnModel().getColumn(1).setMinWidth(350);
+            jTabelaSolicitantes.getColumnModel().getColumn(1).setMaxWidth(350);
+            jTabelaSolicitantes.getColumnModel().getColumn(2).setMinWidth(250);
+            jTabelaSolicitantes.getColumnModel().getColumn(2).setMaxWidth(250);
+            jTabelaSolicitantes.getColumnModel().getColumn(3).setMinWidth(300);
+            jTabelaSolicitantes.getColumnModel().getColumn(3).setMaxWidth(300);
         }
 
         jPanel31.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED)));
@@ -294,10 +295,12 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
         if (jCodigo.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
         } else {
-            pesquisarSolicitantes("SELECT * FROM SOFTWARE "
-                    + "INNER JOIN MODULOS "
-                    + "ON SOFTWARE.IdSoftware=MODULOS.IdSoftware  "
-                    + "WHERE SOFTWARE.IdSoftware='" + jCodigo.getText() + "'");
+            pesquisarSolicitantes("SELECT * FROM SOLICITANTES "
+                    + "INNER JOIN EMPRESA "
+                    + "ON SOLICITANTES.IdEmpresa=EMPRESA.IdEmpresa "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON SOLICITANTES.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp  "
+                    + "WHERE SOLICITANTES.IdSolicitante='" + jCodigo.getText() + "'");
         }
     }//GEN-LAST:event_jBtCodigoActionPerformed
 
@@ -306,49 +309,57 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
         count = 0;
         flag = 1;
         if (evt.getStateChange() == evt.SELECTED) {
-            this.pesquisarSolicitantes("SELECT * FROM SOFTWARE "
-                    + "INNER JOIN MODULOS "
-                    + "ON SOFTWARE.IdSoftware=MODULOS.IdSoftware ");
+            this.pesquisarSolicitantes("SELECT * FROM SOLICITANTES "
+                    + "INNER JOIN EMPRESA "
+                    + "ON SOLICITANTES.IdEmpresa=EMPRESA.IdEmpresa "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON SOLICITANTES.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp ");
         } else {
             jtotalRegistros.setText("");
             limparTabela();
         }
     }//GEN-LAST:event_jCheckBoxTodosItemStateChanged
 
-    private void jBtSoftwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSoftwareActionPerformed
+    private void jBtSolicitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSolicitanteActionPerformed
         // TODO add your handling code here:
         if (jNomeSolicitantePes.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Informe o nome do solicitante para pesquisa.");
         } else {
-            pesquisarSolicitantes("SELECT * FROM SOFTWARE "
-                    + "INNER JOIN MODULOS "
-                    + "ON SOFTWARE.IdSoftware=MODULOS.IdSoftware "
-                    + "WHERE SOFTWARE.DescricaoSoftware "
+            pesquisarSolicitantes("SELECT * FROM SOLICITANTES "
+                    + "INNER JOIN EMPRESA "
+                    + "ON SOLICITANTES.IdEmpresa=EMPRESA.IdEmpresa "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON SOLICITANTES.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp  "
+                    + "WHERE SOLICITANTES.NomeSolicitante "
                     + "LIKE'%" + jNomeSolicitantePes + "%'");
         }
-    }//GEN-LAST:event_jBtSoftwareActionPerformed
+    }//GEN-LAST:event_jBtSolicitanteActionPerformed
 
     private void jBtConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtConfirmarActionPerformed
         // TODO add your handling code here:
         flag = 1;
         if (flag == 1) {
-            String idSoft = "" + jTabelaSoftwareModulo.getValueAt(jTabelaSoftwareModulo.getSelectedRow(), 0);
-            jCodigo.setText(idSoft);
+            String idSoli = "" + jTabelaSolicitantes.getValueAt(jTabelaSolicitantes.getSelectedRow(), 0);
+            jCodigo.setText(idSoli);
             //
-            String nomeMod = "" + jTabelaSoftwareModulo.getValueAt(jTabelaSoftwareModulo.getSelectedRow(), 3);
+            String nomeUnid = "" + jTabelaSolicitantes.getValueAt(jTabelaSolicitantes.getSelectedRow(), 2);
             //
             conecta.abrirConexao();
             try {
-                conecta.executaSQL("SELECT * FROM SOFTWARE "
-                        + "INNER JOIN MODULOS "
-                        + "ON SOFTWARE.IdSoftware=MODULOS.IdSoftware  "
-                        + "WHERE SOFTWARE.IdSoftware='" + idSoft + "' "
-                        + "AND MODULOS.DescricaoModulo='" + nomeMod + "'");
+                conecta.executaSQL("SELECT * FROM SOLICITANTES "
+                        + "INNER JOIN EMPRESA "
+                        + "ON SOLICITANTES.IdEmpresa=EMPRESA.IdEmpresa "
+                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                        + "ON EMPRESA.IdEmpresa=UNIDADE_PENAL_EMPRESA.IdEmpresa "
+                        + "WHERE IdSolicitante='" + idSoli + "' "
+                        + "AND DescricaoUnidade='" + nomeUnid + "'");
                 conecta.rs.first();
-                idSoftware = conecta.rs.getInt("IdSoftware");
-                jSoftware.setText(conecta.rs.getString("DescricaoSoftware"));
-                idModulo = conecta.rs.getInt("IdModulo");
-                jModulo.setText(conecta.rs.getString("DescricaoModulo"));
+                idSolicitante = conecta.rs.getInt("IdSolicitante");
+                jSolicitante.setText(conecta.rs.getString("NomeSolicitante"));
+                idEmpresa = conecta.rs.getInt("IdEmpresa");
+//                jDescricaoEmpresa.setText(conecta.rs.getString("RazaoSocial"));
+                idUnidade = conecta.rs.getInt("IdUnidEmp");
+                jUnidadePrisional.setText(conecta.rs.getString("DescricaoUnidade"));
                 conecta.desconecta();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
@@ -362,35 +373,33 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jBtSairActionPerformed
 
-    private void jTabelaSoftwareModuloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaSoftwareModuloMouseClicked
+    private void jTabelaSolicitantesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaSolicitantesMouseClicked
         // TODO add your handling code here:
         flag = 1;
         if (flag == 1) {
-            String idSoft = "" + jTabelaSoftwareModulo.getValueAt(jTabelaSoftwareModulo.getSelectedRow(), 0);
-            jCodigo.setText(idSoft);
-            //
-            String nomeSoft = "" + jTabelaSoftwareModulo.getValueAt(jTabelaSoftwareModulo.getSelectedRow(), 1);
-            jNomeSolicitantePes.setText(nomeSoft);
+            String idSoli = "" + jTabelaSolicitantes.getValueAt(jTabelaSolicitantes.getSelectedRow(), 0);
+            jCodigo.setText(idSoli);
             //
             conecta.abrirConexao();
             try {
-                conecta.executaSQL("SELECT * FROM SOFTWARE "
-                        + "INNER JOIN MODULOS "
-                        + "ON SOFTWARE.IdSoftware=MODULOS.IdSoftware  "
-                        + "WHERE SOFTWARE.IdSoftware='" + idSoft + "' "
-                        + "AND SOFTWARE.DescricaoSoftware='" + nomeSoft + "'");
+                conecta.executaSQL("SELECT * FROM SOLICITANTES "
+                        + "INNER JOIN EMPRESA "
+                        + "ON SOLICITANTES.IdEmpresa=EMPRESA.IdEmpresa "
+                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                        + "ON EMPRESA.IdEmpresa=UNIDADE_PENAL_EMPRESA.IdEmpresa "
+                        + "WHERE IdSolicitante='" + idSoli + "'");
                 conecta.rs.first();
-                idSoftware = conecta.rs.getInt("IdSoftware");
-                jSoftware.setText(conecta.rs.getString("DescricaoSoftware"));
-                idModulo = conecta.rs.getInt("IdModulo");
-                jModulo.setText(conecta.rs.getString("DescricaoModulo"));
-                conecta.desconecta();
+                idSolicitante = conecta.rs.getInt("IdSolicitante");
+                jNomeSolicitantePes.setText(conecta.rs.getString("NomeSolicitante"));
+                idEmpresa = conecta.rs.getInt("IdEmpresa");
+                idUnidade = conecta.rs.getInt("IdUnidEmp");
+                jUnidadePrisional.setText(conecta.rs.getString("DescricaoUnidade"));
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
             }
             conecta.desconecta();
         }
-    }//GEN-LAST:event_jTabelaSoftwareModuloMouseClicked
+    }//GEN-LAST:event_jTabelaSolicitantesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -409,13 +418,13 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaPesquisaSoftwareModulo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaPesquisaSolicitanteCHD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaPesquisaSoftwareModulo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaPesquisaSolicitanteCHD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaPesquisaSoftwareModulo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaPesquisaSolicitanteCHD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaPesquisaSoftwareModulo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaPesquisaSolicitanteCHD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -423,7 +432,7 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TelaPesquisaSoftwareModulo dialog = new TelaPesquisaSoftwareModulo(chamaSup, true);
+                TelaPesquisaSolicitanteCHD dialog = new TelaPesquisaSolicitanteCHD(chamaSupD, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -439,7 +448,7 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
     private javax.swing.JButton jBtCodigo;
     private javax.swing.JButton jBtConfirmar;
     private javax.swing.JButton jBtSair;
-    private javax.swing.JButton jBtSoftware;
+    private javax.swing.JButton jBtSolicitante;
     private javax.swing.JCheckBox jCheckBoxTodos;
     private javax.swing.JTextField jCodigo;
     private javax.swing.JLabel jLabel1;
@@ -451,13 +460,13 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel31;
     private javax.swing.JPanel jPanel32;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTabelaSoftwareModulo;
+    private javax.swing.JTable jTabelaSolicitantes;
     private javax.swing.JLabel jtotalRegistros;
     // End of variables declaration//GEN-END:variables
 
     public void pesquisarSolicitantes(String sql) {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Código", "Nome do Software", "Versão", "Nome do Módulo"};
+        String[] Colunas = new String[]{"Código", "Nome do Solicitante", "Unidade Prisional", "Cidade"};
         conecta.abrirConexao();
         try {
             conecta.executaSQL(sql);
@@ -465,44 +474,44 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
             do {
                 count = count + 1;
                 jtotalRegistros.setText(Integer.toString(count)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{conecta.rs.getInt("IdSoftware"), conecta.rs.getString("DescricaoSoftware"), conecta.rs.getString("VersaoSoftware"), conecta.rs.getString("DescricaoModulo")});
+                dados.add(new Object[]{conecta.rs.getInt("IdSolicitante"), conecta.rs.getString("NomeSolicitante"), conecta.rs.getString("DescricaoUnidade"), conecta.rs.getString("Cidade")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS !!!");
         }
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
-        jTabelaSoftwareModulo.setModel(modelo);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(0).setPreferredWidth(60);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(1).setPreferredWidth(350);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(2).setPreferredWidth(100);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(3).setPreferredWidth(250);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaSoftwareModulo.getTableHeader().setReorderingAllowed(false);
-        jTabelaSoftwareModulo.setAutoResizeMode(jTabelaSoftwareModulo.AUTO_RESIZE_OFF);
-        jTabelaSoftwareModulo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTabelaSolicitantes.setModel(modelo);
+        jTabelaSolicitantes.getColumnModel().getColumn(0).setPreferredWidth(60);
+        jTabelaSolicitantes.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaSolicitantes.getColumnModel().getColumn(1).setPreferredWidth(350);
+        jTabelaSolicitantes.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaSolicitantes.getColumnModel().getColumn(2).setPreferredWidth(250);
+        jTabelaSolicitantes.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaSolicitantes.getColumnModel().getColumn(3).setPreferredWidth(300);
+        jTabelaSolicitantes.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaSolicitantes.getTableHeader().setReorderingAllowed(false);
+        jTabelaSolicitantes.setAutoResizeMode(jTabelaSolicitantes.AUTO_RESIZE_OFF);
+        jTabelaSolicitantes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         alinharCamposTabela();
         conecta.desconecta();
     }
 
     public void limparTabela() {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Código", "Nome do Software", "Versão", "Nome do Módulo"};
+        String[] Colunas = new String[]{"Código", "Nome do Solicitante", "Unidade Prisional", "Cidade"};
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
-        jTabelaSoftwareModulo.setModel(modelo);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(0).setPreferredWidth(60);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(1).setPreferredWidth(350);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(2).setPreferredWidth(100);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(3).setPreferredWidth(250);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaSoftwareModulo.getTableHeader().setReorderingAllowed(false);
-        jTabelaSoftwareModulo.setAutoResizeMode(jTabelaSoftwareModulo.AUTO_RESIZE_OFF);
-        jTabelaSoftwareModulo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTabelaSolicitantes.setModel(modelo);
+        jTabelaSolicitantes.getColumnModel().getColumn(0).setPreferredWidth(60);
+        jTabelaSolicitantes.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaSolicitantes.getColumnModel().getColumn(1).setPreferredWidth(350);
+        jTabelaSolicitantes.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaSolicitantes.getColumnModel().getColumn(2).setPreferredWidth(250);
+        jTabelaSolicitantes.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaSolicitantes.getColumnModel().getColumn(3).setPreferredWidth(300);
+        jTabelaSolicitantes.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaSolicitantes.getTableHeader().setReorderingAllowed(false);
+        jTabelaSolicitantes.setAutoResizeMode(jTabelaSolicitantes.AUTO_RESIZE_OFF);
+        jTabelaSolicitantes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         modelo.getLinhas().clear();
     }
 
@@ -514,7 +523,6 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
         centralizado.setHorizontalAlignment(SwingConstants.CENTER);
         direita.setHorizontalAlignment(SwingConstants.RIGHT);
         //
-        jTabelaSoftwareModulo.getColumnModel().getColumn(0).setCellRenderer(centralizado);
-        jTabelaSoftwareModulo.getColumnModel().getColumn(2).setCellRenderer(direita);
+        jTabelaSolicitantes.getColumnModel().getColumn(0).setCellRenderer(centralizado);
     }
 }

@@ -6,16 +6,17 @@
 package Visao;
 
 import Controle.ModeloTabela;
-import Dao.ChamadosSuporteDao;
+import Dao.ChamadosDesenvolvimentoDao;
 import Dao.ConexaoBancoDados;
 import Dao.LogSistemaDao;
 import Modelo.ChamadoSuporte;
 import Modelo.LogSistema;
 import static Visao.LoginHD.nameUser;
-import static Visao.TelaPrincipal.botaoEncerrarSup;
-import static Visao.TelaPrincipal.botaoEnviarSup;
-import static Visao.TelaPrincipal.botaoImprimirSup;
-import static Visao.TelaPrincipal.botaoReabrirSup;
+import static Visao.TelaPrincipal.botaoBuscarCH;
+import static Visao.TelaPrincipal.botaoEncerrarDes;
+import static Visao.TelaPrincipal.botaoEnviarDes;
+import static Visao.TelaPrincipal.botaoImprimirDes;
+import static Visao.TelaPrincipal.botaoReabrirDes;
 import static Visao.TelaPrincipal.codAbrir;
 import static Visao.TelaPrincipal.codAlterar;
 import static Visao.TelaPrincipal.codConsultar;
@@ -28,38 +29,31 @@ import static Visao.TelaPrincipal.jDataSistema;
 import static Visao.TelaPrincipal.jHoraSistema;
 import static Visao.TelaPrincipal.jPainelPrincipal;
 import static Visao.TelaPrincipal.nomeTela;
-import static Visao.TelaPrincipal.telaChamadosSuporte;
-import static Visao.TelaPrincipal.telaItensChamadoSuporte;
+import static Visao.TelaPrincipal.telaChamadosDesenvolvimento;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRResultSetDataSource;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
  * @author ronal
  */
-public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
+public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     ChamadoSuporte objCHSup = new ChamadoSuporte();
-    ChamadosSuporteDao control = new ChamadosSuporteDao();
+    ChamadosDesenvolvimentoDao control = new ChamadosDesenvolvimentoDao();
     //
     LogSistemaDao controlLog = new LogSistemaDao();
     LogSistema objLogSys = new LogSistema();
     // Variáveis para gravar o log
-    String nomeModuloTela = "Suporte Técnico:Chamados:Manutenção";
+    String nomeModuloTela = "Desenvolvimento:Chamados:Manutenção";
     String statusMov;
     String horaMov;
     String dataModFinal;
@@ -76,43 +70,40 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     public static int idSoftware;
     public static int idModulo;
     //
-    String statusEncerrado = "ENCERRADO NO SUPORTE TÉCNICO";
-    String statusReabrir = "REABERTO NO SUPORTE TÉCNICO";
-    String statusDesenvol = "ENVIADO PARA O DESENVOLVIMENTO";
+    String statusEncerrado = "ENCERRADO NO DESENVOLVIMENTO";
+    String statusReabrir = "REABERTO NO DESENVOLVIMENTO";
+    String statusDesenvol = "ENVIADO PARA O SUPORTE TÉCNICO";
     //
-    String tipoSuporte = "SUPORTE TÉCNICO";
+    String tipoSuporte = "DESENVOLVIMENTO";
     //
-    int codigoSoftware = 0;
-    int codigoModulo = 0;
-    // FILTRAR CHAMADOS POR ATENTENTE
     String nomeAtendente = "";
 
     /**
      * Creates new form TelaChamadoSuporte
      */
-    public static TelaPesquisaSolicitanteCH pesqSoli;
-    public static TelaPesquisaSoftwareModulo pesqSM;
-    public static TelaEnvioChamadoSuporteDesenvolvimento enviaDadosDes;
+    public static TelaPesquisaSolicitanteCHD pesqSoli;
+    public static TelaPesquisaSoftwareModuloD pesqSM;
+    public static TelaBuscarChamadosSuporte buscaCH;
 
-    public TelaChamadoSuporte() {
+    public TelaChamadoDesenvolvimento() {
         initComponents();
         formatarCampos();
         corCampos();
     }
 
     public void mostrarPesquisa() {
-        pesqSoli = new TelaPesquisaSolicitanteCH(this, true);
+        pesqSoli = new TelaPesquisaSolicitanteCHD(this, true);
         pesqSoli.setVisible(true);
     }
 
     public void mostrarPesquisaSoft() {
-        pesqSM = new TelaPesquisaSoftwareModulo(this, true);
+        pesqSM = new TelaPesquisaSoftwareModuloD(this, true);
         pesqSM.setVisible(true);
     }
 
-    public void mostrarTelaEnvioChamdosDes() {
-        enviaDadosDes = new TelaEnvioChamadoSuporteDesenvolvimento(this, true);
-        enviaDadosDes.setVisible(true);
+    public void mostrarBuscaCH() {
+        buscaCH = new TelaBuscarChamadosSuporte(this, true);
+        buscaCH.setVisible(true);
     }
 
     /**
@@ -147,6 +138,21 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jBtPesqCHData = new javax.swing.JButton();
         jBtSolicitante = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jBtEncerrar = new javax.swing.JButton();
+        jBtImprimir = new javax.swing.JButton();
+        jBtEnviar = new javax.swing.JButton();
+        jBtReabrir = new javax.swing.JButton();
+        jBtDownLoadChamados = new javax.swing.JButton();
+        jBtAuditoriaItem = new javax.swing.JButton();
+        jBtSair = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        jBtNovo = new javax.swing.JButton();
+        jBtAlterar = new javax.swing.JButton();
+        jBtExcluir = new javax.swing.JButton();
+        jBtSalvar = new javax.swing.JButton();
+        jBtCancelar = new javax.swing.JButton();
+        jBtAuditoria = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -161,27 +167,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jUnidadePrisional = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jBtPesquisaSoli = new javax.swing.JButton();
-        jPanel8 = new javax.swing.JPanel();
-        jBtEncerrar = new javax.swing.JButton();
-        jBtImprimir = new javax.swing.JButton();
-        jBtEnviar = new javax.swing.JButton();
-        jBtReabrir = new javax.swing.JButton();
-        jBtSair = new javax.swing.JButton();
-        jBtAuditoriaItem = new javax.swing.JButton();
-        jPanel9 = new javax.swing.JPanel();
-        jBtNovo = new javax.swing.JButton();
-        jBtAlterar = new javax.swing.JButton();
-        jBtExcluir = new javax.swing.JButton();
-        jBtSalvar = new javax.swing.JButton();
-        jBtCancelar = new javax.swing.JButton();
-        jBtAuditoria = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTabelaItens = new javax.swing.JTable();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextoSuporte = new javax.swing.JTextArea();
         jHorarioInicio = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
         jHorarioTermino = new javax.swing.JFormattedTextField();
@@ -201,14 +189,18 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jBtAlterarItem = new javax.swing.JButton();
         jBtNovoItem = new javax.swing.JButton();
         jBtExcluirItem = new javax.swing.JButton();
-        jPanel7 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextoDesenvolvimento = new javax.swing.JTextArea();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextoSuporte = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTabelaItens = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("...::: Chamados de Suporte Técnico :::...");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskFem_16.png"))); // NOI18N
+        setTitle("...::: Chamados do Desenvolvimento :::...");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskMas_16.png"))); // NOI18N
 
         jTabbedPane1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
@@ -346,7 +338,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(88, 88, 88)
+                .addGap(46, 46, 46)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -360,21 +352,19 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(191, 191, 191))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jPesqSolicitante)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jIdChamadoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtPesqCHCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 326, Short.MAX_VALUE)
-                                .addComponent(jCheckBoxTodosCH)))
-                        .addGap(114, 114, 114))))
+                        .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel10Layout.createSequentialGroup()
+                            .addComponent(jIdChamadoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jBtPesqCHCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(427, 427, 427)
+                            .addComponent(jCheckBoxTodosCH))
+                        .addGroup(jPanel10Layout.createSequentialGroup()
+                            .addComponent(jPesqSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jBtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,13 +400,13 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1)
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -426,7 +416,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -436,6 +426,223 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         );
 
         jTabbedPane1.addTab("Listagem", jPanel3);
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
+
+        jBtEncerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/061218140238_16.png"))); // NOI18N
+        jBtEncerrar.setText("Encerrar");
+        jBtEncerrar.setToolTipText("Encerrar Chamado");
+        jBtEncerrar.setEnabled(false);
+        jBtEncerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtEncerrarActionPerformed(evt);
+            }
+        });
+
+        jBtImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/gtklp-icone-3770-16.png"))); // NOI18N
+        jBtImprimir.setText("Imprimir");
+        jBtImprimir.setToolTipText("Imprimir Chamado");
+        jBtImprimir.setEnabled(false);
+        jBtImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtImprimirActionPerformed(evt);
+            }
+        });
+
+        jBtEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/40_16x16.png"))); // NOI18N
+        jBtEnviar.setText("Enviar");
+        jBtEnviar.setToolTipText("Enviar para Desenvolvimento");
+        jBtEnviar.setEnabled(false);
+        jBtEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtEnviarActionPerformed(evt);
+            }
+        });
+
+        jBtReabrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fileopen.png"))); // NOI18N
+        jBtReabrir.setText("Reabrir");
+        jBtReabrir.setToolTipText("Reabrir Chamado");
+        jBtReabrir.setEnabled(false);
+        jBtReabrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtReabrirActionPerformed(evt);
+            }
+        });
+
+        jBtDownLoadChamados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Download-16.png"))); // NOI18N
+        jBtDownLoadChamados.setText("Importar");
+        jBtDownLoadChamados.setToolTipText("Importar Chamados do Suporte Técnico");
+        jBtDownLoadChamados.setEnabled(false);
+        jBtDownLoadChamados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtDownLoadChamadosActionPerformed(evt);
+            }
+        });
+
+        jBtAuditoriaItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/book_open.png"))); // NOI18N
+        jBtAuditoriaItem.setToolTipText("Auditoria");
+        jBtAuditoriaItem.setContentAreaFilled(false);
+        jBtAuditoriaItem.setEnabled(false);
+        jBtAuditoriaItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtAuditoriaItemActionPerformed(evt);
+            }
+        });
+
+        jBtSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/shutdown-icone-6920-16.png"))); // NOI18N
+        jBtSair.setText("Sair");
+        jBtSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtSairActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBtReabrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBtEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBtImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBtDownLoadChamados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(12, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                                .addComponent(jBtSair, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                                .addComponent(jBtAuditoriaItem, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(43, 43, 43))))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBtEncerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel8Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtDownLoadChamados, jBtEncerrar, jBtEnviar, jBtImprimir, jBtReabrir, jBtSair});
+
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jBtEncerrar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jBtImprimir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtEnviar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtReabrir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtDownLoadChamados)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtAuditoriaItem, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jBtSair)
+                .addContainerGap())
+        );
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
+
+        jBtNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/page_add.png"))); // NOI18N
+        jBtNovo.setText("Novo");
+        jBtNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtNovoActionPerformed(evt);
+            }
+        });
+
+        jBtAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/8437_16x16.png"))); // NOI18N
+        jBtAlterar.setText("Alterar");
+        jBtAlterar.setEnabled(false);
+        jBtAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtAlterarActionPerformed(evt);
+            }
+        });
+
+        jBtExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/191216104515_16.png"))); // NOI18N
+        jBtExcluir.setText("Excluir");
+        jBtExcluir.setEnabled(false);
+        jBtExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtExcluirActionPerformed(evt);
+            }
+        });
+
+        jBtSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/1294_16x16.png"))); // NOI18N
+        jBtSalvar.setText("Gravar");
+        jBtSalvar.setEnabled(false);
+        jBtSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtSalvarActionPerformed(evt);
+            }
+        });
+
+        jBtCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Button_Close_Icon_16.png"))); // NOI18N
+        jBtCancelar.setText("Cancelar");
+        jBtCancelar.setEnabled(false);
+        jBtCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtCancelarActionPerformed(evt);
+            }
+        });
+
+        jBtAuditoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/book_open.png"))); // NOI18N
+        jBtAuditoria.setToolTipText("Auditoria");
+        jBtAuditoria.setContentAreaFilled(false);
+        jBtAuditoria.setEnabled(false);
+        jBtAuditoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtAuditoriaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBtAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBtNovo)
+                            .addComponent(jBtExcluir)
+                            .addComponent(jBtSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBtCancelar)))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(jBtAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        jPanel9Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtAlterar, jBtCancelar, jBtExcluir, jBtNovo, jBtSalvar});
+
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jBtNovo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtAlterar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtExcluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtSalvar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtCancelar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jBtAuditoria)
+                .addContainerGap())
+        );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
 
@@ -558,241 +765,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
-
-        jBtEncerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/061218140238_16.png"))); // NOI18N
-        jBtEncerrar.setText("Encerrar");
-        jBtEncerrar.setToolTipText("Encerrar Chamado");
-        jBtEncerrar.setEnabled(false);
-        jBtEncerrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtEncerrarActionPerformed(evt);
-            }
-        });
-
-        jBtImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/gtklp-icone-3770-16.png"))); // NOI18N
-        jBtImprimir.setText("Imprimir");
-        jBtImprimir.setToolTipText("Imprimir Chamado");
-        jBtImprimir.setEnabled(false);
-        jBtImprimir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtImprimirActionPerformed(evt);
-            }
-        });
-
-        jBtEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/upload-16.png"))); // NOI18N
-        jBtEnviar.setText("Enviar");
-        jBtEnviar.setToolTipText("Enviar para Desenvolvimento");
-        jBtEnviar.setEnabled(false);
-        jBtEnviar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtEnviarActionPerformed(evt);
-            }
-        });
-
-        jBtReabrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fileopen.png"))); // NOI18N
-        jBtReabrir.setText("Reabrir");
-        jBtReabrir.setToolTipText("Reabrir Chamado");
-        jBtReabrir.setEnabled(false);
-        jBtReabrir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtReabrirActionPerformed(evt);
-            }
-        });
-
-        jBtSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/shutdown-icone-6920-16.png"))); // NOI18N
-        jBtSair.setText("Sair");
-        jBtSair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtSairActionPerformed(evt);
-            }
-        });
-
-        jBtAuditoriaItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/book_open.png"))); // NOI18N
-        jBtAuditoriaItem.setToolTipText("Auditoria");
-        jBtAuditoriaItem.setContentAreaFilled(false);
-        jBtAuditoriaItem.setEnabled(false);
-        jBtAuditoriaItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtAuditoriaItemActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBtReabrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtEncerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBtAuditoriaItem, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
-        );
-
-        jPanel8Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtEncerrar, jBtEnviar, jBtImprimir, jBtReabrir, jBtSair});
-
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jBtEncerrar)
-                .addGap(37, 37, 37)
-                .addComponent(jBtEnviar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtReabrir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtImprimir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtAuditoriaItem)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(jBtSair)
-                .addContainerGap())
-        );
-
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
-
-        jBtNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/page_add.png"))); // NOI18N
-        jBtNovo.setText("Novo");
-        jBtNovo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtNovoActionPerformed(evt);
-            }
-        });
-
-        jBtAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/8437_16x16.png"))); // NOI18N
-        jBtAlterar.setText("Alterar");
-        jBtAlterar.setEnabled(false);
-        jBtAlterar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtAlterarActionPerformed(evt);
-            }
-        });
-
-        jBtExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/191216104515_16.png"))); // NOI18N
-        jBtExcluir.setText("Excluir");
-        jBtExcluir.setEnabled(false);
-        jBtExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtExcluirActionPerformed(evt);
-            }
-        });
-
-        jBtSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/1294_16x16.png"))); // NOI18N
-        jBtSalvar.setText("Gravar");
-        jBtSalvar.setEnabled(false);
-        jBtSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtSalvarActionPerformed(evt);
-            }
-        });
-
-        jBtCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Button_Close_Icon_16.png"))); // NOI18N
-        jBtCancelar.setText("Cancelar");
-        jBtCancelar.setEnabled(false);
-        jBtCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtCancelarActionPerformed(evt);
-            }
-        });
-
-        jBtAuditoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/book_open.png"))); // NOI18N
-        jBtAuditoria.setToolTipText("Auditoria");
-        jBtAuditoria.setContentAreaFilled(false);
-        jBtAuditoria.setEnabled(false);
-        jBtAuditoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtAuditoriaActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jBtAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBtNovo)
-                            .addComponent(jBtExcluir)
-                            .addComponent(jBtSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBtCancelar)))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(jBtAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel9Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtAlterar, jBtCancelar, jBtExcluir, jBtNovo, jBtSalvar});
-
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBtNovo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtAlterar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtExcluir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtSalvar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtCancelar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jBtAuditoria)
-                .addGap(18, 18, 18))
-        );
-
-        jTabelaItens.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jTabelaItens.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Código", "Data", "Hora Inicial", "Hora Termino", "Texto Chamado"
-            }
-        ));
-        jTabelaItens.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTabelaItensMouseClicked(evt);
-            }
-        });
-        jScrollPane4.setViewportView(jTabelaItens);
-        if (jTabelaItens.getColumnModel().getColumnCount() > 0) {
-            jTabelaItens.getColumnModel().getColumn(0).setMinWidth(70);
-            jTabelaItens.getColumnModel().getColumn(0).setMaxWidth(70);
-            jTabelaItens.getColumnModel().getColumn(1).setMinWidth(70);
-            jTabelaItens.getColumnModel().getColumn(1).setMaxWidth(70);
-            jTabelaItens.getColumnModel().getColumn(2).setMinWidth(80);
-            jTabelaItens.getColumnModel().getColumn(2).setMaxWidth(80);
-            jTabelaItens.getColumnModel().getColumn(3).setMinWidth(80);
-            jTabelaItens.getColumnModel().getColumn(3).setMaxWidth(80);
-            jTabelaItens.getColumnModel().getColumn(4).setMinWidth(550);
-            jTabelaItens.getColumnModel().getColumn(4).setMaxWidth(550);
-        }
-
         jTabbedPane2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
-        jTabbedPane2.setForeground(new java.awt.Color(204, 0, 0));
+        jTabbedPane2.setForeground(new java.awt.Color(0, 102, 0));
         jTabbedPane2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
-
-        jScrollPane2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-
-        jTextoSuporte.setColumns(20);
-        jTextoSuporte.setRows(5);
-        jTextoSuporte.setEnabled(false);
-        jScrollPane2.setViewportView(jTextoSuporte);
 
         jHorarioInicio.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jHorarioInicio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -908,23 +885,25 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addComponent(jBtCancelarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        jPanel11Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtAlterarItem, jBtCancelarItem, jBtExcluirItem, jBtNovoItem, jBtSalvarItem});
-
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jBtNovoItem)
-                    .addComponent(jBtAlterarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 23, Short.MAX_VALUE)
+                    .addComponent(jBtAlterarItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jBtExcluirItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jBtSalvarItem)
                     .addComponent(jBtCancelarItem))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel11Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtAlterarItem, jBtCancelarItem, jBtExcluirItem, jBtNovoItem, jBtSalvarItem});
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+        jTextoDesenvolvimento.setColumns(20);
+        jTextoDesenvolvimento.setRows(5);
+        jTextoDesenvolvimento.setEnabled(false);
+        jScrollPane3.setViewportView(jTextoDesenvolvimento);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -933,7 +912,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane3)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
@@ -944,8 +923,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jModulo, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -966,7 +945,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
                             .addComponent(jHorarioTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 263, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -1002,8 +981,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jBtPesquisaModulo)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane3)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -1017,14 +996,14 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPane2.addTab("Texto do Suporte", new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskFem_16.png")), jPanel6); // NOI18N
+        jTabbedPane2.addTab("Texto do Desenvolvimento", new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskMas_16.png")), jPanel6); // NOI18N
 
-        jScrollPane3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
-        jTextoDesenvolvimento.setColumns(20);
-        jTextoDesenvolvimento.setRows(5);
-        jTextoDesenvolvimento.setEnabled(false);
-        jScrollPane3.setViewportView(jTextoDesenvolvimento);
+        jTextoSuporte.setColumns(20);
+        jTextoSuporte.setRows(5);
+        jTextoSuporte.setEnabled(false);
+        jScrollPane2.setViewportView(jTextoSuporte);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -1032,18 +1011,46 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jTabbedPane2.addTab("Texto do Desenvolvimento", new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskMas_16.png")), jPanel7); // NOI18N
+        jTabbedPane2.addTab("Texto do Suporte", new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskFem_16.png")), jPanel7); // NOI18N
+
+        jTabelaItens.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTabelaItens.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código", "Data", "Hora Inicial", "Hora Termino", "Texto Chamado"
+            }
+        ));
+        jTabelaItens.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabelaItensMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jTabelaItens);
+        if (jTabelaItens.getColumnModel().getColumnCount() > 0) {
+            jTabelaItens.getColumnModel().getColumn(0).setMinWidth(70);
+            jTabelaItens.getColumnModel().getColumn(0).setMaxWidth(70);
+            jTabelaItens.getColumnModel().getColumn(1).setMinWidth(70);
+            jTabelaItens.getColumnModel().getColumn(1).setMaxWidth(70);
+            jTabelaItens.getColumnModel().getColumn(2).setMinWidth(80);
+            jTabelaItens.getColumnModel().getColumn(2).setMaxWidth(80);
+            jTabelaItens.getColumnModel().getColumn(3).setMinWidth(80);
+            jTabelaItens.getColumnModel().getColumn(3).setMaxWidth(80);
+            jTabelaItens.getColumnModel().getColumn(4).setMinWidth(550);
+            jTabelaItens.getColumnModel().getColumn(4).setMaxWidth(550);
+        }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -1053,7 +1060,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTabbedPane2)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 628, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1062,20 +1069,23 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel8, jPanel9});
+
         jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel2, jScrollPane4, jTabbedPane2});
 
         jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane1.addTab("Manutenção", jPanel4);
@@ -1084,14 +1094,16 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane1)
         );
 
-        setBounds(250, 0, 792, 545);
+        setBounds(250, 10, 791, 548);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtPesqCHCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesqCHCodigoActionPerformed
@@ -1103,27 +1115,27 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             if (jIdChamadoPesquisa.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
             } else {
-                preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
                         + "INNER JOIN USUARIOS "
-                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
                         + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
                         + "INNER JOIN SOLICITANTES "
-                        + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
-                        + "WHERE CHAMADOS_SUPORTE.IdCHSup='" + jIdChamadoPesquisa.getText() + "' ");
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante "
+                        + "WHERE CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamadoPesquisa.getText() + "'");
             }
         } else {
             if (jIdChamadoPesquisa.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
             } else {
-                preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
                         + "INNER JOIN USUARIOS "
-                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
                         + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
                         + "INNER JOIN SOLICITANTES "
-                        + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
-                        + "WHERE CHAMADOS_SUPORTE.IdCHSup='" + jIdChamadoPesquisa.getText() + "' "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante "
+                        + "WHERE CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamadoPesquisa.getText() + "' "
                         + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
             }
         }
@@ -1131,9 +1143,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
     private void jBtPesqCHDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesqCHDataActionPerformed
         // TODO add your handling code here:
-        nomeAtendente = nameUser;
         count = 0;
         flag = 1;
+        nomeAtendente = nameUser;
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
             if (jDataPesqInicial.getDate() == null) {
                 JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
@@ -1149,15 +1161,15 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
                         dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
                         dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                        preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                        preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
                                 + "INNER JOIN USUARIOS "
-                                + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                                + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
                                 + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                                + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                                + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
                                 + "INNER JOIN SOLICITANTES "
-                                + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                                + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante  "
                                 + "WHERE DataCha BETWEEN'" + dataInicial + "' "
-                                + "AND '" + dataFinal + "' ");
+                                + "AND '" + dataFinal + "'");
                     }
                 }
             }
@@ -1176,13 +1188,13 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
                         dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
                         dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                        preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                        preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
                                 + "INNER JOIN USUARIOS "
-                                + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                                + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
                                 + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                                + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                                + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
                                 + "INNER JOIN SOLICITANTES "
-                                + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                                + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante  "
                                 + "WHERE DataCha BETWEEN'" + dataInicial + "' "
                                 + "AND '" + dataFinal + "' "
                                 + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
@@ -1194,62 +1206,66 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
     private void jBtSolicitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSolicitanteActionPerformed
         // TODO add your handling code here:
-        nomeAtendente = nameUser;
         count = 0;
+        nomeAtendente = nameUser;
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
             if (jPesqSolicitante.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "É necessário informar um nome ou parte do nome para pesquuisa.");
             } else {
-                preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
                         + "INNER JOIN USUARIOS "
-                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
                         + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
                         + "INNER JOIN SOLICITANTES "
-                        + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
-                        + "WHERE SOLICITANTES.NomeSolicitante LIKE'%" + jPesqSolicitante.getText() + "%' ");
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante "
+                        + "WHERE SOLICITANTES.NomeSolicitante LIKE'%" + jPesqSolicitante.getText() + "%'");
             }
         } else {
-            preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
-                    + "INNER JOIN USUARIOS "
-                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                    + "INNER JOIN SOLICITANTES "
-                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
-                    + "WHERE SOLICITANTES.NomeSolicitante LIKE'%" + jPesqSolicitante.getText() + "%' "
-                    + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+            if (jPesqSolicitante.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "É necessário informar um nome ou parte do nome para pesquuisa.");
+            } else {
+                preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
+                        + "INNER JOIN USUARIOS "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
+                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                        + "INNER JOIN SOLICITANTES "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante "
+                        + "WHERE SOLICITANTES.NomeSolicitante LIKE'%" + jPesqSolicitante.getText() + "%' "
+                        + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+            }
         }
     }//GEN-LAST:event_jBtSolicitanteActionPerformed
 
     private void jCheckBoxTodosCHItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxTodosCHItemStateChanged
         // TODO add your handling code here:
-        nomeAtendente = nameUser;
         count = 0;
         flag = 1;
+        nomeAtendente = nameUser;
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
             if (evt.getStateChange() == evt.SELECTED) {
-                this.preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                this.preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
                         + "INNER JOIN USUARIOS "
-                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
                         + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
                         + "INNER JOIN SOLICITANTES "
-                        + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante ");
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante");
             } else {
                 jtotalRegistros.setText("");
                 limparTabelaFornecedor();
             }
         } else {
             if (evt.getStateChange() == evt.SELECTED) {
-                this.preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                this.preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
                         + "INNER JOIN USUARIOS "
-                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
                         + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
                         + "INNER JOIN SOLICITANTES "
-                        + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
-                        + "WHERE USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante "
+                        + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
             } else {
                 jtotalRegistros.setText("");
                 limparTabelaFornecedor();
@@ -1259,8 +1275,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
     private void jBtNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codIncluir == 1) {
+        buscarAcessoUsuario(telaChamadosDesenvolvimento);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosDesenvolvimento) && codIncluir == 1) {
             statusMov = "Incluiu";
             horaMov = jHoraSistema.getText();
             dataModFinal = jDataSistema.getText();
@@ -1273,12 +1289,10 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
     private void jBtAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codAlterar == 1) {
+        buscarAcessoUsuario(telaChamadosDesenvolvimento);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosDesenvolvimento) && codAlterar == 1) {
             if (jStatusChamado.getText().equals(statusEncerrado)) {
                 JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encerrado...");
-            } else if (jStatusChamado.getText().equals("ENVIADO PARA O DESENVOLVIMENTO")) {
-                JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encontra-se no desenvolvimento...");
             } else {
                 statusMov = "Alterou";
                 horaMov = jHoraSistema.getText();
@@ -1293,27 +1307,20 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
     private void jBtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codExcluir == 1) {
+        buscarAcessoUsuario(telaChamadosDesenvolvimento);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosDesenvolvimento) && codExcluir == 1) {
             if (jStatusChamado.getText().equals(statusEncerrado)) {
                 JOptionPane.showMessageDialog(rootPane, "Não é possível excluir esse registro. Registro já encerrado...");
             } else {
-                Integer rows = jTabelaItens.getRowCount();
-                if (rows != 0) {
-                    JOptionPane.showMessageDialog(rootPane, "Não é possível excluir o registro principal, existem registro na tabela abaixo, exclua primeiros os itens da tabela");
-                } else if (jStatusChamado.getText().equals("ENVIADO PARA O DESENVOLVIMENTO")) {
-                    JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encontra-se no desenvolvimento...");
-                } else {
-                    statusMov = "Excluiu";
-                    horaMov = jHoraSistema.getText();
-                    dataModFinal = jDataSistema.getText();
-                    int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
-                            JOptionPane.YES_NO_OPTION);
-                    if (resposta == JOptionPane.YES_OPTION) {
-                        objCHSup.setIdSolicitante(Integer.valueOf(jIdChamado.getText()));
-                        control.excluirChamadoSup(objCHSup);
-                        Excluir();
-                    }
+                statusMov = "Excluiu";
+                horaMov = jHoraSistema.getText();
+                dataModFinal = jDataSistema.getText();
+                int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
+                        JOptionPane.YES_NO_OPTION);
+                if (resposta == JOptionPane.YES_OPTION) {
+                    objCHSup.setIdSolicitante(Integer.valueOf(jIdChamado.getText()));
+                    control.excluirChamadoDesc(objCHSup);
+                    Excluir();
                 }
             }
         } else {
@@ -1323,8 +1330,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
     private void jBtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSalvarActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codIncluir == 1) {
+        buscarAcessoUsuario(telaChamadosDesenvolvimento);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosDesenvolvimento) && codIncluir == 1) {
             if (jDataChamado.getDate() == null) {
                 JOptionPane.showMessageDialog(rootPane, "Informe a data do chamado.");
             } else if (jUnidadePrisional.getText().equals("")) {
@@ -1342,7 +1349,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                     objCHSup.setUsuarioInsert(nameUser);
                     objCHSup.setDataInsert(dataModFinal);
                     objCHSup.setHorarioInsert(horaMov);
-                    control.incluirChamadoSup(objCHSup);
+                    control.incluirChamadoDes(objCHSup);
                     jHorarioTermino.setText(objCHSup.getHorarioTermino());
                     buscarCodigo();
                     //
@@ -1356,7 +1363,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                     objCHSup.setDataUp(dataModFinal);
                     objCHSup.setHorarioUp(horaMov);
                     objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                    control.alterarChamadoSup(objCHSup);
+                    control.alterarChamadoDes(objCHSup);
                     //
                     objLog();
                     controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
@@ -1379,20 +1386,10 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         dispose();
     }//GEN-LAST:event_jBtSairActionPerformed
 
-    private void jBtPesquisaModuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisaModuloActionPerformed
-        // TODO add your handling code here:
-        mostrarPesquisaSoft();
-    }//GEN-LAST:event_jBtPesquisaModuloActionPerformed
-
-    private void jBtPesquisaSoliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisaSoliActionPerformed
-        // TODO add your handling code here:
-        mostrarPesquisa();
-    }//GEN-LAST:event_jBtPesquisaSoliActionPerformed
-
     private void jBtEncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtEncerrarActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(botaoEncerrarSup);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoEncerrarSup) && codAbrir == 1) {
+        buscarAcessoUsuario(botaoEncerrarDes);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoEncerrarDes) && codAbrir == 1) {
             if (jStatusChamado.getText().equals(statusEncerrado)) {
                 JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encerrado...");
             } else {
@@ -1406,7 +1403,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                     if (resposta == JOptionPane.YES_OPTION) {
                         objCHSup.setStatusCha(statusEncerrado);
                         objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                        control.encerrarChamadoSup(objCHSup);
+                        control.encerrarChamadoDes(objCHSup);
                         jStatusChamado.setText(statusEncerrado);
                         JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
                         //
@@ -1422,12 +1419,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
     private void jBtImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtImprimirActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(botaoImprimirSup);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoImprimirSup) && codAbrir == 1) {
+        buscarAcessoUsuario(botaoImprimirDes);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoImprimirDes) && codAbrir == 1) {
             if (jIdChamado.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Não existe registro a ser impresso, selecione um registro antes de imprimir.");
             } else {
-                relatorioChamadosST();
+
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1436,8 +1433,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
     private void jBtEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtEnviarActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(botaoEnviarSup);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoEnviarSup) && codAbrir == 1) {
+        buscarAcessoUsuario(botaoEnviarDes);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoEnviarDes) && codAbrir == 1) {
             if (jStatusChamado.getText().equals(statusEncerrado)) {
                 JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro.Registro já encerrado...");
             } else {
@@ -1446,18 +1443,19 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente enviar para o desenvolvimento o registro selecionado?", "Confirmação",
                         JOptionPane.YES_NO_OPTION);
                 if (resposta == JOptionPane.YES_OPTION) {
-                    mostrarTelaEnvioChamdosDes();
-                } else {
+                    objCHSup.setStatusCha(statusDesenvol);
+                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                    control.encerrarChamadoDes(objCHSup);
+                    jStatusChamado.setText(statusDesenvol);
+                    JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
+                    //
                     jBtNovo.setEnabled(true);
                     jBtAlterar.setEnabled(true);
                     jBtExcluir.setEnabled(true);
-                    jBtAuditoria.setEnabled(true);
                     //
                     jBtEncerrar.setEnabled(true);
                     jBtImprimir.setEnabled(true);
                     jBtEnviar.setEnabled(true);
-                    //
-                    jBtNovoItem.setEnabled(true);
                 }
             }
         } else {
@@ -1467,8 +1465,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
     private void jBtReabrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtReabrirActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(botaoReabrirSup);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoReabrirSup) && codAbrir == 1) {
+        buscarAcessoUsuario(botaoReabrirDes);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoReabrirDes) && codAbrir == 1) {
             if (!jStatusChamado.getText().equals(statusEncerrado)) {
                 JOptionPane.showMessageDialog(rootPane, "Registro não se encontra encerrado.");
             } else if (jStatusChamado.getText().equals(statusDesenvol)) {
@@ -1481,7 +1479,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 if (resposta == JOptionPane.YES_OPTION) {
                     objCHSup.setStatusCha(statusReabrir);
                     objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                    control.encerrarChamadoSup(objCHSup);
+                    control.encerrarChamadoDes(objCHSup);
                     jStatusChamado.setText(statusReabrir);
                     JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
                     //
@@ -1528,18 +1526,19 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 //
                 jBtNovoItem.setEnabled(true);
             }
+            //
             conecta.abrirConexao();
             try {
-                conecta.executaSQL("SELECT * FROM CHAMADOS_SUPORTE "
+                conecta.executaSQL("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
                         + "INNER JOIN USUARIOS "
-                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
                         + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
                         + "INNER JOIN SOLICITANTES "
-                        + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
-                        + "WHERE CHAMADOS_SUPORTE.IdCHSup='" + idSoli + "'");
+                        + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante "
+                        + "WHERE CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + idSoli + "'");
                 conecta.rs.first();
-                jIdChamado.setText(String.valueOf(conecta.rs.getInt("IdCHSup")));
+                jIdChamado.setText(String.valueOf(conecta.rs.getInt("IdCHDes")));
                 jStatusChamado.setText(conecta.rs.getString("StatusCha"));
                 jDataChamado.setDate(conecta.rs.getDate("DataCha"));
                 jAtendente.setText(conecta.rs.getString("NomeUsuario"));
@@ -1550,165 +1549,100 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
             }
-            preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
-                    + "INNER JOIN CHAMADOS_SUPORTE "
-                    + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
-                    + "WHERE ITENS_CHAMADOS_SUPORTE.IdCHSup='" + jIdChamado.getText() + "'");
+            preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
+                    + "INNER JOIN CHAMADOS_DESENVOLVIMENTO "
+                    + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes=CHAMADOS_DESENVOLVIMENTO.IdCHDes "
+                    + "WHERE ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamado.getText() + "'");
             conecta.desconecta();
         }
     }//GEN-LAST:event_jTabelaChamdosSupMouseClicked
 
-    private void jBtNovoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoItemActionPerformed
+    private void jBtDownLoadChamadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtDownLoadChamadosActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaItensChamadoSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoSuporte) && codIncluir == 1) {
-            Integer rows = jTabelaItens.getRowCount();
-            statusMov = "Incluiu";
-            horaMov = jHoraSistema.getText();
-            dataModFinal = jDataSistema.getText();
-            acao = 3;
-            if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
-                NovoItem();
-                alterarAdm();
-            } else {
-                NovoItem();
-            }
-            if (rows != 0) {
-                verificarSofMod();
-            }
+        buscarAcessoUsuario(botaoBuscarCH);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoBuscarCH) && codAbrir == 1) {
+            mostrarBuscaCH();
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
-    }//GEN-LAST:event_jBtNovoItemActionPerformed
+    }//GEN-LAST:event_jBtDownLoadChamadosActionPerformed
 
-    private void jBtAlterarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarItemActionPerformed
+    private void jBtPesquisaSoliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisaSoliActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaItensChamadoSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoSuporte) && codAlterar == 1) {
-            if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
-                statusMov = "Alterou";
-                horaMov = jHoraSistema.getText();
-                dataModFinal = jDataSistema.getText();
-                acao = 4;
-                alterarAdm();
-            } else {
-                statusMov = "Alterou";
-                horaMov = jHoraSistema.getText();
-                dataModFinal = jDataSistema.getText();
-                acao = 4;
-                AlterarItem();
-            }
+        mostrarPesquisa();
+    }//GEN-LAST:event_jBtPesquisaSoliActionPerformed
+
+    private void jBtPesquisaModuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisaModuloActionPerformed
+        // TODO add your handling code here:
+        mostrarPesquisaSoft();
+    }//GEN-LAST:event_jBtPesquisaModuloActionPerformed
+
+    private void jBtSalvarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSalvarItemActionPerformed
+        // TODO add your handling code here:
+        if (jDataOcorrencia.getDate() == null) {
+            JOptionPane.showMessageDialog(rootPane, "Informe a data do chamado.");
+        } else if (jHorarioInicio.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Informe o horário de inicio do chamado.");
+        } else if (jHorarioTermino.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Informe o horário de termino do chamado.");
+        } else if (jSoftware.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Informe do software(sistema).");
+        } else if (jModulo.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Informe o nome do módulo.");
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
-        }
-    }//GEN-LAST:event_jBtAlterarItemActionPerformed
-
-    private void jBtExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirItemActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaItensChamadoSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoSuporte) && codExcluir == 1) {
-            statusMov = "Excluiu";
-            horaMov = jHoraSistema.getText();
-            dataModFinal = jDataSistema.getText();
-            int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
-                    JOptionPane.YES_NO_OPTION);
-            if (resposta == JOptionPane.YES_OPTION) {
-                objCHSup.setIdItemCh(Integer.valueOf(jIdItem.getText()));
-                control.excluirItensChamadoSup(objCHSup);
-                ExcluirItem();
+            objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+            objCHSup.setDataItemCh(jDataOcorrencia.getDate());
+            objCHSup.setDescricaoSoftware(jSoftware.getText());
+            objCHSup.setDescricaoModulo(jModulo.getText());
+            objCHSup.setTextoSuporte(jTextoSuporte.getText());
+            objCHSup.setTipoChamado(tipoSuporte);
+            objCHSup.setHorarioInicio(jHorarioInicio.getText());
+            if (acao == 3) {
+                objCHSup.setUsuarioInsert(nameUser);
+                objCHSup.setDataInsert(dataModFinal);
+                objCHSup.setHorarioInsert(horaMov);
+                if (jAtendente.getText().equals("ADMINISTRADOR DO SISTEMA")) {
+                    jHorarioTermino.setEnabled(true);
+                    objCHSup.setHorarioTermino(jHorarioTermino.getText());
+                } else {
+                    objCHSup.setHorarioTermino(jHoraSistema.getText());
+                }
+                control.incluirItensSupDes(objCHSup);
+                jHorarioTermino.setText(objCHSup.getHorarioTermino());
+                buscarCodigoItem();
+                //
+                objLog1();
+                controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
+                Salvar();
                 preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
                         + "INNER JOIN CHAMADOS_SUPORTE "
                         + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
                         + "WHERE ITENS_CHAMADOS_SUPORTE.IdCHSup='" + jIdChamado.getText() + "'");
-                JOptionPane.showMessageDialog(rootPane, "Registro excluido com sucesso.");
+                JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
             }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
-        }
-    }//GEN-LAST:event_jBtExcluirItemActionPerformed
-
-    private void jBtSalvarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSalvarItemActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaItensChamadoSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoSuporte) && codGravar == 1) {
-            if (jDataOcorrencia.getDate() == null) {
-                JOptionPane.showMessageDialog(rootPane, "Informe a data do chamado.");
-            } else if (jHorarioInicio.getText().equals("")) {
-                JOptionPane.showMessageDialog(rootPane, "Informe o horário de inicio do chamado.");
-            } else if (jSoftware.getText().equals("")) {
-                JOptionPane.showMessageDialog(rootPane, "Informe do software(sistema).");
-            } else if (jModulo.getText().equals("")) {
-                JOptionPane.showMessageDialog(rootPane, "Informe o nome do módulo.");
-            } else {
-                objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                objCHSup.setDataItemCh(jDataOcorrencia.getDate());
-                objCHSup.setDescricaoSoftware(jSoftware.getText());
-                objCHSup.setDescricaoModulo(jModulo.getText());
-                objCHSup.setTextoSuporte(jTextoSuporte.getText());
-                objCHSup.setTipoChamado(tipoSuporte);
-                objCHSup.setHorarioInicio(jHorarioInicio.getText());
-                objCHSup.setHorarioTermino(horaMov);
-                if (acao == 3) {
-                    objCHSup.setUsuarioInsert(nameUser);
-                    objCHSup.setDataInsert(dataModFinal);
-                    objCHSup.setHorarioInsert(horaMov);
-                    if (jAtendente.getText().equals("ADMINISTRADOR DO SISTEMA")) {
-                        jHorarioTermino.setEnabled(true);
-                        objCHSup.setHorarioTermino(jHorarioTermino.getText());
-                    } else {
-                        objCHSup.setHorarioTermino(jHoraSistema.getText());
-                    }
-                    //PESQUISAR PRIMEIRO O MÓDULO PARA NÃO FAZER COM MÓDULO DIFERENTE
-                    verificarSoftwareModulo();
-                    if (idSoftware == codigoSoftware && idModulo != codigoModulo) {
-                        JOptionPane.showMessageDialog(rootPane, "O módulo não pode ser diferente do já cadastrado.");
-                    } else {
-                        control.incluirItensSup(objCHSup);
-                        jHorarioTermino.setText(objCHSup.getHorarioTermino());
-                        buscarCodigoItem();
-                        //
-                        objLog1();
-                        controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
-                        SalvarItem();
-                        preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
-                                + "INNER JOIN CHAMADOS_SUPORTE "
-                                + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
-                                + "WHERE ITENS_CHAMADOS_SUPORTE.IdCHSup='" + jIdChamado.getText() + "'");
-                        JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
-                    }
+            if (acao == 4) {
+                objCHSup.setUsuarioUp(nameUser);
+                objCHSup.setDataUp(dataModFinal);
+                objCHSup.setHorarioUp(horaMov);
+                if (jAtendente.getText().equals("ADMINISTRADOR DO SISTEMA")) {
+                    jHorarioTermino.setEnabled(true);
+                    objCHSup.setHorarioTermino(jHorarioTermino.getText());
+                } else {
+                    objCHSup.setHorarioTermino(jHoraSistema.getText());
                 }
-                if (acao == 4) {
-                    objCHSup.setUsuarioUp(nameUser);
-                    objCHSup.setDataUp(dataModFinal);
-                    objCHSup.setHorarioUp(horaMov);
-                    if (jAtendente.getText().equals("ADMINISTRADOR DO SISTEMA")) {
-                        jHorarioTermino.setEnabled(true);
-                        objCHSup.setHorarioTermino(jHorarioTermino.getText());
-                    } else {
-                        objCHSup.setHorarioTermino(jHoraSistema.getText());
-                    }
-                    //PESQUISAR PRIMEIRO O MÓDULO PARA NÃO FAZER COM MÓDULO DIFERENTE
-                    verificarSoftwareModulo();
-                    if (idSoftware == codigoSoftware && idModulo != codigoModulo) {
-                        JOptionPane.showMessageDialog(rootPane, "O módulo não pode ser diferente do já cadastrado.");
-                    } else {
-                        objCHSup.setIdItemCh(Integer.valueOf(jIdItem.getText()));
-                        control.alterarItensSup(objCHSup);
-                        jHorarioTermino.setText(objCHSup.getHorarioTermino());
-                        //
-                        objLog1();
-                        controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
-                        SalvarItem();
-                        preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
-                                + "INNER JOIN CHAMADOS_SUPORTE "
-                                + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
-                                + "WHERE ITENS_CHAMADOS_SUPORTE.IdCHSup='" + jIdChamado.getText() + "'");
-                        JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
-                    }
-                }
+                objCHSup.setIdItemCh(Integer.valueOf(jIdItem.getText()));
+                control.alterarItensSupDes(objCHSup);
+                jHorarioTermino.setText(objCHSup.getHorarioTermino());
+                //
+                objLog1();
+                controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
+                Salvar();
+                preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
+                        + "INNER JOIN CHAMADOS_SUPORTE "
+                        + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
+                        + "WHERE ITENS_CHAMADOS_SUPORTE.IdCHSup='" + jIdChamado.getText() + "'");
+                JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
             }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
     }//GEN-LAST:event_jBtSalvarItemActionPerformed
 
@@ -1717,20 +1651,69 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         CancelarItem();
     }//GEN-LAST:event_jBtCancelarItemActionPerformed
 
+    private void jBtAlterarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarItemActionPerformed
+        // TODO add your handling code here:
+        Integer rows = jTabelaItens.getRowCount();
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+            statusMov = "Alterou";
+            horaMov = jHoraSistema.getText();
+            dataModFinal = jDataSistema.getText();
+            acao = 4;
+            alterarAdm();
+        } else {
+            statusMov = "Alterou";
+            horaMov = jHoraSistema.getText();
+            dataModFinal = jDataSistema.getText();
+            acao = 4;
+            AlterarItem();
+        }
+        if (rows != 0) {
+            verificarSofMod();
+        }
+    }//GEN-LAST:event_jBtAlterarItemActionPerformed
+
+    private void jBtNovoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoItemActionPerformed
+        // TODO add your handling code here:
+        statusMov = "Incluiu";
+        horaMov = jHoraSistema.getText();
+        dataModFinal = jDataSistema.getText();
+        acao = 3;
+        NovoItem();
+        alterarAdm();
+    }//GEN-LAST:event_jBtNovoItemActionPerformed
+
+    private void jBtExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirItemActionPerformed
+        // TODO add your handling code here:
+        statusMov = "Excluiu";
+        horaMov = jHoraSistema.getText();
+        dataModFinal = jDataSistema.getText();
+        int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
+                JOptionPane.YES_NO_OPTION);
+        if (resposta == JOptionPane.YES_OPTION) {
+            objCHSup.setIdSolicitante(Integer.valueOf(jIdChamado.getText()));
+            control.excluirChamadoDesc(objCHSup);
+            ExcluirItem();
+            preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
+                    + "INNER JOIN CHAMADOS_SUPORTE "
+                    + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
+                    + "WHERE IdCHSup='" + jIdChamado.getText() + "'");
+            JOptionPane.showMessageDialog(rootPane, "Registro excluido com sucesso.");
+        }
+    }//GEN-LAST:event_jBtExcluirItemActionPerformed
+
     private void jTabelaItensMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaItensMouseClicked
         // TODO add your handling code here:
         flag = 1;
         if (flag == 1) {
             String idItem = "" + jTabelaItens.getValueAt(jTabelaItens.getSelectedRow(), 0);
             jIdItem.setText(idItem);
-            //                       
+            //
             bloquearCampos();
             bloquearBotoes();
             jBtNovoItem.setEnabled(true);
             jBtAlterarItem.setEnabled(true);
             jBtExcluirItem.setEnabled(true);
-            jBtCancelarItem.setEnabled(true);
-            jBtAuditoriaItem.setEnabled(true);
+            //                jBtAuditoria.setEnabled(true);
             //
             jBtEncerrar.setEnabled(true);
             jBtImprimir.setEnabled(true);
@@ -1765,35 +1748,33 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
     private void jBtAuditoriaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAuditoriaItemActionPerformed
         // TODO add your handling code here:
-        TelaAuditoriaCHSuporteItens objAudItens = new TelaAuditoriaCHSuporteItens();
-        jPainelPrincipal.add(objAudItens);
-        objAudItens.show();
     }//GEN-LAST:event_jBtAuditoriaItemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public static javax.swing.JTextField jAtendente;
-    public static javax.swing.JButton jBtAlterar;
-    public static javax.swing.JButton jBtAlterarItem;
-    public static javax.swing.JButton jBtAuditoria;
-    public static javax.swing.JButton jBtAuditoriaItem;
-    public static javax.swing.JButton jBtCancelar;
-    public static javax.swing.JButton jBtCancelarItem;
-    public static javax.swing.JButton jBtEncerrar;
-    public static javax.swing.JButton jBtEnviar;
-    public static javax.swing.JButton jBtExcluir;
-    public static javax.swing.JButton jBtExcluirItem;
-    public static javax.swing.JButton jBtImprimir;
-    public static javax.swing.JButton jBtNovo;
-    public static javax.swing.JButton jBtNovoItem;
+    private javax.swing.JTextField jAtendente;
+    private javax.swing.JButton jBtAlterar;
+    private javax.swing.JButton jBtAlterarItem;
+    private javax.swing.JButton jBtAuditoria;
+    private javax.swing.JButton jBtAuditoriaItem;
+    private javax.swing.JButton jBtCancelar;
+    private javax.swing.JButton jBtCancelarItem;
+    private javax.swing.JButton jBtDownLoadChamados;
+    private javax.swing.JButton jBtEncerrar;
+    private javax.swing.JButton jBtEnviar;
+    private javax.swing.JButton jBtExcluir;
+    private javax.swing.JButton jBtExcluirItem;
+    private javax.swing.JButton jBtImprimir;
+    private javax.swing.JButton jBtNovo;
+    private javax.swing.JButton jBtNovoItem;
     private javax.swing.JButton jBtPesqCHCodigo;
     private javax.swing.JButton jBtPesqCHData;
     private javax.swing.JButton jBtPesquisaModulo;
     private javax.swing.JButton jBtPesquisaSoli;
-    public static javax.swing.JButton jBtReabrir;
+    private javax.swing.JButton jBtReabrir;
     private javax.swing.JButton jBtSair;
-    public static javax.swing.JButton jBtSalvar;
-    public static javax.swing.JButton jBtSalvarItem;
+    private javax.swing.JButton jBtSalvar;
+    private javax.swing.JButton jBtSalvarItem;
     private javax.swing.JButton jBtSolicitante;
     private javax.swing.JCheckBox jCheckBoxTodosCH;
     private com.toedter.calendar.JDateChooser jDataChamado;
@@ -1804,7 +1785,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField jHorarioTermino;
     public static javax.swing.JTextField jIdChamado;
     private javax.swing.JTextField jIdChamadoPesquisa;
-    public static javax.swing.JTextField jIdItem;
+    private javax.swing.JTextField jIdItem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1849,7 +1830,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTabelaChamdosSup;
     private javax.swing.JTable jTabelaItens;
     private javax.swing.JTextArea jTextoDesenvolvimento;
-    private javax.swing.JTextArea jTextoSuporte;
+    public static javax.swing.JTextArea jTextoSuporte;
     public static javax.swing.JTextField jUnidadePrisional;
     private javax.swing.JLabel jtotalRegistros;
     // End of variables declaration//GEN-END:variables
@@ -1911,13 +1892,13 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         //        
         jBtPesquisaModulo.setEnabled(!true);
         jBtPesquisaSoli.setEnabled(!true);
+        jBtDownLoadChamados.setEnabled(!true);
         //
         jBtNovoItem.setEnabled(!true);
         jBtAlterarItem.setEnabled(!true);
         jBtExcluirItem.setEnabled(!true);
         jBtSalvarItem.setEnabled(!true);
         jBtCancelarItem.setEnabled(!true);
-        jBtAuditoriaItem.setEnabled(!true);
     }
 
     public void limparTodosCampos() {
@@ -1953,8 +1934,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         limparTodosCampos();
         bloquearCampos();
         bloquearBotoes();
-        limparTabelaItens();
-        jStatusChamado.setText("ABERTO NO SUPORTE TÉCNICO");
+        jStatusChamado.setText("ABERTO NO DESENVOLVIMENTO");
         jDataChamado.setCalendar(Calendar.getInstance());
         jAtendente.setText(nameUser);
         //BOTÕES DE PESQUISA        
@@ -1982,6 +1962,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jTextoSuporte.setEnabled(true);
         //
         jBtPesquisaModulo.setEnabled(true);
+        jBtDownLoadChamados.setEnabled(true);
         //
         jBtSalvarItem.setEnabled(true);
         jBtCancelarItem.setEnabled(true);
@@ -2034,27 +2015,14 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         }
     }
 
-    public void verificarSoftwareModulo() {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
-                    + "WHERE IdCHSup='" + jIdChamado.getText() + "'");
-            conecta.rs.first();
-            codigoSoftware = conecta.rs.getInt("IdSoftware");
-            codigoModulo = conecta.rs.getInt("IdModulo");
-        } catch (Exception e) {
-        }
-        conecta.desconecta();
-    }
-
     public void verificarSofMod() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
+            conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
                     + "INNER JOIN SOFTWARE "
-                    + "ON ITENS_CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
+                    + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdSoftware=SOFTWARE.IdSoftware "
                     + "INNER JOIN MODULOS "
-                    + "ON ITENS_CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
+                    + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdModulo=MODULOS.IdModulo "
                     + "WHERE IdCHSup='" + jIdChamado.getText() + "'");
             conecta.rs.first();
             idSoftware = conecta.rs.getInt("IdSoftware");
@@ -2073,9 +2041,10 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jDataOcorrencia.setCalendar(Calendar.getInstance());
         jHorarioInicio.setText(jHoraSistema.getText());
         //
-        jTextoSuporte.setEnabled(true);
+        jTextoDesenvolvimento.setEnabled(true);
         //
         jBtPesquisaModulo.setEnabled(true);
+        jBtDownLoadChamados.setEnabled(true);
         //
         jBtSalvarItem.setEnabled(true);
         jBtCancelarItem.setEnabled(true);
@@ -2085,10 +2054,10 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         bloquearCampos();
         bloquearBotoes();
         //
-        jTextoSuporte.setEnabled(true);
-        jHorarioTermino.setEnabled(true);
+        jTextoDesenvolvimento.setEnabled(true);
         //
         jBtPesquisaModulo.setEnabled(true);
+        jBtDownLoadChamados.setEnabled(true);
         //
         jBtSalvarItem.setEnabled(true);
         jBtCancelarItem.setEnabled(true);
@@ -2100,14 +2069,6 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         limparCamposItens();
         //
         jBtNovoItem.setEnabled(true);
-        //
-        jBtNovo.setEnabled(true);
-        jBtAlterar.setEnabled(true);
-        jBtExcluir.setEnabled(true);
-        jBtAuditoria.setEnabled(true);
-        //
-        jBtEnviar.setEnabled(true);
-        jBtEncerrar.setEnabled(true);
     }
 
     public void SalvarItem() {
@@ -2116,14 +2077,6 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         limparCamposItens();
         //
         jBtNovoItem.setEnabled(true);
-        //
-        jBtNovo.setEnabled(true);
-        jBtAlterar.setEnabled(true);
-        jBtExcluir.setEnabled(true);
-        jBtAuditoria.setEnabled(true);
-        //
-        jBtEnviar.setEnabled(true);
-        jBtEncerrar.setEnabled(true);
     }
 
     public void CancelarItem() {
@@ -2132,22 +2085,14 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         limparCamposItens();
         //
         jBtNovoItem.setEnabled(true);
-        //
-        jBtNovo.setEnabled(true);
-        jBtAlterar.setEnabled(true);
-        jBtExcluir.setEnabled(true);
-        jBtAuditoria.setEnabled(true);
-        //
-        jBtEnviar.setEnabled(true);
-        jBtEncerrar.setEnabled(true);
     }
 
     public void buscarCodigo() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM CHAMADOS_SUPORTE");
+            conecta.executaSQL("SELECT * FROM CHAMADOS_DESENVOLVIMENTO");
             conecta.rs.last();
-            jIdChamado.setText(conecta.rs.getString("IdCHSup"));
+            jIdChamado.setText(conecta.rs.getString("IdCHDes"));
         } catch (Exception e) {
         }
         conecta.desconecta();
@@ -2156,45 +2101,10 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     public void buscarCodigoItem() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_SUPORTE");
+            conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO");
             conecta.rs.last();
             idItemChamado = conecta.rs.getInt("IdItem");
         } catch (Exception e) {
-        }
-        conecta.desconecta();
-    }
-
-    public void relatorioChamadosST() {
-        // IRÁ USAR SUB RELATÓRIO
-        try {
-            conecta.abrirConexao();
-            String path = "reports/relatorioChamadoSuporteTecnico.jasper";
-            conecta.executaSQL("SELECT * FROM CHAMADOS_SUPORTE "
-                    + "INNER JOIN USUARIOS "
-                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                    + "INNER JOIN SOLICITANTES "
-                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
-                    + "WHERE CHAMADOS_SUPORTE.IdCHSup='" + jIdChamado.getText() + "'");
-            HashMap parametros = new HashMap();
-            parametros.put("idChamado", jIdChamado.getText());
-            parametros.put("nomeUsuario", nameUser);
-            // Sub Relatório
-            try {
-                parametros.put("REPORT_CONNECTION", conecta.stmt.getConnection());
-            } catch (SQLException ex) {
-            }
-            JRResultSetDataSource relatResul = new JRResultSetDataSource(conecta.rs); // Passa o resulSet Preenchido para o relatorio                                   
-            JasperPrint jpPrint = JasperFillManager.fillReport(path, parametros, relatResul); // indica o caminmhodo relatório
-            JasperViewer jv = new JasperViewer(jpPrint, false); // Cria instancia para impressao          
-            jv.setExtendedState(JasperViewer.MAXIMIZED_BOTH); // Maximizar o relatório
-            jv.setTitle("Relatório de Chamado no Suporte Técnico");
-            jv.setVisible(true); // Chama o relatorio para ser visualizado                                    
-            jv.toFront(); // Traz o relatorio para frente da aplicação            
-            conecta.desconecta();
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(rootPane, "Erro ao chamar o Relatório \n\nERRO :" + e);
         }
         conecta.desconecta();
     }
@@ -2215,7 +2125,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 dataBrasil = dia + "/" + mes + "/" + ano;
                 count = count + 1;
                 jtotalRegistros.setText(Integer.toString(count)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{conecta.rs.getInt("IdCHSup"), dataBrasil, conecta.rs.getString("StatusCha"), conecta.rs.getString("NomeSolicitante"), conecta.rs.getString("DescricaoUnidade")});
+                dados.add(new Object[]{conecta.rs.getInt("IdCHDes"), dataBrasil, conecta.rs.getString("StatusCha"), conecta.rs.getString("NomeSolicitante"), conecta.rs.getString("DescricaoUnidade")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem exibidos....");

@@ -7,10 +7,10 @@ package Visao;
 
 import Controle.ModeloTabela;
 import Dao.ConexaoBancoDados;
-import static Visao.TelaChamadoSuporte.jSoftware;
-import static Visao.TelaChamadoSuporte.idSoftware;
-import static Visao.TelaChamadoSuporte.jModulo;
-import static Visao.TelaChamadoSuporte.idModulo;
+import static Visao.TelaChamadoDesenvolvimento.jSoftware;
+import static Visao.TelaChamadoDesenvolvimento.idSoftware;
+import static Visao.TelaChamadoDesenvolvimento.jModulo;
+import static Visao.TelaChamadoDesenvolvimento.idModulo;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author ronal
  */
-public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
+public class TelaPesquisaSoftwareModuloD extends javax.swing.JDialog {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     //
@@ -32,12 +32,12 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
     /**
      * Creates new form TelaPesquisaSolicitanteCH
      */
-    public static TelaChamadoSuporte chamaSup;
+    public static TelaChamadoDesenvolvimento chamaSupD;
 
-    public TelaPesquisaSoftwareModulo(TelaChamadoSuporte parent, boolean modal) {
-        this.chamaSup = parent;
+    public TelaPesquisaSoftwareModuloD(TelaChamadoDesenvolvimento parent, boolean modal) {
+        this.chamaSupD = parent;
         this.setModal(modal);
-        setLocationRelativeTo(chamaSup);
+        setLocationRelativeTo(chamaSupD);
         initComponents();
     }
 
@@ -409,21 +409,23 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaPesquisaSoftwareModulo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaPesquisaSoftwareModuloD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaPesquisaSoftwareModulo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaPesquisaSoftwareModuloD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaPesquisaSoftwareModulo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaPesquisaSoftwareModuloD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaPesquisaSoftwareModulo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaPesquisaSoftwareModuloD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TelaPesquisaSoftwareModulo dialog = new TelaPesquisaSoftwareModulo(chamaSup, true);
+                TelaPesquisaSoftwareModuloD dialog = new TelaPesquisaSoftwareModuloD(chamaSupD, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

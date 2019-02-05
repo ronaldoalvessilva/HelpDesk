@@ -14,6 +14,7 @@ import java.util.Date;
 public class ChamadoSuporte {
 
     private int idCHSup;
+    private int idCHDes;
     private String statusCha;
     private Date dataCha;
     private String horarioInicio;
@@ -32,18 +33,23 @@ public class ChamadoSuporte {
     private String nomeSolicitante;
     private String textoSuporte;
     private String textoDesenvol;
+    private String tipoChamado;
     private String usuarioInsert;
     private String usuarioUp;
     private String dataInsert;
     private String dataUp;
     private String horarioInsert;
-    private String horarioUp;
+    private String horarioUp;    
+    private int idItemCh;
+    private Date dataItemCh;
+    private String utiliza;
 
     public ChamadoSuporte() {
     }
 
-    public ChamadoSuporte(int idCHSup, String statusCha, Date dataCha, String horarioInicio, String horarioTermino, int idUsuario, String NomeUsuario, int idEmpresa, String descricaoEmpresa, int idUnidEmp, String descricaoUnidade, int idSoftware, String descricaoSoftware, int idModulo, String descricaoModulo, int idSolicitante, String nomeSolicitante, String textoSuporte, String textoDesenvol, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp) {
+    public ChamadoSuporte(int idCHSup, int idCHDes, String statusCha, Date dataCha, String horarioInicio, String horarioTermino, int idUsuario, String NomeUsuario, int idEmpresa, String descricaoEmpresa, int idUnidEmp, String descricaoUnidade, int idSoftware, String descricaoSoftware, int idModulo, String descricaoModulo, int idSolicitante, String nomeSolicitante, String textoSuporte, String textoDesenvol, String tipoChamado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idItemCh, Date dataItemCh, String utiliza) {
         this.idCHSup = idCHSup;
+        this.idCHDes = idCHDes;
         this.statusCha = statusCha;
         this.dataCha = dataCha;
         this.horarioInicio = horarioInicio;
@@ -62,12 +68,16 @@ public class ChamadoSuporte {
         this.nomeSolicitante = nomeSolicitante;
         this.textoSuporte = textoSuporte;
         this.textoDesenvol = textoDesenvol;
+        this.tipoChamado = tipoChamado;
         this.usuarioInsert = usuarioInsert;
         this.usuarioUp = usuarioUp;
         this.dataInsert = dataInsert;
         this.dataUp = dataUp;
         this.horarioInsert = horarioInsert;
         this.horarioUp = horarioUp;
+        this.idItemCh = idItemCh;
+        this.dataItemCh = dataItemCh;
+        this.utiliza = utiliza;
     }
 
     /**
@@ -82,6 +92,20 @@ public class ChamadoSuporte {
      */
     public void setIdCHSup(int idCHSup) {
         this.idCHSup = idCHSup;
+    }
+
+    /**
+     * @return the idCHDes
+     */
+    public int getIdCHDes() {
+        return idCHDes;
+    }
+
+    /**
+     * @param idCHDes the idCHDes to set
+     */
+    public void setIdCHDes(int idCHDes) {
+        this.idCHDes = idCHDes;
     }
 
     /**
@@ -337,6 +361,20 @@ public class ChamadoSuporte {
     }
 
     /**
+     * @return the tipoChamado
+     */
+    public String getTipoChamado() {
+        return tipoChamado;
+    }
+
+    /**
+     * @param tipoChamado the tipoChamado to set
+     */
+    public void setTipoChamado(String tipoChamado) {
+        this.tipoChamado = tipoChamado;
+    }
+
+    /**
      * @return the usuarioInsert
      */
     public String getUsuarioInsert() {
@@ -418,5 +456,47 @@ public class ChamadoSuporte {
      */
     public void setHorarioUp(String horarioUp) {
         this.horarioUp = horarioUp;
+    }
+
+    /**
+     * @return the idItemCh
+     */
+    public int getIdItemCh() {
+        return idItemCh;
+    }
+
+    /**
+     * @param idItemCh the idItemCh to set
+     */
+    public void setIdItemCh(int idItemCh) {
+        this.idItemCh = idItemCh;
+    }
+
+    /**
+     * @return the dataItemCh
+     */
+    public Date getDataItemCh() {
+        return dataItemCh;
+    }
+
+    /**
+     * @param dataItemCh the dataItemCh to set
+     */
+    public void setDataItemCh(Date dataItemCh) {
+        this.dataItemCh = dataItemCh;
+    }
+
+    /**
+     * @return the utiliza
+     */
+    public String getUtiliza() {
+        return utiliza;
+    }
+
+    /**
+     * @param utiliza the utiliza to set
+     */
+    public void setUtiliza(String utiliza) {
+        this.utiliza = utiliza;
     }
 }

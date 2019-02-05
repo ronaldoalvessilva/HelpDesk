@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  *
  * @author ronal
  */
-public class ChamadosSuporteDao {
+public class ChamadosDesenvolvimentoDao {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     ChamadoSuporte objCHSup = new ChamadoSuporte();
@@ -25,13 +25,13 @@ public class ChamadosSuporteDao {
     int codModu;
     int codSoli;
 
-    public ChamadoSuporte incluirChamadoSup(ChamadoSuporte objCHSup) {
+    public ChamadoSuporte incluirChamadoDes(ChamadoSuporte objCHSup) {
         pesquisarUsuario(objCHSup.getNomeUsuario());
         pesquisarSolicitante(objCHSup.getNomeSolicitante(), objCHSup.getIdSolicitante());
         pesquisarUnidade(objCHSup.getDescricaoUnidade());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO CHAMADOS_SUPORTE (StatusCha,DataCha,IdUsuario,IdSolicitante,IdUnidEmp,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO CHAMADOS_DESENVOLVIMENTO (StatusCha,DataCha,IdUsuario,IdSolicitante,IdUnidEmp,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?)");
             pst.setString(1, objCHSup.getStatusCha());
             pst.setTimestamp(2, new java.sql.Timestamp(objCHSup.getDataCha().getTime()));
             pst.setInt(3, codUser);
@@ -48,12 +48,12 @@ public class ChamadosSuporteDao {
         return objCHSup;
     }
 
-    public ChamadoSuporte alterarChamadoSup(ChamadoSuporte objCHSup) {
+    public ChamadoSuporte alterarChamadoDes(ChamadoSuporte objCHSup) {
         pesquisarUsuario(objCHSup.getNomeUsuario());
         pesquisarSolicitante(objCHSup.getNomeSolicitante(), objCHSup.getIdSolicitante());
         pesquisarUnidade(objCHSup.getDescricaoUnidade());
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE CHAMADOS_SUPORTE SET StatusCha=?,DataCha=?,IdUsuario=?,IdSolicitante=?,IdUnidEmp=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdCHSup='" + objCHSup.getIdCHSup() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE CHAMADOS_DESENVOLVIMENTO SET StatusCha=?,DataCha=?,IdUsuario=?,IdSolicitante=?,IdUnidEmp=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdCHDes='" + objCHSup.getIdCHDes() + "'");
             pst.setString(1, objCHSup.getStatusCha());
             pst.setTimestamp(2, new java.sql.Timestamp(objCHSup.getDataCha().getTime()));
             pst.setInt(3, codUser);
@@ -70,12 +70,12 @@ public class ChamadosSuporteDao {
         return objCHSup;
     }
 
-    public ChamadoSuporte encerrarChamadoSup(ChamadoSuporte objCHSup) {
+    public ChamadoSuporte encerrarChamadoDes(ChamadoSuporte objCHSup) {
 
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE CHAMADOS_SUPORTE SET StatusCha=?,UsuarioUp=?,DataUp=?,HorarioUp=? "
-                    + "WHERE IdCHSup='" + objCHSup.getIdCHSup() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE CHAMADOS_DESENVOLVIMENTO SET StatusCha=?,UsuarioUp=?,DataUp=?,HorarioUp=? "
+                    + "WHERE IdCHDes='" + objCHSup.getIdCHDes() + "'");
             pst.setString(1, objCHSup.getStatusCha());
             pst.setString(2, objCHSup.getUsuarioUp());
             pst.setString(3, objCHSup.getDataUp());
@@ -88,11 +88,11 @@ public class ChamadosSuporteDao {
         return objCHSup;
     }
 
-    public ChamadoSuporte excluirChamadoSup(ChamadoSuporte objCHSup) {
+    public ChamadoSuporte excluirChamadoDesc(ChamadoSuporte objCHSup) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("DELETE FROM CHAMADOS_SUPORTE "
-                    + "WHERE IdCHSup='" + objCHSup.getIdCHSup() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("DELETE FROM CHAMADOS_DESENVOLVIMENTO "
+                    + "WHERE IdCHDes='" + objCHSup.getIdCHDes() + "'");
             pst.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possivel EXCLUIR os Dados.\nERRO: " + ex);
@@ -101,21 +101,76 @@ public class ChamadosSuporteDao {
         return objCHSup;
     }
 
-    public ChamadoSuporte incluirItensSup(ChamadoSuporte objCHSup) {
+    public ChamadoSuporte incluirItensSupDes(ChamadoSuporte objCHSup) {
         pesquisarSoftware(objCHSup.getDescricaoSoftware());
         pesquisarModulo(objCHSup.getDescricaoModulo());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO ITENS_CHAMADOS_SUPORTE (IdCHSup,DataItemCh,HorarioInicio,HorarioTermino,IdSoftware,IdModulo,TextoSuporte,TextoDesenvol,TipoChamado,UsuarioInsert,DataInsert,HorarioInsert)VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO ITENS_CHAMADOS_DESENVOLVIMENTO (IdCHDes,IdCHDes,DataItemCh,HorarioInicio,HorarioTermino,IdSoftware,IdModulo,TextoSuporte,TextoDesenvol,TipoChamado,UsuarioInsert,DataInsert,HorarioInsert)VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            pst.setInt(1, objCHSup.getIdCHDes());
+            pst.setInt(2, objCHSup.getIdCHSup());
+            pst.setTimestamp(3, new java.sql.Timestamp(objCHSup.getDataItemCh().getTime()));
+            pst.setString(4, objCHSup.getHorarioInicio());
+            pst.setString(5, objCHSup.getHorarioTermino());
+            pst.setInt(6, codSoft);
+            pst.setInt(7, codModu);
+            pst.setString(8, objCHSup.getTextoSuporte());
+            pst.setString(9, objCHSup.getTextoDesenvol());
+            pst.setString(10, objCHSup.getTipoChamado());
+            pst.setString(11, objCHSup.getUsuarioInsert());
+            pst.setString(12, objCHSup.getDataInsert());
+            pst.setString(13, objCHSup.getHorarioInsert());
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não Foi possivel INSERIR os Dados.\nERRO: " + ex);
+        }
+        conecta.desconecta();
+        return objCHSup;
+    }
+
+    public ChamadoSuporte alterarItensSupDes(ChamadoSuporte objCHSup) {
+        pesquisarSoftware(objCHSup.getDescricaoSoftware());
+        pesquisarModulo(objCHSup.getDescricaoModulo());
+        conecta.abrirConexao();
+        try {
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE ITENS_CHAMADOS_DESENVOLVIMENTO SET IdCHSup=?,DataItemCh=?,HorarioInicio=?,HorarioTermino=?,IdSoftware=?,IdModulo=?,TextoSuporte=?,TextoDesenvol=?,TipoChamado=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdItem='" + objCHSup.getIdItemCh() + "'");
+            pst.setInt(1, objCHSup.getIdCHDes());
+            pst.setInt(2, objCHSup.getIdCHSup());
+            pst.setTimestamp(3, new java.sql.Timestamp(objCHSup.getDataItemCh().getTime()));
+            pst.setString(4, objCHSup.getHorarioInicio());
+            pst.setString(5, objCHSup.getHorarioTermino());
+            pst.setInt(6, codSoft);
+            pst.setInt(7, codModu);
+            pst.setString(8, objCHSup.getTextoSuporte());
+            pst.setString(9, objCHSup.getTextoDesenvol());
+            pst.setString(10, objCHSup.getTipoChamado());
+            pst.setString(11, objCHSup.getUsuarioUp());
+            pst.setString(12, objCHSup.getDataUp());
+            pst.setString(13, objCHSup.getHorarioUp());
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\nERRO: " + ex);
+        }
+        conecta.desconecta();
+        return objCHSup;
+    }
+
+    public ChamadoSuporte enviarItensSupDes(ChamadoSuporte objCHSup) {
+        pesquisarSoftware(objCHSup.getDescricaoSoftware());
+        pesquisarModulo(objCHSup.getDescricaoModulo());
+        conecta.abrirConexao();
+        try {
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO (IdCHSup,IdItem,DataItemCh,HorarioInicio,HorarioTermino,IdSoftware,IdModulo,TextoSuporte,Utilizado,UsuarioInsert,DataInsert,HorarioInsert)VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setInt(1, objCHSup.getIdCHSup());
-            pst.setTimestamp(2, new java.sql.Timestamp(objCHSup.getDataItemCh().getTime()));
-            pst.setString(3, objCHSup.getHorarioInicio());
-            pst.setString(4, objCHSup.getHorarioTermino());
-            pst.setInt(5, codSoft);
-            pst.setInt(6, codModu);
-            pst.setString(7, objCHSup.getTextoSuporte());
-            pst.setString(8, objCHSup.getTextoDesenvol());
-            pst.setString(9, objCHSup.getTipoChamado());
+            pst.setInt(1, objCHSup.getIdCHSup());
+            pst.setInt(2, objCHSup.getIdItemCh());
+            pst.setTimestamp(3, new java.sql.Timestamp(objCHSup.getDataItemCh().getTime()));
+            pst.setString(4, objCHSup.getHorarioInicio());
+            pst.setString(5, objCHSup.getHorarioTermino());
+            pst.setInt(6, codSoft);
+            pst.setInt(7, codModu);
+            pst.setString(8, objCHSup.getTextoSuporte());
+            pst.setString(9, objCHSup.getUtiliza());
             pst.setString(10, objCHSup.getUsuarioInsert());
             pst.setString(11, objCHSup.getDataInsert());
             pst.setString(12, objCHSup.getHorarioInsert());
@@ -127,39 +182,27 @@ public class ChamadosSuporteDao {
         return objCHSup;
     }
 
-    public ChamadoSuporte alterarItensSup(ChamadoSuporte objCHSup) {
+    public ChamadoSuporte alterarEnviarItensSupDes(ChamadoSuporte objCHSup) {
         pesquisarSoftware(objCHSup.getDescricaoSoftware());
         pesquisarModulo(objCHSup.getDescricaoModulo());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE ITENS_CHAMADOS_SUPORTE SET DataItemCh=?,HorarioInicio=?,HorarioTermino=?,IdSoftware=?,IdModulo=?,TextoSuporte=?,TextoDesenvol=?,TipoChamado=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdItem='" + objCHSup.getIdItemCh() + "'");
-            pst.setTimestamp(1, new java.sql.Timestamp(objCHSup.getDataItemCh().getTime()));
-            pst.setString(2, objCHSup.getHorarioInicio());
-            pst.setString(3, objCHSup.getHorarioTermino());
-            pst.setInt(4, codSoft);
-            pst.setInt(5, codModu);
-            pst.setString(6, objCHSup.getTextoSuporte());
-            pst.setString(7, objCHSup.getTextoDesenvol());
-            pst.setString(8, objCHSup.getTipoChamado());
-            pst.setString(9, objCHSup.getUsuarioUp());
-            pst.setString(10, objCHSup.getDataUp());
-            pst.setString(11, objCHSup.getHorarioUp());
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO SET IdCHSup=?,IdItem=?,DataItemCh=?,HorarioInicio=?,HorarioTermino=?,IdSoftware=?,IdModulo=?,TextoSuporte=?,Utilizado=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdCHSup='" + objCHSup.getIdCHSup() + "' AND IdItem='" + objCHSup.getIdItemCh() + "'");
+            pst.setInt(1, objCHSup.getIdCHSup());
+            pst.setInt(2, objCHSup.getIdItemCh());
+            pst.setTimestamp(3, new java.sql.Timestamp(objCHSup.getDataItemCh().getTime()));
+            pst.setString(4, objCHSup.getHorarioInicio());
+            pst.setString(5, objCHSup.getHorarioTermino());
+            pst.setInt(6, codSoft);
+            pst.setInt(7, codModu);
+            pst.setString(8, objCHSup.getTextoSuporte());
+            pst.setString(9, objCHSup.getUtiliza());
+            pst.setString(10, objCHSup.getUsuarioUp());
+            pst.setString(11, objCHSup.getDataUp());
+            pst.setString(12, objCHSup.getHorarioUp());
             pst.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\nERRO: " + ex);
-        }
-        conecta.desconecta();
-        return objCHSup;
-    }
-
-    public ChamadoSuporte excluirItensChamadoSup(ChamadoSuporte objCHSup) {
-        conecta.abrirConexao();
-        try {
-            PreparedStatement pst = conecta.con.prepareStatement("DELETE FROM ITENS_CHAMADOS_SUPORTE "
-                    + "WHERE IdItem='" + objCHSup.getIdItemCh() + "'");
-            pst.executeUpdate();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Não Foi possivel EXCLUIR os Dados.\nERRO: " + ex);
         }
         conecta.desconecta();
         return objCHSup;
