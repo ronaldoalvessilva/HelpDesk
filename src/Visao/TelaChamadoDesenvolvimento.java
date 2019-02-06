@@ -1856,9 +1856,10 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
                         JOptionPane.YES_NO_OPTION);
                 if (resposta == JOptionPane.YES_OPTION) {
-                    objCHSup.setIdCHDes(Integer.valueOf(jIdChamado.getText()));
-                    control.excluirChamadoDesc(objCHSup);
-                    //RESPONDE "Sim" AO CAMPO Utilizao DA TABELA ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO
+                    objCHSup.setIdItemCh(Integer.valueOf(jIdItem.getText()));
+                    control.excluirItensSupDes(objCHSup);
+                    //RESPONDE "Não" AO CAMPO Utilizao DA TABELA ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO
+                    utilizado = "Não";
                     objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
                     objCHSup.setIdItemCh(Integer.valueOf(jIdItemSup.getText()));
                     objCHSup.setUtiliza(utilizado);
@@ -1935,9 +1936,8 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 jModuloSup.setText(conecta.rs.getString("DescricaoModulo"));
                 jTextoSuporte.setText(conecta.rs.getString("TextoSuporte"));
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
-            }
-            conecta.desconecta();
+//                JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
+            }            
         }
     }//GEN-LAST:event_jTabelaItensMouseClicked
 
