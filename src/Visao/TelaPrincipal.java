@@ -51,6 +51,7 @@ import static Visao.TelaRecados.jRecado;
 import static Visao.TelaRecados.jTabelaTodosRecados;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
@@ -273,7 +274,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jHoraSistema = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jCadastro = new javax.swing.JMenu();
         jEmpresa = new javax.swing.JMenuItem();
         jOcorrencias = new javax.swing.JMenuItem();
         jSolicitantes = new javax.swing.JMenuItem();
@@ -287,15 +288,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jAgendaCompromisso = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jSair = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jSuporteTecnico = new javax.swing.JMenu();
         jChamadosSuporte = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
+        jDesenvolvimento = new javax.swing.JMenu();
         jConsultasSQL = new javax.swing.JMenuItem();
         jChamadosDesenvolvimento = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        jRelatorios = new javax.swing.JMenu();
         listagemChamadosSuporteTecnico = new javax.swing.JMenuItem();
         listagemChamadosDesenvolvimento = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
+        jSobre = new javax.swing.JMenu();
+        jInformacoes = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("...::: Sistema de Suporte Técnico :::...");
@@ -619,50 +621,69 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Sistema de Controle de Chamados (Help Desk) - Versão 1.0");
 
-        jMenu1.setMnemonic('C');
-        jMenu1.setText("Cadastros");
+        jCadastro.setMnemonic('C');
+        jCadastro.setText("Cadastros");
+        jCadastro.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
+            public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
+                jCadastroMenuKeyPressed(evt);
+            }
+            public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt) {
+            }
+            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
+            }
+        });
 
+        jEmpresa.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         jEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119190812_16.png"))); // NOI18N
+        jEmpresa.setMnemonic('E');
         jEmpresa.setText("Empresa/Unidade Prisional");
         jEmpresa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jEmpresaActionPerformed(evt);
             }
         });
-        jMenu1.add(jEmpresa);
+        jCadastro.add(jEmpresa);
 
+        jOcorrencias.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         jOcorrencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/250119203457_16.png"))); // NOI18N
+        jOcorrencias.setMnemonic('O');
         jOcorrencias.setText("Ocorrências");
         jOcorrencias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jOcorrenciasActionPerformed(evt);
             }
         });
-        jMenu1.add(jOcorrencias);
+        jCadastro.add(jOcorrencias);
 
+        jSolicitantes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jSolicitantes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119192043_16.png"))); // NOI18N
+        jSolicitantes.setMnemonic('L');
         jSolicitantes.setText("Solicitantes");
         jSolicitantes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSolicitantesActionPerformed(evt);
             }
         });
-        jMenu1.add(jSolicitantes);
-        jMenu1.add(jSeparator2);
+        jCadastro.add(jSolicitantes);
+        jCadastro.add(jSeparator2);
 
+        jUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         jUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191009_16.png"))); // NOI18N
+        jUsuarios.setMnemonic('U');
         jUsuarios.setText("Usuários");
         jUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jUsuariosActionPerformed(evt);
             }
         });
-        jMenu1.add(jUsuarios);
+        jCadastro.add(jUsuarios);
 
         jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191524_16.png"))); // NOI18N
         jMenu4.setText("Sistemas e Módulos");
 
+        jSoftware.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         jSoftware.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191524_16.png"))); // NOI18N
+        jSoftware.setMnemonic('F');
         jSoftware.setText("Sistema (Software)");
         jSoftware.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -671,7 +692,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenu4.add(jSoftware);
 
+        jModulosSistema.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
         jModulosSistema.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191718_16.png"))); // NOI18N
+        jModulosSistema.setMnemonic('M');
         jModulosSistema.setText("Módulos do Sistema");
         jModulosSistema.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -680,28 +703,33 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenu4.add(jModulosSistema);
 
-        jMenu1.add(jMenu4);
-        jMenu1.add(jSeparator1);
+        jCadastro.add(jMenu4);
+        jCadastro.add(jSeparator1);
 
+        jAgendaRecados.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         jAgendaRecados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119190439_16.png"))); // NOI18N
+        jAgendaRecados.setMnemonic('A');
         jAgendaRecados.setText("Agenda de Recados");
         jAgendaRecados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jAgendaRecadosActionPerformed(evt);
             }
         });
-        jMenu1.add(jAgendaRecados);
+        jCadastro.add(jAgendaRecados);
 
+        jAgendaCompromisso.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         jAgendaCompromisso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119190604_16.png"))); // NOI18N
+        jAgendaCompromisso.setMnemonic('G');
         jAgendaCompromisso.setText("Agenda de Compromissos");
         jAgendaCompromisso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jAgendaCompromissoActionPerformed(evt);
             }
         });
-        jMenu1.add(jAgendaCompromisso);
-        jMenu1.add(jSeparator3);
+        jCadastro.add(jAgendaCompromisso);
+        jCadastro.add(jSeparator3);
 
+        jSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
         jSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/shutdown-icone-6920-16.png"))); // NOI18N
         jSair.setText("Sair");
         jSair.addActionListener(new java.awt.event.ActionListener() {
@@ -709,49 +737,73 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 jSairActionPerformed(evt);
             }
         });
-        jMenu1.add(jSair);
+        jCadastro.add(jSair);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(jCadastro);
 
-        jMenu2.setMnemonic('S');
-        jMenu2.setText("Suporte Técnico");
+        jSuporteTecnico.setMnemonic('S');
+        jSuporteTecnico.setText("Suporte Técnico");
+        jSuporteTecnico.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
+            public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
+                jSuporteTecnicoMenuKeyPressed(evt);
+            }
+            public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt) {
+            }
+            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
+            }
+        });
 
+        jChamadosSuporte.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         jChamadosSuporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskFem_16.png"))); // NOI18N
+        jChamadosSuporte.setMnemonic('H');
         jChamadosSuporte.setText("Chamados");
         jChamadosSuporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jChamadosSuporteActionPerformed(evt);
             }
         });
-        jMenu2.add(jChamadosSuporte);
+        jSuporteTecnico.add(jChamadosSuporte);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(jSuporteTecnico);
 
-        jMenu5.setMnemonic('D');
-        jMenu5.setText("Desenvolvimento");
+        jDesenvolvimento.setMnemonic('D');
+        jDesenvolvimento.setText("Desenvolvimento");
+        jDesenvolvimento.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
+            public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
+                jDesenvolvimentoMenuKeyPressed(evt);
+            }
+            public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt) {
+            }
+            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
+            }
+        });
 
+        jConsultasSQL.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         jConsultasSQL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Database 3 16x16.png"))); // NOI18N
+        jConsultasSQL.setMnemonic('Q');
         jConsultasSQL.setText("Consultas SQL");
         jConsultasSQL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jConsultasSQLActionPerformed(evt);
             }
         });
-        jMenu5.add(jConsultasSQL);
+        jDesenvolvimento.add(jConsultasSQL);
 
+        jChamadosDesenvolvimento.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
         jChamadosDesenvolvimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskMas_16.png"))); // NOI18N
+        jChamadosDesenvolvimento.setMnemonic('D');
         jChamadosDesenvolvimento.setText("Chamados");
         jChamadosDesenvolvimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jChamadosDesenvolvimentoActionPerformed(evt);
             }
         });
-        jMenu5.add(jChamadosDesenvolvimento);
+        jDesenvolvimento.add(jChamadosDesenvolvimento);
 
-        jMenuBar1.add(jMenu5);
+        jMenuBar1.add(jDesenvolvimento);
 
-        jMenu3.setMnemonic('R');
-        jMenu3.setText("Relatórios");
+        jRelatorios.setMnemonic('R');
+        jRelatorios.setText("Relatórios");
 
         listagemChamadosSuporteTecnico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/gtklp-icone-3770-16.png"))); // NOI18N
         listagemChamadosSuporteTecnico.setText("Chamados Suporte Técnico");
@@ -760,7 +812,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 listagemChamadosSuporteTecnicoActionPerformed(evt);
             }
         });
-        jMenu3.add(listagemChamadosSuporteTecnico);
+        jRelatorios.add(listagemChamadosSuporteTecnico);
 
         listagemChamadosDesenvolvimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119193225_16.png"))); // NOI18N
         listagemChamadosDesenvolvimento.setText("Chamados Desenvolvimento");
@@ -769,13 +821,33 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 listagemChamadosDesenvolvimentoActionPerformed(evt);
             }
         });
-        jMenu3.add(listagemChamadosDesenvolvimento);
+        jRelatorios.add(listagemChamadosDesenvolvimento);
 
-        jMenuBar1.add(jMenu3);
+        jMenuBar1.add(jRelatorios);
 
-        jMenu6.setMnemonic('O');
-        jMenu6.setText("Sobre");
-        jMenuBar1.add(jMenu6);
+        jSobre.setMnemonic('O');
+        jSobre.setText("Sobre");
+        jSobre.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
+            public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
+                jSobreMenuKeyPressed(evt);
+            }
+            public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt) {
+            }
+            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
+            }
+        });
+
+        jInformacoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        jInformacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Ajuda_8446_16x16.png"))); // NOI18N
+        jInformacoes.setText("Informações");
+        jInformacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jInformacoesActionPerformed(evt);
+            }
+        });
+        jSobre.add(jInformacoes);
+
+        jMenuBar1.add(jSobre);
 
         setJMenuBar(jMenuBar1);
 
@@ -1589,6 +1661,373 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jBtRelatoriosSuporteTecnicoActionPerformed
 
+    private void jCadastroMenuKeyPressed(javax.swing.event.MenuKeyEvent evt) {//GEN-FIRST:event_jCadastroMenuKeyPressed
+        // TODO add your handling code here:
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_E:
+                buscarAcessoUsuario(telaCadastroEmpresa);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroEmpresa) && codAbrir == 1) {
+                    if (objEmp == null || objEmp.isClosed()) {
+                        objEmp = new TelaEmpresa();
+                        TelaPrincipal.jPainelPrincipal.add(objEmp);
+                        objEmp.setVisible(true);
+                    } else {
+                        if (objEmp.isVisible()) {
+                            if (objEmp.isIcon()) { // Se esta minimizado
+                                try {
+                                    objEmp.setIcon(false); // maximiniza
+                                } catch (PropertyVetoException ex) {
+                                }
+                            } else {
+                                objEmp.toFront(); // traz para frente
+                                objEmp.pack();//volta frame 
+                            }
+                        } else {
+                            objEmp = new TelaEmpresa();
+                            TelaPrincipal.jPainelPrincipal.add(objEmp);//adicona frame ao JDesktopPane  
+                            objEmp.setVisible(true);
+                        }
+                    }
+                    try {
+                        objEmp.setSelected(true);
+                    } catch (java.beans.PropertyVetoException e) {
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+                }
+                break;
+            case KeyEvent.VK_O:
+                buscarAcessoUsuario(telaOcorrenciaManu);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaOcorrenciaManu) && codAbrir == 1) {
+                    if (objOcr == null || objOcr.isClosed()) {
+                        objOcr = new TelaOcorrenciasHD();
+                        TelaPrincipal.jPainelPrincipal.add(objOcr);
+                        objOcr.setVisible(true);
+                    } else {
+                        if (objOcr.isVisible()) {
+                            if (objOcr.isIcon()) { // Se esta minimizado
+                                try {
+                                    objOcr.setIcon(false); // maximiniza
+                                } catch (PropertyVetoException ex) {
+                                }
+                            } else {
+                                objOcr.toFront(); // traz para frente
+                                objOcr.pack();//volta frame 
+                            }
+                        } else {
+                            objOcr = new TelaOcorrenciasHD();
+                            TelaPrincipal.jPainelPrincipal.add(objOcr);//adicona frame ao JDesktopPane  
+                            objOcr.setVisible(true);
+                        }
+                    }
+                    try {
+                        objOcr.setSelected(true);
+                    } catch (java.beans.PropertyVetoException e) {
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+                }
+                break;
+            case KeyEvent.VK_S:
+                buscarAcessoUsuario(telaCadastroSolicitantes);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroSolicitantes) && codAbrir == 1) {
+                    if (objSoli == null || objSoli.isClosed()) {
+                        objSoli = new TelaSolicitantes();
+                        TelaPrincipal.jPainelPrincipal.add(objSoli);
+                        objSoli.setVisible(true);
+                    } else {
+                        if (objSoli.isVisible()) {
+                            if (objSoli.isIcon()) { // Se esta minimizado
+                                try {
+                                    objSoli.setIcon(false); // maximiniza
+                                } catch (PropertyVetoException ex) {
+                                }
+                            } else {
+                                objSoli.toFront(); // traz para frente
+                                objSoli.pack();//volta frame 
+                            }
+                        } else {
+                            objSoli = new TelaSolicitantes();
+                            TelaPrincipal.jPainelPrincipal.add(objSoli);//adicona frame ao JDesktopPane  
+                            objSoli.setVisible(true);
+                        }
+                    }
+                    try {
+                        objSoli.setSelected(true);
+                    } catch (java.beans.PropertyVetoException e) {
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+                }
+                break;
+            case KeyEvent.VK_U:
+                buscarAcessoUsuario(telaCadastroUsuarios);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroUsuarios) && codAbrir == 1) {
+                    if (objUser == null || objUser.isClosed()) {
+                        objUser = new TelaUsuarios();
+                        TelaPrincipal.jPainelPrincipal.add(objUser);
+                        objUser.setVisible(true);
+                    } else {
+                        if (objUser.isVisible()) {
+                            if (objUser.isIcon()) { // Se esta minimizado
+                                try {
+                                    objUser.setIcon(false); // maximiniza
+                                } catch (PropertyVetoException ex) {
+                                }
+                            } else {
+                                objUser.toFront(); // traz para frente
+                                objUser.pack();//volta frame 
+                            }
+                        } else {
+                            objUser = new TelaUsuarios();
+                            TelaPrincipal.jPainelPrincipal.add(objUser);//adicona frame ao JDesktopPane  
+                            objUser.setVisible(true);
+                        }
+                    }
+                    try {
+                        objUser.setSelected(true);
+                    } catch (java.beans.PropertyVetoException e) {
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+                }
+                break;
+            case KeyEvent.VK_F:
+                buscarAcessoUsuario(telaCadastroSistemas);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroSistemas) && codAbrir == 1) {
+                    if (objSoftware == null || objSoftware.isClosed()) {
+                        objSoftware = new TelaSoftware();
+                        TelaPrincipal.jPainelPrincipal.add(objSoftware);
+                        objSoftware.setVisible(true);
+                    } else {
+                        if (objSoftware.isVisible()) {
+                            if (objSoftware.isIcon()) { // Se esta minimizado
+                                try {
+                                    objSoftware.setIcon(false); // maximiniza
+                                } catch (PropertyVetoException ex) {
+                                }
+                            } else {
+                                objSoftware.toFront(); // traz para frente
+                                objSoftware.pack();//volta frame 
+                            }
+                        } else {
+                            objSoftware = new TelaSoftware();
+                            TelaPrincipal.jPainelPrincipal.add(objSoftware);//adicona frame ao JDesktopPane  
+                            objSoftware.setVisible(true);
+                        }
+                    }
+                    try {
+                        objSoftware.setSelected(true);
+                    } catch (java.beans.PropertyVetoException e) {
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+                }
+                break;
+            case KeyEvent.VK_M:
+                buscarAcessoUsuario(telaCadastroModulos);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroModulos) && codAbrir == 1) {
+                    if (objModulo == null || objModulo.isClosed()) {
+                        objModulo = new TelaModuloSistema();
+                        TelaPrincipal.jPainelPrincipal.add(objModulo);
+                        objModulo.setVisible(true);
+                    } else {
+                        if (objModulo.isVisible()) {
+                            if (objModulo.isIcon()) { // Se esta minimizado
+                                try {
+                                    objModulo.setIcon(false); // maximiniza
+                                } catch (PropertyVetoException ex) {
+                                }
+                            } else {
+                                objModulo.toFront(); // traz para frente
+                                objModulo.pack();//volta frame 
+                            }
+                        } else {
+                            objModulo = new TelaModuloSistema();
+                            TelaPrincipal.jPainelPrincipal.add(objModulo);//adicona frame ao JDesktopPane  
+                            objModulo.setVisible(true);
+                        }
+                    }
+                    try {
+                        objModulo.setSelected(true);
+                    } catch (java.beans.PropertyVetoException e) {
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+                }
+                break;
+            case KeyEvent.VK_A:
+                buscarAcessoUsuario(telaAgendaRecado);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaAgendaRecado) && codAbrir == 1) {
+                    if (objjAgendaRec == null || objjAgendaRec.isClosed()) {
+                        objjAgendaRec = new TelaRecados();
+                        jPainelPrincipal.add(objjAgendaRec);
+                        objjAgendaRec.setVisible(true);
+                    } else {
+                        if (objjAgendaRec.isVisible()) {
+                            if (objjAgendaRec.isIcon()) { // Se esta minimizado
+                                try {
+                                    objjAgendaRec.setIcon(false); // maximiniza
+                                } catch (PropertyVetoException ex) {
+                                }
+                            } else {
+                                objjAgendaRec.toFront(); // traz para frente
+                                objjAgendaRec.pack();//volta frame 
+                            }
+                        } else {
+                            objjAgendaRec = new TelaRecados();
+                            TelaPrincipal.jPainelPrincipal.add(objjAgendaRec);//adicona frame ao JDesktopPane  
+                            objjAgendaRec.setVisible(true);
+                        }
+                    }
+                    try {
+                        objjAgendaRec.setSelected(true);
+                    } catch (java.beans.PropertyVetoException e) {
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+                }
+                break;
+            case KeyEvent.VK_G:
+                buscarAcessoUsuario(telaAgendaCompromisso);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaAgendaCompromisso) && codAbrir == 1) {
+                    if (objAgendaComp == null || objAgendaComp.isClosed()) {
+                        objAgendaComp = new TelaAgendaCompromissos();
+                        TelaPrincipal.jPainelPrincipal.add(objAgendaComp);
+                        objAgendaComp.setVisible(true);
+                    } else {
+                        if (objAgendaComp.isVisible()) {
+                            if (objAgendaComp.isIcon()) { // Se esta minimizado
+                                try {
+                                    objAgendaComp.setIcon(false); // maximiniza
+                                } catch (PropertyVetoException ex) {
+                                }
+                            } else {
+                                objAgendaComp.toFront(); // traz para frente
+                                objAgendaComp.pack();//volta frame 
+                            }
+                        } else {
+                            objAgendaComp = new TelaAgendaCompromissos();
+                            TelaPrincipal.jPainelPrincipal.add(objAgendaComp);//adicona frame ao JDesktopPane  
+                            objAgendaComp.setVisible(true);
+                        }
+                    }
+                    try {
+                        objAgendaComp.setSelected(true);
+                    } catch (java.beans.PropertyVetoException e) {
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+                }
+                break;
+            case KeyEvent.VK_X:
+                System.exit(0);
+        }
+    }//GEN-LAST:event_jCadastroMenuKeyPressed
+
+    private void jSuporteTecnicoMenuKeyPressed(javax.swing.event.MenuKeyEvent evt) {//GEN-FIRST:event_jSuporteTecnicoMenuKeyPressed
+        // TODO add your handling code here:
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_C:
+                buscarAcessoUsuario(telaChamadosSuporte);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codAbrir == 1) {
+                    if (objChamaSup == null || objChamaSup.isClosed()) {
+                        objChamaSup = new TelaChamadoSuporte();
+                        TelaPrincipal.jPainelPrincipal.add(objChamaSup);
+                        objChamaSup.setVisible(true);
+                    } else {
+                        if (objChamaSup.isVisible()) {
+                            if (objChamaSup.isIcon()) { // Se esta minimizado
+                                try {
+                                    objChamaSup.setIcon(false); // maximiniza
+                                } catch (PropertyVetoException ex) {
+                                }
+                            } else {
+                                objChamaSup.toFront(); // traz para frente
+                                objChamaSup.pack();//volta frame 
+                            }
+                        } else {
+                            objChamaSup = new TelaChamadoSuporte();
+                            TelaPrincipal.jPainelPrincipal.add(objChamaSup);//adicona frame ao JDesktopPane  
+                            objChamaSup.setVisible(true);
+                        }
+                    }
+                    try {
+                        objChamaSup.setSelected(true);
+                    } catch (java.beans.PropertyVetoException e) {
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+                }
+                break;
+        }
+    }//GEN-LAST:event_jSuporteTecnicoMenuKeyPressed
+
+    private void jDesenvolvimentoMenuKeyPressed(javax.swing.event.MenuKeyEvent evt) {//GEN-FIRST:event_jDesenvolvimentoMenuKeyPressed
+        // TODO add your handling code here:
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_Q:
+                buscarAcessoUsuario(telaConsultasSql);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaConsultasSql) && codAbrir == 1) {
+                    TableExample objSQL = new TableExample();
+                    objSQL.createConnectionDialog();
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+                }
+                break;
+            case KeyEvent.VK_D:
+                buscarAcessoUsuario(telaChamadosDesenvolvimento);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosDesenvolvimento) && codAbrir == 1) {
+                    if (objChamaSupDesn == null || objChamaSupDesn.isClosed()) {
+                        objChamaSupDesn = new TelaChamadoDesenvolvimento();
+                        TelaPrincipal.jPainelPrincipal.add(objChamaSupDesn);
+                        objChamaSupDesn.setVisible(true);
+                    } else {
+                        if (objChamaSup.isVisible()) {
+                            if (objChamaSupDesn.isIcon()) { // Se esta minimizado
+                                try {
+                                    objChamaSupDesn.setIcon(false); // maximiniza
+                                } catch (PropertyVetoException ex) {
+                                }
+                            } else {
+                                objChamaSupDesn.toFront(); // traz para frente
+                                objChamaSupDesn.pack();//volta frame 
+                            }
+                        } else {
+                            objChamaSupDesn = new TelaChamadoDesenvolvimento();
+                            TelaPrincipal.jPainelPrincipal.add(objChamaSupDesn);//adicona frame ao JDesktopPane  
+                            objChamaSupDesn.setVisible(true);
+                        }
+                    }
+                    try {
+                        objChamaSupDesn.setSelected(true);
+                    } catch (java.beans.PropertyVetoException e) {
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+                }
+                break;
+        }
+    }//GEN-LAST:event_jDesenvolvimentoMenuKeyPressed
+
+    private void jInformacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jInformacoesActionPerformed
+        // TODO add your handling code here:
+        TelaSobre objSobre = new TelaSobre();
+        jPainelPrincipal.add(objSobre);
+        objSobre.show();
+    }//GEN-LAST:event_jInformacoesActionPerformed
+
+    private void jSobreMenuKeyPressed(javax.swing.event.MenuKeyEvent evt) {//GEN-FIRST:event_jSobreMenuKeyPressed
+        // TODO add your handling code here:
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_F1:
+                TelaSobre objSobre = new TelaSobre();
+                jPainelPrincipal.add(objSobre);
+                objSobre.show();
+                break;
+        }
+    }//GEN-LAST:event_jSobreMenuKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -1643,24 +2082,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jBtTrocarSenha;
     private javax.swing.JButton jBtUsuarios;
     private javax.swing.JButton jButton4;
+    private javax.swing.JMenu jCadastro;
     private javax.swing.JMenuItem jChamadosDesenvolvimento;
     private javax.swing.JMenuItem jChamadosSuporte;
     private javax.swing.JMenuItem jConsultasSQL;
     public static javax.swing.JTextField jDataSistema;
+    private javax.swing.JMenu jDesenvolvimento;
     private javax.swing.JMenuItem jEmpresa;
     public static javax.swing.JTextField jHoraSistema;
+    private javax.swing.JMenuItem jInformacoes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLoginConectado;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jModulosSistema;
     private javax.swing.JMenuItem jOcorrencias;
@@ -1669,12 +2106,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JMenu jRelatorios;
     private javax.swing.JMenuItem jSair;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JMenu jSobre;
     private javax.swing.JMenuItem jSoftware;
     private javax.swing.JMenuItem jSolicitantes;
+    private javax.swing.JMenu jSuporteTecnico;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;

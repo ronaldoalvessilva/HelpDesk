@@ -4,17 +4,24 @@
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="jCadastro">
           <Properties>
             <Property name="mnemonic" type="int" value="67"/>
             <Property name="text" type="java.lang.String" value="Cadastros"/>
           </Properties>
+          <Events>
+            <EventHandler event="menuKeyPressed" listener="javax.swing.event.MenuKeyListener" parameters="javax.swing.event.MenuKeyEvent" handler="jCadastroMenuKeyPressed"/>
+          </Events>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jEmpresa">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+E"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/240119190812_16.png"/>
                 </Property>
+                <Property name="mnemonic" type="int" value="69"/>
                 <Property name="text" type="java.lang.String" value="Empresa/Unidade Prisional"/>
               </Properties>
               <Events>
@@ -23,9 +30,13 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jOcorrencias">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+O"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/250119203457_16.png"/>
                 </Property>
+                <Property name="mnemonic" type="int" value="79"/>
                 <Property name="text" type="java.lang.String" value="Ocorr&#xea;ncias"/>
               </Properties>
               <Events>
@@ -34,9 +45,13 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jSolicitantes">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+S"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/240119192043_16.png"/>
                 </Property>
+                <Property name="mnemonic" type="int" value="76"/>
                 <Property name="text" type="java.lang.String" value="Solicitantes"/>
               </Properties>
               <Events>
@@ -47,9 +62,13 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jUsuarios">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+U"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/240119191009_16.png"/>
                 </Property>
+                <Property name="mnemonic" type="int" value="85"/>
                 <Property name="text" type="java.lang.String" value="Usu&#xe1;rios"/>
               </Properties>
               <Events>
@@ -66,9 +85,13 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="jSoftware">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Ctrl+F"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/Imagens/240119191524_16.png"/>
                     </Property>
+                    <Property name="mnemonic" type="int" value="70"/>
                     <Property name="text" type="java.lang.String" value="Sistema (Software)"/>
                   </Properties>
                   <Events>
@@ -77,9 +100,13 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jModulosSistema">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Ctrl+M"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/Imagens/240119191718_16.png"/>
                     </Property>
+                    <Property name="mnemonic" type="int" value="77"/>
                     <Property name="text" type="java.lang.String" value="M&#xf3;dulos do Sistema"/>
                   </Properties>
                   <Events>
@@ -92,9 +119,13 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jAgendaRecados">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+A"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/240119190439_16.png"/>
                 </Property>
+                <Property name="mnemonic" type="int" value="65"/>
                 <Property name="text" type="java.lang.String" value="Agenda de Recados"/>
               </Properties>
               <Events>
@@ -103,9 +134,13 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jAgendaCompromisso">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+G"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/240119190604_16.png"/>
                 </Property>
+                <Property name="mnemonic" type="int" value="71"/>
                 <Property name="text" type="java.lang.String" value="Agenda de Compromissos"/>
               </Properties>
               <Events>
@@ -116,6 +151,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jSair">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+X"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/shutdown-icone-6920-16.png"/>
                 </Property>
@@ -127,17 +165,24 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu2">
+        <Menu class="javax.swing.JMenu" name="jSuporteTecnico">
           <Properties>
             <Property name="mnemonic" type="int" value="83"/>
             <Property name="text" type="java.lang.String" value="Suporte T&#xe9;cnico"/>
           </Properties>
+          <Events>
+            <EventHandler event="menuKeyPressed" listener="javax.swing.event.MenuKeyListener" parameters="javax.swing.event.MenuKeyEvent" handler="jSuporteTecnicoMenuKeyPressed"/>
+          </Events>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jChamadosSuporte">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+C"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/HelpDeskFem_16.png"/>
                 </Property>
+                <Property name="mnemonic" type="int" value="72"/>
                 <Property name="text" type="java.lang.String" value="Chamados"/>
               </Properties>
               <Events>
@@ -146,17 +191,24 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu5">
+        <Menu class="javax.swing.JMenu" name="jDesenvolvimento">
           <Properties>
             <Property name="mnemonic" type="int" value="68"/>
             <Property name="text" type="java.lang.String" value="Desenvolvimento"/>
           </Properties>
+          <Events>
+            <EventHandler event="menuKeyPressed" listener="javax.swing.event.MenuKeyListener" parameters="javax.swing.event.MenuKeyEvent" handler="jDesenvolvimentoMenuKeyPressed"/>
+          </Events>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jConsultasSQL">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+Q"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/Database 3 16x16.png"/>
                 </Property>
+                <Property name="mnemonic" type="int" value="81"/>
                 <Property name="text" type="java.lang.String" value="Consultas SQL"/>
               </Properties>
               <Events>
@@ -165,9 +217,13 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jChamadosDesenvolvimento">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+D"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/HelpDeskMas_16.png"/>
                 </Property>
+                <Property name="mnemonic" type="int" value="68"/>
                 <Property name="text" type="java.lang.String" value="Chamados"/>
               </Properties>
               <Events>
@@ -176,7 +232,7 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu3">
+        <Menu class="javax.swing.JMenu" name="jRelatorios">
           <Properties>
             <Property name="mnemonic" type="int" value="82"/>
             <Property name="text" type="java.lang.String" value="Relat&#xf3;rios"/>
@@ -206,11 +262,30 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu6">
+        <Menu class="javax.swing.JMenu" name="jSobre">
           <Properties>
             <Property name="mnemonic" type="int" value="79"/>
             <Property name="text" type="java.lang.String" value="Sobre"/>
           </Properties>
+          <Events>
+            <EventHandler event="menuKeyPressed" listener="javax.swing.event.MenuKeyListener" parameters="javax.swing.event.MenuKeyEvent" handler="jSobreMenuKeyPressed"/>
+          </Events>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jInformacoes">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="F1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/Ajuda_8446_16x16.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Informa&#xe7;&#xf5;es"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jInformacoesActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
       </SubComponents>
     </Menu>
