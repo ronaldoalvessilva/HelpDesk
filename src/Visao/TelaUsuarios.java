@@ -865,7 +865,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jTabelaAcessos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jTabelaAcessos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Código", "Nome da Tela", "Abrir", "Incluir", "Alterar", "Excluir", "Consultar"
@@ -1090,6 +1090,9 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 jBtNovo.setEnabled(true);
                 jBtAlterar.setEnabled(true);
                 jBtExcluir.setEnabled(true);
+                //
+                
+                jBtCopiarPerfil.setEnabled(true);
             }
             conecta.abrirConexao();
             try {
