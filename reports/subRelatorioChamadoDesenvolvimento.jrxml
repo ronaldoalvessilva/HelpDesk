@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subRelatorioChamadoST" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="274ad5f0-bf08-48be-b624-c2fe78ba719d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoChamado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO INNER JOIN CHAMADOS_DESENVOLVIMENTO ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes=CHAMADOS_DESENVOLVIMENTO.IdCHDes WHERE CHAMADOS_DESENVOLVIMENTO.IdCHDes=$P{codigoChamado}]]>
+	</queryString>
+	<field name="IdItemDes" class="java.lang.Integer"/>
+	<field name="IdItem" class="java.lang.Integer"/>
+	<field name="IdCHDes" class="java.lang.Integer"/>
+	<field name="IdSoftware" class="java.lang.Integer"/>
+	<field name="IdModulo" class="java.lang.Integer"/>
+	<field name="DataItemCh" class="java.sql.Timestamp"/>
+	<field name="HorarioInicio" class="java.lang.String"/>
+	<field name="HorarioTermino" class="java.lang.String"/>
+	<field name="TextoSuporte" class="java.lang.String"/>
+	<field name="TextoDesenvol" class="java.lang.String"/>
+	<field name="TipoChamado" class="java.lang.String"/>
+	<field name="UsuarioInsert" class="java.lang.String"/>
+	<field name="UsuarioUp" class="java.lang.String"/>
+	<field name="DataInsert" class="java.lang.String"/>
+	<field name="DataUp" class="java.lang.String"/>
+	<field name="HorarioInsert" class="java.lang.String"/>
+	<field name="HorarioUp" class="java.lang.String"/>
+	<field name="StatusCha" class="java.lang.String"/>
+	<field name="DataCha" class="java.sql.Date"/>
+	<field name="IdUsuario" class="java.lang.Integer"/>
+	<field name="IdSolicitante" class="java.lang.Integer"/>
+	<field name="IdUnidEmp" class="java.lang.Integer"/>
+	<detail>
+		<band height="69" splitType="Stretch">
+			<rectangle>
+				<reportElement x="170" y="-2" width="363" height="21" uuid="49861c66-0602-43e4-8860-e327e0513734"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-22" y="19" width="555" height="48" uuid="5dd2c6fe-2d47-4f33-9e9a-ab26e0699151"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="125" y="-2" width="45" height="20" uuid="c9c68911-2925-40d5-87b6-2582653fba37"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="77" y="-2" width="48" height="20" uuid="ab83701d-da62-4848-a885-b20e82b9462e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="17" y="-2" width="60" height="20" uuid="a9c8646a-77a3-48c4-a34d-8a06c9840010"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-22" y="-2" width="39" height="20" uuid="5bd5ca6d-1c89-47b6-a7ec-84230c348315"/>
+			</rectangle>
+			<textField>
+				<reportElement x="-20" y="0" width="37" height="19" uuid="1e5e3cc1-014a-470f-866b-34df8570c908"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IdCHDes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="17" y="0" width="60" height="19" uuid="2dd7b48d-a2c5-49a6-a554-12d467e68333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DataItemCh}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="77" y="0" width="48" height="19" uuid="46ab6ea6-cb45-423a-90a6-437d24a364d7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HorarioInicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="125" y="0" width="45" height="19" uuid="c5fff6f2-d75e-4916-a3c5-f8cba65e4668"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HorarioTermino}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-16" y="19" width="455" height="48" uuid="32610487-a1df-469f-bfbd-d3f4a98ad95d"/>
+				<textFieldExpression><![CDATA[$F{TextoDesenvol}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
