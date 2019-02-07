@@ -133,7 +133,7 @@ public class TelaCopiaPerfilUsuario extends javax.swing.JDialog {
         jTabelaAcessos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jTabelaAcessos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Código", "Nome da Tela", "Abrir", "Incluir", "Alterar", "Excluir", "Consultar", "Nome do Módulo"
@@ -166,7 +166,7 @@ public class TelaCopiaPerfilUsuario extends javax.swing.JDialog {
         }
 
         jBtConfirmar.setForeground(new java.awt.Color(0, 153, 0));
-        jBtConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gestor/Imagens/accept.png"))); // NOI18N
+        jBtConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/40_16x16.png"))); // NOI18N
         jBtConfirmar.setText("Confirmar");
         jBtConfirmar.setToolTipText("Confirmar cópia do pérfil");
         jBtConfirmar.addActionListener(new java.awt.event.ActionListener() {
@@ -176,7 +176,7 @@ public class TelaCopiaPerfilUsuario extends javax.swing.JDialog {
         });
 
         jBtSair.setForeground(new java.awt.Color(204, 0, 0));
-        jBtSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gestor/Imagens/shutdown-icone-6920-16.png"))); // NOI18N
+        jBtSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/shutdown-icone-6920-16.png"))); // NOI18N
         jBtSair.setText("Sair");
         jBtSair.setToolTipText("Sair da tela");
         jBtSair.addActionListener(new java.awt.event.ActionListener() {
