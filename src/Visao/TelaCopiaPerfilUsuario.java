@@ -370,7 +370,7 @@ public class TelaCopiaPerfilUsuario extends javax.swing.JDialog {
     }
 
     public void Salvar() {
-        jComboBoxNomeUsuario.setSelectedItem(null);
+        jComboBoxNomeUsuario.setSelectedItem("Selecione...");
         jBtConfirmar.setEnabled(true);
     }
 
