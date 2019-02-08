@@ -52,9 +52,12 @@ public class TelaSolicitantes extends javax.swing.JInternalFrame {
     String dataModFinal;
     String statusMov;
     int count = 0;
+    int count0;
     int flag, acao;
     String dataInicial, dataFinal, dataBrasil;
     String dataEntrada;
+    String dataInicialCH;
+    String dataFinalCH;
     public static int idEmpresa = 0;
     public static int idUnidade = 0;
     String codigoSolicitante = "";
@@ -138,7 +141,7 @@ public class TelaSolicitantes extends javax.swing.JInternalFrame {
         jBtPesquisaCodCH = new javax.swing.JButton();
         jCheckBoxTodosCH = new javax.swing.JCheckBox();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTabelaItens = new javax.swing.JTable();
         jPanel33 = new javax.swing.JPanel();
         jPanel34 = new javax.swing.JPanel();
         jLabel64 = new javax.swing.JLabel();
@@ -760,8 +763,8 @@ public class TelaSolicitantes extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaItens.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTabelaItens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -769,16 +772,16 @@ public class TelaSolicitantes extends javax.swing.JInternalFrame {
                 "Código", "Data", "Status", "Texto do Chamado"
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(60);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(60);
-            jTable1.getColumnModel().getColumn(1).setMinWidth(70);
-            jTable1.getColumnModel().getColumn(1).setMaxWidth(70);
-            jTable1.getColumnModel().getColumn(2).setMinWidth(80);
-            jTable1.getColumnModel().getColumn(2).setMaxWidth(80);
-            jTable1.getColumnModel().getColumn(3).setMinWidth(500);
-            jTable1.getColumnModel().getColumn(3).setMaxWidth(500);
+        jScrollPane3.setViewportView(jTabelaItens);
+        if (jTabelaItens.getColumnModel().getColumnCount() > 0) {
+            jTabelaItens.getColumnModel().getColumn(0).setMinWidth(60);
+            jTabelaItens.getColumnModel().getColumn(0).setMaxWidth(60);
+            jTabelaItens.getColumnModel().getColumn(1).setMinWidth(70);
+            jTabelaItens.getColumnModel().getColumn(1).setMaxWidth(70);
+            jTabelaItens.getColumnModel().getColumn(2).setMinWidth(80);
+            jTabelaItens.getColumnModel().getColumn(2).setMaxWidth(80);
+            jTabelaItens.getColumnModel().getColumn(3).setMinWidth(500);
+            jTabelaItens.getColumnModel().getColumn(3).setMaxWidth(500);
         }
 
         jPanel33.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED)));
@@ -951,6 +954,7 @@ public class TelaSolicitantes extends javax.swing.JInternalFrame {
                 jBtExcluir.setEnabled(true);
                 jBtAuditoria.setEnabled(true);
             }
+            limparTabelaItens();
             //
             conecta.abrirConexao();
             try {
@@ -1086,7 +1090,7 @@ public class TelaSolicitantes extends javax.swing.JInternalFrame {
                     objLog();
                     controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                     Salvar();
-                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");                    
+                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
                 }
             }
         } else {
@@ -1124,14 +1128,66 @@ public class TelaSolicitantes extends javax.swing.JInternalFrame {
 
     private void jBtPesquisaCodCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisaCodCHActionPerformed
         // TODO add your handling code here:
+        flag = 1;
+        if (jIdChamado.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
+        } else {
+            preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
+                    + "INNER JOIN CHAMADOS_SUPORTE "
+                    + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
+                    + "INNER JOIN SOLICITANTES "
+                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
+                    + "WHERE CHAMADOS_SUPORTE.IdSolicitante='" + jIdSolicitante.getText() + "' "
+                    + "AND ITENS_CHAMADOS_SUPORTE.IdItem='" + jIdChamado.getText() + "'");
+        }
     }//GEN-LAST:event_jBtPesquisaCodCHActionPerformed
 
     private void jCheckBoxTodosCHItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxTodosCHItemStateChanged
         // TODO add your handling code here:
+        flag = 1;
+        if (evt.getStateChange() == evt.SELECTED) {
+            limparTabelaItens();
+            this.preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
+                    + "INNER JOIN CHAMADOS_SUPORTE "
+                    + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
+                    + "INNER JOIN SOLICITANTES "
+                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
+                    + "WHERE CHAMADOS_SUPORTE.IdSolicitante='" + jIdSolicitante.getText() + "'");
+        } else {
+            jtotalChamados.setText("");
+            limparTabelaItens();
+        }
     }//GEN-LAST:event_jCheckBoxTodosCHItemStateChanged
 
     private void jBtPesquisaDataCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisaDataCHActionPerformed
         // TODO add your handling code here:
+        flag = 1;
+        if (jDataInicialCH.getDate() == null) {
+            JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+            jDataInicialCH.requestFocus();
+        } else {
+            if (jDataFinalCH.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                jDataFinalCH.requestFocus();
+            } else {
+                if (jDataInicialCH.getDate().after(jDataFinalCH.getDate())) {
+                    JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                } else {
+                    SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
+                    dataInicialCH = formatoAmerica.format(jDataInicialCH.getDate().getTime());
+                    dataFinalCH = formatoAmerica.format(jDataFinalCH.getDate().getTime());
+                    preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
+                            + "INNER JOIN CHAMADOS_SUPORTE "
+                            + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
+                            + "INNER JOIN SOLICITANTES "
+                            + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
+                            + "WHERE DataItemCH BETWEEN'" + dataInicialCH + "' "
+                            + "AND '" + dataFinalCH + "' "
+                            + "AND CHAMADOS_SUPORTE.IdSolicitante='" + jIdSolicitante.getText() + "'");
+
+                }
+            }
+        }
     }//GEN-LAST:event_jBtPesquisaDataCHActionPerformed
 
 
@@ -1199,8 +1255,8 @@ public class TelaSolicitantes extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTabelaItens;
     private javax.swing.JTable jTabelaSolicitantes;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel jtotalChamados;
     private javax.swing.JLabel jtotalRegistros;
     // End of variables declaration//GEN-END:variables
@@ -1418,6 +1474,82 @@ public class TelaSolicitantes extends javax.swing.JInternalFrame {
         jTabelaSolicitantes.getColumnModel().getColumn(0).setCellRenderer(centralizado);
         jTabelaSolicitantes.getColumnModel().getColumn(1).setCellRenderer(centralizado);
         jTabelaSolicitantes.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+    }
+
+    public void preencherTabelaItensChamados(String sql) {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Hora Inicial", "Hora Termino", "Texto Chamado"};
+        conecta.abrirConexao();
+        conecta.executaSQL(sql);
+        try {
+            conecta.rs.first();
+            do {
+                // Formatar a data no formato Brasil
+                dataEntrada = conecta.rs.getString("DataItemCh");
+                String dia = dataEntrada.substring(8, 10);
+                String mes = dataEntrada.substring(5, 7);
+                String ano = dataEntrada.substring(0, 4);
+                dataEntrada = dia + "/" + mes + "/" + ano;
+                count0 = count0 + 1;
+                jtotalRegistros.setText(Integer.toString(count0)); // Converter inteiro em string para exibir na tela
+                dados.add(new Object[]{conecta.rs.getInt("IdItem"), dataEntrada, conecta.rs.getString("HorarioInicio"), conecta.rs.getString("HorarioTermino"), conecta.rs.getString("TextoSuporte")});
+            } while (conecta.rs.next());
+        } catch (SQLException ex) {
+        }
+        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+        jTabelaItens.setModel(modelo);
+        jTabelaItens.getColumnModel().getColumn(0).setPreferredWidth(70);
+        jTabelaItens.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaItens.getColumnModel().getColumn(1).setPreferredWidth(70);
+        jTabelaItens.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaItens.getColumnModel().getColumn(2).setPreferredWidth(80);
+        jTabelaItens.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaItens.getColumnModel().getColumn(3).setPreferredWidth(80);
+        jTabelaItens.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaItens.getColumnModel().getColumn(4).setPreferredWidth(550);
+        jTabelaItens.getColumnModel().getColumn(4).setResizable(false);
+        jTabelaItens.getTableHeader().setReorderingAllowed(false);
+        jTabelaItens.setAutoResizeMode(jTabelaItens.AUTO_RESIZE_OFF);
+        jTabelaItens.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+        alinhaCeluasTabelaItens();
+        conecta.desconecta();
+    }
+
+    public void alinhaCeluasTabelaItens() {
+        //
+        DefaultTableCellRenderer esquerda = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer direita = new DefaultTableCellRenderer();
+        esquerda.setHorizontalAlignment(SwingConstants.LEFT);
+        centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+        direita.setHorizontalAlignment(SwingConstants.RIGHT);
+        //
+        jTabelaItens.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+        jTabelaItens.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+        jTabelaItens.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+        jTabelaItens.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+    }
+
+    public void limparTabelaItens() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Hora Inicial", "Hora Termino", "Texto Chamado"};
+        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+        jTabelaItens.setModel(modelo);
+        jTabelaItens.getColumnModel().getColumn(0).setPreferredWidth(70);
+        jTabelaItens.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaItens.getColumnModel().getColumn(1).setPreferredWidth(70);
+        jTabelaItens.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaItens.getColumnModel().getColumn(2).setPreferredWidth(80);
+        jTabelaItens.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaItens.getColumnModel().getColumn(3).setPreferredWidth(80);
+        jTabelaItens.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaItens.getColumnModel().getColumn(4).setPreferredWidth(550);
+        jTabelaItens.getColumnModel().getColumn(4).setResizable(false);
+        jTabelaItens.getTableHeader().setReorderingAllowed(false);
+        jTabelaItens.setAutoResizeMode(jTabelaItens.AUTO_RESIZE_OFF);
+        jTabelaItens.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        modelo.getLinhas().clear();
     }
 
     public void buscarAcessoUsuario(String nomeTelaAcesso) {
