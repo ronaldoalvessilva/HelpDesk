@@ -2514,17 +2514,6 @@ public class TelaEmpresa extends javax.swing.JInternalFrame {
         } catch (Exception e) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM USUARIOS_GRUPOS "
-                    + "INNER JOIN GRUPOUSUARIOS "
-                    + "ON USUARIOS_GRUPOS.IdGrupo=GRUPOUSUARIOS.IdGrupo "
-                    + "WHERE IdUsuario='" + codigoUser + "'");
-            conecta.rs.first();
-            codigoUser = conecta.rs.getInt("IdUsuario");
-            codigoGrupo = conecta.rs.getInt("IdGrupo");
-            nomeGrupo = conecta.rs.getString("NomeGrupo");
-        } catch (Exception e) {
-        }
-        try {
             conecta.executaSQL("SELECT * FROM TELAS_ACESSO "
                     + "WHERE IdUsuario='" + codigoUser + "' "
                     + "AND NomeTela='" + nomeTelaAcesso + "'");
