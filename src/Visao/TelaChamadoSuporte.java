@@ -30,6 +30,7 @@ import static Visao.TelaPrincipal.jPainelPrincipal;
 import static Visao.TelaPrincipal.nomeTela;
 import static Visao.TelaPrincipal.telaChamadosSuporte;
 import static Visao.TelaPrincipal.telaItensChamadoSuporte;
+import static Visao.TelaPrincipal.tipoServidor;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -1134,58 +1135,119 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         nomeAtendente = nameUser;
         count = 0;
         flag = 1;
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
-            if (jDataPesqInicial.getDate() == null) {
-                JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                jDataPesqInicial.requestFocus();
-            } else {
-                if (jDataPesFinal.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                    jDataPesFinal.requestFocus();
+        if (tipoServidor == null || tipoServidor.equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
+        } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
+            if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                if (jDataPesqInicial.getDate() == null) {
+                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                    jDataPesqInicial.requestFocus();
                 } else {
-                    if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
-                        JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                    if (jDataPesFinal.getDate() == null) {
+                        JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                        jDataPesFinal.requestFocus();
                     } else {
-                        SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
-                        dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                        dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                        preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
-                                + "INNER JOIN USUARIOS "
-                                + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                                + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                                + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                                + "INNER JOIN SOLICITANTES "
-                                + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
-                                + "WHERE DataCha BETWEEN'" + dataInicial + "' "
-                                + "AND '" + dataFinal + "' ");
+                        if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
+                            JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                        } else {
+                            SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
+                            dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                            dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+                            preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                                    + "INNER JOIN USUARIOS "
+                                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                                    + "INNER JOIN SOLICITANTES "
+                                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                                    + "WHERE DataCha BETWEEN'" + dataInicial + "' "
+                                    + "AND '" + dataFinal + "' ");
+                        }
+                    }
+                }
+            } else {
+                if (jDataPesqInicial.getDate() == null) {
+                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                    jDataPesqInicial.requestFocus();
+                } else {
+                    if (jDataPesFinal.getDate() == null) {
+                        JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                        jDataPesFinal.requestFocus();
+                    } else {
+                        if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
+                            JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                        } else {
+                            SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
+                            dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                            dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+                            preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                                    + "INNER JOIN USUARIOS "
+                                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                                    + "INNER JOIN SOLICITANTES "
+                                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                                    + "WHERE DataCha BETWEEN'" + dataInicial + "' "
+                                    + "AND '" + dataFinal + "' "
+                                    + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+                        }
                     }
                 }
             }
-        } else {
-            if (jDataPesqInicial.getDate() == null) {
-                JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                jDataPesqInicial.requestFocus();
-            } else {
-                if (jDataPesFinal.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                    jDataPesFinal.requestFocus();
+        } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
+            if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                if (jDataPesqInicial.getDate() == null) {
+                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                    jDataPesqInicial.requestFocus();
                 } else {
-                    if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
-                        JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                    if (jDataPesFinal.getDate() == null) {
+                        JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                        jDataPesFinal.requestFocus();
                     } else {
-                        SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
-                        dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                        dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                        preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
-                                + "INNER JOIN USUARIOS "
-                                + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                                + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                                + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                                + "INNER JOIN SOLICITANTES "
-                                + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
-                                + "WHERE DataCha BETWEEN'" + dataInicial + "' "
-                                + "AND '" + dataFinal + "' "
-                                + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+                        if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
+                            JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                        } else {
+                            SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
+                            dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                            dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+                            preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                                    + "INNER JOIN USUARIOS "
+                                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                                    + "INNER JOIN SOLICITANTES "
+                                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                                    + "WHERE DataCha BETWEEN'" + dataInicial + "' "
+                                    + "AND '" + dataFinal + "' ");
+                        }
+                    }
+                }
+            } else {
+                if (jDataPesqInicial.getDate() == null) {
+                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                    jDataPesqInicial.requestFocus();
+                } else {
+                    if (jDataPesFinal.getDate() == null) {
+                        JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                        jDataPesFinal.requestFocus();
+                    } else {
+                        if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
+                            JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                        } else {
+                            SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
+                            dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                            dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+                            preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                                    + "INNER JOIN USUARIOS "
+                                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                                    + "INNER JOIN SOLICITANTES "
+                                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                                    + "WHERE DataCha BETWEEN'" + dataInicial + "' "
+                                    + "AND '" + dataFinal + "' "
+                                    + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+                        }
                     }
                 }
             }
@@ -2184,7 +2246,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         conecta.desconecta();
     }
 
-    public void relatorioChamadosST() {        
+    public void relatorioChamadosST() {
         try {
             conecta.abrirConexao();
             String path = "reports/relatorioChamadoSuporteTecnico.jasper";

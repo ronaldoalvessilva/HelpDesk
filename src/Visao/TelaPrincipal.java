@@ -6,6 +6,8 @@
 package Visao;
 
 import Controle.ModeloTabela;
+import Controle.converterDataStringDataDate;
+import static Controle.converterDataStringDataDate.dataSisConvert;
 import Dao.ConexaoBancoDados;
 import Dao.telasSistemaDao;
 import Modelo.CadastroTelasSistema;
@@ -77,6 +79,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     telasSistemaDao controle = new telasSistemaDao();
     SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss"); // HORAIO DE 24 HORAS, PARA O DE 12 HORAS UTILIZAR hh:mm:ss
     SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
+    converterDataStringDataDate convertedata = new converterDataStringDataDate();
     //    
     private TelaEmpresa objEmp = null;
     private TelaOcorrenciasHD objOcr = null;
@@ -183,6 +186,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     String pNomeBCSD = "";
     //CONSULTAS SQL
     String pNomeCSQL = "";
+    //    
+    public static String tipoServidor = "";
+    public static String tipoBancoDados = "";
 
     public static TelaTrocaSenha telaTrocaSenha;
 
@@ -220,6 +226,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         pesquisarTelasAcessos();
         threadMensagem(); // A cada 5 minutos verifica mensagem   
+        verificarParametrosSRV();
     }
 
     public void mostrarTelaTrocaSenha() {
@@ -2297,8 +2304,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
             pNomeCDI = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
-        
-                try {
+
+        try {
             conecta.executaSQL("SELECT * FROM TELAS "
                     + "WHERE NomeTela='" + telaConsultasSql + "'");
             conecta.rs.first();
@@ -2612,69 +2619,139 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public void verificarAgendaCompromisso() {
         buscarAcessoUsuario(telaAgendaRecado);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaAgendaRecado) && codAbrir == 1) {
-            buscarUsuario(nameUser);
-            conecta.abrirConexao();
-            try {
-                conecta.executaSQL("SELECT * FROM AGENDA_COMPROMISSOS "
-                        + "WHERE UsuarioAgenda='" + nameUser + "' "
-                        + "AND StatusAgenda='" + statusAgenda + "' "
-                        + "AND DataLembrete='" + jDataSistema.getText() + "' "
-                        + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "'");
-                conecta.rs.first();
-                horaLembrete = conecta.rs.getString("HoraLembrete");
-                usuarioAgenda = conecta.rs.getString("UsuarioAgenda");
-                codigoAgendaComp = conecta.rs.getString("IdAgenda");
-                //
-                if (nomeUsuarioCompromisso.equals(usuarioAgenda)) {
-                    TelaAgendaCompromissos objAgendaComp = new TelaAgendaCompromissos();
-                    jPainelPrincipal.add(objAgendaComp);
-                    objAgendaComp.show();
+            convertedata.converter(jDataSistema.getText());
+            if (tipoServidor == null || tipoServidor.equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
+            } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
+                buscarUsuario(nameUser);
+                conecta.abrirConexao();
+                try {
+                    conecta.executaSQL("SELECT * FROM AGENDA_COMPROMISSOS "
+                            + "WHERE UsuarioAgenda='" + nameUser + "' "
+                            + "AND StatusAgenda='" + statusAgenda + "' "
+                            + "AND DataLembrete='" + dataSisConvert + "' "
+                            + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "'");
+                    conecta.rs.first();
+                    horaLembrete = conecta.rs.getString("HoraLembrete");
+                    usuarioAgenda = conecta.rs.getString("UsuarioAgenda");
+                    codigoAgendaComp = conecta.rs.getString("IdAgenda");
                     //
-                    flag = 1;
-                    preencherTabelaAgendaCompromisso("SELECT * FROM AGENDA_COMPROMISSOS "
-                            + "WHERE AGENDA_COMPROMISSOS.UsuarioAgenda='" + nameUser + "' "
-                            + "AND AGENDA_COMPROMISSOS.StatusAgenda='" + statusAgenda + "' "
-                            + "AND DataLembrete='" + jDataSistema.getText() + "' "
-                            + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "' "
-                            + "AND IdAgenda='" + codigoAgendaComp + "'");
-                    if (flag == 1) {
-                        jBtNovoComp.setEnabled(true);
-                        jBtAlterarComp.setEnabled(true);
-                        jBtExcluirComp.setEnabled(true);
-                        jBtSalvarComp.setEnabled(!true);
-                        jBtCancelarComp.setEnabled(true);
-                        jBtConfirmarCompromisso.setEnabled(true);
-                        conecta.abrirConexao();
-                        try {
-                            conecta.executaSQL("SELECT * FROM AGENDA_COMPROMISSOS "
-                                    + "WHERE AGENDA_COMPROMISSOS.UsuarioAgenda='" + nomeUsuarioCompromisso + "' "
-                                    + "AND AGENDA_COMPROMISSOS.StatusAgenda='" + statusAgenda + "' "
-                                    + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "' "
-                                    + "AND IdAgenda='" + codigoAgendaComp + "'");
-                            conecta.rs.first();
-                            jCodigoAgendaComp.setText(String.valueOf(conecta.rs.getInt("IdAgenda")));
-                            jComboBoxStatusComp.setSelectedItem(conecta.rs.getString("StatusAgenda"));
-                            jComboBoxTipoEvento.setSelectedItem(conecta.rs.getString("TipoEvento"));
-                            jDataEvento.setDate(conecta.rs.getDate("DataAgenda"));
-                            jAssunto.setText(conecta.rs.getString("Assunto"));
-                            jComboBoxPrioridade.setSelectedItem(conecta.rs.getString("Prioridade"));
-                            jComboBoxConclusao.setSelectedItem(conecta.rs.getString("Conclusao"));
-                            jDataInicio.setDate(conecta.rs.getDate("DataInicio"));
-                            jDataTermino.setDate(conecta.rs.getDate("DataTermino"));
-                            jHoraInicio.setText(conecta.rs.getString("HoraInicio"));
-                            jHoraTermino.setText(conecta.rs.getString("HoraTermino"));
-                            jDataLembrete.setDate(conecta.rs.getDate("DataLembrete"));
-                            jHoraLembrete.setText(conecta.rs.getString("HoraLembrete"));
-                            jTextoEvento.setText(conecta.rs.getString("Texto"));
-                            jNomeUsuarioAgenda.setText(conecta.rs.getString("UsuarioAgenda"));
+                    if (nomeUsuarioCompromisso.equals(usuarioAgenda)) {
+                        TelaAgendaCompromissos objAgendaComp = new TelaAgendaCompromissos();
+                        jPainelPrincipal.add(objAgendaComp);
+                        objAgendaComp.show();
+                        //
+                        flag = 1;
+                        preencherTabelaAgendaCompromisso("SELECT * FROM AGENDA_COMPROMISSOS "
+                                + "WHERE AGENDA_COMPROMISSOS.UsuarioAgenda='" + nameUser + "' "
+                                + "AND AGENDA_COMPROMISSOS.StatusAgenda='" + statusAgenda + "' "
+                                + "AND DataLembrete='" + dataSisConvert + "' "
+                                + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "' "
+                                + "AND IdAgenda='" + codigoAgendaComp + "'");
+                        if (flag == 1) {
+                            jBtNovoComp.setEnabled(true);
+                            jBtAlterarComp.setEnabled(true);
+                            jBtExcluirComp.setEnabled(true);
+                            jBtSalvarComp.setEnabled(!true);
+                            jBtCancelarComp.setEnabled(true);
+                            jBtConfirmarCompromisso.setEnabled(true);
+                            conecta.abrirConexao();
+                            try {
+                                conecta.executaSQL("SELECT * FROM AGENDA_COMPROMISSOS "
+                                        + "WHERE AGENDA_COMPROMISSOS.UsuarioAgenda='" + nomeUsuarioCompromisso + "' "
+                                        + "AND AGENDA_COMPROMISSOS.StatusAgenda='" + statusAgenda + "' "
+                                        + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "' "
+                                        + "AND IdAgenda='" + codigoAgendaComp + "'");
+                                conecta.rs.first();
+                                jCodigoAgendaComp.setText(String.valueOf(conecta.rs.getInt("IdAgenda")));
+                                jComboBoxStatusComp.setSelectedItem(conecta.rs.getString("StatusAgenda"));
+                                jComboBoxTipoEvento.setSelectedItem(conecta.rs.getString("TipoEvento"));
+                                jDataEvento.setDate(conecta.rs.getDate("DataAgenda"));
+                                jAssunto.setText(conecta.rs.getString("Assunto"));
+                                jComboBoxPrioridade.setSelectedItem(conecta.rs.getString("Prioridade"));
+                                jComboBoxConclusao.setSelectedItem(conecta.rs.getString("Conclusao"));
+                                jDataInicio.setDate(conecta.rs.getDate("DataInicio"));
+                                jDataTermino.setDate(conecta.rs.getDate("DataTermino"));
+                                jHoraInicio.setText(conecta.rs.getString("HoraInicio"));
+                                jHoraTermino.setText(conecta.rs.getString("HoraTermino"));
+                                jDataLembrete.setDate(conecta.rs.getDate("DataLembrete"));
+                                jHoraLembrete.setText(conecta.rs.getString("HoraLembrete"));
+                                jTextoEvento.setText(conecta.rs.getString("Texto"));
+                                jNomeUsuarioAgenda.setText(conecta.rs.getString("UsuarioAgenda"));
+                                conecta.desconecta();
+                            } catch (SQLException e) {
+                                JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados...\nERRO: " + e);
+                            }
                             conecta.desconecta();
-                        } catch (SQLException e) {
-                            JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados...\nERRO: " + e);
                         }
-                        conecta.desconecta();
                     }
+                } catch (SQLException ex) {
                 }
-            } catch (SQLException ex) {
+            } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
+                buscarUsuario(nameUser);
+                conecta.abrirConexao();
+                try {
+                    conecta.executaSQL("SELECT * FROM AGENDA_COMPROMISSOS "
+                            + "WHERE UsuarioAgenda='" + nameUser + "' "
+                            + "AND StatusAgenda='" + statusAgenda + "' "
+                            + "AND DataLembrete='" + jDataSistema.getText() + "' "
+                            + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "'");
+                    conecta.rs.first();
+                    horaLembrete = conecta.rs.getString("HoraLembrete");
+                    usuarioAgenda = conecta.rs.getString("UsuarioAgenda");
+                    codigoAgendaComp = conecta.rs.getString("IdAgenda");
+                    //
+                    if (nomeUsuarioCompromisso.equals(usuarioAgenda)) {
+                        TelaAgendaCompromissos objAgendaComp = new TelaAgendaCompromissos();
+                        jPainelPrincipal.add(objAgendaComp);
+                        objAgendaComp.show();
+                        //
+                        flag = 1;
+                        preencherTabelaAgendaCompromisso("SELECT * FROM AGENDA_COMPROMISSOS "
+                                + "WHERE AGENDA_COMPROMISSOS.UsuarioAgenda='" + nameUser + "' "
+                                + "AND AGENDA_COMPROMISSOS.StatusAgenda='" + statusAgenda + "' "
+                                + "AND DataLembrete='" + jDataSistema.getText() + "' "
+                                + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "' "
+                                + "AND IdAgenda='" + codigoAgendaComp + "'");
+                        if (flag == 1) {
+                            jBtNovoComp.setEnabled(true);
+                            jBtAlterarComp.setEnabled(true);
+                            jBtExcluirComp.setEnabled(true);
+                            jBtSalvarComp.setEnabled(!true);
+                            jBtCancelarComp.setEnabled(true);
+                            jBtConfirmarCompromisso.setEnabled(true);
+                            conecta.abrirConexao();
+                            try {
+                                conecta.executaSQL("SELECT * FROM AGENDA_COMPROMISSOS "
+                                        + "WHERE AGENDA_COMPROMISSOS.UsuarioAgenda='" + nomeUsuarioCompromisso + "' "
+                                        + "AND AGENDA_COMPROMISSOS.StatusAgenda='" + statusAgenda + "' "
+                                        + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "' "
+                                        + "AND IdAgenda='" + codigoAgendaComp + "'");
+                                conecta.rs.first();
+                                jCodigoAgendaComp.setText(String.valueOf(conecta.rs.getInt("IdAgenda")));
+                                jComboBoxStatusComp.setSelectedItem(conecta.rs.getString("StatusAgenda"));
+                                jComboBoxTipoEvento.setSelectedItem(conecta.rs.getString("TipoEvento"));
+                                jDataEvento.setDate(conecta.rs.getDate("DataAgenda"));
+                                jAssunto.setText(conecta.rs.getString("Assunto"));
+                                jComboBoxPrioridade.setSelectedItem(conecta.rs.getString("Prioridade"));
+                                jComboBoxConclusao.setSelectedItem(conecta.rs.getString("Conclusao"));
+                                jDataInicio.setDate(conecta.rs.getDate("DataInicio"));
+                                jDataTermino.setDate(conecta.rs.getDate("DataTermino"));
+                                jHoraInicio.setText(conecta.rs.getString("HoraInicio"));
+                                jHoraTermino.setText(conecta.rs.getString("HoraTermino"));
+                                jDataLembrete.setDate(conecta.rs.getDate("DataLembrete"));
+                                jHoraLembrete.setText(conecta.rs.getString("HoraLembrete"));
+                                jTextoEvento.setText(conecta.rs.getString("Texto"));
+                                jNomeUsuarioAgenda.setText(conecta.rs.getString("UsuarioAgenda"));
+                                conecta.desconecta();
+                            } catch (SQLException e) {
+                                JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados...\nERRO: " + e);
+                            }
+                            conecta.desconecta();
+                        }
+                    }
+                } catch (SQLException ex) {
+                }
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Existe mensagem para esse usuário, entretanto o usuário não tem acesso a agenda de recado.\nSolicite liberação do administrador do sistema.");
@@ -2731,5 +2808,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jTabelaAgendaEventos.getColumnModel().getColumn(0).setCellRenderer(centralizado);
         jTabelaAgendaEventos.getColumnModel().getColumn(1).setCellRenderer(centralizado);
         jTabelaAgendaEventos.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+    }
+
+    // PARAMETRO PARA IDENTIFICAR O OS DO SERVIDOR DE BANCO DE DADOS.
+    public void verificarParametrosSRV() {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM SOFTWARE");
+            conecta.rs.first();
+            tipoServidor = conecta.rs.getString("TipoServidor");
+            tipoBancoDados = conecta.rs.getString("TipoBancoDados");
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
     }
 }

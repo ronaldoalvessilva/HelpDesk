@@ -23,7 +23,7 @@ public class softwareDao {
 
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO SOFTWARE (StatusSoftware,DataCadastro,DescricaoSoftware,VersaoSoftware,ObservacaoSoftware,UsuarioInsert,DataInsert,HorarioInsert)VALUES(?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO SOFTWARE (StatusSoftware,DataCadastro,DescricaoSoftware,VersaoSoftware,ObservacaoSoftware,UsuarioInsert,DataInsert,HorarioInsert,TipoServidor,TipoBanco)VALUES(?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, objSoft.getStatusSoft());
             if (objSoft.getDataCadastro() != null) {
                 pst.setTimestamp(2, new java.sql.Timestamp(objSoft.getDataCadastro().getTime()));
@@ -36,6 +36,8 @@ public class softwareDao {
             pst.setString(6, objSoft.getUsuarioInsert());
             pst.setString(7, objSoft.getDataInsert());
             pst.setString(8, objSoft.getHorarioInsert());
+            pst.setString(9, objSoft.getTipoServidor());
+            pst.setString(10, objSoft.getTipoBanco());
             pst.execute(); // Executa a inserção
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível INSERIR os Dados.\nERRO: " + ex);
@@ -48,7 +50,7 @@ public class softwareDao {
 
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE SOFTWARE SET StatusSoftware=?,DataCadastro=?,DescricaoSoftware=?,VersaoSoftware=?,ObservacaoSoftware=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdSoftware='" + objSoft.getCodigo() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE SOFTWARE SET StatusSoftware=?,DataCadastro=?,DescricaoSoftware=?,VersaoSoftware=?,ObservacaoSoftware=?,UsuarioUp=?,DataUp=?,HorarioUp=?,TipoServidor=?,TipoBanco=? WHERE IdSoftware='" + objSoft.getCodigo() + "'");
             pst.setString(1, objSoft.getStatusSoft());
             if (objSoft.getDataCadastro() != null) {
                 pst.setTimestamp(2, new java.sql.Timestamp(objSoft.getDataCadastro().getTime()));
@@ -61,6 +63,8 @@ public class softwareDao {
             pst.setString(6, objSoft.getUsuarioUp());
             pst.setString(7, objSoft.getDataUp());
             pst.setString(8, objSoft.getHorarioUp());
+            pst.setString(9, objSoft.getTipoServidor());
+            pst.setString(10, objSoft.getTipoBanco());
             pst.executeUpdate(); // Executa a inserção
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível ALTERAR os Dados.\nERRO: " + ex);

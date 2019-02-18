@@ -24,11 +24,13 @@ public class Software {
     private String usuarioUp;
     private String dataUp;
     private String horarioUp;
+    private String tipoServidor;
+    private String tipoBanco;
 
     public Software() {
     }
 
-    public Software(int codigo, String statusSoft, Date dataCadastro, String descricaoSoftware, String versaoSoft, String observacaoSoft, String usuarioInsert, String dataInsert, String horarioInsert, String usuarioUp, String dataUp, String horarioUp) {
+    public Software(int codigo, String statusSoft, Date dataCadastro, String descricaoSoftware, String versaoSoft, String observacaoSoft, String usuarioInsert, String dataInsert, String horarioInsert, String usuarioUp, String dataUp, String horarioUp, String tipoServidor, String tipoBanco) {
         this.codigo = codigo;
         this.statusSoft = statusSoft;
         this.dataCadastro = dataCadastro;
@@ -41,6 +43,8 @@ public class Software {
         this.usuarioUp = usuarioUp;
         this.dataUp = dataUp;
         this.horarioUp = horarioUp;
+        this.tipoServidor = tipoServidor;
+        this.tipoBanco = tipoBanco;
     }
 
     /**
@@ -209,5 +213,33 @@ public class Software {
      */
     public void setHorarioUp(String horarioUp) {
         this.horarioUp = horarioUp;
+    }
+
+    /**
+     * @return the tipoServidor
+     */
+    public String getTipoServidor() {
+        return tipoServidor;
+    }
+
+    /**
+     * @param tipoServidor the tipoServidor to set
+     */
+    public void setTipoServidor(String tipoServidor) {
+        this.tipoServidor = tipoServidor;
+    }
+
+    /**
+     * @return the tipoBanco
+     */
+    public String getTipoBanco() {
+        return tipoBanco;
+    }
+
+    /**
+     * @param tipoBanco the tipoBanco to set
+     */
+    public void setTipoBanco(String tipoBanco) {
+        this.tipoBanco = tipoBanco;
     }
 }

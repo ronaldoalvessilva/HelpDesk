@@ -27,7 +27,7 @@ public class modulosDao {
         buscarCodigoSoftware(objMod.getIdSoftware(), objMod.getNomeSoftware());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO MODULOS (StatusModulo,DataCadastro,DescricaoModulo,IdSoftware,ObservacaoModulo,UsuarioInsert,DataInsert,HorarioInsert)VALUES(?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO MODULOS (StatusModulo,DataCadastro,DescricaoModulo,IdSoftware,ObservacaoModulo,UsuarioInsert,DataInsert,HorarioInsert)VALUES(?,?,?,?,?,?,?,?,?)");
             pst.setString(1, objMod.getStatusModulo());
             if (objMod.getDataCadastro() != null) {
                 pst.setTimestamp(2, new java.sql.Timestamp(objMod.getDataCadastro().getTime()));
@@ -39,7 +39,7 @@ public class modulosDao {
             pst.setString(5, objMod.getObservacao());
             pst.setString(6, objMod.getUsuarioInsert());
             pst.setString(7, objMod.getDataInsert());
-            pst.setString(8, objMod.getHorarioInsert());
+            pst.setString(8, objMod.getHorarioInsert());            
             pst.execute(); // Executa a inserção
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível INSERIR os Dados.\nERRO: " + ex);
@@ -52,7 +52,7 @@ public class modulosDao {
         buscarCodigoSoftware(objMod.getIdSoftware(), objMod.getNomeSoftware());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE MODULOS SET StatusModulo=?,DataCadastro=?,DescricaoModulo=?,IdSoftware=?,ObservacaoModulo=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdModulo='" + objMod.getIdModulo() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE MODULOS SET StatusModulo=?,DataCadastro=?,DescricaoModulo=?,IdSoftware=?,ObservacaoModulo=?,UsuarioUp=?,DataUp=?,HorarioUp=?,TipoServidor=?,TipoBanco=? WHERE IdModulo='" + objMod.getIdModulo() + "'");
             pst.setString(1, objMod.getStatusModulo());
             if (objMod.getDataCadastro() != null) {
                 pst.setTimestamp(2, new java.sql.Timestamp(objMod.getDataCadastro().getTime()));
@@ -65,6 +65,8 @@ public class modulosDao {
             pst.setString(6, objMod.getUsuarioUp());
             pst.setString(7, objMod.getDataUp());
             pst.setString(8, objMod.getHorarioUp());
+            pst.setString(9, objMod.getTipoServidor());
+            pst.setString(10, objMod.getTipoBanco());
             pst.executeUpdate(); // Executa a inserção
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível ALTERAR os Dados.\nERRO: " + ex);
