@@ -87,6 +87,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     int codigoModulo = 0;
     // FILTRAR CHAMADOS POR ATENTENTE
     String nomeAtendente = "";
+    int nivelUsuario = 0;
 
     /**
      * Creates new form TelaChamadoSuporte
@@ -1098,9 +1099,10 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private void jBtPesqCHCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesqCHCodigoActionPerformed
         // TODO add your handling code here:
         nomeAtendente = nameUser;
+        buscarNivelUsuario();
         count = 0;
         flag = 1;
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || nivelUsuario == 0) {
             if (jIdChamadoPesquisa.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
             } else {
@@ -1138,7 +1140,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         if (tipoServidor == null || tipoServidor.equals("")) {
             JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
         } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
-            if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+            if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || nivelUsuario == 0) {
                 if (jDataPesqInicial.getDate() == null) {
                     JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
                     jDataPesqInicial.requestFocus();
@@ -1195,7 +1197,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 }
             }
         } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
-            if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+            if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || nivelUsuario == 0) {
                 if (jDataPesqInicial.getDate() == null) {
                     JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
                     jDataPesqInicial.requestFocus();
@@ -1258,7 +1260,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         nomeAtendente = nameUser;
         count = 0;
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || nivelUsuario == 0) {
             if (jPesqSolicitante.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "É necessário informar um nome ou parte do nome para pesquuisa.");
             } else {
@@ -1287,9 +1289,10 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private void jCheckBoxTodosCHItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxTodosCHItemStateChanged
         // TODO add your handling code here:
         nomeAtendente = nameUser;
+        buscarNivelUsuario();
         count = 0;
         flag = 1;
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || nivelUsuario == 0) {
             if (evt.getStateChange() == evt.SELECTED) {
                 this.preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
                         + "INNER JOIN USUARIOS "
@@ -2452,6 +2455,17 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             codGravar = conecta.rs.getInt("Gravar");
             codConsultar = conecta.rs.getInt("Consultar");
             nomeTela = conecta.rs.getString("NomeTela");
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
+    }
+
+    public void buscarNivelUsuario() {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM USUARIOS WHERE NomeUsuario='" + nameUser + "'");
+            conecta.rs.first();
+            nivelUsuario = conecta.rs.getInt("NivelUsuario");
         } catch (Exception e) {
         }
         conecta.desconecta();
