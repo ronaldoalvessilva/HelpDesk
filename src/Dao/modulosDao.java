@@ -27,7 +27,7 @@ public class modulosDao {
         buscarCodigoSoftware(objMod.getIdSoftware(), objMod.getNomeSoftware());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO MODULOS (StatusModulo,DataCadastro,DescricaoModulo,IdSoftware,ObservacaoModulo,UsuarioInsert,DataInsert,HorarioInsert)VALUES(?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO MODULOS (StatusModulo,DataCadastro,DescricaoModulo,IdSoftware,ObservacaoModulo,UsuarioInsert,DataInsert,HorarioInsert)VALUES(?,?,?,?,?,?,?,?)");
             pst.setString(1, objMod.getStatusModulo());
             if (objMod.getDataCadastro() != null) {
                 pst.setTimestamp(2, new java.sql.Timestamp(objMod.getDataCadastro().getTime()));
