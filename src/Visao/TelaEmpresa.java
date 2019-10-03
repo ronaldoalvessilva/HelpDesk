@@ -22,12 +22,10 @@ import static Visao.TelaPrincipal.codExcluir;
 import static Visao.TelaPrincipal.codGravar;
 import static Visao.TelaPrincipal.codIncluir;
 import static Visao.TelaPrincipal.codUserAcesso;
-import static Visao.TelaPrincipal.codigoGrupo;
 import static Visao.TelaPrincipal.codigoUser;
 import static Visao.TelaPrincipal.jDataSistema;
 import static Visao.TelaPrincipal.jHoraSistema;
 import static Visao.TelaPrincipal.jPainelPrincipal;
-import static Visao.TelaPrincipal.nomeGrupo;
 import static Visao.TelaPrincipal.nomeTela;
 import static Visao.TelaPrincipal.telaCadastroEmpresa;
 import static Visao.TelaPrincipal.telaCadastroUnidades;
@@ -2001,36 +1999,92 @@ public class TelaEmpresa extends javax.swing.JInternalFrame {
     }
 
     public void Cancelar() {
-        //Habilitar/Desabilitar Campos       
-        jComboBoxStatus.setEnabled(!true);
-        jDataCadastro.setEnabled(!true);
-        jRazao.setEnabled(!true);
-        jCNPJ.setEnabled(!true);
-        jNomeFantasia.setEnabled(!true);
-        jNomeContato.setEnabled(!true);
-        jInsEsta.setEnabled(!true);
-        jTelefone.setEnabled(!true);
-        jTelefone1.setEnabled(!true);
-        jCelular.setEnabled(!true);
-        jEmail.setEnabled(!true);
-        jFax.setEnabled(!true);
-        jEndereco.setEnabled(!true);
-        jCompl.setEnabled(!true);
-        jCep.setEnabled(!true);
-        jCidade.setEnabled(!true);
-        jComboBoxEstado.setEnabled(!true);
-        jEndCob.setEnabled(!true);
-        jComplCob.setEnabled(!true);
-        jCepCob.setEnabled(!true);
-        jCidadeCob.setEnabled(!true);
-        jComboBoxEstadoCob.setEnabled(!true);
-        //
-        jBtNovo.setEnabled(true);
-        jBtAlterar.setEnabled(!true);
-        jBtExcluir.setEnabled(!true);
-        jBtSalvar.setEnabled(!true);
-        jBtCancelar.setEnabled(!true);
-        jBtAuditoria.setEnabled(!true);
+        if (jIdEmpresa.getText().equals("")) {
+            jIdEmpresa.setText("");
+            jComboBoxStatus.setSelectedItem(null);
+            jDataCadastro.setDate(null);
+            jRazao.setText("");
+            jNomeFantasia.setText("");
+            jNomeContato.setText("");
+            jCNPJ.setText("");
+            jInsEsta.setText("");
+            jTelefone.setText("");
+            jTelefone1.setText("");
+            jCelular.setText("");
+            jEmail.setText("");
+            jFax.setText("");
+            jEndereco.setText("");
+            jCompl.setText("");
+            jCep.setText("");
+            jCidade.setText("");
+            jComboBoxEstado.setSelectedItem(null);
+            jEndCob.setText("");
+            jComplCob.setText("");
+            jCepCob.setText("");
+            jCidadeCob.setText("");
+            jComboBoxEstadoCob.setSelectedItem(null);
+            //Habilitar/Desabilitar Campos       
+            jComboBoxStatus.setEnabled(!true);
+            jDataCadastro.setEnabled(!true);
+            jRazao.setEnabled(!true);
+            jNomeFantasia.setEnabled(!true);
+            jNomeContato.setEnabled(!true);
+            jCNPJ.setEnabled(!true);
+            jInsEsta.setEnabled(!true);
+            jTelefone.setEnabled(!true);
+            jTelefone1.setEnabled(!true);
+            jCelular.setEnabled(!true);
+            jEmail.setEnabled(!true);
+            jFax.setEnabled(!true);
+            jEndereco.setEnabled(!true);
+            jCompl.setEnabled(!true);
+            jCep.setEnabled(!true);
+            jCidade.setEnabled(!true);
+            jComboBoxEstado.setEnabled(!true);
+            jEndCob.setEnabled(!true);
+            jComplCob.setEnabled(!true);
+            jCepCob.setEnabled(!true);
+            jCidadeCob.setEnabled(!true);
+            jComboBoxEstadoCob.setEnabled(!true);
+            //
+            jBtNovo.setEnabled(true);
+            jBtAlterar.setEnabled(!true);
+            jBtExcluir.setEnabled(!true);
+            jBtSalvar.setEnabled(!true);
+            jBtCancelar.setEnabled(!true);
+            jBtAuditoria.setEnabled(!true);
+        } else {
+            //Habilitar/Desabilitar Campos       
+            jComboBoxStatus.setEnabled(!true);
+            jDataCadastro.setEnabled(!true);
+            jRazao.setEnabled(!true);
+            jCNPJ.setEnabled(!true);
+            jNomeFantasia.setEnabled(!true);
+            jNomeContato.setEnabled(!true);
+            jInsEsta.setEnabled(!true);
+            jTelefone.setEnabled(!true);
+            jTelefone1.setEnabled(!true);
+            jCelular.setEnabled(!true);
+            jEmail.setEnabled(!true);
+            jFax.setEnabled(!true);
+            jEndereco.setEnabled(!true);
+            jCompl.setEnabled(!true);
+            jCep.setEnabled(!true);
+            jCidade.setEnabled(!true);
+            jComboBoxEstado.setEnabled(!true);
+            jEndCob.setEnabled(!true);
+            jComplCob.setEnabled(!true);
+            jCepCob.setEnabled(!true);
+            jCidadeCob.setEnabled(!true);
+            jComboBoxEstadoCob.setEnabled(!true);
+            //
+            jBtNovo.setEnabled(true);
+            jBtAlterar.setEnabled(!true);
+            jBtExcluir.setEnabled(!true);
+            jBtSalvar.setEnabled(!true);
+            jBtCancelar.setEnabled(!true);
+            jBtAuditoria.setEnabled(!true);
+        }
     }
 
     public void buscarId() {

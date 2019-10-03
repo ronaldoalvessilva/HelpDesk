@@ -90,6 +90,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     String idItemChamadoDesc;
     String utilizado = "Sim";
     int idItemCHSup;
+    int nivelUsuario = 0;
 
     /**
      * Creates new form TelaChamadoSuporte
@@ -1421,7 +1422,8 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         count = 0;
         flag = 1;
         nomeAtendente = nameUser;
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+        buscarNivelUsuario();
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || nivelUsuario == 0) {
             if (evt.getStateChange() == evt.SELECTED) {
                 this.preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
                         + "INNER JOIN USUARIOS "
@@ -2630,5 +2632,16 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         objLogSys.setIdLancMov(idItemChamado);
         objLogSys.setNomeUsuarioLogado(nameUser);
         objLogSys.setStatusMov(statusMov);
+    }
+
+    public void buscarNivelUsuario() {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM USUARIOS WHERE NomeUsuario='" + nameUser + "'");
+            conecta.rs.first();
+            nivelUsuario = conecta.rs.getInt("NivelUsuario");
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
     }
 }

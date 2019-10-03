@@ -1761,8 +1761,8 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             jConfirmaSenha.setEnabled(!true);
             //
             jBtNovo.setEnabled(true);
-            jBtAlterar.setEnabled(!true);
-            jBtExcluir.setEnabled(!true);
+            jBtAlterar.setEnabled(true);
+            jBtExcluir.setEnabled(true);
             jBtSalvar.setEnabled(!true);
             jBtCancelar.setEnabled(!true);
         }
