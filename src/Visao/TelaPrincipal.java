@@ -2630,7 +2630,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                             + "WHERE UsuarioAgenda='" + nameUser + "' "
                             + "AND StatusAgenda='" + statusAgenda + "' "
                             + "AND DataLembrete='" + dataSisConvert + "' "
-                            + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "'");
+                            + "AND HoraLembrete<='" + jHoraSistema.getText() + "'");
                     conecta.rs.first();
                     horaLembrete = conecta.rs.getString("HoraLembrete");
                     usuarioAgenda = conecta.rs.getString("UsuarioAgenda");
@@ -2695,7 +2695,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                             + "WHERE UsuarioAgenda='" + nameUser + "' "
                             + "AND StatusAgenda='" + statusAgenda + "' "
                             + "AND DataLembrete='" + jDataSistema.getText() + "' "
-                            + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "'");
+                            + "AND HoraLembrete<='" + jHoraSistema.getText() + "'");
                     conecta.rs.first();
                     horaLembrete = conecta.rs.getString("HoraLembrete");
                     usuarioAgenda = conecta.rs.getString("UsuarioAgenda");
@@ -2711,7 +2711,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                                 + "WHERE AGENDA_COMPROMISSOS.UsuarioAgenda='" + nameUser + "' "
                                 + "AND AGENDA_COMPROMISSOS.StatusAgenda='" + statusAgenda + "' "
                                 + "AND DataLembrete='" + jDataSistema.getText() + "' "
-                                + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "' "
+                                + "AND HoraLembrete<='" + jHoraSistema.getText() + "' "
                                 + "AND IdAgenda='" + codigoAgendaComp + "'");
                         if (flag == 1) {
                             jBtNovoComp.setEnabled(true);

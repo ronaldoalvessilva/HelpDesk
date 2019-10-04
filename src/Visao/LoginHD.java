@@ -276,7 +276,6 @@ public class LoginHD extends javax.swing.JDialog {
     public void acessarSistema() throws SQLException {
         conecta.abrirConexao();
         try {
-
             conecta.executaSQL("SELECT IdUsuario,LoginUsuario,SenhaUsuario,StatusUsuario,NomeUsuario,SenhaCriptografada FROM USUARIOS "
                     + "WHERE LoginUsuario='" + jLogin.getText() + "' ");
             conecta.rs.first();
@@ -305,6 +304,7 @@ public class LoginHD extends javax.swing.JDialog {
             jLogin.setText("");
             jSenha.setText("");
         }
+        conecta.desconecta();
     }
 
     // AINDA NÃO FOI IMPLEMENTADO
