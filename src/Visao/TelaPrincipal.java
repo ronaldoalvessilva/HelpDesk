@@ -225,8 +225,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         pesquisarTelasAcessos();
-        threadMensagem(); // A cada 5 minutos verifica mensagem   
         verificarParametrosSRV();
+        threadMensagem(); // A cada 5 minutos verifica mensagem   
+        
     }
 
     public void mostrarTelaTrocaSenha() {
@@ -2468,6 +2469,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             codigoUser = conecta.rs.getInt("IdUsuario");
         } catch (Exception e) {
         }
+        conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT * FROM TELAS_ACESSO "
                     + "WHERE IdUsuario='" + codigoUser + "' "

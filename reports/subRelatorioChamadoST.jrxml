@@ -29,12 +29,12 @@
 	<field name="IdSolicitante" class="java.lang.Integer"/>
 	<field name="IdUnidEmp" class="java.lang.Integer"/>
 	<detail>
-		<band height="69" splitType="Stretch">
+		<band height="283" splitType="Stretch">
 			<rectangle>
 				<reportElement x="170" y="-2" width="363" height="21" uuid="49861c66-0602-43e4-8860-e327e0513734"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="-22" y="19" width="555" height="48" uuid="5dd2c6fe-2d47-4f33-9e9a-ab26e0699151"/>
+				<reportElement x="-22" y="19" width="555" height="264" uuid="5dd2c6fe-2d47-4f33-9e9a-ab26e0699151"/>
 			</rectangle>
 			<rectangle>
 				<reportElement x="125" y="-2" width="45" height="20" uuid="c9c68911-2925-40d5-87b6-2582653fba37"/>
@@ -77,8 +77,8 @@
 				<textFieldExpression><![CDATA[$F{HorarioTermino}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="-3" y="18" width="456" height="48" uuid="62c813b4-0b2d-4bd7-a3e3-1e935b600e9a"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="18" y="18" width="456" height="253" uuid="62c813b4-0b2d-4bd7-a3e3-1e935b600e9a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TextoSuporte}]]></textFieldExpression>

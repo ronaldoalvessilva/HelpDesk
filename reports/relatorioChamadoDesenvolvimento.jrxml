@@ -16,7 +16,7 @@
 	<parameter name="idChamado" class="java.lang.String"/>
 	<parameter name="nomeUsuario" class="java.lang.String"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\HELP_DESK\\reports\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["C:\\Users\\Socializa TI 02\\Documents\\NetBeansProjects\\HelpDesk\\reports\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT * FROM CHAMADOS_DESENVOLVIMENTO INNER JOIN USUARIOS ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario INNER JOIN UNIDADE_PENAL_EMPRESA ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp INNER JOIN SOLICITANTES ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante WHERE CHAMADOS_DESENVOLVIMENTO.IdCHDes=$P{idChamado}]]>
@@ -193,12 +193,12 @@
 	<detail>
 		<band height="22">
 			<subreport>
-				<reportElement x="1" y="0" width="554" height="22" uuid="827c7510-0f77-4c3f-9727-698f36dfff72"/>
+				<reportElement x="2" y="0" width="553" height="22" uuid="47984f10-545e-4c1f-a6d7-aab7d23117f0"/>
 				<subreportParameter name="codigoChamado">
-					<subreportParameterExpression><![CDATA[$F{IdCHDes}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$P{idChamado}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["C:\\Users\\ronal\\Documents\\NetBeansProjects\\HelpDesk\\reports\\subRelatorioChamadoDesenvolvimento.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subRelatorioChamadoDesenvolvimento.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
