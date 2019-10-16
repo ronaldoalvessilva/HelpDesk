@@ -1991,8 +1991,8 @@ public class TelaEmpresa extends javax.swing.JInternalFrame {
         jComboBoxEstadoCob.setEnabled(!true);
         //
         jBtNovo.setEnabled(true);
-        jBtAlterar.setEnabled(!true);
-        jBtExcluir.setEnabled(!true);
+        jBtAlterar.setEnabled(true);
+        jBtExcluir.setEnabled(true);
         jBtSalvar.setEnabled(!true);
         jBtCancelar.setEnabled(!true);
         jBtAuditoria.setEnabled(true);

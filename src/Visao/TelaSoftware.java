@@ -611,9 +611,8 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
             .addComponent(jBtExcluir)
             .addComponent(jBtCancelar)
             .addComponent(jBtSalvar)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jBtNovo)
-                .addComponent(jBtSair))
+            .addComponent(jBtSair)
+            .addComponent(jBtNovo)
             .addComponent(jBtAlterar)
         );
 
@@ -1051,11 +1050,8 @@ public class TelaSoftware extends javax.swing.JInternalFrame {
         bloquearBotoes();
         //
         jBtNovo.setEnabled(true);
-        //
         jBtAlterar.setEnabled(true);
-        //
         jBtExcluir.setEnabled(true);
-        //
         jBtAuditoria.setEnabled(true);
     }
 
