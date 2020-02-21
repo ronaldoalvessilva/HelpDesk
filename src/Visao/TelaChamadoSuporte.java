@@ -31,6 +31,7 @@ import static Visao.TelaPrincipal.nomeTela;
 import static Visao.TelaPrincipal.telaChamadosSuporte;
 import static Visao.TelaPrincipal.telaItensChamadoSuporte;
 import static Visao.TelaPrincipal.tipoServidor;
+import static Visao.TelaPrincipal.nomeUserRegistro;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -163,6 +164,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jUnidadePrisional = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jBtPesquisaSoli = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        jAssunto = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jBtEncerrar = new javax.swing.JButton();
         jBtImprimir = new javax.swing.JButton();
@@ -428,13 +431,13 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6))
+                .addGap(3, 3, 3))
         );
 
         jTabbedPane1.addTab("Listagem", jPanel3);
@@ -491,6 +494,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel17.setText("Assunto");
+
+        jAssunto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jAssunto.setEnabled(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -517,15 +526,20 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                                 .addGap(0, 159, Short.MAX_VALUE))
                             .addComponent(jAtendente)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jUnidadePrisional, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtPesquisaSoli, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jUnidadePrisional, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtPesquisaSoli, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel17)
+                            .addComponent(jAssunto))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -533,7 +547,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(3, 3, 3)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
@@ -546,7 +560,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                             .addComponent(jIdChamado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(3, 3, 3)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jUnidadePrisional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -557,7 +571,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(56, 56, 56)
                         .addComponent(jLabel10)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(3, 3, 3)
+                .addComponent(jLabel17)
+                .addGap(3, 3, 3)
+                .addComponent(jAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
@@ -654,7 +672,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addComponent(jBtImprimir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtAuditoriaItem)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBtSair)
                 .addContainerGap())
         );
@@ -974,7 +992,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(3, 3, 3)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1004,8 +1022,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jBtPesquisaModulo)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6))
         );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -1041,7 +1059,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1067,17 +1085,20 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel2, jScrollPane4, jTabbedPane2});
 
         jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Manutenção", jPanel4);
@@ -1090,10 +1111,10 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 520, Short.MAX_VALUE)
         );
 
-        setBounds(250, 0, 792, 545);
+        setBounds(250, 0, 792, 550);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtPesqCHCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesqCHCodigoActionPerformed
@@ -1340,16 +1361,22 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         buscarAcessoUsuario(telaChamadosSuporte);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codAlterar == 1) {
-            if (jStatusChamado.getText().equals(statusEncerrado)) {
-                JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encerrado...");
-            } else if (jStatusChamado.getText().equals("ENVIADO PARA O DESENVOLVIMENTO")) {
-                JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encontra-se no desenvolvimento...");
+            verificarUsuarioOrigem();
+            if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                if (jStatusChamado.getText().equals(statusEncerrado)) {
+                    JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encerrado...");
+                } else if (jStatusChamado.getText().equals("ENVIADO PARA O DESENVOLVIMENTO")) {
+                    JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encontra-se no desenvolvimento...");
+                } else {
+                    statusMov = "Alterou";
+                    horaMov = jHoraSistema.getText();
+                    dataModFinal = jDataSistema.getText();
+                    acao = 2;
+                    Alterar();
+                }
             } else {
-                statusMov = "Alterou";
-                horaMov = jHoraSistema.getText();
-                dataModFinal = jDataSistema.getText();
-                acao = 2;
-                Alterar();
+                JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
+                conecta.desconecta();
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1360,26 +1387,32 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         buscarAcessoUsuario(telaChamadosSuporte);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codExcluir == 1) {
-            if (jStatusChamado.getText().equals(statusEncerrado)) {
-                JOptionPane.showMessageDialog(rootPane, "Não é possível excluir esse registro. Registro já encerrado...");
-            } else {
-                Integer rows = jTabelaItens.getRowCount();
-                if (rows != 0) {
-                    JOptionPane.showMessageDialog(rootPane, "Não é possível excluir o registro principal, existem registro na tabela abaixo, exclua primeiros os itens da tabela");
-                } else if (jStatusChamado.getText().equals("ENVIADO PARA O DESENVOLVIMENTO")) {
-                    JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encontra-se no desenvolvimento...");
+            verificarUsuarioOrigem();
+            if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                if (jStatusChamado.getText().equals(statusEncerrado)) {
+                    JOptionPane.showMessageDialog(rootPane, "Não é possível excluir esse registro. Registro já encerrado...");
                 } else {
-                    statusMov = "Excluiu";
-                    horaMov = jHoraSistema.getText();
-                    dataModFinal = jDataSistema.getText();
-                    int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
-                            JOptionPane.YES_NO_OPTION);
-                    if (resposta == JOptionPane.YES_OPTION) {
-                        objCHSup.setIdSolicitante(Integer.valueOf(jIdChamado.getText()));
-                        control.excluirChamadoSup(objCHSup);
-                        Excluir();
+                    Integer rows = jTabelaItens.getRowCount();
+                    if (rows != 0) {
+                        JOptionPane.showMessageDialog(rootPane, "Não é possível excluir o registro principal, existem registro na tabela abaixo, exclua primeiros os itens da tabela");
+                    } else if (jStatusChamado.getText().equals("ENVIADO PARA O DESENVOLVIMENTO")) {
+                        JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encontra-se no desenvolvimento...");
+                    } else {
+                        statusMov = "Excluiu";
+                        horaMov = jHoraSistema.getText();
+                        dataModFinal = jDataSistema.getText();
+                        int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
+                                JOptionPane.YES_NO_OPTION);
+                        if (resposta == JOptionPane.YES_OPTION) {
+                            objCHSup.setIdSolicitante(Integer.valueOf(jIdChamado.getText()));
+                            control.excluirChamadoSup(objCHSup);
+                            Excluir();
+                        }
                     }
                 }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
+                conecta.desconecta();
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1396,6 +1429,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "Informe a unidade prisional.");
             } else if (jSolicitante.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o solicitante.");
+            } else if (jAssunto.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o assunto do chamdo.");
             } else {
                 objCHSup.setStatusCha(jStatusChamado.getText());
                 objCHSup.setDataCha(jDataChamado.getDate());
@@ -1403,6 +1438,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 objCHSup.setIdSolicitante(idSolicitante);
                 objCHSup.setNomeSolicitante(jSolicitante.getText());
                 objCHSup.setDescricaoUnidade(jUnidadePrisional.getText());
+                objCHSup.setAssunto(jAssunto.getText());
                 if (acao == 1) {
                     objCHSup.setUsuarioInsert(nameUser);
                     objCHSup.setDataInsert(dataModFinal);
@@ -1458,27 +1494,33 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         buscarAcessoUsuario(botaoEncerrarSup);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoEncerrarSup) && codAbrir == 1) {
-            if (jStatusChamado.getText().equals(statusEncerrado)) {
-                JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encerrado...");
-            } else {
-                if (jTextoSuporte.getText().equals("")) {
-                    JOptionPane.showMessageDialog(rootPane, "Não é possível encerrar o chamado sem um texto explicativo.");
+            verificarUsuarioOrigem();
+            if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                if (jStatusChamado.getText().equals(statusEncerrado)) {
+                    JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encerrado...");
                 } else {
-                    bloquearBotoes();
-                    bloquearCampos();
-                    int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente encerrar registro selecionado?", "Confirmação",
-                            JOptionPane.YES_NO_OPTION);
-                    if (resposta == JOptionPane.YES_OPTION) {
-                        objCHSup.setStatusCha(statusEncerrado);
-                        objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                        control.encerrarChamadoSup(objCHSup);
-                        jStatusChamado.setText(statusEncerrado);
-                        JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
-                        //
-                        jBtNovo.setEnabled(true);
-                        jBtAuditoria.setEnabled(true);
+                    if (jTextoSuporte.getText().equals("")) {
+                        JOptionPane.showMessageDialog(rootPane, "Não é possível encerrar o chamado sem um texto explicativo.");
+                    } else {
+                        bloquearBotoes();
+                        bloquearCampos();
+                        int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente encerrar registro selecionado?", "Confirmação",
+                                JOptionPane.YES_NO_OPTION);
+                        if (resposta == JOptionPane.YES_OPTION) {
+                            objCHSup.setStatusCha(statusEncerrado);
+                            objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                            control.encerrarChamadoSup(objCHSup);
+                            jStatusChamado.setText(statusEncerrado);
+                            JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
+                            //
+                            jBtNovo.setEnabled(true);
+                            jBtAuditoria.setEnabled(true);
+                        }
                     }
                 }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
+                conecta.desconecta();
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1503,27 +1545,33 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         buscarAcessoUsuario(botaoEnviarSup);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoEnviarSup) && codAbrir == 1) {
-            if (jStatusChamado.getText().equals(statusEncerrado)) {
-                JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro.Registro já encerrado...");
-            } else {
-                bloquearBotoes();
-                bloquearCampos();
-                int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente enviar para o desenvolvimento o registro selecionado?", "Confirmação",
-                        JOptionPane.YES_NO_OPTION);
-                if (resposta == JOptionPane.YES_OPTION) {
-                    mostrarTelaEnvioChamdosDes();
+            verificarUsuarioOrigem();
+            if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                if (jStatusChamado.getText().equals(statusEncerrado)) {
+                    JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro.Registro já encerrado...");
                 } else {
-                    jBtNovo.setEnabled(true);
-                    jBtAlterar.setEnabled(true);
-                    jBtExcluir.setEnabled(true);
-                    jBtAuditoria.setEnabled(true);
-                    //
-                    jBtEncerrar.setEnabled(true);
-                    jBtImprimir.setEnabled(true);
-                    jBtEnviar.setEnabled(true);
-                    //
-                    jBtNovoItem.setEnabled(true);
+                    bloquearBotoes();
+                    bloquearCampos();
+                    int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente enviar para o desenvolvimento o registro selecionado?", "Confirmação",
+                            JOptionPane.YES_NO_OPTION);
+                    if (resposta == JOptionPane.YES_OPTION) {
+                        mostrarTelaEnvioChamdosDes();
+                    } else {
+                        jBtNovo.setEnabled(true);
+                        jBtAlterar.setEnabled(true);
+                        jBtExcluir.setEnabled(true);
+                        jBtAuditoria.setEnabled(true);
+                        //
+                        jBtEncerrar.setEnabled(true);
+                        jBtImprimir.setEnabled(true);
+                        jBtEnviar.setEnabled(true);
+                        //
+                        jBtNovoItem.setEnabled(true);
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
+                conecta.desconecta();
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1534,30 +1582,36 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         buscarAcessoUsuario(botaoReabrirSup);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoReabrirSup) && codAbrir == 1) {
-            if (!jStatusChamado.getText().equals(statusEncerrado)) {
-                JOptionPane.showMessageDialog(rootPane, "Registro não se encontra encerrado.");
-            } else if (jStatusChamado.getText().equals(statusDesenvol)) {
-                JOptionPane.showMessageDialog(rootPane, "Registro não pode ser reaberto, o mesmo encontra-se no desenvolvimento.");
-            } else {
-                bloquearBotoes();
-                bloquearCampos();
-                int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente reabrir o registro selecionado?", "Confirmação",
-                        JOptionPane.YES_NO_OPTION);
-                if (resposta == JOptionPane.YES_OPTION) {
-                    objCHSup.setStatusCha(statusReabrir);
-                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                    control.encerrarChamadoSup(objCHSup);
-                    jStatusChamado.setText(statusReabrir);
-                    JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
-                    //
-                    jBtNovo.setEnabled(true);
-                    jBtAlterar.setEnabled(true);
-                    jBtExcluir.setEnabled(true);
-                    //
-                    jBtEncerrar.setEnabled(true);
-                    jBtImprimir.setEnabled(true);
-                    jBtEnviar.setEnabled(true);
+            verificarUsuarioOrigem();
+            if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                if (!jStatusChamado.getText().equals(statusEncerrado)) {
+                    JOptionPane.showMessageDialog(rootPane, "Registro não se encontra encerrado.");
+                } else if (jStatusChamado.getText().equals(statusDesenvol)) {
+                    JOptionPane.showMessageDialog(rootPane, "Registro não pode ser reaberto, o mesmo encontra-se no desenvolvimento.");
+                } else {
+                    bloquearBotoes();
+                    bloquearCampos();
+                    int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente reabrir o registro selecionado?", "Confirmação",
+                            JOptionPane.YES_NO_OPTION);
+                    if (resposta == JOptionPane.YES_OPTION) {
+                        objCHSup.setStatusCha(statusReabrir);
+                        objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                        control.encerrarChamadoSup(objCHSup);
+                        jStatusChamado.setText(statusReabrir);
+                        JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
+                        //
+                        jBtNovo.setEnabled(true);
+                        jBtAlterar.setEnabled(true);
+                        jBtExcluir.setEnabled(true);
+                        //
+                        jBtEncerrar.setEnabled(true);
+                        jBtImprimir.setEnabled(true);
+                        jBtEnviar.setEnabled(true);
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
+                conecta.desconecta();
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1578,21 +1632,20 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             String idSoli = "" + jTabelaChamdosSup.getValueAt(jTabelaChamdosSup.getSelectedRow(), 0);
             jIdChamadoPesquisa.setText(idSoli);
             //            
-            if (!jIdChamado.getText().equals("")) {
-                bloquearCampos();
-                bloquearBotoes();
-                jBtNovo.setEnabled(true);
-                jBtAlterar.setEnabled(true);
-                jBtExcluir.setEnabled(true);
-                jBtAuditoria.setEnabled(true);
-                //
-                jBtEncerrar.setEnabled(true);
-                jBtImprimir.setEnabled(true);
-                jBtEnviar.setEnabled(true);
-                jBtReabrir.setEnabled(true);
-                //
-                jBtNovoItem.setEnabled(true);
-            }
+            limparTodosCampos();
+            bloquearCampos();
+            bloquearBotoes();
+            jBtNovo.setEnabled(true);
+            jBtAlterar.setEnabled(true);
+            jBtExcluir.setEnabled(true);
+            jBtAuditoria.setEnabled(true);
+            //
+            jBtEncerrar.setEnabled(true);
+            jBtImprimir.setEnabled(true);
+            jBtEnviar.setEnabled(true);
+            jBtReabrir.setEnabled(true);
+            //
+            jBtNovoItem.setEnabled(true);
             conecta.abrirConexao();
             try {
                 conecta.executaSQL("SELECT * FROM CHAMADOS_SUPORTE "
@@ -1612,6 +1665,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jSolicitante.setText(conecta.rs.getString("NomeSolicitante"));
                 idUnidade = conecta.rs.getInt("IdUnidEmp");
                 jUnidadePrisional.setText(conecta.rs.getString("DescricaoUnidade"));
+                jAssunto.setText(conecta.rs.getString("AssuntoSuporte"));
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
             }
@@ -1627,23 +1681,29 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         buscarAcessoUsuario(telaItensChamadoSuporte);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoSuporte) && codIncluir == 1) {
-            Integer rows = jTabelaItens.getRowCount();
-            statusMov = "Incluiu";
-            horaMov = jHoraSistema.getText();
-            dataModFinal = jDataSistema.getText();
-            if (jStatusChamado.getText().equals(statusEncerrado)) {
-                JOptionPane.showMessageDialog(rootPane, "Não é possível alterar o registro, o mesmo já foi encerrado.");
-            } else {
-                acao = 3;
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
-                    NovoItem();
-                    alterarAdm();
+            verificarUsuarioOrigem();
+            if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                Integer rows = jTabelaItens.getRowCount();
+                statusMov = "Incluiu";
+                horaMov = jHoraSistema.getText();
+                dataModFinal = jDataSistema.getText();
+                if (jStatusChamado.getText().equals(statusEncerrado)) {
+                    JOptionPane.showMessageDialog(rootPane, "Não é possível alterar o registro, o mesmo já foi encerrado.");
                 } else {
-                    NovoItem();
+                    acao = 3;
+                    if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                        NovoItem();
+                        alterarAdm();
+                    } else {
+                        NovoItem();
+                    }
+                    if (rows != 0) {
+                        verificarSofMod();
+                    }
                 }
-                if (rows != 0) {
-                    verificarSofMod();
-                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
+                conecta.desconecta();
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1654,28 +1714,34 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         buscarAcessoUsuario(telaItensChamadoSuporte);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoSuporte) && codAlterar == 1) {
-            if (jStatusChamado.getText().equals(statusEncerrado)) {
-                JOptionPane.showMessageDialog(rootPane, "Não é possível alterar o registro, o mesmo já foi encerrado.");
-            } else if (jStatusChamado.getText().equals(statusDesenvol)) {
-                JOptionPane.showMessageDialog(rootPane, "Não é possível alterar o registro, o mesmo já foi enviado para o desenvolvimento.");
-            } else {
-                Integer rows = jTabelaItens.getRowCount();
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
-                    statusMov = "Alterou";
-                    horaMov = jHoraSistema.getText();
-                    dataModFinal = jDataSistema.getText();
-                    acao = 4;
-                    alterarAdm();
+            verificarUsuarioOrigem();
+            if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                if (jStatusChamado.getText().equals(statusEncerrado)) {
+                    JOptionPane.showMessageDialog(rootPane, "Não é possível alterar o registro, o mesmo já foi encerrado.");
+                } else if (jStatusChamado.getText().equals(statusDesenvol)) {
+                    JOptionPane.showMessageDialog(rootPane, "Não é possível alterar o registro, o mesmo já foi enviado para o desenvolvimento.");
                 } else {
-                    statusMov = "Alterou";
-                    horaMov = jHoraSistema.getText();
-                    dataModFinal = jDataSistema.getText();
-                    acao = 4;
-                    AlterarItem();
+                    Integer rows = jTabelaItens.getRowCount();
+                    if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                        statusMov = "Alterou";
+                        horaMov = jHoraSistema.getText();
+                        dataModFinal = jDataSistema.getText();
+                        acao = 4;
+                        alterarAdm();
+                    } else {
+                        statusMov = "Alterou";
+                        horaMov = jHoraSistema.getText();
+                        dataModFinal = jDataSistema.getText();
+                        acao = 4;
+                        AlterarItem();
+                    }
+                    if (rows != 0) {
+                        verificarSofMod();
+                    }
                 }
-                if (rows != 0) {
-                    verificarSofMod();
-                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
+                conecta.desconecta();
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1686,26 +1752,32 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         buscarAcessoUsuario(telaItensChamadoSuporte);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoSuporte) && codExcluir == 1) {
-            statusMov = "Excluiu";
-            horaMov = jHoraSistema.getText();
-            dataModFinal = jDataSistema.getText();
-            if (jStatusChamado.getText().equals(statusEncerrado)) {
-                JOptionPane.showMessageDialog(rootPane, "Não é possível excluir o registro, o mesmo já foi encerrado.");
-            } else if (jStatusChamado.getText().equals(statusDesenvol)) {
-                JOptionPane.showMessageDialog(rootPane, "Não é possível excluir o registro, o mesmo já foi enviado para o desenvolvimento.");
-            } else {
-                int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
-                        JOptionPane.YES_NO_OPTION);
-                if (resposta == JOptionPane.YES_OPTION) {
-                    objCHSup.setIdItemCh(Integer.valueOf(jIdItem.getText()));
-                    control.excluirItensChamadoSup(objCHSup);
-                    ExcluirItem();
-                    preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
-                            + "INNER JOIN CHAMADOS_SUPORTE "
-                            + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
-                            + "WHERE ITENS_CHAMADOS_SUPORTE.IdCHSup='" + jIdChamado.getText() + "'");
-                    JOptionPane.showMessageDialog(rootPane, "Registro excluido com sucesso.");
+            verificarUsuarioOrigem();
+            if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                statusMov = "Excluiu";
+                horaMov = jHoraSistema.getText();
+                dataModFinal = jDataSistema.getText();
+                if (jStatusChamado.getText().equals(statusEncerrado)) {
+                    JOptionPane.showMessageDialog(rootPane, "Não é possível excluir o registro, o mesmo já foi encerrado.");
+                } else if (jStatusChamado.getText().equals(statusDesenvol)) {
+                    JOptionPane.showMessageDialog(rootPane, "Não é possível excluir o registro, o mesmo já foi enviado para o desenvolvimento.");
+                } else {
+                    int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
+                            JOptionPane.YES_NO_OPTION);
+                    if (resposta == JOptionPane.YES_OPTION) {
+                        objCHSup.setIdItemCh(Integer.valueOf(jIdItem.getText()));
+                        control.excluirItensChamadoSup(objCHSup);
+                        ExcluirItem();
+                        preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
+                                + "INNER JOIN CHAMADOS_SUPORTE "
+                                + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
+                                + "WHERE ITENS_CHAMADOS_SUPORTE.IdCHSup='" + jIdChamado.getText() + "'");
+                        JOptionPane.showMessageDialog(rootPane, "Registro excluido com sucesso.");
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
+                conecta.desconecta();
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1857,6 +1929,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField jAssunto;
     public static javax.swing.JTextField jAtendente;
     public static javax.swing.JButton jBtAlterar;
     public static javax.swing.JButton jBtAlterarItem;
@@ -1898,6 +1971,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1939,6 +2013,19 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jtotalRegistros;
     // End of variables declaration//GEN-END:variables
 
+    public void verificarUsuarioOrigem() {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM CHAMADOS_SUPORTE "
+                    + "WHERE IdCHSup='" + jIdChamado.getText() + "'");
+            conecta.rs.first();
+            nomeUserRegistro = conecta.rs.getString("UsuarioInsert");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Não foi possivel encontrar o usuário.");
+        }
+        conecta.desconecta();
+    }
+
     public void formatarCampos() {
         jTextoSuporte.setLineWrap(true);
         jTextoSuporte.setWrapStyleWord(true);
@@ -1953,6 +2040,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jDataChamado.setBackground(Color.white);
         jSolicitante.setBackground(Color.white);
         jUnidadePrisional.setBackground(Color.white);
+        jAssunto.setBackground(Color.white);
         //
         jIdItem.setBackground(Color.white);
         jHorarioInicio.setBackground(Color.white);
@@ -1968,11 +2056,13 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jIdChamado.setEnabled(!true);
         jStatusChamado.setEnabled(!true);
         jDataChamado.setEnabled(!true);
+        jAssunto.setEnabled(!true);
         jIdItem.setEnabled(!true);
         jDataOcorrencia.setEnabled(!true);
         jHorarioInicio.setEnabled(!true);
         jHorarioTermino.setEnabled(!true);
         jAtendente.setEnabled(!true);
+        jAssunto.setEnabled(!true);
         jUnidadePrisional.setEnabled(!true);
         jSoftware.setEnabled(!true);
         jModulo.setEnabled(!true);
@@ -2012,6 +2102,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jAtendente.setText("");
         jSolicitante.setText("");
         jUnidadePrisional.setText("");
+        jAssunto.setText("");
         //
         jIdItem.setText("");
         jDataOcorrencia.setDate(null);
@@ -2042,6 +2133,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jStatusChamado.setText("ABERTO NO SUPORTE TÉCNICO");
         jDataChamado.setCalendar(Calendar.getInstance());
         jAtendente.setText(nameUser);
+        jAssunto.setEnabled(true);
         //BOTÕES DE PESQUISA        
         jBtPesquisaSoli.setEnabled(true);
         //
@@ -2053,6 +2145,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         bloquearCampos();
         bloquearBotoes();
         //
+        jAssunto.setEnabled(true);
         jBtPesquisaSoli.setEnabled(true);
         //
         jBtSalvar.setEnabled(true);
@@ -2065,6 +2158,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jHorarioInicio.setEnabled(true);
         jHorarioTermino.setEnabled(true);
         jTextoSuporte.setEnabled(true);
+        jAssunto.setEnabled(true);
         //
         jBtPesquisaModulo.setEnabled(true);
         //

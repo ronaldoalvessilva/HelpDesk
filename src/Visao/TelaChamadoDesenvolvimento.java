@@ -1518,6 +1518,8 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "Informe a unidade prisional.");
             } else if (jSolicitante.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o solicitante.");
+//            }else if(jAssunto){
+//                
             } else {
                 objCHSup.setStatusCha(jStatusChamado.getText());
                 objCHSup.setDataCha(jDataChamado.getDate());
@@ -1692,6 +1694,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             jIdChamadoPesquisa.setText(idSoli);
             //            
             if (!jIdChamado.getText().equals("")) {
+                limparTodosCampos();
                 bloquearCampos();
                 bloquearBotoes();
                 jBtNovo.setEnabled(true);

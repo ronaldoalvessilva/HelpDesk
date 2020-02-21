@@ -103,6 +103,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     String horaLembrete;
     String usuarioAgenda;
     String codigoAgendaComp;
+      //VARIAVEL QUE IMPEDI OUTRO USUÁRIO A EDITAR OU EXCLUIR O REGISTRO CRIADO PELO USUÁRIO QUE CRIOU
+    public static String nomeUserRegistro;
     //
     int tempo = (1000 * 60) * 10;   // 5 min.  
     int periodo = 1;  // quantidade de vezes a ser executado.  

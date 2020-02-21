@@ -31,7 +31,7 @@ public class ChamadosSuporteDao {
         pesquisarUnidade(objCHSup.getDescricaoUnidade());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO CHAMADOS_SUPORTE (StatusCha,DataCha,IdUsuario,IdSolicitante,IdUnidEmp,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO CHAMADOS_SUPORTE (StatusCha,DataCha,IdUsuario,IdSolicitante,IdUnidEmp,UsuarioInsert,DataInsert,HorarioInsert,AssuntoSuporte) VALUES(?,?,?,?,?,?,?,?,?)");
             pst.setString(1, objCHSup.getStatusCha());
             pst.setTimestamp(2, new java.sql.Timestamp(objCHSup.getDataCha().getTime()));
             pst.setInt(3, codUser);
@@ -40,6 +40,7 @@ public class ChamadosSuporteDao {
             pst.setString(6, objCHSup.getUsuarioInsert());
             pst.setString(7, objCHSup.getDataInsert());
             pst.setString(8, objCHSup.getHorarioInsert());
+            pst.setString(9, objCHSup.getAssunto());
             pst.execute();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possivel INSERIR os Dados.\nERRO: " + ex);
@@ -52,8 +53,9 @@ public class ChamadosSuporteDao {
         pesquisarUsuario(objCHSup.getNomeUsuario());
         pesquisarSolicitante(objCHSup.getNomeSolicitante(), objCHSup.getIdSolicitante());
         pesquisarUnidade(objCHSup.getDescricaoUnidade());
+        conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE CHAMADOS_SUPORTE SET StatusCha=?,DataCha=?,IdUsuario=?,IdSolicitante=?,IdUnidEmp=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdCHSup='" + objCHSup.getIdCHSup() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE CHAMADOS_SUPORTE SET StatusCha=?,DataCha=?,IdUsuario=?,IdSolicitante=?,IdUnidEmp=?,UsuarioUp=?,DataUp=?,HorarioUp=?,AssuntoSuporte=? WHERE IdCHSup='" + objCHSup.getIdCHSup() + "'");
             pst.setString(1, objCHSup.getStatusCha());
             pst.setTimestamp(2, new java.sql.Timestamp(objCHSup.getDataCha().getTime()));
             pst.setInt(3, codUser);
@@ -62,6 +64,7 @@ public class ChamadosSuporteDao {
             pst.setString(6, objCHSup.getUsuarioUp());
             pst.setString(7, objCHSup.getDataUp());
             pst.setString(8, objCHSup.getHorarioUp());
+            pst.setString(9, objCHSup.getAssunto());
             pst.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\nERRO: " + ex);

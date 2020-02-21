@@ -17,6 +17,7 @@ public class ChamadoSuporte {
     private int idCHDes;
     private String statusCha;
     private Date dataCha;
+    private String assunto;
     private String horarioInicio;
     private String horarioTermino;
     private int idUsuario;
@@ -47,11 +48,12 @@ public class ChamadoSuporte {
     public ChamadoSuporte() {
     }
 
-    public ChamadoSuporte(int idCHSup, int idCHDes, String statusCha, Date dataCha, String horarioInicio, String horarioTermino, int idUsuario, String NomeUsuario, int idEmpresa, String descricaoEmpresa, int idUnidEmp, String descricaoUnidade, int idSoftware, String descricaoSoftware, int idModulo, String descricaoModulo, int idSolicitante, String nomeSolicitante, String textoSuporte, String textoDesenvol, String tipoChamado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idItemCh, Date dataItemCh, String utiliza) {
+    public ChamadoSuporte(int idCHSup, int idCHDes, String statusCha, Date dataCha, String assunto, String horarioInicio, String horarioTermino, int idUsuario, String NomeUsuario, int idEmpresa, String descricaoEmpresa, int idUnidEmp, String descricaoUnidade, int idSoftware, String descricaoSoftware, int idModulo, String descricaoModulo, int idSolicitante, String nomeSolicitante, String textoSuporte, String textoDesenvol, String tipoChamado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idItemCh, Date dataItemCh, String utiliza) {
         this.idCHSup = idCHSup;
         this.idCHDes = idCHDes;
         this.statusCha = statusCha;
         this.dataCha = dataCha;
+        this.assunto = assunto;
         this.horarioInicio = horarioInicio;
         this.horarioTermino = horarioTermino;
         this.idUsuario = idUsuario;
@@ -134,6 +136,20 @@ public class ChamadoSuporte {
      */
     public void setDataCha(Date dataCha) {
         this.dataCha = dataCha;
+    }
+
+    /**
+     * @return the assunto
+     */
+    public String getAssunto() {
+        return assunto;
+    }
+
+    /**
+     * @param assunto the assunto to set
+     */
+    public void setAssunto(String assunto) {
+        this.assunto = assunto;
     }
 
     /**
