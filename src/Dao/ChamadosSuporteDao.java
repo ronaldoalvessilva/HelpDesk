@@ -109,7 +109,7 @@ public class ChamadosSuporteDao {
         pesquisarModulo(objCHSup.getDescricaoModulo());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO ITENS_CHAMADOS_SUPORTE (IdCHSup,DataItemCh,HorarioInicio,HorarioTermino,IdSoftware,IdModulo,TextoSuporte,TextoDesenvol,TipoChamado,UsuarioInsert,DataInsert,HorarioInsert)VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO ITENS_CHAMADOS_SUPORTE (IdCHSup,DataItemCh,HorarioInicio,HorarioTermino,IdSoftware,IdModulo,TextoSuporte,TextoDesenvol,TipoChamado,UsuarioInsert,DataInsert,HorarioInsert,ImagemDocumento,ImagemDocumento1,ImagemDocumento2,ImagemDocumento3)VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setInt(1, objCHSup.getIdCHSup());
             pst.setTimestamp(2, new java.sql.Timestamp(objCHSup.getDataItemCh().getTime()));
             pst.setString(3, objCHSup.getHorarioInicio());
@@ -122,6 +122,10 @@ public class ChamadosSuporteDao {
             pst.setString(10, objCHSup.getUsuarioInsert());
             pst.setString(11, objCHSup.getDataInsert());
             pst.setString(12, objCHSup.getHorarioInsert());
+            pst.setBytes(13, objCHSup.getImagemDocumento());
+            pst.setBytes(14, objCHSup.getImagemDocumento1());
+            pst.setBytes(15, objCHSup.getImagemDocumento2());
+            pst.setBytes(16, objCHSup.getImagemDocumento3());
             pst.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possivel INSERIR os Dados.\nERRO: " + ex);
@@ -135,7 +139,7 @@ public class ChamadosSuporteDao {
         pesquisarModulo(objCHSup.getDescricaoModulo());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE ITENS_CHAMADOS_SUPORTE SET DataItemCh=?,HorarioInicio=?,HorarioTermino=?,IdSoftware=?,IdModulo=?,TextoSuporte=?,TextoDesenvol=?,TipoChamado=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdItem='" + objCHSup.getIdItemCh() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE ITENS_CHAMADOS_SUPORTE SET DataItemCh=?,HorarioInicio=?,HorarioTermino=?,IdSoftware=?,IdModulo=?,TextoSuporte=?,TextoDesenvol=?,TipoChamado=?,UsuarioUp=?,DataUp=?,HorarioUp=?,ImagemDocumento=?,ImagemDocumento1=?,ImagemDocumento2=?,ImagemDocumento3=? WHERE IdItem='" + objCHSup.getIdItemCh() + "'");
             pst.setTimestamp(1, new java.sql.Timestamp(objCHSup.getDataItemCh().getTime()));
             pst.setString(2, objCHSup.getHorarioInicio());
             pst.setString(3, objCHSup.getHorarioTermino());
@@ -147,6 +151,10 @@ public class ChamadosSuporteDao {
             pst.setString(9, objCHSup.getUsuarioUp());
             pst.setString(10, objCHSup.getDataUp());
             pst.setString(11, objCHSup.getHorarioUp());
+            pst.setBytes(12, objCHSup.getImagemDocumento());
+            pst.setBytes(13, objCHSup.getImagemDocumento1());
+            pst.setBytes(14, objCHSup.getImagemDocumento2());
+            pst.setBytes(15, objCHSup.getImagemDocumento3());
             pst.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\nERRO: " + ex);
