@@ -163,9 +163,10 @@ public class TelaFotoHelpDesk3 extends javax.swing.JDialog {
             if (imgBytes != null) {
                 ImageIcon pic = null;
                 pic = new ImageIcon(imgBytes);
-                Image scaled = pic.getImage().getScaledInstance(jFoto3.getWidth(), jFoto3.getHeight(), Image.SCALE_REPLICATE);
+                Image scaled = pic.getImage().getScaledInstance(jFoto3.getWidth(), jFoto3.getHeight(), Image.SCALE_DEFAULT);
                 ImageIcon icon = new ImageIcon(scaled);
                 jFoto3.setIcon(icon);
+                this.repaint();
             }
         } catch (Exception e) {
         }

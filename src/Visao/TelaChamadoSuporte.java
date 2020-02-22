@@ -2335,36 +2335,40 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 if (imgBytes0 != null) {
                     ImageIcon pic = null;
                     pic = new ImageIcon(imgBytes0);
-                    Image scaled = pic.getImage().getScaledInstance(jFigura1.getWidth(), jFigura1.getHeight(), Image.SCALE_AREA_AVERAGING);
+                    Image scaled = pic.getImage().getScaledInstance(jFigura1.getWidth(), jFigura1.getHeight(), Image.SCALE_DEFAULT);
                     ImageIcon icon = new ImageIcon(scaled);
                     jFigura1.setIcon(icon);
+                    this.repaint();
                 }
                 // BUSCAR A FOTO DA FIGURA2 NO BANCO DE DADOS
                 byte[] imgBytes1 = ((byte[]) conecta.rs.getBytes("ImagemDocumento1"));
                 if (imgBytes1 != null) {
                     ImageIcon pic1 = null;
                     pic1 = new ImageIcon(imgBytes1);
-                    Image scaled1 = pic1.getImage().getScaledInstance(jFigura2.getWidth(), jFigura2.getHeight(), Image.SCALE_AREA_AVERAGING);
+                    Image scaled1 = pic1.getImage().getScaledInstance(jFigura2.getWidth(), jFigura2.getHeight(), Image.SCALE_DEFAULT);
                     ImageIcon icon1 = new ImageIcon(scaled1);
                     jFigura2.setIcon(icon1);
+                    this.repaint();
                 }
                 // BUSCAR A FOTO DA FIGURA3 NO BANCO DE DADOS
                 byte[] imgBytes2 = ((byte[]) conecta.rs.getBytes("ImagemDocumento2"));
                 if (imgBytes2 != null) {
                     ImageIcon pic2 = null;
                     pic2 = new ImageIcon(imgBytes2);
-                    Image scaled2 = pic2.getImage().getScaledInstance(jFigura3.getWidth(), jFigura3.getHeight(), Image.SCALE_AREA_AVERAGING);
+                    Image scaled2 = pic2.getImage().getScaledInstance(jFigura3.getWidth(), jFigura3.getHeight(), Image.SCALE_DEFAULT);
                     ImageIcon icon2 = new ImageIcon(scaled2);
                     jFigura3.setIcon(icon2);
+                    this.repaint();
                 }
                 // BUSCAR A FOTO DA FIGURA4 NO BANCO DE DADOS
                 byte[] imgBytes3 = ((byte[]) conecta.rs.getBytes("ImagemDocumento3"));
                 if (imgBytes3 != null) {
                     ImageIcon pic3 = null;
                     pic3 = new ImageIcon(imgBytes3);
-                    Image scaled3 = pic3.getImage().getScaledInstance(jFigura4.getWidth(), jFigura4.getHeight(), Image.SCALE_AREA_AVERAGING);
+                    Image scaled3 = pic3.getImage().getScaledInstance(jFigura4.getWidth(), jFigura4.getHeight(), Image.SCALE_DEFAULT);
                     ImageIcon icon3 = new ImageIcon(scaled3);
                     jFigura4.setIcon(icon3);
+                    this.repaint();
                 }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
