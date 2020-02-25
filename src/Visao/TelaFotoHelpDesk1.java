@@ -58,14 +58,14 @@ public class TelaFotoHelpDesk1 extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jFoto1, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
+                .addComponent(jFoto1, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jFoto1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+                .addComponent(jFoto1, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -149,7 +149,7 @@ public class TelaFotoHelpDesk1 extends javax.swing.JDialog {
             if (imgBytes != null) {
                 ImageIcon pic = null;
                 pic = new ImageIcon(imgBytes);
-                Image scaled = pic.getImage().getScaledInstance(jFoto1.getWidth(), jFoto1.getHeight(), Image.SCALE_DEFAULT);
+                Image scaled = pic.getImage().getScaledInstance(jFoto1.getWidth(), jFoto1.getHeight(), Image.SCALE_SMOOTH);
                 ImageIcon icon = new ImageIcon(scaled);
                 jFoto1.setIcon(icon);
                 this.repaint();
