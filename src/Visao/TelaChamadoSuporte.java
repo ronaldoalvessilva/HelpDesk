@@ -37,6 +37,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -100,10 +102,15 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     // FILTRAR CHAMADOS POR ATENTENTE
     String nomeAtendente = "";
     int nivelUsuario = 0;
-    String caminhoFigura1 = "";
-    String caminhoFigura2 = "";
-    String caminhoFigura3 = "";
-    String caminhoFigura4 = "";
+    String caminhoFigura1 = null;
+    String caminhoFigura2 = null;
+    String caminhoFigura3 = null;
+    String caminhoFigura4 = null;
+    //
+    byte[] persona_imagem = null;
+    byte[] persona_imagem1 = null;
+    byte[] persona_imagem2 = null;
+    byte[] persona_imagem3 = null;
 
     /**
      * Creates new form TelaChamadoSuporte
@@ -2142,79 +2149,19 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 objCHSup.setHorarioTermino(horaMov);
                 // PREPARAR FOTO PARA GRAVAR NO BANCO DE DADOS - FOTO1   
                 if (jFigura1.getIcon() != null) {
-                    Image img = ((ImageIcon) jFigura1.getIcon()).getImage();
-                    BufferedImage bi = new BufferedImage(//é a imagem na memória e que pode ser alterada
-                            img.getWidth(null),
-                            img.getHeight(null),
-                            BufferedImage.TYPE_INT_RGB);
-                    Graphics2D g1 = bi.createGraphics();
-                    g1.drawImage(img, 0, 0, null);
-                    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                    try {
-                        ImageIO.write(bi, "jpg", buffer);
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    objCHSup.setImagemDocumento(buffer.toByteArray());
+                    objCHSup.setImagemDocumento(persona_imagem);
                 }
                 // PREPARAR FOTO PARA GRAVAR NO BANCO DE DADOS - FOTO2   
                 if (jFigura2.getIcon() != null) {
-                    Image img2 = ((ImageIcon) jFigura2.getIcon()).getImage();
-                    BufferedImage b2 = new BufferedImage(//é a imagem na memória e que pode ser alterada
-                            img2.getWidth(null),
-                            img2.getHeight(null),
-                            BufferedImage.TYPE_INT_RGB);
-                    Graphics2D g2 = b2.createGraphics();
-                    g2.drawImage(img2, 0, 0, null);
-                    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                    try {
-                        ImageIO.write(b2, "jpg", buffer);
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    objCHSup.setImagemDocumento1(buffer.toByteArray());
+                    objCHSup.setImagemDocumento1(persona_imagem1);
                 }
                 // PREPARAR FOTO PARA GRAVAR NO BANCO DE DADOS - FOTO3   
                 if (jFigura3.getIcon() != null) {
-                    Image img3 = ((ImageIcon) jFigura3.getIcon()).getImage();
-                    BufferedImage b3 = new BufferedImage(//é a imagem na memória e que pode ser alterada
-                            img3.getWidth(null),
-                            img3.getHeight(null),
-                            BufferedImage.TYPE_INT_RGB);
-                    Graphics2D g3 = b3.createGraphics();
-                    g3.drawImage(img3, 0, 0, null);
-                    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                    try {
-                        ImageIO.write(b3, "jpg", buffer);
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    objCHSup.setImagemDocumento2(buffer.toByteArray());
+                    objCHSup.setImagemDocumento2(persona_imagem2);
                 }
                 // PREPARAR FOTO PARA GRAVAR NO BANCO DE DADOS - FOTO3   
                 if (jFigura4.getIcon() != null) {
-                    Image img4 = ((ImageIcon) jFigura4.getIcon()).getImage();
-                    BufferedImage b4 = new BufferedImage(//é a imagem na memória e que pode ser alterada
-                            img4.getWidth(null),
-                            img4.getHeight(null),
-                            BufferedImage.TYPE_INT_RGB);
-                    Graphics2D g4 = b4.createGraphics();
-                    g4.drawImage(img4, 0, 0, null);
-                    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                    try {
-                        ImageIO.write(b4, "jpg", buffer);
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    objCHSup.setImagemDocumento3(buffer.toByteArray());
+                    objCHSup.setImagemDocumento3(persona_imagem3);
                 }
                 if (acao == 3) {
                     objCHSup.setUsuarioInsert(nameUser);
@@ -2394,18 +2341,25 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtAnexarArquivoActionPerformed
 
     private void jBtNovaFigura1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovaFigura1ActionPerformed
-        // TODO add your handling code here:
-        javax.swing.JFileChooser seletor = new javax.swing.JFileChooser();
-        int acao = seletor.showOpenDialog(this);
+        // TODO add your handling code here:      
+        JFileChooser chooser = new JFileChooser();
+        int acao = chooser.showOpenDialog(this);
         if (acao == JFileChooser.APPROVE_OPTION) {
-            java.io.File f = seletor.getSelectedFile();
-            caminhoFigura1 = f.getPath();
-            javax.swing.ImageIcon i = new javax.swing.ImageIcon(caminhoFigura1);
-            jFigura1.setIcon(i);
-            ImageIcon image = new ImageIcon(seletor.getSelectedFile().getPath());
-//            jFigura1.setSize(800, 600);
-            jFigura1.setIcon(new ImageIcon(image.getImage().getScaledInstance(jFigura1.getWidth(), jFigura1.getHeight(), Image.SCALE_REPLICATE)));
-            caminhoFigura1 = f.getPath();
+            File f = chooser.getSelectedFile();
+            caminhoFigura1 = f.getAbsolutePath();
+            ImageIcon imagemicon = new ImageIcon(new ImageIcon(caminhoFigura1).getImage().getScaledInstance(jFigura1.getWidth(), jFigura1.getHeight(), Image.SCALE_SMOOTH));
+            jFigura1.setIcon(imagemicon);
+            try {
+                File image = new File(caminhoFigura1);
+                FileInputStream fis = new FileInputStream(image);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] buf = new byte[1024];
+                for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                    bos.write(buf, 0, readNum);
+                }
+                persona_imagem = bos.toByteArray();
+            } catch (Exception e) {
+            }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Seleção da figura cancelada.");
         }
@@ -2427,16 +2381,24 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
     private void jBtNovaFigura2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovaFigura2ActionPerformed
         // TODO add your handling code here:
-        javax.swing.JFileChooser seletor = new javax.swing.JFileChooser();
-        int acao0 = seletor.showOpenDialog(this);
-        if (acao0 == JFileChooser.APPROVE_OPTION) {
-            java.io.File f = seletor.getSelectedFile();
-            caminhoFigura1 = f.getPath();
-            javax.swing.ImageIcon a = new javax.swing.ImageIcon(caminhoFigura1);
-            jFigura2.setIcon(a);
-            ImageIcon image = new ImageIcon(seletor.getSelectedFile().getPath());
-            jFigura2.setIcon(new ImageIcon(image.getImage().getScaledInstance(jFigura2.getWidth(), jFigura2.getHeight(), Image.SCALE_REPLICATE)));
-            caminhoFigura1 = f.getPath();
+        JFileChooser chooser = new JFileChooser();
+        int acao = chooser.showOpenDialog(this);
+        if (acao == JFileChooser.APPROVE_OPTION) {
+            File f = chooser.getSelectedFile();
+            caminhoFigura2 = f.getAbsolutePath();
+            ImageIcon imagemicon = new ImageIcon(new ImageIcon(caminhoFigura2).getImage().getScaledInstance(jFigura2.getWidth(), jFigura2.getHeight(), Image.SCALE_SMOOTH));
+            jFigura2.setIcon(imagemicon);
+            try {
+                File image = new File(caminhoFigura2);
+                FileInputStream fis = new FileInputStream(image);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] buf = new byte[1024];
+                for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                    bos.write(buf, 0, readNum);
+                }
+                persona_imagem1 = bos.toByteArray();
+            } catch (Exception e) {
+            }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Seleção da figura cancelada.");
         }
@@ -2458,16 +2420,24 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
     private void jBtNovaFigura3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovaFigura3ActionPerformed
         // TODO add your handling code here:
-        javax.swing.JFileChooser seletor = new javax.swing.JFileChooser();
-        int acao1 = seletor.showOpenDialog(this);
-        if (acao1 == JFileChooser.APPROVE_OPTION) {
-            java.io.File f = seletor.getSelectedFile();
-            caminhoFigura2 = f.getPath();
-            javax.swing.ImageIcon b = new javax.swing.ImageIcon(caminhoFigura2);
-            jFigura3.setIcon(b);
-            ImageIcon image = new ImageIcon(seletor.getSelectedFile().getPath());
-            jFigura3.setIcon(new ImageIcon(image.getImage().getScaledInstance(jFigura3.getWidth(), jFigura3.getHeight(), Image.SCALE_REPLICATE)));
-            caminhoFigura2 = f.getPath();
+        JFileChooser chooser = new JFileChooser();
+        int acao = chooser.showOpenDialog(this);
+        if (acao == JFileChooser.APPROVE_OPTION) {
+            File f = chooser.getSelectedFile();
+            caminhoFigura3 = f.getAbsolutePath();
+            ImageIcon imagemicon = new ImageIcon(new ImageIcon(caminhoFigura3).getImage().getScaledInstance(jFigura3.getWidth(), jFigura3.getHeight(), Image.SCALE_SMOOTH));
+            jFigura3.setIcon(imagemicon);
+            try {
+                File image = new File(caminhoFigura3);
+                FileInputStream fis = new FileInputStream(image);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] buf = new byte[1024];
+                for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                    bos.write(buf, 0, readNum);
+                }
+                persona_imagem2 = bos.toByteArray();
+            } catch (Exception e) {
+            }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Seleção da figura cancelada.");
         }
@@ -2489,16 +2459,24 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
     private void jBtNovaFigura4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovaFigura4ActionPerformed
         // TODO add your handling code here:
-        javax.swing.JFileChooser seletor = new javax.swing.JFileChooser();
-        int acao2 = seletor.showOpenDialog(this);
-        if (acao2 == JFileChooser.APPROVE_OPTION) {
-            java.io.File f = seletor.getSelectedFile();
-            caminhoFigura3 = f.getPath();
-            javax.swing.ImageIcon c = new javax.swing.ImageIcon(caminhoFigura3);
-            jFigura4.setIcon(c);
-            ImageIcon image = new ImageIcon(seletor.getSelectedFile().getPath());
-            jFigura4.setIcon(new ImageIcon(image.getImage().getScaledInstance(jFigura4.getWidth(), jFigura4.getHeight(), Image.SCALE_REPLICATE)));
-            caminhoFigura3 = f.getPath();
+        JFileChooser chooser = new JFileChooser();
+        int acao = chooser.showOpenDialog(this);
+        if (acao == JFileChooser.APPROVE_OPTION) {
+            File f = chooser.getSelectedFile();
+            caminhoFigura4 = f.getAbsolutePath();
+            ImageIcon imagemicon = new ImageIcon(new ImageIcon(caminhoFigura4).getImage().getScaledInstance(jFigura4.getWidth(), jFigura4.getHeight(), Image.SCALE_SMOOTH));
+            jFigura4.setIcon(imagemicon);
+            try {
+                File image = new File(caminhoFigura4);
+                FileInputStream fis = new FileInputStream(image);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] buf = new byte[1024];
+                for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                    bos.write(buf, 0, readNum);
+                }
+                persona_imagem3 = bos.toByteArray();
+            } catch (Exception e) {
+            }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Seleção da figura cancelada.");
         }
@@ -3063,7 +3041,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 dataBrasil = dia + "/" + mes + "/" + ano;
                 count = count + 1;
                 jtotalRegistros.setText(Integer.toString(count)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{conecta.rs.getInt("IdCHSup"), dataBrasil, conecta.rs.getString("StatusCha"), conecta.rs.getString("AssuntoSuporte"),conecta.rs.getString("NomeSolicitante"), conecta.rs.getString("DescricaoUnidade")});
+                dados.add(new Object[]{conecta.rs.getInt("IdCHSup"), dataBrasil, conecta.rs.getString("StatusCha"), conecta.rs.getString("AssuntoSuporte"), conecta.rs.getString("NomeSolicitante"), conecta.rs.getString("DescricaoUnidade")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem exibidos....");
