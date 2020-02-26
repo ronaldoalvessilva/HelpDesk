@@ -264,6 +264,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jBtModulos = new javax.swing.JButton();
         jBtAgendaRecados = new javax.swing.JButton();
         jBtAgendaCompromisso = new javax.swing.JButton();
+        jBtAtendentes = new javax.swing.JButton();
         jToolBar1 = new javax.swing.JToolBar();
         jLabel3 = new javax.swing.JLabel();
         jToolBar2 = new javax.swing.JToolBar();
@@ -407,6 +408,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jBtAtendentes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icons8-linux-32.png"))); // NOI18N
+        jBtAtendentes.setToolTipText("Atendentes");
+        jBtAtendentes.setContentAreaFilled(false);
+        jBtAtendentes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtAtendentesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -428,10 +438,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jBtAgendaRecados, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtAgendaCompromisso, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jBtAtendentes, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtAgendaRecados, jBtEmpresa, jBtModulos, jBtOcorrencias, jBtSistemas, jBtSolicitantes, jBtUsuarios});
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtAgendaCompromisso, jBtAtendentes});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -444,11 +458,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(jBtSistemas)
                     .addComponent(jBtModulos, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtAgendaRecados)
-                    .addComponent(jBtAgendaCompromisso))
-                .addGap(55, 55, 55))
+                    .addComponent(jBtAgendaCompromisso)
+                    .addComponent(jBtAtendentes))
+                .addGap(66, 66, 66))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtAgendaCompromisso, jBtAgendaRecados, jBtEmpresa, jBtModulos, jBtOcorrencias, jBtSistemas, jBtSolicitantes, jBtUsuarios});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtAgendaCompromisso, jBtAgendaRecados, jBtAtendentes, jBtEmpresa, jBtModulos, jBtOcorrencias, jBtSistemas, jBtSolicitantes, jBtUsuarios});
 
         jToolBar1.setRollover(true);
 
@@ -552,7 +567,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(58, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBtRelatoriosSuporteTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtChamadosSuporte, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -681,6 +696,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jCadastro.add(jSolicitantes);
 
+        jatendentes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
+        jatendentes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/tux.png"))); // NOI18N
+        jatendentes.setMnemonic('T');
         jatendentes.setText("Atendentes de Suporte");
         jatendentes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -885,7 +903,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 265, Short.MAX_VALUE)
                         .addComponent(jToolBar4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1943,6 +1961,38 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
                 }
                 break;
+            case KeyEvent.VK_T:
+                buscarAcessoUsuario(telaCadastroAtendentes);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroAtendentes) && codAbrir == 1) {
+                    if (objAtendente == null || objAtendente.isClosed()) {
+                        objAtendente = new TelaAtendentesSuporte();
+                        TelaPrincipal.jPainelPrincipal.add(objAtendente);
+                        objAtendente.setVisible(true);
+                    } else {
+                        if (objAtendente.isVisible()) {
+                            if (objAtendente.isIcon()) { // Se esta minimizado
+                                try {
+                                    objAtendente.setIcon(false); // maximiniza
+                                } catch (PropertyVetoException ex) {
+                                }
+                            } else {
+                                objAtendente.toFront(); // traz para frente
+                                objAtendente.pack();//volta frame 
+                            }
+                        } else {
+                            objAtendente = new TelaAtendentesSuporte();
+                            TelaPrincipal.jPainelPrincipal.add(objAtendente);//adicona frame ao JDesktopPane  
+                            objAtendente.setVisible(true);
+                        }
+                    }
+                    try {
+                        objAtendente.setSelected(true);
+                    } catch (java.beans.PropertyVetoException e) {
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+                }
+                break;
             case KeyEvent.VK_X:
                 System.exit(0);
         }
@@ -2085,6 +2135,40 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jatendentesActionPerformed
 
+    private void jBtAtendentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAtendentesActionPerformed
+        // TODO add your handling code here:
+        buscarAcessoUsuario(telaCadastroAtendentes);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroAtendentes) && codAbrir == 1) {
+            if (objAtendente == null || objAtendente.isClosed()) {
+                objAtendente = new TelaAtendentesSuporte();
+                TelaPrincipal.jPainelPrincipal.add(objAtendente);
+                objAtendente.setVisible(true);
+            } else {
+                if (objAtendente.isVisible()) {
+                    if (objAtendente.isIcon()) { // Se esta minimizado
+                        try {
+                            objAtendente.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objAtendente.toFront(); // traz para frente
+                        objAtendente.pack();//volta frame 
+                    }
+                } else {
+                    objAtendente = new TelaAtendentesSuporte();
+                    TelaPrincipal.jPainelPrincipal.add(objAtendente);//adicona frame ao JDesktopPane  
+                    objAtendente.setVisible(true);
+                }
+            }
+            try {
+                objAtendente.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jBtAtendentesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2125,6 +2209,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jAgendaRecados;
     private javax.swing.JButton jBtAgendaCompromisso;
     private javax.swing.JButton jBtAgendaRecados;
+    private javax.swing.JButton jBtAtendentes;
     private javax.swing.JButton jBtChamadosDesenvol;
     private javax.swing.JButton jBtChamadosSuporte;
     private javax.swing.JButton jBtConsultasDB;
