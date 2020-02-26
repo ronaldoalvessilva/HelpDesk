@@ -35,6 +35,7 @@ public class ChamadoSuporte {
     private int idSolicitante;
     private String nomeSolicitante;
     private String textoSuporte;
+    private int idItemDes;
     private String textoDesenvol;
     private String tipoChamado;
     private String usuarioInsert;
@@ -54,7 +55,7 @@ public class ChamadoSuporte {
     public ChamadoSuporte() {
     }
 
-    public ChamadoSuporte(int idCHSup, int idCHDes, String statusCha, Date dataCha, String assunto, String horarioInicio, String horarioTermino, int idUsuario, String NomeUsuario, int idAtendente, String nomeAtendente, int idEmpresa, String descricaoEmpresa, int idUnidEmp, String descricaoUnidade, int idSoftware, String descricaoSoftware, int idModulo, String descricaoModulo, int idSolicitante, String nomeSolicitante, String textoSuporte, String textoDesenvol, String tipoChamado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idItemCh, Date dataItemCh, String utiliza, byte[] imagemDocumento, byte[] imagemDocumento1, byte[] imagemDocumento2, byte[] imagemDocumento3) {
+    public ChamadoSuporte(int idCHSup, int idCHDes, String statusCha, Date dataCha, String assunto, String horarioInicio, String horarioTermino, int idUsuario, String NomeUsuario, int idAtendente, String nomeAtendente, int idEmpresa, String descricaoEmpresa, int idUnidEmp, String descricaoUnidade, int idSoftware, String descricaoSoftware, int idModulo, String descricaoModulo, int idSolicitante, String nomeSolicitante, String textoSuporte, int idItemDes, String textoDesenvol, String tipoChamado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idItemCh, Date dataItemCh, String utiliza, byte[] imagemDocumento, byte[] imagemDocumento1, byte[] imagemDocumento2, byte[] imagemDocumento3) {
         this.idCHSup = idCHSup;
         this.idCHDes = idCHDes;
         this.statusCha = statusCha;
@@ -77,6 +78,7 @@ public class ChamadoSuporte {
         this.idSolicitante = idSolicitante;
         this.nomeSolicitante = nomeSolicitante;
         this.textoSuporte = textoSuporte;
+        this.idItemDes = idItemDes;
         this.textoDesenvol = textoDesenvol;
         this.tipoChamado = tipoChamado;
         this.usuarioInsert = usuarioInsert;
@@ -400,6 +402,20 @@ public class ChamadoSuporte {
      */
     public void setTextoSuporte(String textoSuporte) {
         this.textoSuporte = textoSuporte;
+    }
+
+    /**
+     * @return the idItemDes
+     */
+    public int getIdItemDes() {
+        return idItemDes;
+    }
+
+    /**
+     * @param idItemDes the idItemDes to set
+     */
+    public void setIdItemDes(int idItemDes) {
+        this.idItemDes = idItemDes;
     }
 
     /**

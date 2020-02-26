@@ -80,6 +80,7 @@ public class TelaPesquisaSolicitanteCHD extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Nome Solicitante:");
 
+        jCodigo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jCodigo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jNomeSolicitantePes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
@@ -357,7 +358,6 @@ public class TelaPesquisaSolicitanteCHD extends javax.swing.JDialog {
                 idSolicitante = conecta.rs.getInt("IdSolicitante");
                 jSolicitante.setText(conecta.rs.getString("NomeSolicitante"));
                 idEmpresa = conecta.rs.getInt("IdEmpresa");
-//                jDescricaoEmpresa.setText(conecta.rs.getString("RazaoSocial"));
                 idUnidade = conecta.rs.getInt("IdUnidEmp");
                 jUnidadePrisional.setText(conecta.rs.getString("DescricaoUnidade"));
                 conecta.desconecta();
