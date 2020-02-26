@@ -33,22 +33,15 @@ import static Visao.TelaPrincipal.telaItensChamadoSuporte;
 import static Visao.TelaPrincipal.tipoServidor;
 import static Visao.TelaPrincipal.nomeUserRegistro;
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -210,7 +203,6 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jDataChamado = new com.toedter.calendar.JDateChooser();
         jIdChamado = new javax.swing.JTextField();
         jStatusChamado = new javax.swing.JTextField();
-        jAtendente = new javax.swing.JTextField();
         jSolicitante = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jUnidadePrisional = new javax.swing.JTextField();
@@ -218,6 +210,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jBtPesquisaSoli = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         jAssunto = new javax.swing.JTextField();
+        jComboBoxAtendente = new javax.swing.JComboBox<>();
         jPanel8 = new javax.swing.JPanel();
         jBtEncerrar = new javax.swing.JButton();
         jBtImprimir = new javax.swing.JButton();
@@ -545,10 +538,6 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jStatusChamado.setDisabledTextColor(new java.awt.Color(204, 0, 0));
         jStatusChamado.setEnabled(false);
 
-        jAtendente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jAtendente.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jAtendente.setEnabled(false);
-
         jSolicitante.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jSolicitante.setEnabled(false);
 
@@ -576,6 +565,16 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jAssunto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jAssunto.setEnabled(false);
 
+        jComboBoxAtendente.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxAtendente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione..." }));
+        jComboBoxAtendente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBoxAtendente.setEnabled(false);
+        jComboBoxAtendente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jComboBoxAtendenteMouseEntered(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -599,23 +598,21 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addGap(0, 160, Short.MAX_VALUE))
-                            .addComponent(jAtendente)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel10)
-                                    .addComponent(jSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jUnidadePrisional, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtPesquisaSoli, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel17)
-                            .addComponent(jAssunto))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jComboBoxAtendente, 0, 220, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel10)
+                                .addComponent(jSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel7)
+                                .addComponent(jUnidadePrisional, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jBtPesquisaSoli, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel17)
+                        .addComponent(jAssunto)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -630,10 +627,10 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jDataChamado, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jStatusChamado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jIdChamado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jIdChamado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7)
                         .addGap(3, 3, 3)
@@ -1465,7 +1462,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         buscarNivelUsuario();
         count = 0;
         flag = 1;
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || nivelUsuario == 0) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
             if (jIdChamadoPesquisa.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
             } else {
@@ -1478,7 +1475,16 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
                         + "WHERE CHAMADOS_SUPORTE.IdCHSup='" + jIdChamadoPesquisa.getText() + "' ");
             }
-        } else {
+        } else if (nivelUsuario == 0 || nivelUsuario == 1) {
+            preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                    + "INNER JOIN USUARIOS "
+                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                    + "INNER JOIN SOLICITANTES "
+                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                    + "WHERE CHAMADOS_SUPORTE.IdCHSup='" + jIdChamadoPesquisa.getText() + "' ");
+        } else if (nivelUsuario == 2) {
             if (jIdChamadoPesquisa.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
             } else {
@@ -1503,7 +1509,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         if (tipoServidor == null || tipoServidor.equals("")) {
             JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
         } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
-            if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || nivelUsuario == 0) {
+            if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
                 if (jDataPesqInicial.getDate() == null) {
                     JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
                     jDataPesqInicial.requestFocus();
@@ -1530,88 +1536,144 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         }
                     }
                 }
-            } else {
-                if (jDataPesqInicial.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                    jDataPesqInicial.requestFocus();
-                } else {
-                    if (jDataPesFinal.getDate() == null) {
-                        JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                        jDataPesFinal.requestFocus();
+            } else if (nivelUsuario == 0 || nivelUsuario == 1) {
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                    if (jDataPesqInicial.getDate() == null) {
+                        JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                        jDataPesqInicial.requestFocus();
                     } else {
-                        if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
-                            JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                        if (jDataPesFinal.getDate() == null) {
+                            JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                            jDataPesFinal.requestFocus();
                         } else {
-                            SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
-                            dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                            dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                            preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
-                                    + "INNER JOIN USUARIOS "
-                                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                                    + "INNER JOIN SOLICITANTES "
-                                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
-                                    + "WHERE DataCha BETWEEN'" + dataInicial + "' "
-                                    + "AND '" + dataFinal + "' "
-                                    + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+                            if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
+                                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                            } else {
+                                SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
+                                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                                dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+                                preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                                        + "INNER JOIN USUARIOS "
+                                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                                        + "INNER JOIN SOLICITANTES "
+                                        + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                                        + "WHERE DataCha BETWEEN'" + dataInicial + "' "
+                                        + "AND '" + dataFinal + "' ");
+                            }
+                        }
+                    }
+                } else if (nivelUsuario == 0 || nivelUsuario == 1) {
+                    if (jDataPesqInicial.getDate() == null) {
+                        JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                        jDataPesqInicial.requestFocus();
+                    } else {
+                        if (jDataPesFinal.getDate() == null) {
+                            JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                            jDataPesFinal.requestFocus();
+                        } else {
+                            if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
+                                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                            } else {
+                                SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
+                                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                                dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+                                preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                                        + "INNER JOIN USUARIOS "
+                                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                                        + "INNER JOIN SOLICITANTES "
+                                        + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                                        + "WHERE DataCha BETWEEN'" + dataInicial + "' "
+                                        + "AND '" + dataFinal + "' "
+                                        + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+                            }
                         }
                     }
                 }
-            }
-        } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
-            if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || nivelUsuario == 0) {
-                if (jDataPesqInicial.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                    jDataPesqInicial.requestFocus();
-                } else {
-                    if (jDataPesFinal.getDate() == null) {
-                        JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                        jDataPesFinal.requestFocus();
+            } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                    if (jDataPesqInicial.getDate() == null) {
+                        JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                        jDataPesqInicial.requestFocus();
                     } else {
-                        if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
-                            JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                        if (jDataPesFinal.getDate() == null) {
+                            JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                            jDataPesFinal.requestFocus();
                         } else {
-                            SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
-                            dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                            dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                            preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
-                                    + "INNER JOIN USUARIOS "
-                                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                                    + "INNER JOIN SOLICITANTES "
-                                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
-                                    + "WHERE DataCha BETWEEN'" + dataInicial + "' "
-                                    + "AND '" + dataFinal + "' ");
+                            if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
+                                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                            } else {
+                                SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
+                                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                                dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+                                preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                                        + "INNER JOIN USUARIOS "
+                                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                                        + "INNER JOIN SOLICITANTES "
+                                        + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                                        + "WHERE DataCha BETWEEN'" + dataInicial + "' "
+                                        + "AND '" + dataFinal + "' ");
+                            }
                         }
                     }
-                }
-            } else {
-                if (jDataPesqInicial.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                    jDataPesqInicial.requestFocus();
-                } else {
-                    if (jDataPesFinal.getDate() == null) {
-                        JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                        jDataPesFinal.requestFocus();
+                } else if (nivelUsuario == 0 || nivelUsuario == 1) {
+                    if (jDataPesqInicial.getDate() == null) {
+                        JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                        jDataPesqInicial.requestFocus();
                     } else {
-                        if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
-                            JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                        if (jDataPesFinal.getDate() == null) {
+                            JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                            jDataPesFinal.requestFocus();
                         } else {
-                            SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
-                            dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                            dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                            preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
-                                    + "INNER JOIN USUARIOS "
-                                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                                    + "INNER JOIN SOLICITANTES "
-                                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
-                                    + "WHERE DataCha BETWEEN'" + dataInicial + "' "
-                                    + "AND '" + dataFinal + "' "
-                                    + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+                            if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
+                                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                            } else {
+                                SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
+                                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                                dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+                                preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                                        + "INNER JOIN USUARIOS "
+                                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                                        + "INNER JOIN SOLICITANTES "
+                                        + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                                        + "WHERE DataCha BETWEEN'" + dataInicial + "' "
+                                        + "AND '" + dataFinal + "' ");
+                            }
+                        }
+                    }
+                } else if (nivelUsuario == 2) {
+                    if (jDataPesqInicial.getDate() == null) {
+                        JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                        jDataPesqInicial.requestFocus();
+                    } else {
+                        if (jDataPesFinal.getDate() == null) {
+                            JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                            jDataPesFinal.requestFocus();
+                        } else {
+                            if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
+                                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                            } else {
+                                SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
+                                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                                dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+                                preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                                        + "INNER JOIN USUARIOS "
+                                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                                        + "INNER JOIN SOLICITANTES "
+                                        + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                                        + "WHERE DataCha BETWEEN'" + dataInicial + "' "
+                                        + "AND '" + dataFinal + "' "
+                                        + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+                            }
                         }
                     }
                 }
@@ -1623,7 +1685,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         nomeAtendente = nameUser;
         count = 0;
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || nivelUsuario == 0) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
             if (jPesqSolicitante.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "É necessário informar um nome ou parte do nome para pesquuisa.");
             } else {
@@ -1636,7 +1698,16 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
                         + "WHERE SOLICITANTES.NomeSolicitante LIKE'%" + jPesqSolicitante.getText() + "%' ");
             }
-        } else {
+        } else if (nivelUsuario == 0 || nivelUsuario == 1) {
+            preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                    + "INNER JOIN USUARIOS "
+                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                    + "INNER JOIN SOLICITANTES "
+                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
+                    + "WHERE SOLICITANTES.NomeSolicitante LIKE'%" + jPesqSolicitante.getText() + "%' ");
+        } else if (nivelUsuario == 2) {
             preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
                     + "INNER JOIN USUARIOS "
                     + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
@@ -1655,7 +1726,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         buscarNivelUsuario();
         count = 0;
         flag = 1;
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || nivelUsuario == 0) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
             if (evt.getStateChange() == evt.SELECTED) {
                 this.preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
                         + "INNER JOIN USUARIOS "
@@ -1668,7 +1739,20 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jtotalRegistros.setText("");
                 limparTabelaFornecedor();
             }
-        } else {
+        } else if (nivelUsuario == 0 || nivelUsuario == 1) {
+            if (evt.getStateChange() == evt.SELECTED) {
+                this.preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
+                        + "INNER JOIN USUARIOS "
+                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                        + "INNER JOIN SOLICITANTES "
+                        + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante ");
+            } else {
+                jtotalRegistros.setText("");
+                limparTabelaFornecedor();
+            }
+        } else if (nivelUsuario == 2) {
             if (evt.getStateChange() == evt.SELECTED) {
                 this.preencherTabelaChamados("SELECT * FROM CHAMADOS_SUPORTE "
                         + "INNER JOIN USUARIOS "
@@ -1694,6 +1778,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             dataModFinal = jDataSistema.getText();
             acao = 1;
             Novo();
+            preencherComboAtendentes();
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
@@ -1746,7 +1831,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
                                 JOptionPane.YES_NO_OPTION);
                         if (resposta == JOptionPane.YES_OPTION) {
-                            objCHSup.setIdSolicitante(Integer.valueOf(jIdChamado.getText()));
+                            objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
                             control.excluirChamadoSup(objCHSup);
                             Excluir();
                         }
@@ -1773,14 +1858,17 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "Informe o solicitante.");
             } else if (jAssunto.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o assunto do chamdo.");
+            } else if (jComboBoxAtendente.getSelectedItem().equals("Selecione...")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o nome do Atendente.");
             } else {
                 objCHSup.setStatusCha(jStatusChamado.getText());
                 objCHSup.setDataCha(jDataChamado.getDate());
-                objCHSup.setNomeUsuario(jAtendente.getText());
+                objCHSup.setNomeUsuario(nameUser);
                 objCHSup.setIdSolicitante(idSolicitante);
                 objCHSup.setNomeSolicitante(jSolicitante.getText());
                 objCHSup.setDescricaoUnidade(jUnidadePrisional.getText());
                 objCHSup.setAssunto(jAssunto.getText());
+                objCHSup.setNomeAtendente((String) jComboBoxAtendente.getSelectedItem());
                 if (acao == 1) {
                     objCHSup.setUsuarioInsert(nameUser);
                     objCHSup.setDataInsert(dataModFinal);
@@ -1988,6 +2076,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             jBtReabrir.setEnabled(true);
             //
             jBtNovoItem.setEnabled(true);
+            jComboBoxAtendente.removeAllItems();
             conecta.abrirConexao();
             try {
                 conecta.executaSQL("SELECT * FROM CHAMADOS_SUPORTE "
@@ -1997,12 +2086,14 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
                         + "INNER JOIN SOLICITANTES "
                         + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
+                        + "INNER JOIN ATENDENTES "
+                        + "ON CHAMADOS_SUPORTE.IdAtendente=ATENDENTES.IdAtendente "
                         + "WHERE CHAMADOS_SUPORTE.IdCHSup='" + idSoli + "'");
                 conecta.rs.first();
                 jIdChamado.setText(String.valueOf(conecta.rs.getInt("IdCHSup")));
                 jStatusChamado.setText(conecta.rs.getString("StatusCha"));
                 jDataChamado.setDate(conecta.rs.getDate("DataCha"));
-                jAtendente.setText(conecta.rs.getString("NomeUsuario"));
+                jComboBoxAtendente.addItem(conecta.rs.getString("NomeAtendente"));
                 idSolicitante = conecta.rs.getInt("IdSolicitante");
                 jSolicitante.setText(conecta.rs.getString("NomeSolicitante"));
                 idUnidade = conecta.rs.getInt("IdUnidEmp");
@@ -2167,7 +2258,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                     objCHSup.setUsuarioInsert(nameUser);
                     objCHSup.setDataInsert(dataModFinal);
                     objCHSup.setHorarioInsert(horaMov);
-                    if (jAtendente.getText().equals("ADMINISTRADOR DO SISTEMA")) {
+                    if (jComboBoxAtendente.getSelectedItem().equals("ADMINISTRADOR DO SISTEMA")) {
                         jHorarioTermino.setEnabled(true);
                         objCHSup.setHorarioTermino(jHorarioTermino.getText());
                     } else {
@@ -2196,7 +2287,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                     objCHSup.setUsuarioUp(nameUser);
                     objCHSup.setDataUp(dataModFinal);
                     objCHSup.setHorarioUp(horaMov);
-                    if (jAtendente.getText().equals("ADMINISTRADOR DO SISTEMA")) {
+                    if (jComboBoxAtendente.getSelectedItem().equals("ADMINISTRADOR DO SISTEMA")) {
                         jHorarioTermino.setEnabled(true);
                         objCHSup.setHorarioTermino(jHorarioTermino.getText());
                     } else {
@@ -2496,10 +2587,16 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jBtVisualizaFigura4ActionPerformed
 
+    private void jComboBoxAtendenteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxAtendenteMouseEntered
+        // TODO add your handling code here:
+        if (acao == 2) {
+            preencherComboAtendentes();
+        }
+    }//GEN-LAST:event_jComboBoxAtendenteMouseEntered
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField jAssunto;
-    public static javax.swing.JTextField jAtendente;
     public static javax.swing.JButton jBtAlterar;
     public static javax.swing.JButton jBtAlterarItem;
     private javax.swing.JButton jBtAnexarArquivo;
@@ -2536,6 +2633,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtVisualizaFigura3;
     private javax.swing.JButton jBtVisualizaFigura4;
     private javax.swing.JCheckBox jCheckBoxTodosCH;
+    public static javax.swing.JComboBox<String> jComboBoxAtendente;
     private com.toedter.calendar.JDateChooser jDataChamado;
     private com.toedter.calendar.JDateChooser jDataOcorrencia;
     private com.toedter.calendar.JDateChooser jDataPesFinal;
@@ -2636,7 +2734,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jIdItem.setBackground(Color.white);
         jHorarioInicio.setBackground(Color.white);
         jHorarioTermino.setBackground(Color.white);
-        jAtendente.setBackground(Color.white);
+        jComboBoxAtendente.setBackground(Color.white);
         jSoftware.setBackground(Color.white);
         jModulo.setBackground(Color.white);
         jTextoSuporte.setBackground(Color.white);
@@ -2647,12 +2745,13 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jIdChamado.setEnabled(!true);
         jStatusChamado.setEnabled(!true);
         jDataChamado.setEnabled(!true);
+        jComboBoxAtendente.setEnabled(!true);
         jAssunto.setEnabled(!true);
         jIdItem.setEnabled(!true);
         jDataOcorrencia.setEnabled(!true);
         jHorarioInicio.setEnabled(!true);
         jHorarioTermino.setEnabled(!true);
-        jAtendente.setEnabled(!true);
+        jComboBoxAtendente.setEnabled(!true);
         jAssunto.setEnabled(!true);
         jUnidadePrisional.setEnabled(!true);
         jSoftware.setEnabled(!true);
@@ -2707,7 +2806,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jIdChamado.setText("");
         jStatusChamado.setText("");
         jDataChamado.setDate(null);
-        jAtendente.setText("");
+        jComboBoxAtendente.setSelectedItem("Selecione...");
         jSolicitante.setText("");
         jUnidadePrisional.setText("");
         jAssunto.setText("");
@@ -2748,7 +2847,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         limparTabelaItens();
         jStatusChamado.setText("ABERTO NO SUPORTE TÉCNICO");
         jDataChamado.setCalendar(Calendar.getInstance());
-        jAtendente.setText(nameUser);
+        jComboBoxAtendente.setEnabled(true);
         jAssunto.setEnabled(true);
         jBtNovaFigura1.setEnabled(true);
         //BOTÕES DE PESQUISA        
@@ -2762,6 +2861,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         bloquearCampos();
         bloquearBotoes();
         //
+        jComboBoxAtendente.setEnabled(true);
         jAssunto.setEnabled(true);
         jBtPesquisaSoli.setEnabled(true);
         //
@@ -2817,6 +2917,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         } else {
             bloquearCampos();
             bloquearBotoes();
+            cancelarEdicao();
             //
             jBtNovo.setEnabled(true);
             jBtAlterar.setEnabled(true);
@@ -2829,6 +2930,22 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             //
             jBtNovoItem.setEnabled(true);
         }
+    }
+
+    public void preencherComboAtendentes() {
+        jComboBoxAtendente.removeAllItems();
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM ATENDENTES ORDER BY NomeAtendente");
+            conecta.rs.first();
+            do {
+                jComboBoxAtendente.addItem(conecta.rs.getString("NomeAtendente"));
+            } while (conecta.rs.next());
+            jComboBoxAtendente.updateUI();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não Existe dados a serem exibidos !!!");
+        }
+        conecta.desconecta();
     }
 
     public void verificarSoftwareModulo() {
@@ -2989,6 +3106,60 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         } catch (Exception e) {
         }
         conecta.desconecta();
+    }
+
+    public void cancelarEdicao() {
+        flag = 1;
+        if (flag == 1) {
+            String idSoli = "" + jTabelaChamdosSup.getValueAt(jTabelaChamdosSup.getSelectedRow(), 0);
+            jIdChamadoPesquisa.setText(idSoli);
+            //            
+            limparTodosCampos();
+            bloquearCampos();
+            bloquearBotoes();
+            jBtNovo.setEnabled(true);
+            jBtAlterar.setEnabled(true);
+            jBtExcluir.setEnabled(true);
+            jBtAuditoria.setEnabled(true);
+            //
+            jBtEncerrar.setEnabled(true);
+            jBtImprimir.setEnabled(true);
+            jBtEnviar.setEnabled(true);
+            jBtReabrir.setEnabled(true);
+            //
+            jBtNovoItem.setEnabled(true);
+            jComboBoxAtendente.removeAllItems();
+            conecta.abrirConexao();
+            try {
+                conecta.executaSQL("SELECT * FROM CHAMADOS_SUPORTE "
+                        + "INNER JOIN USUARIOS "
+                        + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                        + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                        + "INNER JOIN SOLICITANTES "
+                        + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
+                        + "INNER JOIN ATENDENTES "
+                        + "ON CHAMADOS_SUPORTE.IdAtendente=ATENDENTES.IdAtendente "
+                        + "WHERE CHAMADOS_SUPORTE.IdCHSup='" + idSoli + "'");
+                conecta.rs.first();
+                jIdChamado.setText(String.valueOf(conecta.rs.getInt("IdCHSup")));
+                jStatusChamado.setText(conecta.rs.getString("StatusCha"));
+                jDataChamado.setDate(conecta.rs.getDate("DataCha"));
+                jComboBoxAtendente.addItem(conecta.rs.getString("NomeAtendente"));
+                idSolicitante = conecta.rs.getInt("IdSolicitante");
+                jSolicitante.setText(conecta.rs.getString("NomeSolicitante"));
+                idUnidade = conecta.rs.getInt("IdUnidEmp");
+                jUnidadePrisional.setText(conecta.rs.getString("DescricaoUnidade"));
+                jAssunto.setText(conecta.rs.getString("AssuntoSuporte"));
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
+            }
+            preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
+                    + "INNER JOIN CHAMADOS_SUPORTE "
+                    + "ON ITENS_CHAMADOS_SUPORTE.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
+                    + "WHERE ITENS_CHAMADOS_SUPORTE.IdCHSup='" + jIdChamado.getText() + "'");
+            conecta.desconecta();
+        }
     }
 
     public void relatorioChamadosST() {

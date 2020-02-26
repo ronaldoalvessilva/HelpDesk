@@ -27,9 +27,8 @@ import static Dao.Tabela_PdfVODoc.count_PdfVODoc;
 import Modelo.ChamadoSuporte;
 import Modelo.LogSistema;
 import static Visao.LoginHD.nameUser;
-import static Visao.TelaChamadoSuporte.jAtendente;
+import static Visao.TelaChamadoSuporte.jComboBoxAtendente;
 import static Visao.TelaChamadoSuporte.jIdChamado;
-import static Visao.TelaChamadoSuporte.jIdItem;
 import static Visao.TelaChamadoSuporte.jSolicitante;
 import static Visao.TelaPrincipal.jDataSistema;
 import static Visao.TelaPrincipal.jHoraSistema;
@@ -651,7 +650,7 @@ public class PdfView extends javax.swing.JDialog {
     public void validadosAcessoCRC_TRIAGEM() {
         jCodigoCHAMADO_PDF.setText(jIdChamado.getText());
         JCNCInternoPDF.setText(jSolicitante.getText());
-        jNomeAtendentePDF.setText(jAtendente.getText());
+        jNomeAtendentePDF.setText((String) jComboBoxAtendente.getSelectedItem());
     }
 
     public void corCampos() {

@@ -22,6 +22,8 @@ public class ChamadoSuporte {
     private String horarioTermino;
     private int idUsuario;
     private String NomeUsuario;
+    private int idAtendente;
+    private String nomeAtendente;
     private int idEmpresa;
     private String descricaoEmpresa;
     private int idUnidEmp;
@@ -52,7 +54,7 @@ public class ChamadoSuporte {
     public ChamadoSuporte() {
     }
 
-    public ChamadoSuporte(int idCHSup, int idCHDes, String statusCha, Date dataCha, String assunto, String horarioInicio, String horarioTermino, int idUsuario, String NomeUsuario, int idEmpresa, String descricaoEmpresa, int idUnidEmp, String descricaoUnidade, int idSoftware, String descricaoSoftware, int idModulo, String descricaoModulo, int idSolicitante, String nomeSolicitante, String textoSuporte, String textoDesenvol, String tipoChamado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idItemCh, Date dataItemCh, String utiliza, byte[] imagemDocumento, byte[] imagemDocumento1, byte[] imagemDocumento2, byte[] imagemDocumento3) {
+    public ChamadoSuporte(int idCHSup, int idCHDes, String statusCha, Date dataCha, String assunto, String horarioInicio, String horarioTermino, int idUsuario, String NomeUsuario, int idAtendente, String nomeAtendente, int idEmpresa, String descricaoEmpresa, int idUnidEmp, String descricaoUnidade, int idSoftware, String descricaoSoftware, int idModulo, String descricaoModulo, int idSolicitante, String nomeSolicitante, String textoSuporte, String textoDesenvol, String tipoChamado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idItemCh, Date dataItemCh, String utiliza, byte[] imagemDocumento, byte[] imagemDocumento1, byte[] imagemDocumento2, byte[] imagemDocumento3) {
         this.idCHSup = idCHSup;
         this.idCHDes = idCHDes;
         this.statusCha = statusCha;
@@ -62,6 +64,8 @@ public class ChamadoSuporte {
         this.horarioTermino = horarioTermino;
         this.idUsuario = idUsuario;
         this.NomeUsuario = NomeUsuario;
+        this.idAtendente = idAtendente;
+        this.nomeAtendente = nomeAtendente;
         this.idEmpresa = idEmpresa;
         this.descricaoEmpresa = descricaoEmpresa;
         this.idUnidEmp = idUnidEmp;
@@ -214,6 +218,34 @@ public class ChamadoSuporte {
      */
     public void setNomeUsuario(String NomeUsuario) {
         this.NomeUsuario = NomeUsuario;
+    }
+
+    /**
+     * @return the idAtendente
+     */
+    public int getIdAtendente() {
+        return idAtendente;
+    }
+
+    /**
+     * @param idAtendente the idAtendente to set
+     */
+    public void setIdAtendente(int idAtendente) {
+        this.idAtendente = idAtendente;
+    }
+
+    /**
+     * @return the nomeAtendente
+     */
+    public String getNomeAtendente() {
+        return nomeAtendente;
+    }
+
+    /**
+     * @param nomeAtendente the nomeAtendente to set
+     */
+    public void setNomeAtendente(String nomeAtendente) {
+        this.nomeAtendente = nomeAtendente;
     }
 
     /**

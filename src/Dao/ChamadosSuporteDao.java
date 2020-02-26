@@ -24,14 +24,16 @@ public class ChamadosSuporteDao {
     int codSoft;
     int codModu;
     int codSoli;
+    int codAtendente;
 
     public ChamadoSuporte incluirChamadoSup(ChamadoSuporte objCHSup) {
-        pesquisarUsuario(objCHSup.getNomeUsuario());
+        pesquisarUsuario(objCHSup.getNomeUsuario());        
         pesquisarSolicitante(objCHSup.getNomeSolicitante(), objCHSup.getIdSolicitante());
         pesquisarUnidade(objCHSup.getDescricaoUnidade());
+        pesquisarAtendente(objCHSup.getNomeAtendente());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO CHAMADOS_SUPORTE (StatusCha,DataCha,IdUsuario,IdSolicitante,IdUnidEmp,UsuarioInsert,DataInsert,HorarioInsert,AssuntoSuporte) VALUES(?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO CHAMADOS_SUPORTE (StatusCha,DataCha,IdUsuario,IdSolicitante,IdUnidEmp,UsuarioInsert,DataInsert,HorarioInsert,AssuntoSuporte,IdAtendente) VALUES(?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, objCHSup.getStatusCha());
             pst.setTimestamp(2, new java.sql.Timestamp(objCHSup.getDataCha().getTime()));
             pst.setInt(3, codUser);
@@ -41,6 +43,7 @@ public class ChamadosSuporteDao {
             pst.setString(7, objCHSup.getDataInsert());
             pst.setString(8, objCHSup.getHorarioInsert());
             pst.setString(9, objCHSup.getAssunto());
+            pst.setInt(10, codAtendente);
             pst.execute();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possivel INSERIR os Dados.\nERRO: " + ex);
@@ -51,11 +54,12 @@ public class ChamadosSuporteDao {
 
     public ChamadoSuporte alterarChamadoSup(ChamadoSuporte objCHSup) {
         pesquisarUsuario(objCHSup.getNomeUsuario());
+        pesquisarAtendente(objCHSup.getNomeAtendente());
         pesquisarSolicitante(objCHSup.getNomeSolicitante(), objCHSup.getIdSolicitante());
         pesquisarUnidade(objCHSup.getDescricaoUnidade());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE CHAMADOS_SUPORTE SET StatusCha=?,DataCha=?,IdUsuario=?,IdSolicitante=?,IdUnidEmp=?,UsuarioUp=?,DataUp=?,HorarioUp=?,AssuntoSuporte=? WHERE IdCHSup='" + objCHSup.getIdCHSup() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE CHAMADOS_SUPORTE SET StatusCha=?,DataCha=?,IdUsuario=?,IdSolicitante=?,IdUnidEmp=?,UsuarioUp=?,DataUp=?,HorarioUp=?,AssuntoSuporte=?,IdAtendente=? WHERE IdCHSup='" + objCHSup.getIdCHSup() + "'");
             pst.setString(1, objCHSup.getStatusCha());
             pst.setTimestamp(2, new java.sql.Timestamp(objCHSup.getDataCha().getTime()));
             pst.setInt(3, codUser);
@@ -65,6 +69,7 @@ public class ChamadosSuporteDao {
             pst.setString(7, objCHSup.getDataUp());
             pst.setString(8, objCHSup.getHorarioUp());
             pst.setString(9, objCHSup.getAssunto());
+            pst.setInt(10, codAtendente);
             pst.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\nERRO: " + ex);
@@ -184,6 +189,18 @@ public class ChamadosSuporteDao {
                     + "WHERE NomeUsuario='" + nome + "'");
             conecta.rs.first();
             codUser = conecta.rs.getInt("IdUsuario");
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
+    }
+
+    public void pesquisarAtendente(String nome) {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM ATENDENTES "
+                    + "WHERE NomeAtendente='" + nome + "'");
+            conecta.rs.first();
+            codAtendente = conecta.rs.getInt("IdAtendente");
         } catch (Exception e) {
         }
         conecta.desconecta();

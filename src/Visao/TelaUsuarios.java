@@ -452,7 +452,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jLabel10.setText("Nivel de Acesso");
 
         jComboBoxNivelAcesso.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxNivelAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Desenvolvedor", "Suporte Técnico" }));
+        jComboBoxNivelAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Desenvolvedor", "Suporte Técnico", "Técnico de Informática - UP" }));
         jComboBoxNivelAcesso.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxNivelAcesso.setEnabled(false);
 
@@ -1091,7 +1091,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 jBtAlterar.setEnabled(true);
                 jBtExcluir.setEnabled(true);
                 //
-                
+
                 jBtCopiarPerfil.setEnabled(true);
             }
             conecta.abrirConexao();
@@ -1217,6 +1217,9 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                     objUser.setNivelUsuario(nivel);
                 } else if (jComboBoxNivelAcesso.getSelectedItem().equals("Suporte Técnico")) {
                     nivel = 1;
+                    objUser.setNivelUsuario(nivel);
+                } else if (jComboBoxNivelAcesso.getSelectedItem().equals("Técnico de Informática - UP")) {
+                    nivel = 2;
                     objUser.setNivelUsuario(nivel);
                 }
                 objUser.setLoginUsuario(jLogin.getText());

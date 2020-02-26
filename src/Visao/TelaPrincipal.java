@@ -91,6 +91,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private TelaAgendaCompromissos objAgendaComp = null;
     private TelaChamadoSuporte objChamaSup = null;
     private TelaChamadoDesenvolvimento objChamaSupDesn = null;
+    private TelaAtendentesSuporte objAtendente = null;
     //
     String statusAgenda = "Pendente";
     String usuarioLogado, dataLanc;
@@ -103,7 +104,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     String horaLembrete;
     String usuarioAgenda;
     String codigoAgendaComp;
-      //VARIAVEL QUE IMPEDI OUTRO USUÁRIO A EDITAR OU EXCLUIR O REGISTRO CRIADO PELO USUÁRIO QUE CRIOU
+    //VARIAVEL QUE IMPEDI OUTRO USUÁRIO A EDITAR OU EXCLUIR O REGISTRO CRIADO PELO USUÁRIO QUE CRIOU
     public static String nomeUserRegistro;
     //
     int tempo = (1000 * 60) * 10;   // 5 min.  
@@ -150,6 +151,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public static String botaoReabrirDes = "Reabrir Chamado no Desenvolvedor";
     public static String botaoBuscarCH = "Buscar Chamados no Suporte Técnico";
     public static String telaConsultasSql = "Desenvolvimento:Consultas SQL:Manutenção";
+    public static String telaCadastroAtendentes = "Cadastro:Atendentes:Manutenção";
     // MENU CADASTRO
     //EMPRESA
     String pNomeCE = "";
@@ -188,6 +190,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     String pNomeBCSD = "";
     //CONSULTAS SQL
     String pNomeCSQL = "";
+    //ATENDENTES
+    String pNomeAT = "";
     //    
     public static String tipoServidor = "";
     public static String tipoBancoDados = "";
@@ -229,7 +233,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pesquisarTelasAcessos();
         verificarParametrosSRV();
         threadMensagem(); // A cada 5 minutos verifica mensagem   
-        
+
     }
 
     public void mostrarTelaTrocaSenha() {
@@ -288,6 +292,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jEmpresa = new javax.swing.JMenuItem();
         jOcorrencias = new javax.swing.JMenuItem();
         jSolicitantes = new javax.swing.JMenuItem();
+        jatendentes = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jUsuarios = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
@@ -675,6 +680,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         jCadastro.add(jSolicitantes);
+
+        jatendentes.setText("Atendentes de Suporte");
+        jatendentes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jatendentesActionPerformed(evt);
+            }
+        });
+        jCadastro.add(jatendentes);
         jCadastro.add(jSeparator2);
 
         jUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
@@ -2038,6 +2051,40 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jSobreMenuKeyPressed
 
+    private void jatendentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jatendentesActionPerformed
+        // TODO add your handling code here:
+        buscarAcessoUsuario(telaCadastroAtendentes);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroAtendentes) && codAbrir == 1) {
+            if (objAtendente == null || objAtendente.isClosed()) {
+                objAtendente = new TelaAtendentesSuporte();
+                TelaPrincipal.jPainelPrincipal.add(objAtendente);
+                objAtendente.setVisible(true);
+            } else {
+                if (objAtendente.isVisible()) {
+                    if (objAtendente.isIcon()) { // Se esta minimizado
+                        try {
+                            objAtendente.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objAtendente.toFront(); // traz para frente
+                        objAtendente.pack();//volta frame 
+                    }
+                } else {
+                    objAtendente = new TelaAtendentesSuporte();
+                    TelaPrincipal.jPainelPrincipal.add(objAtendente);//adicona frame ao JDesktopPane  
+                    objAtendente.setVisible(true);
+                }
+            }
+            try {
+                objAtendente.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jatendentesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2130,6 +2177,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar3;
     private javax.swing.JToolBar jToolBar4;
     private javax.swing.JMenuItem jUsuarios;
+    private javax.swing.JMenuItem jatendentes;
     private javax.swing.JMenuItem listagemChamadosDesenvolvimento;
     private javax.swing.JMenuItem listagemChamadosSuporteTecnico;
     // End of variables declaration//GEN-END:variables
@@ -2350,6 +2398,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             pNomeBCSD = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
+        //ATENDENTES
+        try {
+            conecta.executaSQL("SELECT * FROM TELAS "
+                    + "WHERE NomeTela='" + telaCadastroAtendentes + "'");
+            conecta.rs.first();
+            pNomeAT = conecta.rs.getString("NomeTela");
+        } catch (SQLException ex) {
+        }
         // CADASTRO
         //EMPRESA/UNIDADES
         if (!pNomeCE.equals(telaCadastroEmpresa) || pNomeCE == null || pNomeCE.equals("")) {
@@ -2458,6 +2514,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         if (!pNomeBCSD.equals(botaoBuscarCH) || pNomeBCSD == null || pNomeBCSD.equals("")) {
             objCadastroTela.setNomeTela(botaoBuscarCH);
+            controle.incluirTelaAcesso(objCadastroTela);
+        }
+        if (!pNomeAT.equals(telaCadastroAtendentes) || pNomeAT == null || pNomeAT.equals("")) {
+            objCadastroTela.setNomeTela(telaCadastroAtendentes);
             controle.incluirTelaAcesso(objCadastroTela);
         }
     }
