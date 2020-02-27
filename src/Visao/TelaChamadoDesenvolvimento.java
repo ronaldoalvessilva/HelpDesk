@@ -1819,7 +1819,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             } else if (jModulo.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o nome do módulo.");
             } else {
-                objCHSup.setIdItemDes(Integer.valueOf(jIdItem.getText()));
+//                objCHSup.setIdItemDes(Integer.valueOf(jIdItem.getText()));
                 objCHSup.setIdItemCh(Integer.valueOf(jIdItemSup.getText()));
                 objCHSup.setIdCHDes(Integer.valueOf(jIdChamado.getText()));
                 objCHSup.setDataItemCh(jDataOcorrencia.getDate());
