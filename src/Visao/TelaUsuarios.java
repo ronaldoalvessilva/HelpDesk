@@ -1110,6 +1110,8 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                     nivelNome = "Desenvolvedor";
                 } else if (nivel == 1) {
                     nivelNome = "Suporte Técnico";
+                }else if(nivel == 2){
+                    nivelNome = "Técnico de Informática - UP";
                 }
                 jComboBoxNivelAcesso.setSelectedItem(nivelNome);
                 jLogin.setText(conecta.rs.getString("LoginUsuario"));
