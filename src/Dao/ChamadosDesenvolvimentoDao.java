@@ -53,6 +53,7 @@ public class ChamadosDesenvolvimentoDao {
         pesquisarUsuario(objCHSup.getNomeUsuario());
         pesquisarSolicitante(objCHSup.getNomeSolicitante(), objCHSup.getIdSolicitante());
         pesquisarUnidade(objCHSup.getDescricaoUnidade());
+        conecta.abrirConexao();
         try {
             PreparedStatement pst = conecta.con.prepareStatement("UPDATE CHAMADOS_DESENVOLVIMENTO SET StatusCha=?,DataCha=?,IdUsuario=?,IdSolicitante=?,IdUnidEmp=?,UsuarioUp=?,DataUp=?,HorarioUp=?,AssuntoDesenvolvimento=? WHERE IdCHDes='" + objCHSup.getIdCHDes() + "'");
             pst.setString(1, objCHSup.getStatusCha());

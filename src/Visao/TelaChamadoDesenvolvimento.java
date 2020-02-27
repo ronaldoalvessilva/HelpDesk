@@ -241,7 +241,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Código", "Data", "Status", "Solicitante", "Unidade Prisional"
+                "Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"
             }
         ));
         jTabelaChamdosSup.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -261,6 +261,8 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             jTabelaChamdosSup.getColumnModel().getColumn(3).setMaxWidth(300);
             jTabelaChamdosSup.getColumnModel().getColumn(4).setMinWidth(300);
             jTabelaChamdosSup.getColumnModel().getColumn(4).setMaxWidth(300);
+            jTabelaChamdosSup.getColumnModel().getColumn(5).setMinWidth(300);
+            jTabelaChamdosSup.getColumnModel().getColumn(5).setMaxWidth(300);
         }
 
         jPanel31.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED)));
@@ -1584,7 +1586,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                     objCHSup.setUsuarioUp(nameUser);
                     objCHSup.setDataUp(dataModFinal);
                     objCHSup.setHorarioUp(horaMov);
-                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                    objCHSup.setIdCHDes(Integer.valueOf(jIdChamado.getText()));
                     control.alterarChamadoDes(objCHSup);
                     //
                     objLog();
@@ -1813,7 +1815,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "Informe do software(sistema).");
             } else if (jModulo.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o nome do módulo.");
-            } else {               
+            } else {
                 objCHSup.setIdItemCh(Integer.valueOf(jIdItemSup.getText()));
                 objCHSup.setIdCHDes(Integer.valueOf(jIdChamado.getText()));
                 objCHSup.setDataItemCh(jDataOcorrencia.getDate());
@@ -2016,7 +2018,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             jBtNovoItem.setEnabled(true);
             jBtAlterarItem.setEnabled(true);
             jBtExcluirItem.setEnabled(true);
-            //                jBtAuditoria.setEnabled(true);
+            jBtCancelarItem.setEnabled(true);
             //
             jBtEncerrar.setEnabled(true);
             jBtImprimir.setEnabled(true);
@@ -2518,7 +2520,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
     public void preencherTabelaChamados(String sql) {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Código", "Data", "Status", "Solicitante", "Unidade Prisional"};
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"};
         conecta.abrirConexao();
         conecta.executaSQL(sql);
         try {
@@ -2532,7 +2534,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 dataBrasil = dia + "/" + mes + "/" + ano;
                 count = count + 1;
                 jtotalRegistros.setText(Integer.toString(count)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{conecta.rs.getInt("IdCHDes"), dataBrasil, conecta.rs.getString("StatusCha"), conecta.rs.getString("NomeSolicitante"), conecta.rs.getString("DescricaoUnidade")});
+                dados.add(new Object[]{conecta.rs.getInt("IdCHDes"), dataBrasil, conecta.rs.getString("StatusCha"), conecta.rs.getString("AssuntoDesenvolvimento"), conecta.rs.getString("NomeSolicitante"), conecta.rs.getString("DescricaoUnidade")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem exibidos....");
@@ -2549,6 +2551,8 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
         jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
         jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
+        jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
         jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
         jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
         jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -2571,7 +2575,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
     public void limparTabelaFornecedor() {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Código", "Data", "Status", "Solicitante", "Unidade Prisional"};
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"};
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
         jTabelaChamdosSup.setModel(modelo);
         jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
@@ -2584,6 +2588,8 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
         jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
         jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+        jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
+        jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
         jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
         jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
         jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
