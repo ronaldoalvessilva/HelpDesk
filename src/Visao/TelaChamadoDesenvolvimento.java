@@ -2271,14 +2271,20 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }
 
     public void limparCamposItens() {
-        jIdItem.setText("");
+        jIdItem.setText("");        
         jDataOcorrencia.setDate(null);
         jHorarioInicio.setText("");
         jHorarioTermino.setText("");
         jSoftware.setText("");
-        jModulo.setText("");
-        jTextoSuporte.setText("");
+        jModulo.setText("");        
         jTextoDesenvolvimento.setText("");
+        jIdItemSup.setText("");
+        jDataOcorrenciaSup.setDate(null);
+        jHorarioInicioSup.setText("");
+        jHorarioTerminoSup.setText("");
+        jSoftwareSup.setText("");
+        jModuloSup.setText("");
+        jTextoSuporte.setText("");
     }
 
     public void Novo() {
