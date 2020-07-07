@@ -22,6 +22,8 @@ public class ChamadoSuporte {
     private String horarioTermino;
     private int idUsuario;
     private String NomeUsuario;
+    private int idAtendente;
+    private String nomeAtendente;
     private int idEmpresa;
     private String descricaoEmpresa;
     private int idUnidEmp;
@@ -33,6 +35,7 @@ public class ChamadoSuporte {
     private int idSolicitante;
     private String nomeSolicitante;
     private String textoSuporte;
+    private int idItemDes;
     private String textoDesenvol;
     private String tipoChamado;
     private String usuarioInsert;
@@ -40,15 +43,19 @@ public class ChamadoSuporte {
     private String dataInsert;
     private String dataUp;
     private String horarioInsert;
-    private String horarioUp;    
+    private String horarioUp;
     private int idItemCh;
     private Date dataItemCh;
     private String utiliza;
+    private byte[] imagemDocumento;
+    private byte[] imagemDocumento1;
+    private byte[] imagemDocumento2;
+    private byte[] imagemDocumento3;
 
     public ChamadoSuporte() {
     }
 
-    public ChamadoSuporte(int idCHSup, int idCHDes, String statusCha, Date dataCha, String assunto, String horarioInicio, String horarioTermino, int idUsuario, String NomeUsuario, int idEmpresa, String descricaoEmpresa, int idUnidEmp, String descricaoUnidade, int idSoftware, String descricaoSoftware, int idModulo, String descricaoModulo, int idSolicitante, String nomeSolicitante, String textoSuporte, String textoDesenvol, String tipoChamado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idItemCh, Date dataItemCh, String utiliza) {
+    public ChamadoSuporte(int idCHSup, int idCHDes, String statusCha, Date dataCha, String assunto, String horarioInicio, String horarioTermino, int idUsuario, String NomeUsuario, int idAtendente, String nomeAtendente, int idEmpresa, String descricaoEmpresa, int idUnidEmp, String descricaoUnidade, int idSoftware, String descricaoSoftware, int idModulo, String descricaoModulo, int idSolicitante, String nomeSolicitante, String textoSuporte, int idItemDes, String textoDesenvol, String tipoChamado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idItemCh, Date dataItemCh, String utiliza, byte[] imagemDocumento, byte[] imagemDocumento1, byte[] imagemDocumento2, byte[] imagemDocumento3) {
         this.idCHSup = idCHSup;
         this.idCHDes = idCHDes;
         this.statusCha = statusCha;
@@ -58,6 +65,8 @@ public class ChamadoSuporte {
         this.horarioTermino = horarioTermino;
         this.idUsuario = idUsuario;
         this.NomeUsuario = NomeUsuario;
+        this.idAtendente = idAtendente;
+        this.nomeAtendente = nomeAtendente;
         this.idEmpresa = idEmpresa;
         this.descricaoEmpresa = descricaoEmpresa;
         this.idUnidEmp = idUnidEmp;
@@ -69,6 +78,7 @@ public class ChamadoSuporte {
         this.idSolicitante = idSolicitante;
         this.nomeSolicitante = nomeSolicitante;
         this.textoSuporte = textoSuporte;
+        this.idItemDes = idItemDes;
         this.textoDesenvol = textoDesenvol;
         this.tipoChamado = tipoChamado;
         this.usuarioInsert = usuarioInsert;
@@ -80,6 +90,10 @@ public class ChamadoSuporte {
         this.idItemCh = idItemCh;
         this.dataItemCh = dataItemCh;
         this.utiliza = utiliza;
+        this.imagemDocumento = imagemDocumento;
+        this.imagemDocumento1 = imagemDocumento1;
+        this.imagemDocumento2 = imagemDocumento2;
+        this.imagemDocumento3 = imagemDocumento3;
     }
 
     /**
@@ -206,6 +220,34 @@ public class ChamadoSuporte {
      */
     public void setNomeUsuario(String NomeUsuario) {
         this.NomeUsuario = NomeUsuario;
+    }
+
+    /**
+     * @return the idAtendente
+     */
+    public int getIdAtendente() {
+        return idAtendente;
+    }
+
+    /**
+     * @param idAtendente the idAtendente to set
+     */
+    public void setIdAtendente(int idAtendente) {
+        this.idAtendente = idAtendente;
+    }
+
+    /**
+     * @return the nomeAtendente
+     */
+    public String getNomeAtendente() {
+        return nomeAtendente;
+    }
+
+    /**
+     * @param nomeAtendente the nomeAtendente to set
+     */
+    public void setNomeAtendente(String nomeAtendente) {
+        this.nomeAtendente = nomeAtendente;
     }
 
     /**
@@ -363,6 +405,20 @@ public class ChamadoSuporte {
     }
 
     /**
+     * @return the idItemDes
+     */
+    public int getIdItemDes() {
+        return idItemDes;
+    }
+
+    /**
+     * @param idItemDes the idItemDes to set
+     */
+    public void setIdItemDes(int idItemDes) {
+        this.idItemDes = idItemDes;
+    }
+
+    /**
      * @return the textoDesenvol
      */
     public String getTextoDesenvol() {
@@ -514,5 +570,61 @@ public class ChamadoSuporte {
      */
     public void setUtiliza(String utiliza) {
         this.utiliza = utiliza;
+    }
+
+    /**
+     * @return the imagemDocumento
+     */
+    public byte[] getImagemDocumento() {
+        return imagemDocumento;
+    }
+
+    /**
+     * @param imagemDocumento the imagemDocumento to set
+     */
+    public void setImagemDocumento(byte[] imagemDocumento) {
+        this.imagemDocumento = imagemDocumento;
+    }
+
+    /**
+     * @return the imagemDocumento1
+     */
+    public byte[] getImagemDocumento1() {
+        return imagemDocumento1;
+    }
+
+    /**
+     * @param imagemDocumento1 the imagemDocumento1 to set
+     */
+    public void setImagemDocumento1(byte[] imagemDocumento1) {
+        this.imagemDocumento1 = imagemDocumento1;
+    }
+
+    /**
+     * @return the imagemDocumento2
+     */
+    public byte[] getImagemDocumento2() {
+        return imagemDocumento2;
+    }
+
+    /**
+     * @param imagemDocumento2 the imagemDocumento2 to set
+     */
+    public void setImagemDocumento2(byte[] imagemDocumento2) {
+        this.imagemDocumento2 = imagemDocumento2;
+    }
+
+    /**
+     * @return the imagemDocumento3
+     */
+    public byte[] getImagemDocumento3() {
+        return imagemDocumento3;
+    }
+
+    /**
+     * @param imagemDocumento3 the imagemDocumento3 to set
+     */
+    public void setImagemDocumento3(byte[] imagemDocumento3) {
+        this.imagemDocumento3 = imagemDocumento3;
     }
 }

@@ -18,6 +18,7 @@ import static Visao.TelaChamadoDesenvolvimento.idSoftware;
 import static Visao.TelaChamadoDesenvolvimento.jSoftware;
 import static Visao.TelaChamadoDesenvolvimento.jSoftwareSup;
 import static Visao.TelaChamadoDesenvolvimento.jTextoSuporte;
+import static Visao.TelaChamadoDesenvolvimento.codigoChamadoSuporte;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -363,7 +364,8 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
                     + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdModulo=MODULOS.IdModulo "
                     + "INNER JOIN SOFTWARE "
                     + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdSoftware=SOFTWARE.IdSoftware  "
-                    + "WHERE ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdCHSup='" + jIdChamadoPesquisa.getText() + "' AND ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.Utilizado='" + utilizado + "'");
+                    + "WHERE ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdCHSup='" + jIdChamadoPesquisa.getText() + "' "
+                    + "AND ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.Utilizado='" + utilizado + "'");
         }
     }//GEN-LAST:event_jBtPesqCHCodigoActionPerformed
 
@@ -447,7 +449,7 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
             String idChamado = "" + jTabelaChamdosSup.getValueAt(jTabelaChamdosSup.getSelectedRow(), 1);
             jIdChamadoPesquisa.setText(idChamado);
             //
-            String solicitante= "" + jTabelaChamdosSup.getValueAt(jTabelaChamdosSup.getSelectedRow(), 5);
+            String solicitante = "" + jTabelaChamdosSup.getValueAt(jTabelaChamdosSup.getSelectedRow(), 5);
             jPesqSolicitante.setText(solicitante);
         }
     }//GEN-LAST:event_jTabelaChamdosSupMouseClicked
@@ -472,17 +474,18 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
                         + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdSoftware=SOFTWARE.IdSoftware "
                         + "WHERE ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdItem='" + idSoli + "'");
                 conecta.rs.first();
+                codigoChamadoSuporte = conecta.rs.getString("IdItem");//CÓDIGO DO ITEM DO CHAMADO (IdCHSup) 
                 jIdItemSup.setText(String.valueOf(conecta.rs.getInt("IdItem")));
                 jDataOcorrenciaSup.setDate(conecta.rs.getDate("DataItemCh"));
                 jHorarioInicioSup.setText(conecta.rs.getString("HorarioInicio"));
                 jHorarioTerminoSup.setText(conecta.rs.getString("HorarioTermino"));
-                jSoftwareSup.setText(conecta.rs.getString("DescricaoSoftware"));                
+                jSoftwareSup.setText(conecta.rs.getString("DescricaoSoftware"));
                 jModuloSup.setText(conecta.rs.getString("DescricaoModulo"));
                 jTextoSuporte.setText(conecta.rs.getString("TextoSuporte"));
                 //
-                idSoftware = conecta.rs.getInt("IdSoftware");                
+                idSoftware = conecta.rs.getInt("IdSoftware");
                 jSoftware.setText(conecta.rs.getString("DescricaoSoftware"));
-                idModulo = conecta.rs.getInt("IdModulo");   
+                idModulo = conecta.rs.getInt("IdModulo");
                 jModulo.setText(conecta.rs.getString("DescricaoModulo"));
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
@@ -580,7 +583,7 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
                 dataBrasil = dia + "/" + mes + "/" + ano;
                 count = count + 1;
                 jtotalRegistros.setText(Integer.toString(count)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{conecta.rs.getInt("IdCHSup"), conecta.rs.getInt("IdItem"), dataBrasil, conecta.rs.getString("HorarioInicio"), conecta.rs.getString("HorarioTermino"),conecta.rs.getString("NomeSolicitante"), conecta.rs.getString("TextoSuporte")});
+                dados.add(new Object[]{conecta.rs.getInt("IdCHSup"), conecta.rs.getInt("IdItem"), dataBrasil, conecta.rs.getString("HorarioInicio"), conecta.rs.getString("HorarioTermino"), conecta.rs.getString("NomeSolicitante"), conecta.rs.getString("TextoSuporte")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem exibidos....");

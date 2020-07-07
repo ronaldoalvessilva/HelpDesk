@@ -79,6 +79,7 @@ public class TelaPesquisaSoftwareModulo extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Nome do Software:");
 
+        jCodigo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jCodigo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jNomeSolicitantePes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
