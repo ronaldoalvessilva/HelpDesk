@@ -104,6 +104,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     byte[] persona_imagem1 = null;
     byte[] persona_imagem2 = null;
     byte[] persona_imagem3 = null;
+    //
+    String pSTATUS_atendente = "Ativo";
 
     /**
      * Creates new form TelaChamadoSuporte
@@ -2936,7 +2938,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jComboBoxAtendente.removeAllItems();
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM ATENDENTES ORDER BY NomeAtendente");
+            conecta.executaSQL("SELECT "
+                    + "StatusAtendente, "
+                    + "NomeAtendente "
+                    + "FROM ATENDENTES "
+                    + "WHERE StatusAtendente='" + pSTATUS_atendente + "' "
+                    + "ORDER BY NomeAtendente");
             conecta.rs.first();
             do {
                 jComboBoxAtendente.addItem(conecta.rs.getString("NomeAtendente"));
@@ -2951,7 +2958,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     public void verificarSoftwareModulo() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
+            conecta.executaSQL("SELECT "
+                    + "IdCHSup, "
+                    + "IdSoftware, "
+                    + "IdModulo "
+                    + "FROM ITENS_CHAMADOS_SUPORTE "
                     + "WHERE IdCHSup='" + jIdChamado.getText() + "'");
             conecta.rs.first();
             codigoSoftware = conecta.rs.getInt("IdSoftware");
@@ -2964,7 +2975,13 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     public void verificarSofMod() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
+            conecta.executaSQL("SELECT "
+                    + "IdCHSup, "
+                    + "IdSoftware, "
+                    + "DescricaoSoftware, "
+                    + "IdModulo, "
+                    + "DescricaoModulo "
+                    + "FROM ITENS_CHAMADOS_SUPORTE "
                     + "INNER JOIN SOFTWARE "
                     + "ON ITENS_CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
                     + "INNER JOIN MODULOS "
