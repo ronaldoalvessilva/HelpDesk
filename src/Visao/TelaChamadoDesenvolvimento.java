@@ -566,13 +566,13 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jBtEncerrar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addComponent(jBtImprimir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtEnviar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtReabrir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtDownLoadChamados)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtAuditoriaItem, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -664,13 +664,13 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jBtNovo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtAlterar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtExcluir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtSalvar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtCancelar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jBtAuditoria)
@@ -919,13 +919,13 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jBtNovoItem, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtAlterarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtExcluirItem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtSalvarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtCancelarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1232,19 +1232,18 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(1, 1, 1))
         );
 
         jTabbedPane1.addTab("Manutenção", jPanel4);
@@ -1614,26 +1613,25 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         buscarAcessoUsuario(botaoEncerrarDes);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoEncerrarDes) && codAbrir == 1) {
+            Integer row = jTabelaItens.getRowCount();
             if (jStatusChamado.getText().equals(statusEncerrado)) {
                 JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encerrado...");
+            } else if (row == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível encerrar o chamado, não existem itens relacionados ao chamado.\nSó é possível incluir ou excluir o registro.");
             } else {
-                if (jTextoSuporte.getText().equals("")) {
-                    JOptionPane.showMessageDialog(rootPane, "Não é possível encerrar o chamado sem um texto explicativo.");
-                } else {
-                    bloquearBotoes();
-                    bloquearCampos();
-                    int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente encerrar registro selecionado?", "Confirmação",
-                            JOptionPane.YES_NO_OPTION);
-                    if (resposta == JOptionPane.YES_OPTION) {
-                        objCHSup.setStatusCha(statusEncerrado);
-                        objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                        control.encerrarChamadoDes(objCHSup);
-                        jStatusChamado.setText(statusEncerrado);
-                        JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
-                        //
-                        jBtNovo.setEnabled(true);
-                        jBtAuditoria.setEnabled(true);
-                    }
+                bloquearBotoes();
+                bloquearCampos();
+                int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente encerrar registro selecionado?", "Confirmação",
+                        JOptionPane.YES_NO_OPTION);
+                if (resposta == JOptionPane.YES_OPTION) {
+                    objCHSup.setStatusCha(statusEncerrado);
+                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                    control.encerrarChamadoDes(objCHSup);
+                    jStatusChamado.setText(statusEncerrado);
+                    JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
+                    //
+                    jBtNovo.setEnabled(true);
+                    jBtAuditoria.setEnabled(true);
                 }
             }
         } else {
@@ -2271,12 +2269,12 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }
 
     public void limparCamposItens() {
-        jIdItem.setText("");        
+        jIdItem.setText("");
         jDataOcorrencia.setDate(null);
         jHorarioInicio.setText("");
         jHorarioTermino.setText("");
         jSoftware.setText("");
-        jModulo.setText("");        
+        jModulo.setText("");
         jTextoDesenvolvimento.setText("");
         jIdItemSup.setText("");
         jDataOcorrenciaSup.setDate(null);

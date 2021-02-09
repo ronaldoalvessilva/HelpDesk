@@ -741,9 +741,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addComponent(jBtEncerrar)
                 .addGap(37, 37, 37)
                 .addComponent(jBtEnviar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtReabrir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtImprimir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtAuditoriaItem)
@@ -835,13 +835,13 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBtNovo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtAlterar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtExcluir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtSalvar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtCancelar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jBtAuditoria)
@@ -1002,13 +1002,13 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(4, 4, 4)
                 .addComponent(jBtNovoItem, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
+                .addGap(1, 1, 1)
                 .addComponent(jBtAlterarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
+                .addGap(1, 1, 1)
                 .addComponent(jBtExcluirItem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
+                .addGap(1, 1, 1)
                 .addComponent(jBtSalvarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
+                .addGap(1, 1, 1)
                 .addComponent(jBtCancelarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jBtAnexarArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1045,7 +1045,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
-                                .addGap(0, 252, Short.MAX_VALUE))
+                                .addGap(0, 256, Short.MAX_VALUE))
                             .addComponent(jSoftware))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1926,28 +1926,27 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         buscarAcessoUsuario(botaoEncerrarSup);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoEncerrarSup) && codAbrir == 1) {
+            Integer row = jTabelaItens.getRowCount();
             verificarUsuarioOrigem();
             if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
                 if (jStatusChamado.getText().equals(statusEncerrado)) {
                     JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encerrado...");
+                } else if (row == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não é possível encerrar o chamado, não existem itens relacionados ao chamado.\nSó é possível incluir ou excluir o registro.");
                 } else {
-                    if (jTextoSuporte.getText().equals("")) {
-                        JOptionPane.showMessageDialog(rootPane, "Não é possível encerrar o chamado sem um texto explicativo.");
-                    } else {
-                        bloquearBotoes();
-                        bloquearCampos();
-                        int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente encerrar registro selecionado?", "Confirmação",
-                                JOptionPane.YES_NO_OPTION);
-                        if (resposta == JOptionPane.YES_OPTION) {
-                            objCHSup.setStatusCha(statusEncerrado);
-                            objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                            control.encerrarChamadoSup(objCHSup);
-                            jStatusChamado.setText(statusEncerrado);
-                            JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
-                            //
-                            jBtNovo.setEnabled(true);
-                            jBtAuditoria.setEnabled(true);
-                        }
+                    bloquearBotoes();
+                    bloquearCampos();
+                    int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente encerrar registro selecionado?", "Confirmação",
+                            JOptionPane.YES_NO_OPTION);
+                    if (resposta == JOptionPane.YES_OPTION) {
+                        objCHSup.setStatusCha(statusEncerrado);
+                        objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                        control.encerrarChamadoSup(objCHSup);
+                        jStatusChamado.setText(statusEncerrado);
+                        JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
+                        //
+                        jBtNovo.setEnabled(true);
+                        jBtAuditoria.setEnabled(true);
                     }
                 }
             } else {
