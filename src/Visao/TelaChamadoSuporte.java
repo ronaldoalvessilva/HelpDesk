@@ -2975,11 +2975,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT "
-                    + "IdCHSup, "
-                    + "IdSoftware, "
-                    + "DescricaoSoftware, "
-                    + "IdModulo, "
-                    + "DescricaoModulo "
+                    + "ITENS_CHAMADOS_SUPORTE.IdCHSup, "
+                    + "ITENS_CHAMADOS_SUPORTE.IdSoftware, "
+                    + "SOFTWARE.DescricaoSoftware, "
+                    + "ITENS_CHAMADOS_SUPORTE.IdModulo, "
+                    + "MODULOS.DescricaoModulo "
                     + "FROM ITENS_CHAMADOS_SUPORTE "
                     + "INNER JOIN SOFTWARE "
                     + "ON ITENS_CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
