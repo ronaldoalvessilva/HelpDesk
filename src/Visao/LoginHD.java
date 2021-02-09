@@ -6,6 +6,9 @@
 package Visao;
 
 import Dao.ConexaoBancoDados;
+import Dao.UsuarioDao;
+import Modelo.Usuarios;
+import Util.SQL.Utilitarios.Criptografia;
 import java.awt.event.KeyEvent;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -30,12 +33,14 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class LoginHD extends javax.swing.JDialog {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
-
-    public static String Codstatus;
-    public static String idUserAcesso; // CÓDIGO DO USUÁRIO PERMISSÕES DE ACESSO (24/04/2016)
+    Usuarios user = new Usuarios();
+    UsuarioDao USUARIO = new UsuarioDao();
+    //
+    public static String pCODIGO_status;
+    public static String pID_USUARIO_acesso; // CÓDIGO DO USUÁRIO PERMISSÕES DE ACESSO (24/04/2016)
     public static String nameUser; // Variavel para o nome do usuário logado
-    public static String login;
-    public static String senha;
+    public static String pLOGIN_usuario;
+    public static String pSENHA_usuario;
     public static long tamanhoOrigem, tamanhoDestino;
     public static long dataOrigem, dataDestino;
     // NOME DA EMPRESA E UNIDADE PENAL PARA SER UTILIZADO NA TELA PRINCIPAL E NOS RELATÓRIOS
@@ -45,6 +50,8 @@ public class LoginHD extends javax.swing.JDialog {
     //
     byte[] senhaCriptografada;
     String senhaDescriptografada = "";
+    //
+    String pSENHA1_CRIPTOGRAFA;
 
     /**
      * Creates new form LoginHD
@@ -190,12 +197,8 @@ public class LoginHD extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtConfirmarActionPerformed
-        try {
-            // TODO add your handling code here:
-            acessarSistema();
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginHD.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // TODO add your handling code here:
+        acessarSistema();
     }//GEN-LAST:event_jBtConfirmarActionPerformed
 
     private void jBtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCancelarActionPerformed
@@ -213,11 +216,7 @@ public class LoginHD extends javax.swing.JDialog {
     private void jSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jSenhaKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            try {
-                acessarSistema();
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginHD.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            acessarSistema();
         }
     }//GEN-LAST:event_jSenhaKeyPressed
 
@@ -268,68 +267,30 @@ public class LoginHD extends javax.swing.JDialog {
     private javax.swing.JButton jBtConfirmar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jLogin;
+    public static javax.swing.JTextField jLogin;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jSenha;
     // End of variables declaration//GEN-END:variables
 
-    public void acessarSistema() throws SQLException {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT IdUsuario,LoginUsuario,SenhaUsuario,StatusUsuario,NomeUsuario,SenhaCriptografada FROM USUARIOS "
-                    + "WHERE LoginUsuario='" + jLogin.getText() + "' ");
-            conecta.rs.first();
-            Codstatus = conecta.rs.getString("StatusUsuario");
-            idUserAcesso = conecta.rs.getString("IdUsuario");
-            login = conecta.rs.getString("LoginUsuario");
-            senha = conecta.rs.getString("SenhaUsuario");
-            nameUser = conecta.rs.getString("NomeUsuario");
-            senhaCriptografada = conecta.rs.getBytes("SenhaCriptografada");
-        } catch (SQLException e) {
-
-        }
-        if (jLogin.getText().equals(login) && (jSenha.getText()).equals(senha) && Codstatus.equals("Inativo")) {
+    public void acessarSistema() {
+        //BUSCAR DADOS DO USUÁRIO PARA COMPARAR ACESSO.
+        USUARIO.pBUSCAR_usuario(user);
+        //
+        pSENHA1_CRIPTOGRAFA = Criptografia.criptografar(jSenha.getText());
+        if (jLogin.getText().equals(pLOGIN_usuario) && (pSENHA1_CRIPTOGRAFA).equals(pSENHA_usuario) && pCODIGO_status.equals("Inativo")) {
             JOptionPane.showMessageDialog(null, "Usuário INATIVO !!!");
-        } else if (jLogin.getText().equals(login) && !jSenha.getText().equals(senha) && Codstatus.equals("Ativo")) {
+        } else if (jLogin.getText().equals(pLOGIN_usuario) && !pSENHA1_CRIPTOGRAFA.equals(pSENHA_usuario) && pCODIGO_status.equals("Ativo")) {
             JOptionPane.showMessageDialog(null, "Senha Inválida");
-        } else if (!jLogin.getText().equals(login) && jSenha.getText().equals(senha) && Codstatus.equals("Ativo")) {
+        } else if (!jLogin.getText().equals(pLOGIN_usuario) && pSENHA1_CRIPTOGRAFA.equals(pSENHA_usuario) && pCODIGO_status.equals("Ativo")) {
             JOptionPane.showMessageDialog(null, "Login Inválida");
-        } else if (jLogin.getText().equals(login) && (jSenha.getText()).equals(senha) && Codstatus.equals("Ativo")) {
+        } else if (jLogin.getText().equals(pLOGIN_usuario) && (pSENHA1_CRIPTOGRAFA).equals(pSENHA_usuario) && pCODIGO_status.equals("Ativo")) {
             TelaPrincipal tlp = new TelaPrincipal();
             tlp.setVisible(true);
-            conecta.desconecta();
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuario ou senha Inváldo, tente novamente !!!");
             jLogin.setText("");
             jSenha.setText("");
-        }
-        conecta.desconecta();
-    }
-
-    // AINDA NÃO FOI IMPLEMENTADO
-    public void descriptografarSenhaUsuarioSimetrica(byte [] password) {
-        // CRIPTOGRAFIA SIMETRICA: AES,RC2,RC4,RC5, IDEA, Blowfish
-        try {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-            SecretKey secrecKey = keyGenerator.generateKey();
-            Cipher cipher;
-            cipher = Cipher.getInstance("AES");
-            
-            cipher.init(Cipher.DECRYPT_MODE, secrecKey);
-            byte[] Descriptografia = cipher.doFinal(password);
-            senhaDescriptografada = new String (Descriptografia);
-            
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(TelaUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchPaddingException ex) {
-            Logger.getLogger(TelaUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeyException ex) {
-            Logger.getLogger(TelaUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalBlockSizeException ex) {
-            Logger.getLogger(LoginHD.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BadPaddingException ex) {
-            Logger.getLogger(LoginHD.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

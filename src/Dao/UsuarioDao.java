@@ -6,6 +6,13 @@
 package Dao;
 
 import Modelo.Usuarios;
+import Util.SQL.Utilitarios.Criptografia;
+import static Visao.LoginHD.jLogin;
+import static Visao.LoginHD.pCODIGO_status;
+import static Visao.LoginHD.pID_USUARIO_acesso;
+import static Visao.LoginHD.pLOGIN_usuario;
+import static Visao.LoginHD.pSENHA_usuario;
+import static Visao.LoginHD.nameUser;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -35,8 +42,8 @@ public class UsuarioDao {
             pst.setString(5, objUser.getSetorUsuario());
             pst.setString(6, objUser.getCargoUsuario());
             pst.setString(7, objUser.getLoginUsuario());
-            pst.setString(8, objUser.getSenhaUsuario());
-            pst.setString(9, objUser.getSenhaUsuario1());
+            pst.setString(8, Criptografia.criptografar(objUser.getSenhaUsuario()));
+            pst.setString(9, Criptografia.criptografar(objUser.getSenhaUsuario1()));
             pst.setBytes(10, objUser.getSenhaCriptografada());
             pst.execute(); // Executa a inserção
         } catch (SQLException ex) {
@@ -62,8 +69,8 @@ public class UsuarioDao {
             pst.setString(5, objUser.getSetorUsuario());
             pst.setString(6, objUser.getCargoUsuario());
             pst.setString(7, objUser.getLoginUsuario());
-            pst.setString(8, objUser.getSenhaUsuario());
-            pst.setString(9, objUser.getSenhaUsuario1());
+            pst.setString(8, Criptografia.criptografar(objUser.getSenhaUsuario()));
+            pst.setString(9, Criptografia.criptografar(objUser.getSenhaUsuario1()));
             pst.setBytes(10, objUser.getSenhaCriptografada());
             pst.executeUpdate(); // Executa a inserção
         } catch (SQLException ex) {
@@ -91,8 +98,8 @@ public class UsuarioDao {
         conecta.abrirConexao();
         try {
             PreparedStatement pst = conecta.con.prepareStatement("UPDATE USUARIOS SET SenhaUsuario=?,SenhaUsuario1=? WHERE IdUsuario='" + objUser.getIdUsuario() + "'");
-            pst.setString(1, objUser.getSenhaUsuario());
-            pst.setString(2, objUser.getSenhaUsuario1());
+            pst.setString(1, Criptografia.criptografar(objUser.getSenhaUsuario()));
+            pst.setString(2, Criptografia.criptografar(objUser.getSenhaUsuario1()));
             pst.executeUpdate(); // Executa a inserção
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\nERRO:" + ex);
@@ -101,4 +108,28 @@ public class UsuarioDao {
         return objUser;
     }
 
+    public Usuarios pBUSCAR_usuario(Usuarios objUser) {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdUsuario, "
+                    + "LoginUsuario, "
+                    + "SenhaUsuario, "
+                    + "StatusUsuario, "
+                    + "NomeUsuario, "
+                    + "SenhaCriptografada "
+                    + "FROM USUARIOS "
+                    + "WHERE LoginUsuario='" + jLogin.getText() + "' ");
+            conecta.rs.first();
+            pCODIGO_status = conecta.rs.getString("StatusUsuario");
+            pID_USUARIO_acesso = conecta.rs.getString("IdUsuario");
+            pLOGIN_usuario = conecta.rs.getString("LoginUsuario");
+            pSENHA_usuario = conecta.rs.getString("SenhaUsuario");
+            nameUser = conecta.rs.getString("NomeUsuario");
+        } catch (SQLException e) {
+
+        }
+        conecta.desconecta();
+        return objUser;
+    }
 }
