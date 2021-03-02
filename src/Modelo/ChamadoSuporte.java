@@ -51,11 +51,12 @@ public class ChamadoSuporte {
     private byte[] imagemDocumento1;
     private byte[] imagemDocumento2;
     private byte[] imagemDocumento3;
+    private String tipoChamadoSuporte;
 
     public ChamadoSuporte() {
     }
 
-    public ChamadoSuporte(int idCHSup, int idCHDes, String statusCha, Date dataCha, String assunto, String horarioInicio, String horarioTermino, int idUsuario, String NomeUsuario, int idAtendente, String nomeAtendente, int idEmpresa, String descricaoEmpresa, int idUnidEmp, String descricaoUnidade, int idSoftware, String descricaoSoftware, int idModulo, String descricaoModulo, int idSolicitante, String nomeSolicitante, String textoSuporte, int idItemDes, String textoDesenvol, String tipoChamado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idItemCh, Date dataItemCh, String utiliza, byte[] imagemDocumento, byte[] imagemDocumento1, byte[] imagemDocumento2, byte[] imagemDocumento3) {
+    public ChamadoSuporte(int idCHSup, int idCHDes, String statusCha, Date dataCha, String assunto, String horarioInicio, String horarioTermino, int idUsuario, String NomeUsuario, int idAtendente, String nomeAtendente, int idEmpresa, String descricaoEmpresa, int idUnidEmp, String descricaoUnidade, int idSoftware, String descricaoSoftware, int idModulo, String descricaoModulo, int idSolicitante, String nomeSolicitante, String textoSuporte, int idItemDes, String textoDesenvol, String tipoChamado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idItemCh, Date dataItemCh, String utiliza, byte[] imagemDocumento, byte[] imagemDocumento1, byte[] imagemDocumento2, byte[] imagemDocumento3, String tipoChamadoSuporte) {
         this.idCHSup = idCHSup;
         this.idCHDes = idCHDes;
         this.statusCha = statusCha;
@@ -94,6 +95,7 @@ public class ChamadoSuporte {
         this.imagemDocumento1 = imagemDocumento1;
         this.imagemDocumento2 = imagemDocumento2;
         this.imagemDocumento3 = imagemDocumento3;
+        this.tipoChamadoSuporte = tipoChamadoSuporte;
     }
 
     /**
@@ -626,5 +628,19 @@ public class ChamadoSuporte {
      */
     public void setImagemDocumento3(byte[] imagemDocumento3) {
         this.imagemDocumento3 = imagemDocumento3;
+    }
+
+    /**
+     * @return the tipoChamadoSuporte
+     */
+    public String getTipoChamadoSuporte() {
+        return tipoChamadoSuporte;
+    }
+
+    /**
+     * @param tipoChamadoSuporte the tipoChamadoSuporte to set
+     */
+    public void setTipoChamadoSuporte(String tipoChamadoSuporte) {
+        this.tipoChamadoSuporte = tipoChamadoSuporte;
     }
 }

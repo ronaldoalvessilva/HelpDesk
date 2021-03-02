@@ -10,7 +10,7 @@
     </Property>
   </Properties>
   <SyntheticProperties>
-    <SyntheticProperty name="formSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,38,0,0,3,24"/>
+    <SyntheticProperty name="formSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,46,0,0,3,24"/>
     <SyntheticProperty name="formPosition" type="java.awt.Point" value="-84,-19,0,5,115,114,0,14,106,97,118,97,46,97,119,116,46,80,111,105,110,116,-74,-60,-118,114,52,126,-56,38,2,0,2,73,0,1,120,73,0,1,121,120,112,0,0,0,-6,0,0,0,0"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="0"/>
     <SyntheticProperty name="generatePosition" type="boolean" value="true"/>
@@ -36,7 +36,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPane1" alignment="0" pref="520" max="32767" attributes="0"/>
+          <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -84,9 +84,9 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="338" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" pref="332" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="2" attributes="0">
                           <Component id="jPanel30" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="jPanel32" alignment="2" min="-2" max="-2" attributes="0"/>
@@ -114,12 +114,12 @@
                     </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="6" rowCount="0">
-                        <Column editable="true" title="C&#xf3;digo" type="java.lang.Object"/>
-                        <Column editable="true" title="Data" type="java.lang.Object"/>
-                        <Column editable="true" title="Status" type="java.lang.Object"/>
-                        <Column editable="true" title="Assunto" type="java.lang.Object"/>
-                        <Column editable="true" title="Solicitante" type="java.lang.Object"/>
-                        <Column editable="true" title="Unidade Prisional" type="java.lang.Object"/>
+                        <Column editable="false" title="C&#xf3;digo" type="java.lang.Object"/>
+                        <Column editable="false" title="Data" type="java.lang.Object"/>
+                        <Column editable="false" title="Status" type="java.lang.Object"/>
+                        <Column editable="false" title="Assunto" type="java.lang.Object"/>
+                        <Column editable="false" title="Solicitante" type="java.lang.Object"/>
+                        <Column editable="false" title="Unidade Prisional" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -279,29 +279,20 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel13" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel14" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel12" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="jDataPesqInicial" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jDataPesFinal" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jBtPesqCHData" min="-2" pref="27" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="191" max="-2" attributes="0"/>
-                              </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Component id="jPesqSolicitante" max="32767" attributes="0"/>
+                                          <Component id="jPesqSolicitante" linkSize="21" min="-2" pref="446" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jBtSolicitante" min="-2" pref="25" max="-2" attributes="0"/>
                                       </Group>
@@ -309,11 +300,30 @@
                                           <Component id="jIdChamadoPesquisa" min="-2" pref="58" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jBtPesqCHCodigo" min="-2" pref="27" max="-2" attributes="0"/>
-                                          <EmptySpace pref="327" max="32767" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
                                           <Component id="jCheckBoxTodosCH" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="jDataPesqInicial" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                          <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="jDataPesFinal" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="jBtPesqCHData" min="-2" pref="27" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jPesquisarAssunto" linkSize="21" min="-2" pref="309" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="jBtAssunto" min="-2" pref="25" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -330,20 +340,30 @@
                               <Component id="jCheckBoxTodosCH" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" alignment="0" groupAlignment="2" attributes="0">
-                                  <Component id="jLabel15" alignment="2" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jDataPesFinal" alignment="2" min="-2" pref="19" max="-2" attributes="0"/>
-                                  <Component id="jLabel14" alignment="2" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jBtPesqCHData" alignment="2" min="-2" pref="16" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" alignment="0" groupAlignment="2" attributes="0">
+                                          <Component id="jLabel15" alignment="2" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jDataPesFinal" alignment="2" min="-2" pref="19" max="-2" attributes="0"/>
+                                          <Component id="jLabel14" alignment="2" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jBtPesqCHData" alignment="2" min="-2" pref="16" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="jDataPesqInicial" alignment="0" min="-2" pref="19" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="2" attributes="0">
+                                      <Component id="jBtSolicitante" alignment="2" min="-2" pref="25" max="-2" attributes="0"/>
+                                      <Component id="jPesqSolicitante" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel13" alignment="2" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jPesquisarAssunto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <Component id="jDataPesqInicial" alignment="0" min="-2" pref="19" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="2" attributes="0">
-                              <Component id="jBtSolicitante" alignment="2" min="-2" pref="25" max="-2" attributes="0"/>
-                              <Component id="jPesqSolicitante" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel13" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jBtAssunto" min="-2" pref="25" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -368,6 +388,9 @@
                       </Border>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JButton" name="jBtPesqCHCodigo">
                   <Properties>
@@ -408,6 +431,9 @@
                       </Border>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel14">
                   <Properties>
@@ -433,6 +459,9 @@
                       </Border>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="jDataPesFinal">
                   <Properties>
@@ -442,6 +471,9 @@
                       </Border>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JButton" name="jBtPesqCHData">
                   <Properties>
@@ -463,6 +495,37 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtSolicitanteActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel19">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="11" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Assunto:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="jPesquisarAssunto">
+                  <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                        <BevelBorder bevelType="1"/>
+                      </Border>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JButton" name="jBtAssunto">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Imagens/Lupas_1338_05.gif"/>
+                    </Property>
+                    <Property name="contentAreaFilled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtAssuntoActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -500,21 +563,17 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jPanel8" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jTabbedPane2" min="-2" pref="219" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane4" min="-2" pref="116" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jPanel8" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                      <Component id="jTabbedPane2" min="-2" pref="219" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane4" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -556,29 +615,39 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jComboBoxAtendente" pref="220" max="32767" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="jComboBoxAtendente" pref="220" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jSolicitante" min="-2" pref="283" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jUnidadePrisional" min="-2" pref="285" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jBtPesquisaSoli" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jAssunto" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jComboBoxTipoChamadoSuporte" min="-2" pref="191" max="-2" attributes="0"/>
+                                      <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jLabel17" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jAssunto" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jSolicitante" min="-2" pref="283" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jUnidadePrisional" min="-2" pref="285" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="jBtPesquisaSoli" min="-2" pref="25" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="jLabel17" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -589,12 +658,13 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="2" attributes="0">
+                                      <Component id="jLabel4" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel3" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel2" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel1" alignment="2" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="2" attributes="0">
@@ -611,21 +681,23 @@
                                       <Component id="jUnidadePrisional" alignment="2" min="-2" max="-2" attributes="0"/>
                                       <Component id="jBtPesquisaSoli" alignment="2" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="11" pref="11" max="-2" attributes="0"/>
-                                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="2" attributes="0">
+                                      <Component id="jAssunto" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jComboBoxTipoChamadoSuporte" alignment="2" min="-2" pref="18" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <Group type="102" attributes="0">
                                   <EmptySpace min="56" pref="56" max="-2" attributes="0"/>
                                   <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                          <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                          <Component id="jAssunto" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="12" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -806,6 +878,48 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
                 </Component>
+                <Component class="javax.swing.JLabel" name="jLabel18">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="11" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Tipos de Chamados"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="jComboBoxTipoChamadoSuporte">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="11" style="1"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="14">
+                        <StringItem index="0" value="Selecione..."/>
+                        <StringItem index="1" value="Avalia&#xe7;&#xe3;o"/>
+                        <StringItem index="2" value="D&#xfa;vidas"/>
+                        <StringItem index="3" value="Erros de Sistema"/>
+                        <StringItem index="4" value="Implementa&#xe7;&#xe3;o (SISCONP)"/>
+                        <StringItem index="5" value="Manuten&#xe7;&#xe3;o Hardware (CPU)"/>
+                        <StringItem index="6" value="Manuten&#xe7;&#xe3;o Software"/>
+                        <StringItem index="7" value="Manuten&#xe7;&#xe3;o em Servidores"/>
+                        <StringItem index="8" value="Manuten&#xe7;&#xe3;o Impressoras"/>
+                        <StringItem index="9" value="Manuten&#xe7;&#xe3;o em Rede"/>
+                        <StringItem index="10" value="Melhorias (Implementa&#xe7;&#xf5;es Diversas)"/>
+                        <StringItem index="11" value="Problema(s)"/>
+                        <StringItem index="12" value="Reclama&#xe7;&#xe3;o(&#xf5;es)"/>
+                        <StringItem index="13" value="Sugest&#xe3;o(&#xf5;es)"/>
+                      </StringArray>
+                    </Property>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                        <BevelBorder bevelType="1"/>
+                      </Border>
+                    </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel8">
@@ -855,7 +969,7 @@
                           <Component id="jBtImprimir" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jBtAuditoriaItem" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="56" max="32767" attributes="0"/>
                           <Component id="jBtSair" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -1122,11 +1236,11 @@
                     </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="5" rowCount="0">
-                        <Column editable="true" title="C&#xf3;digo" type="java.lang.Object"/>
-                        <Column editable="true" title="Data" type="java.lang.Object"/>
-                        <Column editable="true" title="Hora Inicial" type="java.lang.Object"/>
-                        <Column editable="true" title="Hora Termino" type="java.lang.Object"/>
-                        <Column editable="true" title="Texto Chamado" type="java.lang.Object"/>
+                        <Column editable="false" title="C&#xf3;digo" type="java.lang.Object"/>
+                        <Column editable="false" title="Data" type="java.lang.Object"/>
+                        <Column editable="false" title="Hora Inicial" type="java.lang.Object"/>
+                        <Column editable="false" title="Hora Termino" type="java.lang.Object"/>
+                        <Column editable="false" title="Texto Chamado" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

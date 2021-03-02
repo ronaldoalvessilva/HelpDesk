@@ -16,6 +16,8 @@ import static Visao.LoginHD.nameUser;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import static Visao.TelaTrocaSenha.pSENHA_anterior;
+import static Visao.TelaTrocaSenha.pCODIGO_usuario;
 
 /**
  *
@@ -128,6 +130,23 @@ public class UsuarioDao {
             nameUser = conecta.rs.getString("NomeUsuario");
         } catch (SQLException e) {
 
+        }
+        conecta.desconecta();
+        return objUser;
+    }
+
+    public Usuarios pBUSCA_CODIGO_usuario(Usuarios objUser) {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdUsuario, "
+                    + "SenhaUsuario "
+                    + "FROM USUARIOS "
+                    + "WHERE NomeUsuario='" + nameUser + "'");
+            conecta.rs.first();
+            pCODIGO_usuario = conecta.rs.getInt("IdUsuario");
+            pSENHA_anterior = conecta.rs.getString("SenhaUsuario");
+        } catch (Exception e) {
         }
         conecta.desconecta();
         return objUser;
