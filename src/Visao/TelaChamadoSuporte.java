@@ -1763,8 +1763,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private void jBtNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoActionPerformed
         // TODO add your handling code here:
         buscarAcessoUsuario(telaChamadosSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codIncluir == 1) {
-            JOptionPane.showMessageDialog(rootPane, "TIPO DE ACESSO: " + pCLIENTE_servidor);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codIncluir == 1) {            
             if (pCLIENTE_servidor.equals("Cliente")) {
                 statusMov = "Incluiu";
                 horaMov = pHORA_sistema;
