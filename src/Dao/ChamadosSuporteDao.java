@@ -6,10 +6,13 @@
 package Dao;
 
 import Modelo.ChamadoSuporte;
+import static Visao.LoginHD.nameUser;
 import static Visao.TelaChamadoSuporte.dataFinal;
 import static Visao.TelaChamadoSuporte.dataInicial;
 import static Visao.TelaChamadoSuporte.idItem;
 import static Visao.TelaChamadoSuporte.idSoli;
+import static Visao.TelaChamadoSuporte.pID_EMPRESA;
+import static Visao.TelaChamadoSuporte.pID_UNIDADE;
 import static Visao.TelaChamadoSuporte.jIdChamado;
 import static Visao.TelaChamadoSuporte.jIdChamadoPesquisa;
 import static Visao.TelaChamadoSuporte.jPesqSolicitante;
@@ -18,7 +21,10 @@ import static Visao.TelaChamadoSuporte.pTOTAL_registros;
 import static Visao.TelaChamadoSuporte.nomeAtendente;
 import static Visao.TelaChamadoSuporte.pTOTAL_itens;
 import static Visao.TelaChamadoSuporte.idItemChamado;
+import static Visao.TelaChamadoSuporte.idSolicitante;
 import static Visao.TelaChamadoSuporte.jComboBoxAtendente;
+import static Visao.TelaChamadoSuporte.jSolicitante;
+import static Visao.TelaChamadoSuporte.jUnidadePrisional;
 import static Visao.TelaPrincipal.nomeUserRegistro;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -373,7 +379,7 @@ public class ChamadosSuporteDao {
 
     public ChamadoSuporte pBUSCAR_NOME_atendente(ChamadoSuporte objCHSup) {
         jComboBoxAtendente.removeAllItems();
-        conecta.abrirConexao();   
+        conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT "
                     + "StatusAtendente, "
@@ -392,7 +398,7 @@ public class ChamadosSuporteDao {
         conecta.desconecta();
         return objCHSup;
     }
-    
+
     public List<ChamadoSuporte> VERIFICAR_SOF_mod_read() throws Exception {
         pTOTAL_itens = 0;
         conecta.abrirConexao();
@@ -427,6 +433,37 @@ public class ChamadosSuporteDao {
             conecta.desconecta();
         }
         return null;
+    }
+
+    public ChamadoSuporte pBUSCAR_NOME_solicitante(ChamadoSuporte objCHSup) {
+        jComboBoxAtendente.removeAllItems();
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "SOLICITANTES.IdSolicitante, "
+                    + "SOLICITANTES.StatusSolicitante, "
+                    + "SOLICITANTES.NomeSolicitante, "
+                    + "SOLICITANTES.IdEmpresa, "
+                    + "SOLICITANTES.IdUnidEmp, "
+                    + "DescricaoUnidade "
+                    + "FROM SOLICITANTES "
+                    + "INNER JOIN EMPRESA "
+                    + "ON SOLICITANTES.IdEmpresa=EMPRESA.IdEmpresa "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON EMPRESA.IdEmpresa=UNIDADE_PENAL_EMPRESA.IdEmpresa "
+                    + "WHERE NomeSolicitante='" + nameUser + "' "
+                    + "AND StatusSolicitante='" + pSTATUS_atendente + "' ");
+            conecta.rs.first();
+            idSolicitante = conecta.rs.getInt("IdSolicitante");
+            jSolicitante.setText(conecta.rs.getString("NomeSolicitante"));
+            pID_EMPRESA = conecta.rs.getInt("IdEmpresa");
+            pID_UNIDADE = conecta.rs.getInt("IdUnidEmp");
+            jUnidadePrisional.setText(conecta.rs.getString("DescricaoUnidade"));
+        } catch (SQLException ex) {
+            Logger.getLogger(ChamadosSuporteDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conecta.desconecta();
+        return objCHSup;
     }
 
     //--------------------------------- PESQUISAS DO CHAMADO DO SUPORTE -------------------------------------

@@ -26,11 +26,12 @@ public class Usuarios {
     private String CargoUsuario;      
     private byte [] senhaCriptografada;
     private byte [] contraSenhaCriptografada;
+    private String clienteServidor;
 
     public Usuarios() {
     }
 
-    public Usuarios(int IdUsuario, String Status, Date dataCadastro, String NomeUsuario, String LoginUsuario, String SenhaUsuario, String SenhaUsuario1, int NivelUsuario, String SetorUsuario, String CargoUsuario, byte[] senhaCriptografada, byte[] contraSenhaCriptografada) {
+    public Usuarios(int IdUsuario, String Status, Date dataCadastro, String NomeUsuario, String LoginUsuario, String SenhaUsuario, String SenhaUsuario1, int NivelUsuario, String SetorUsuario, String CargoUsuario, byte[] senhaCriptografada, byte[] contraSenhaCriptografada, String clienteServidor) {
         this.IdUsuario = IdUsuario;
         this.Status = Status;
         this.dataCadastro = dataCadastro;
@@ -43,6 +44,7 @@ public class Usuarios {
         this.CargoUsuario = CargoUsuario;
         this.senhaCriptografada = senhaCriptografada;
         this.contraSenhaCriptografada = contraSenhaCriptografada;
+        this.clienteServidor = clienteServidor;
     }
 
     /**
@@ -211,5 +213,19 @@ public class Usuarios {
      */
     public void setContraSenhaCriptografada(byte[] contraSenhaCriptografada) {
         this.contraSenhaCriptografada = contraSenhaCriptografada;
+    }
+
+    /**
+     * @return the clienteServidor
+     */
+    public String getClienteServidor() {
+        return clienteServidor;
+    }
+
+    /**
+     * @param clienteServidor the clienteServidor to set
+     */
+    public void setClienteServidor(String clienteServidor) {
+        this.clienteServidor = clienteServidor;
     }
 }

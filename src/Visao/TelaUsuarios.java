@@ -158,6 +158,8 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jCargo = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jComboBoxNivelAcesso = new javax.swing.JComboBox<>();
+        jLabel11 = new javax.swing.JLabel();
+        jComboBoxServidorCliente = new javax.swing.JComboBox<>();
         jPanel6 = new javax.swing.JPanel();
         jBtNovo = new javax.swing.JButton();
         jBtAlterar = new javax.swing.JButton();
@@ -456,21 +458,35 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jComboBoxNivelAcesso.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxNivelAcesso.setEnabled(false);
 
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel11.setText("Servidor/Cliente");
+
+        jComboBoxServidorCliente.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxServidorCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Servidor", "Cliente", "Todos" }));
+        jComboBoxServidorCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBoxServidorCliente.setEnabled(false);
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel10)
                     .addComponent(Cargo)
                     .addComponent(jLabel6)
                     .addComponent(jLabel5)
-                    .addComponent(jCargo)
+                    .addComponent(jCargo, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
                     .addComponent(jSetorUsuario)
                     .addComponent(jNomeUsuario)
-                    .addComponent(jComboBoxNivelAcesso, 0, 389, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBoxNivelAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxServidorCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(18, 18, 18))
         );
         jPanel5Layout.setVerticalGroup(
@@ -489,10 +505,14 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBoxNivelAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jComboBoxServidorCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxNivelAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
@@ -673,7 +693,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                     .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1117,10 +1137,13 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 jLogin.setText(conecta.rs.getString("LoginUsuario"));
                 jSenhaUsuario.setText(conecta.rs.getString("SenhaUsuario"));
                 jConfirmaSenha.setText(conecta.rs.getString("SenhaUsuario1"));
+                jComboBoxServidorCliente.setSelectedItem(conecta.rs.getString("ClienteServidor"));
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(rootPane, "Não foi possível listar usuario\nERRO: " + ex);
             }
-            preencherTabelaAcessos("SELECT * FROM TELAS_ACESSO "
+            preencherTabelaAcessos("SELECT "
+                    + "* "
+                    + "FROM TELAS_ACESSO "
                     + "WHERE IdUsuario='" + jIdUsuario.getText() + "'");
         }
     }//GEN-LAST:event_jTabelaUsuariosMouseClicked
@@ -1214,6 +1237,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 objUser.setNomeUsuario(jNomeUsuario.getText());
                 objUser.setSetorUsuario(jSetorUsuario.getText());
                 objUser.setCargoUsuario(jCargo.getText());
+                objUser.setClienteServidor((String) jComboBoxServidorCliente.getSelectedItem());
                 if (jComboBoxNivelAcesso.getSelectedItem().equals("Desenvolvedor")) {
                     nivel = 0;
                     objUser.setNivelUsuario(nivel);
@@ -1549,6 +1573,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox jComboBoxGravar;
     private javax.swing.JComboBox jComboBoxIncluir;
     private javax.swing.JComboBox<String> jComboBoxNivelAcesso;
+    private javax.swing.JComboBox<String> jComboBoxServidorCliente;
     private javax.swing.JComboBox<String> jComboBoxStatus;
     public static javax.swing.JComboBox jComboBoxTelaAcesso;
     private javax.swing.JPasswordField jConfirmaSenha;
@@ -1556,6 +1581,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     public static javax.swing.JTextField jIdUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel28;

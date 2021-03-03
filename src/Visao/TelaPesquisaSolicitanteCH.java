@@ -296,7 +296,9 @@ public class TelaPesquisaSolicitanteCH extends javax.swing.JDialog {
         if (jCodigo.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
         } else {
-            pesquisarSolicitantes("SELECT * FROM SOLICITANTES "
+            pesquisarSolicitantes("SELECT "
+                    + "* "
+                    + "FROM SOLICITANTES "
                     + "INNER JOIN EMPRESA "
                     + "ON SOLICITANTES.IdEmpresa=EMPRESA.IdEmpresa "
                     + "INNER JOIN UNIDADE_PENAL_EMPRESA "
@@ -310,7 +312,9 @@ public class TelaPesquisaSolicitanteCH extends javax.swing.JDialog {
         count = 0;
         flag = 1;
         if (evt.getStateChange() == evt.SELECTED) {
-            this.pesquisarSolicitantes("SELECT * FROM SOLICITANTES "
+            this.pesquisarSolicitantes("SELECT "
+                    + "* "
+                    + "FROM SOLICITANTES "
                     + "INNER JOIN EMPRESA "
                     + "ON SOLICITANTES.IdEmpresa=EMPRESA.IdEmpresa "
                     + "INNER JOIN UNIDADE_PENAL_EMPRESA "
@@ -326,7 +330,9 @@ public class TelaPesquisaSolicitanteCH extends javax.swing.JDialog {
         if (jNomeSolicitantePes.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Informe o nome do solicitante para pesquisa.");
         } else {
-            pesquisarSolicitantes("SELECT * FROM SOLICITANTES "
+            pesquisarSolicitantes("SELECT "
+                    + "* "
+                    + "FROM SOLICITANTES "
                     + "INNER JOIN EMPRESA "
                     + "ON SOLICITANTES.IdEmpresa=EMPRESA.IdEmpresa "
                     + "INNER JOIN UNIDADE_PENAL_EMPRESA "
@@ -347,7 +353,9 @@ public class TelaPesquisaSolicitanteCH extends javax.swing.JDialog {
             //
             conecta.abrirConexao();
             try {
-                conecta.executaSQL("SELECT * FROM SOLICITANTES "
+                conecta.executaSQL("SELECT "
+                        + "* "
+                        + "FROM SOLICITANTES "
                         + "INNER JOIN EMPRESA "
                         + "ON SOLICITANTES.IdEmpresa=EMPRESA.IdEmpresa "
                         + "INNER JOIN UNIDADE_PENAL_EMPRESA "
@@ -383,7 +391,9 @@ public class TelaPesquisaSolicitanteCH extends javax.swing.JDialog {
             //
             conecta.abrirConexao();
             try {
-                conecta.executaSQL("SELECT * FROM SOLICITANTES "
+                conecta.executaSQL("SELECT "
+                        + "* "
+                        + "FROM SOLICITANTES "
                         + "INNER JOIN EMPRESA "
                         + "ON SOLICITANTES.IdEmpresa=EMPRESA.IdEmpresa "
                         + "INNER JOIN UNIDADE_PENAL_EMPRESA "

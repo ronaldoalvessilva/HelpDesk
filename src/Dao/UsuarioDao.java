@@ -12,6 +12,7 @@ import static Visao.LoginHD.pCODIGO_status;
 import static Visao.LoginHD.pID_USUARIO_acesso;
 import static Visao.LoginHD.pLOGIN_usuario;
 import static Visao.LoginHD.pSENHA_usuario;
+import static Visao.LoginHD.pCLIENTE_servidor;
 import static Visao.LoginHD.nameUser;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -32,7 +33,7 @@ public class UsuarioDao {
 
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO USUARIOS (StatusUsuario,DataCadastro,NomeUsuario,NivelUsuario,SetorUsuario,CargoUsuario,LoginUsuario,SenhaUsuario,SenhaUsuario1,SenhaCriptografada)VALUES(?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO USUARIOS (StatusUsuario,DataCadastro,NomeUsuario,NivelUsuario,SetorUsuario,CargoUsuario,LoginUsuario,SenhaUsuario,SenhaUsuario1,SenhaCriptografada,ClienteServidor)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, objUser.getStatus());
             if (objUser.getDataCadastro() != null) {
                 pst.setTimestamp(2, new java.sql.Timestamp(objUser.getDataCadastro().getTime()));
@@ -47,6 +48,7 @@ public class UsuarioDao {
             pst.setString(8, Criptografia.criptografar(objUser.getSenhaUsuario()));
             pst.setString(9, Criptografia.criptografar(objUser.getSenhaUsuario1()));
             pst.setBytes(10, objUser.getSenhaCriptografada());
+            pst.setString(11, objUser.getClienteServidor());
             pst.execute(); // Executa a inserção
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível INSERIR os Dados.\nERRO: " + ex);
@@ -59,7 +61,7 @@ public class UsuarioDao {
 
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE USUARIOS SET StatusUsuario=?,DataCadastro=?,NomeUsuario=?,NivelUsuario=?,SetorUsuario=?,CargoUsuario=?,LoginUsuario=?,SenhaUsuario=?,SenhaUsuario1=?,SenhaCriptografada=? WHERE IdUsuario='" + objUser.getIdUsuario() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE USUARIOS SET StatusUsuario=?,DataCadastro=?,NomeUsuario=?,NivelUsuario=?,SetorUsuario=?,CargoUsuario=?,LoginUsuario=?,SenhaUsuario=?,SenhaUsuario1=?,SenhaCriptografada=?,ClienteServidor=? WHERE IdUsuario='" + objUser.getIdUsuario() + "'");
             pst.setString(1, objUser.getStatus());
             if (objUser.getDataCadastro() != null) {
                 pst.setTimestamp(2, new java.sql.Timestamp(objUser.getDataCadastro().getTime()));
@@ -74,6 +76,7 @@ public class UsuarioDao {
             pst.setString(8, Criptografia.criptografar(objUser.getSenhaUsuario()));
             pst.setString(9, Criptografia.criptografar(objUser.getSenhaUsuario1()));
             pst.setBytes(10, objUser.getSenhaCriptografada());
+            pst.setString(11, objUser.getClienteServidor());
             pst.executeUpdate(); // Executa a inserção
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\n\nERRO: " + ex);
@@ -119,7 +122,8 @@ public class UsuarioDao {
                     + "SenhaUsuario, "
                     + "StatusUsuario, "
                     + "NomeUsuario, "
-                    + "SenhaCriptografada "
+                    + "SenhaCriptografada, "
+                    + "ClienteServidor "
                     + "FROM USUARIOS "
                     + "WHERE LoginUsuario='" + jLogin.getText() + "' ");
             conecta.rs.first();
@@ -128,6 +132,7 @@ public class UsuarioDao {
             pLOGIN_usuario = conecta.rs.getString("LoginUsuario");
             pSENHA_usuario = conecta.rs.getString("SenhaUsuario");
             nameUser = conecta.rs.getString("NomeUsuario");
+            pCLIENTE_servidor = conecta.rs.getString("ClienteServidor");
         } catch (SQLException e) {
 
         }

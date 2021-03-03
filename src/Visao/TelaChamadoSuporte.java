@@ -12,6 +12,7 @@ import Dao.LogSistemaDao;
 import Modelo.ChamadoSuporte;
 import Modelo.LogSistema;
 import static Visao.LoginHD.nameUser;
+import static Visao.LoginHD.pCLIENTE_servidor;
 import static Visao.TelaPrincipal.botaoEncerrarSup;
 import static Visao.TelaPrincipal.botaoEnviarSup;
 import static Visao.TelaPrincipal.botaoImprimirSup;
@@ -118,6 +119,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     public static int pTOTAL_itens = 0;
     public static String idSoli;
     public static String idItem;
+    //
+    public static int pID_EMPRESA = 0;
+    public static int pID_UNIDADE = 0;
 
     /**
      * Creates new form TelaChamadoSuporte
@@ -1758,12 +1762,29 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         buscarAcessoUsuario(telaChamadosSuporte);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codIncluir == 1) {
-            statusMov = "Incluiu";
-            horaMov = jHoraSistema.getText();
-            dataModFinal = jDataSistema.getText();
-            acao = 1;
-            Novo();
-            pPREENCHER_COMBO_atendentes();
+            JOptionPane.showMessageDialog(rootPane, "TIPO DE ACESSO: " + pCLIENTE_servidor);
+            if (pCLIENTE_servidor.equals("Cliente")) {
+                statusMov = "Incluiu";
+                horaMov = jHoraSistema.getText();
+                dataModFinal = jDataSistema.getText();
+                acao = 1;
+                NovoCliente();
+                pPREENCHER_COMBO_atendentes();
+            } else if (pCLIENTE_servidor.equals("Servidor")) {
+                statusMov = "Incluiu";
+                horaMov = jHoraSistema.getText();
+                dataModFinal = jDataSistema.getText();
+                acao = 1;
+                Novo();
+                pPREENCHER_COMBO_atendentes();
+            } else if (pCLIENTE_servidor.equals("Ambos")) {
+//                statusMov = "Incluiu";
+//                horaMov = jHoraSistema.getText();
+//                dataModFinal = jDataSistema.getText();
+                acao = 1;
+                NovoCliente();
+                pPREENCHER_COMBO_atendentes();
+            }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
@@ -2852,6 +2873,27 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jBtCancelar.setEnabled(true);
     }
 
+    public void NovoCliente() {
+        limparTodosCampos();
+        bloquearCampos();
+        bloquearBotoes();
+        pLIMPAR_TABELA_itens();
+        jStatusChamado.setText("ABERTO NO SUPORTE TÉCNICO");
+        jDataChamado.setCalendar(Calendar.getInstance());
+        jComboBoxAtendente.setEnabled(true);
+        jComboBoxTipoChamadoSuporte.setEnabled(true);
+        jAssunto.setEnabled(true);
+        jBtNovaFigura1.setEnabled(true);
+        jSolicitante.setText(nameUser);
+        //PESQUISAR ATENDENTE
+        CONTROL.pBUSCAR_NOME_solicitante(objCHSup);
+//        pID_EMPRESA = objCHSup.getIdEmpresa();
+//        pID_UNIDADE = objCHSup.getIdUnidEmp();
+        //
+        jBtSalvar.setEnabled(true);
+        jBtCancelar.setEnabled(true);
+    }
+
     public void Alterar() {
         bloquearCampos();
         bloquearBotoes();
@@ -3509,7 +3551,16 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         } catch (Exception e) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS_ACESSO "
+            conecta.executaSQL("SELECT "
+                    + "IdUsuario, "
+                    + "Abrir, "
+                    + "Incluir, "
+                    + "Alterar, "
+                    + "Excluir, "
+                    + "Gravar, "
+                    + "Consultar, "
+                    + "NomeTela "
+                    + "FROM TELAS_ACESSO "
                     + "WHERE IdUsuario='" + codigoUser + "' "
                     + "AND NomeTela='" + nomeTelaAcesso + "'");
             conecta.rs.first();
@@ -3530,7 +3581,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT "
-                    + "* "
+                    + "NivelUsuario, "
+                    + "NomeUsuario "
                     + "FROM USUARIOS "
                     + "WHERE NomeUsuario='" + nameUser + "'");
             conecta.rs.first();
