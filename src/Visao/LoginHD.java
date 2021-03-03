@@ -13,6 +13,8 @@ import java.awt.event.KeyEvent;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
@@ -53,14 +55,18 @@ public class LoginHD extends javax.swing.JDialog {
     //
     String pSENHA1_CRIPTOGRAFA;
     public static String pCLIENTE_servidor;
-
+    //
+    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss"); // HORAIO DE 24 HORAS, PARA O DE 12 HORAS UTILIZAR hh:mm:ss
+    SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
+    //
+    public static String pDATA_sistema;
+    public static String pHORA_sistema;
     /**
      * Creates new form LoginHD
      */
-    
-    
+
     public static TelaEscolhaAcesso pTELA_acesso;
-    
+
     public LoginHD(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         try {
@@ -74,13 +80,18 @@ public class LoginHD extends javax.swing.JDialog {
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
         }
         initComponents();
+        Date data = new Date();
+        String hora = formatter.format(data); // Data da conexão
+        String date = formatter2.format(data); // Hora da conexão
+        pDATA_sistema = String.valueOf(hora);    // no lugar do label, por seu JTextField    
+        pHORA_sistema = String.valueOf(date);
     }
 
-    
-    public void mostrarTelaAmbos(){
+    public void mostrarTelaAmbos() {
         pTELA_acesso = new TelaEscolhaAcesso(this, true);
         pTELA_acesso.setVisible(true);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -293,7 +304,7 @@ public class LoginHD extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Senha Inválida");
         } else if (!jLogin.getText().equals(pLOGIN_usuario) && pSENHA1_CRIPTOGRAFA.equals(pSENHA_usuario) && pCODIGO_status.equals("Ativo")) {
             JOptionPane.showMessageDialog(null, "Login Inválida");
-        } else if (jLogin.getText().equals(pLOGIN_usuario) && (pSENHA1_CRIPTOGRAFA).equals(pSENHA_usuario) && pCODIGO_status.equals("Ativo")) {            
+        } else if (jLogin.getText().equals(pLOGIN_usuario) && (pSENHA1_CRIPTOGRAFA).equals(pSENHA_usuario) && pCODIGO_status.equals("Ativo")) {
             if (pCLIENTE_servidor.equals("Servidor")) {
                 TelaPrincipal tlp = new TelaPrincipal();
                 tlp.setVisible(true);

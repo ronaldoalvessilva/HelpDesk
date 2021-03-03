@@ -13,6 +13,8 @@ import Modelo.ChamadoSuporte;
 import Modelo.LogSistema;
 import static Visao.LoginHD.nameUser;
 import static Visao.LoginHD.pCLIENTE_servidor;
+import static Visao.LoginHD.pDATA_sistema;
+import static Visao.LoginHD.pHORA_sistema;
 import static Visao.TelaPrincipal.botaoEncerrarSup;
 import static Visao.TelaPrincipal.botaoEnviarSup;
 import static Visao.TelaPrincipal.botaoImprimirSup;
@@ -1765,8 +1767,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(rootPane, "TIPO DE ACESSO: " + pCLIENTE_servidor);
             if (pCLIENTE_servidor.equals("Cliente")) {
                 statusMov = "Incluiu";
-                horaMov = jHoraSistema.getText();
-                dataModFinal = jDataSistema.getText();
+                horaMov = pHORA_sistema;
+                dataModFinal = pDATA_sistema;
                 acao = 1;
                 NovoCliente();
                 pPREENCHER_COMBO_atendentes();
@@ -1778,9 +1780,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 Novo();
                 pPREENCHER_COMBO_atendentes();
             } else if (pCLIENTE_servidor.equals("Ambos")) {
-//                statusMov = "Incluiu";
-//                horaMov = jHoraSistema.getText();
-//                dataModFinal = jDataSistema.getText();
+                statusMov = "Incluiu";
+                horaMov = pHORA_sistema;
+                dataModFinal = pDATA_sistema;
                 acao = 1;
                 NovoCliente();
                 pPREENCHER_COMBO_atendentes();
@@ -1801,11 +1803,24 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 } else if (jStatusChamado.getText().equals("ENVIADO PARA O DESENVOLVIMENTO")) {
                     JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encontra-se no desenvolvimento...");
                 } else {
-                    statusMov = "Alterou";
-                    horaMov = jHoraSistema.getText();
-                    dataModFinal = jDataSistema.getText();
-                    acao = 2;
-                    Alterar();
+                    if (pCLIENTE_servidor.equals("Cliente")) {
+                        horaMov = pHORA_sistema;
+                        dataModFinal = pDATA_sistema;
+                        acao = 2;
+                        AlterarCliente();
+                    } else if (pCLIENTE_servidor.equals("Servidor")) {
+                        statusMov = "Alterou";
+                        horaMov = jHoraSistema.getText();
+                        dataModFinal = jDataSistema.getText();
+                        acao = 2;
+                        Alterar();
+                    } else if (pCLIENTE_servidor.equals("Ambos")) {
+                        statusMov = "Alterou";
+                        horaMov = pHORA_sistema;
+                        dataModFinal = pDATA_sistema;
+                        acao = 2;
+                        AlterarCliente();
+                    }
                 }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
@@ -1831,15 +1846,39 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                     } else if (jStatusChamado.getText().equals("ENVIADO PARA O DESENVOLVIMENTO")) {
                         JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encontra-se no desenvolvimento...");
                     } else {
-                        statusMov = "Excluiu";
-                        horaMov = jHoraSistema.getText();
-                        dataModFinal = jDataSistema.getText();
-                        int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
-                                JOptionPane.YES_NO_OPTION);
-                        if (resposta == JOptionPane.YES_OPTION) {
-                            objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                            CONTROL.excluirChamadoSup(objCHSup);
-                            Excluir();
+                        if (pCLIENTE_servidor.equals("Cliente")) {
+                            statusMov = "Excluiu";
+                            horaMov = pHORA_sistema;
+                            dataModFinal = pDATA_sistema;
+                            int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
+                                    JOptionPane.YES_NO_OPTION);
+                            if (resposta == JOptionPane.YES_OPTION) {
+                                objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                                CONTROL.excluirChamadoSup(objCHSup);
+                                Excluir();
+                            }
+                        } else if (pCLIENTE_servidor.equals("Servidor")) {
+                            statusMov = "Excluiu";
+                            horaMov = pHORA_sistema;
+                            dataModFinal = pDATA_sistema;
+                            int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
+                                    JOptionPane.YES_NO_OPTION);
+                            if (resposta == JOptionPane.YES_OPTION) {
+                                objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                                CONTROL.excluirChamadoSup(objCHSup);
+                                Excluir();
+                            }
+                        } else if (pCLIENTE_servidor.equals("Ambos")) {
+                            statusMov = "Excluiu";
+                            horaMov = pHORA_sistema;
+                            dataModFinal = pDATA_sistema;
+                            int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
+                                    JOptionPane.YES_NO_OPTION);
+                            if (resposta == JOptionPane.YES_OPTION) {
+                                objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                                CONTROL.excluirChamadoSup(objCHSup);
+                                Excluir();
+                            }
                         }
                     }
                 }
@@ -2887,8 +2926,6 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jSolicitante.setText(nameUser);
         //PESQUISAR ATENDENTE
         CONTROL.pBUSCAR_NOME_solicitante(objCHSup);
-//        pID_EMPRESA = objCHSup.getIdEmpresa();
-//        pID_UNIDADE = objCHSup.getIdUnidEmp();
         //
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
@@ -2902,6 +2939,19 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jComboBoxTipoChamadoSuporte.setEnabled(true);
         jAssunto.setEnabled(true);
         jBtPesquisaSoli.setEnabled(true);
+        //
+        jBtSalvar.setEnabled(true);
+        jBtCancelar.setEnabled(true);
+    }
+
+    public void AlterarCliente() {
+        bloquearCampos();
+        bloquearBotoes();
+        //
+        jComboBoxAtendente.setEnabled(true);
+        jComboBoxTipoChamadoSuporte.setEnabled(true);
+        jAssunto.setEnabled(true);
+        jSolicitante.setText(nameUser);
         //
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
