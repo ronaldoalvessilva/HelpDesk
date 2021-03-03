@@ -897,21 +897,22 @@
                       <Font name="Tahoma" size="11" style="1"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="14">
+                      <StringArray count="15">
                         <StringItem index="0" value="Selecione..."/>
                         <StringItem index="1" value="Avalia&#xe7;&#xe3;o"/>
-                        <StringItem index="2" value="D&#xfa;vidas"/>
-                        <StringItem index="3" value="Erros de Sistema"/>
-                        <StringItem index="4" value="Implementa&#xe7;&#xe3;o (SISCONP)"/>
-                        <StringItem index="5" value="Manuten&#xe7;&#xe3;o Hardware (CPU)"/>
-                        <StringItem index="6" value="Manuten&#xe7;&#xe3;o Software"/>
-                        <StringItem index="7" value="Manuten&#xe7;&#xe3;o em Servidores"/>
-                        <StringItem index="8" value="Manuten&#xe7;&#xe3;o Impressoras"/>
-                        <StringItem index="9" value="Manuten&#xe7;&#xe3;o em Rede"/>
-                        <StringItem index="10" value="Melhorias (Imp. Diversas)"/>
-                        <StringItem index="11" value="Problema(s)"/>
-                        <StringItem index="12" value="Reclama&#xe7;&#xe3;o(&#xf5;es)"/>
-                        <StringItem index="13" value="Sugest&#xe3;o(&#xf5;es)"/>
+                        <StringItem index="2" value="Corre&#xe7;&#xf5;es"/>
+                        <StringItem index="3" value="D&#xfa;vidas"/>
+                        <StringItem index="4" value="Erros de Sistema"/>
+                        <StringItem index="5" value="Implementa&#xe7;&#xe3;o (SISCONP)"/>
+                        <StringItem index="6" value="Manuten&#xe7;&#xe3;o Hardware (CPU)"/>
+                        <StringItem index="7" value="Manuten&#xe7;&#xe3;o Software"/>
+                        <StringItem index="8" value="Manuten&#xe7;&#xe3;o em Servidores"/>
+                        <StringItem index="9" value="Manuten&#xe7;&#xe3;o Impressoras"/>
+                        <StringItem index="10" value="Manuten&#xe7;&#xe3;o em Rede"/>
+                        <StringItem index="11" value="Melhorias (Imp. Diversas)"/>
+                        <StringItem index="12" value="Problema(s)"/>
+                        <StringItem index="13" value="Reclama&#xe7;&#xe3;o(&#xf5;es)"/>
+                        <StringItem index="14" value="Sugest&#xe3;o(&#xf5;es)"/>
                       </StringArray>
                     </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">

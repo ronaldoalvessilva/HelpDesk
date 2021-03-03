@@ -636,7 +636,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jLabel18.setText("Tipos de Chamados");
 
         jComboBoxTipoChamadoSuporte.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxTipoChamadoSuporte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Avaliação", "Dúvidas", "Erros de Sistema", "Implementação (SISCONP)", "Manutenção Hardware (CPU)", "Manutenção Software", "Manutenção em Servidores", "Manutenção Impressoras", "Manutenção em Rede", "Melhorias (Imp. Diversas)", "Problema(s)", "Reclamação(ões)", "Sugestão(ões)" }));
+        jComboBoxTipoChamadoSuporte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Avaliação", "Correções", "Dúvidas", "Erros de Sistema", "Implementação (SISCONP)", "Manutenção Hardware (CPU)", "Manutenção Software", "Manutenção em Servidores", "Manutenção Impressoras", "Manutenção em Rede", "Melhorias (Imp. Diversas)", "Problema(s)", "Reclamação(ões)", "Sugestão(ões)" }));
         jComboBoxTipoChamadoSuporte.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxTipoChamadoSuporte.setEnabled(false);
 
