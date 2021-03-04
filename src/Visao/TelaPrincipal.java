@@ -662,7 +662,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 102, 0));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Sistema de Controle de Chamados (Help Desk) - Versão 1.0");
+        jLabel4.setText("Sistema de Controle de Chamados (Help Desk) - Versão 1.1");
 
         jCadastro.setMnemonic('C');
         jCadastro.setText("Cadastros");

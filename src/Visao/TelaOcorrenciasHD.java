@@ -77,7 +77,7 @@ public class TelaOcorrenciasHD extends javax.swing.JInternalFrame {
     String statusEntrada = "ABERTO";
 
     // Variáveis para gravar o log
-    String nomeModuloTela = "Portaria:Movimentação:Ocorrências Diárias:Manutenção";
+    String nomeModuloTela = "Cadastro:Ocorrências Diárias:Manutenção";
     String horaMov;
     String dataModFinal;
     int count = 0;
@@ -89,7 +89,7 @@ public class TelaOcorrenciasHD extends javax.swing.JInternalFrame {
     int pBtJus = 0;
     //
     String caminhoPDF = "";
-    String tituloOcorrencia = "OCORRÊNCIA_PROTARIA_INTERNA";
+    String tituloOcorrencia = "OCORRÊNCIA_HELP_DESK";
     String dataPDF = "";
     String horaPDF = "";
 

@@ -216,7 +216,7 @@ public class TelaRecados extends javax.swing.JInternalFrame {
         jTabelaTodosRecados.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jTabelaTodosRecados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null}
+
             },
             new String [] {
                 "Código", "Data", "Remetente", "Destinatário"
@@ -626,12 +626,12 @@ public class TelaRecados extends javax.swing.JInternalFrame {
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jBtNovo)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jBtAlterar)
                 .addComponent(jBtExcluir)
                 .addComponent(jBtSalvar)
-                .addComponent(jBtCancelar))
+                .addComponent(jBtCancelar)
+                .addComponent(jBtNovo))
             .addComponent(jBtSair, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 

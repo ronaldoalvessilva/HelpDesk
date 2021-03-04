@@ -1763,7 +1763,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private void jBtNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoActionPerformed
         // TODO add your handling code here:
         buscarAcessoUsuario(telaChamadosSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codIncluir == 1) {            
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codIncluir == 1) {
             if (pCLIENTE_servidor.equals("Cliente")) {
                 statusMov = "Incluiu";
                 horaMov = pHORA_sistema;
@@ -1771,6 +1771,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 acao = 1;
                 NovoCliente();
                 pPREENCHER_COMBO_atendentes();
+                //PESQUISAR ATENDENTE
+                CONTROL.pBUSCAR_NOME_solicitante(objCHSup);
+                pLIMPAR_TABELA_itens();
             } else if (pCLIENTE_servidor.equals("Servidor")) {
                 statusMov = "Incluiu";
                 horaMov = jHoraSistema.getText();
@@ -1783,7 +1786,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 horaMov = pHORA_sistema;
                 dataModFinal = pDATA_sistema;
                 acao = 1;
-                NovoCliente();
+                Novo();
                 pPREENCHER_COMBO_atendentes();
             }
         } else {
@@ -1818,7 +1821,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         horaMov = pHORA_sistema;
                         dataModFinal = pDATA_sistema;
                         acao = 2;
-                        AlterarCliente();
+                        Alterar();
                     }
                 }
             } else {
@@ -2914,8 +2917,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     public void NovoCliente() {
         limparTodosCampos();
         bloquearCampos();
-        bloquearBotoes();
-        pLIMPAR_TABELA_itens();
+        bloquearBotoes();       
         jStatusChamado.setText("ABERTO NO SUPORTE TÉCNICO");
         jDataChamado.setCalendar(Calendar.getInstance());
         jComboBoxAtendente.setEnabled(true);
@@ -2923,8 +2925,6 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jAssunto.setEnabled(true);
         jBtNovaFigura1.setEnabled(true);
         jSolicitante.setText(nameUser);
-        //PESQUISAR ATENDENTE
-        CONTROL.pBUSCAR_NOME_solicitante(objCHSup);
         //
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
@@ -3565,9 +3565,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         try {
             for (ChamadoSuporte dd : CONTROL.PESQUISAR_ITENS_CHAMADO_SUP_read()) {
                 pDATA_itens = String.valueOf(dd.getDataItemCh());
-                String dia = pDATA_Registros.substring(8, 10);
-                String mes = pDATA_Registros.substring(5, 7);
-                String ano = pDATA_Registros.substring(0, 4);
+                String dia = pDATA_itens.substring(8, 10);
+                String mes = pDATA_itens.substring(5, 7);
+                String ano = pDATA_itens.substring(0, 4);
                 pDATA_itens = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(pTOTAL_itens));
                 dadosItens.addRow(new Object[]{dd.getIdItemCh(), pDATA_itens, dd.getHorarioInicio(), dd.getHorarioTermino(), dd.getTextoSuporte()});

@@ -1111,7 +1111,6 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 jBtAlterar.setEnabled(true);
                 jBtExcluir.setEnabled(true);
                 //
-
                 jBtCopiarPerfil.setEnabled(true);
             }
             conecta.abrirConexao();
@@ -1630,8 +1629,6 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     public void formatarCampos() {
         jNomeUsuario.setDocument(new LimiteDigitos(67));
         jLogin.setDocument(new LimiteDigitosMin(25));
-        jSenhaUsuario.setDocument(new LimiteDigitosMin(21));
-        jConfirmaSenha.setDocument(new LimiteDigitosMin(21));
     }
 
     public void corCampos() {
@@ -1692,6 +1689,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jLogin.setText("");
         jSenhaUsuario.setText("");
         jConfirmaSenha.setText("");
+        jComboBoxServidorCliente.setSelectedItem("Selecione...");
         //
         jComboBoxStatus.setEnabled(true);
         jDataCadastro.setEnabled(true);
@@ -1702,6 +1700,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jLogin.setEnabled(true);
         jSenhaUsuario.setEnabled(true);
         jConfirmaSenha.setEnabled(true);
+        jComboBoxServidorCliente.setEnabled(true);
         //
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
@@ -1717,6 +1716,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jLogin.setEnabled(true);
         jSenhaUsuario.setEnabled(true);
         jConfirmaSenha.setEnabled(true);
+        jComboBoxServidorCliente.setEnabled(true);
         //
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
@@ -1732,6 +1732,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jLogin.setEnabled(!true);
         jSenhaUsuario.setEnabled(!true);
         jConfirmaSenha.setEnabled(!true);
+        jComboBoxServidorCliente.setEnabled(!true);
         //
         jBtNovo.setEnabled(true);
     }
@@ -1746,6 +1747,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jLogin.setEnabled(!true);
         jSenhaUsuario.setEnabled(!true);
         jConfirmaSenha.setEnabled(!true);
+        jComboBoxServidorCliente.setEnabled(!true);
         //
         jBtNovo.setEnabled(true);
         jBtAlterar.setEnabled(true);
@@ -1764,6 +1766,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             jLogin.setText("");
             jSenhaUsuario.setText("");
             jConfirmaSenha.setText("");
+            jComboBoxServidorCliente.setSelectedItem("Selecione...");
             //
             jComboBoxStatus.setEnabled(!true);
             jDataCadastro.setEnabled(!true);
@@ -1774,6 +1777,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             jLogin.setEnabled(!true);
             jSenhaUsuario.setEnabled(!true);
             jConfirmaSenha.setEnabled(!true);
+            jComboBoxServidorCliente.setEnabled(!true);
             //
             jBtNovo.setEnabled(true);
             jBtAlterar.setEnabled(!true);
@@ -1790,6 +1794,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             jLogin.setEnabled(!true);
             jSenhaUsuario.setEnabled(!true);
             jConfirmaSenha.setEnabled(!true);
+            jComboBoxServidorCliente.setEnabled(!true);
             //
             jBtNovo.setEnabled(true);
             jBtAlterar.setEnabled(true);

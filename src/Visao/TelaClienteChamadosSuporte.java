@@ -5,17 +5,17 @@
  */
 package Visao;
 
+import Dao.ChamadosSuporteDao;
 import Dao.ControleAcessoGeral;
 import Modelo.CamposAcessos;
+import Modelo.ChamadoSuporte;
 import static Visao.LoginHD.nameUser;
-import static Visao.TelaPrincipal.codAbrir;
-import static Visao.TelaPrincipal.codUserAcesso;
-import static Visao.TelaPrincipal.codigoUser;
-import static Visao.TelaPrincipal.nomeTela;
-import static Visao.TelaPrincipal.telaChamadosSuporte;
+import java.awt.Color;
 import java.beans.PropertyVetoException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,13 +24,23 @@ import javax.swing.JOptionPane;
  */
 public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
 
+    ChamadoSuporte objCHSup = new ChamadoSuporte();
+    ChamadosSuporteDao CONTROL = new ChamadosSuporteDao();
+    //
     ControleAcessoGeral pPESQUISAR_acessos = new ControleAcessoGeral();
     CamposAcessos objCampos = new CamposAcessos();
     //
     SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss"); // HORAIO DE 24 HORAS, PARA O DE 12 HORAS UTILIZAR hh:mm:ss
     SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
+    //
     private TelaChamadoSuporte objChamaSup = null;
-
+    private TelaOcorrenciasHD objOcr = null;
+    private TelaRecados objjAgendaRec = null;
+    private TelaAgendaCompromissos objAgendaComp = null;
+    //
+    public static int pTOTAL_REGISTROS_aberto = 0;
+    public static int pTOTAL_REGISTROS_fechado = 0;
+    //
     public static int codigoUser = 0;
     public static int codUserAcesso = 0;
     public static int codigoUserGroup = 0;
@@ -43,7 +53,10 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     public static int codigoGrupo = 0;
     public static String nomeGrupo = "";
     public static String nomeTela = "";
-    //
+    //CADASTRO
+    public static String telaOcorrenciaManu = "Cadastro:Ocorrências:Manutenção";
+    public static String telaAgendaRecado = "Cadastro Agenda Recados:Manutenção";
+    public static String telaAgendaCompromisso = "Cadastro Agenda de Compromisso:Manutenção";
     //SUPORTE CHAMADOS
     public static String telaChamadosSuporte = "Suporte Técnico:Chamados Suporte:Manutenção";
     public static String telaItensChamadoSuporte = "Suporte Técnico:Chamados Suporte:Itens";
@@ -72,6 +85,9 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         String date = formatter2.format(data); // Hora da conexão
         jHoraSistema.setText(String.valueOf(hora));    // no lugar do label, por seu JTextField    
         jDataSistema.setText(String.valueOf(date));
+        corCampos();
+        //
+        pCALCULAR_chamados();
     }
 
     /**
@@ -84,10 +100,8 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jBtDashboard = new javax.swing.JButton();
+        jBtOcorrencias = new javax.swing.JButton();
         jBtChamados = new javax.swing.JButton();
-        jBtPerfil = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
         jPainelDesktop = new javax.swing.JDesktopPane();
         jLabel1 = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
@@ -98,26 +112,45 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jToolBar3 = new javax.swing.JToolBar();
         jDataSistema = new javax.swing.JTextField();
-        jHoraSistema = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jBtTrocarSenha = new javax.swing.JButton();
         jBtLogoff = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jHoraSistema = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jQtdChamadosAberto = new javax.swing.JTextField();
+        jQtdChamadosFechados = new javax.swing.JTextField();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jOcorrencias = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jAgendaRecados = new javax.swing.JMenuItem();
+        jAgendaCompromissos = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jSair = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jChamadosSuporte = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jRelatoriosChamadosSuporte = new javax.swing.JMenuItem();
+        jMenuSair = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("...::: Serviço de  Suporte {Chamados}:::...");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
 
-        jBtDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/date-kontact-icone-3942-48.png"))); // NOI18N
-        jBtDashboard.setText("Dashboard");
-        jBtDashboard.addActionListener(new java.awt.event.ActionListener() {
+        jBtOcorrencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/250119203502_32.png"))); // NOI18N
+        jBtOcorrencias.setText("Ocorrências");
+        jBtOcorrencias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtDashboardActionPerformed(evt);
+                jBtOcorrenciasActionPerformed(evt);
             }
         });
 
@@ -129,58 +162,33 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
             }
         });
 
-        jBtPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Diretoria48.png"))); // NOI18N
-        jBtPerfil.setText("Meu Perfil");
-        jBtPerfil.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtPerfilActionPerformed(evt);
-            }
-        });
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtDashboard, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtChamados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtPerfil, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jBtChamados, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(11, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBtOcorrencias, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtChamados, jBtDashboard, jBtPerfil});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtChamados, jBtOcorrencias});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtDashboard)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBtChamados)
-                .addGap(104, 104, 104)
-                .addComponent(jBtPerfil)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtOcorrencias)
+                .addGap(249, 249, 249))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtChamados, jBtDashboard, jBtPerfil});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtChamados, jBtOcorrencias});
 
         jPainelDesktop.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -200,10 +208,9 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         );
         jPainelDesktopLayout.setVerticalGroup(
             jPainelDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPainelDesktopLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPainelDesktopLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
 
         jToolBar1.setRollover(true);
@@ -229,17 +236,6 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         jDataSistema.setEditable(false);
         jDataSistema.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jToolBar3.add(jDataSistema);
-
-        jHoraSistema.setEditable(false);
-        jHoraSistema.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel2.setText("Hora:");
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Sistema de Controle de Chamados (Help Desk) - Versão 1.0");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
 
@@ -281,11 +277,11 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jBtTrocarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBtLogoff, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(26, 26, 26)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,70 +303,233 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
+                .addGap(7, 7, 7))
+        );
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText("Hora:");
+
+        jHoraSistema.setEditable(false);
+        jHoraSistema.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 102, 0));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Sistema de Controle de Chamados (Help Desk) - Versão 1.1");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addGap(10, 10, 10)
+                .addComponent(jHoraSistema, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jHoraSistema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4))
+                .addGap(5, 5, 5))
+        );
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(153, 0, 0));
+        jLabel7.setText("Chamamdos em Aberto:");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 102, 0));
+        jLabel8.setText("Chamados Encerrados:");
+
+        jQtdChamadosAberto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jQtdChamadosAberto.setForeground(new java.awt.Color(153, 0, 0));
+        jQtdChamadosAberto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jQtdChamadosAberto.setText("0");
+        jQtdChamadosAberto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jQtdChamadosAberto.setDisabledTextColor(new java.awt.Color(153, 0, 0));
+        jQtdChamadosAberto.setEnabled(false);
+
+        jQtdChamadosFechados.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jQtdChamadosFechados.setForeground(new java.awt.Color(0, 102, 0));
+        jQtdChamadosFechados.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jQtdChamadosFechados.setText("0");
+        jQtdChamadosFechados.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jQtdChamadosFechados.setDisabledTextColor(new java.awt.Color(0, 102, 0));
+        jQtdChamadosFechados.setEnabled(false);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8))
+                .addGap(3, 3, 3)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jQtdChamadosFechados)
+                    .addComponent(jQtdChamadosAberto, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel7)
+                    .addComponent(jQtdChamadosAberto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jQtdChamadosFechados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addContainerGap(187, Short.MAX_VALUE))
+        );
+
+        jMenu1.setText("Cadastros");
+
+        jOcorrencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/250119203457_16.png"))); // NOI18N
+        jOcorrencias.setText("Ocorrências");
+        jOcorrencias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jOcorrenciasActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jOcorrencias);
+        jMenu1.add(jSeparator1);
+
+        jAgendaRecados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119190439_16.png"))); // NOI18N
+        jAgendaRecados.setText("Agenda Recados");
+        jAgendaRecados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAgendaRecadosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jAgendaRecados);
+
+        jAgendaCompromissos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119190604_16.png"))); // NOI18N
+        jAgendaCompromissos.setText("Agenda Compromissos");
+        jAgendaCompromissos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAgendaCompromissosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jAgendaCompromissos);
+        jMenu1.add(jSeparator2);
+
+        jSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/shutdown-icone-6920-16.png"))); // NOI18N
+        jSair.setText("Sair");
+        jSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSairActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jSair);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Suporte Técnico");
+
+        jChamadosSuporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Configuração18.png"))); // NOI18N
+        jChamadosSuporte.setText("Chamados");
+        jChamadosSuporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jChamadosSuporteActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jChamadosSuporte);
+
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Relatórios");
+
+        jRelatoriosChamadosSuporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/gtklp-icone-3770-16.png"))); // NOI18N
+        jRelatoriosChamadosSuporte.setText("Chamados Suporte Técnico");
+        jRelatoriosChamadosSuporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRelatoriosChamadosSuporteActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jRelatoriosChamadosSuporte);
+
+        jMenuBar1.add(jMenu3);
+
+        jMenuSair.setForeground(new java.awt.Color(153, 0, 0));
+        jMenuSair.setText("Sair");
+        jMenuSair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuSairMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenuSair);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2)
-                                .addGap(10, 10, 10)
-                                .addComponent(jHoraSistema, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(16, 16, 16))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPainelDesktop)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap())))
-                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPainelDesktop))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 359, Short.MAX_VALUE)
                         .addComponent(jToolBar4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jLabel2)
-                            .addComponent(jHoraSistema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPainelDesktop))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4))
+                    .addComponent(jPainelDesktop))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -381,7 +540,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
                         .addComponent(jToolBar4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jPanel2, jPanel3});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jPanel3, jPanel4});
 
         pack();
         setLocationRelativeTo(null);
@@ -401,21 +560,58 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        int selectedOption = JOptionPane.showConfirmDialog(null, "Deseja realmente sair do Sistema?", "Sistema informa:", JOptionPane.YES_NO_OPTION);
+        if (selectedOption == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jBtDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtDashboardActionPerformed
+    private void jBtOcorrenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtOcorrenciasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jBtDashboardActionPerformed
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaOcorrenciaManu);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+//        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaOcorrenciaManu) && objCampos.getCodigoAbrir() == 1) {
+            if (objOcr == null || objOcr.isClosed()) {
+                objOcr = new TelaOcorrenciasHD();
+                jPainelDesktop.add(objOcr);
+                objOcr.setVisible(true);
+            } else {
+                if (objOcr.isVisible()) {
+                    if (objOcr.isIcon()) { // Se esta minimizado
+                        try {
+                            objOcr.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objOcr.toFront(); // traz para frente
+                        objOcr.pack();//volta frame 
+                    }
+                } else {
+                    objOcr = new TelaOcorrenciasHD();
+                    TelaClienteChamadosSuporte.jPainelDesktop.add(objOcr);//adicona frame ao JDesktopPane  
+                    objOcr.setVisible(true);
+                }
+            }
+            try {
+                objOcr.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jBtOcorrenciasActionPerformed
 
     private void jBtChamadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtChamadosActionPerformed
         // TODO add your handling code here:
         objCampos.setNomeUsuario(nameUser);
         objCampos.setNomeTelaAcesso(telaChamadosSuporte);
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
-//        pPESQUISAR_acessos.pesquisarGrupoUsuario(objCampos);
+//        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")  || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSuporte) && objCampos.getCodigoAbrir() == 1) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSuporte) && objCampos.getCodigoAbrir() == 1) {
             if (objChamaSup == null || objChamaSup.isClosed()) {
                 objChamaSup = new TelaChamadoSuporte();
                 TelaClienteChamadosSuporte.jPainelDesktop.add(objChamaSup);
@@ -446,9 +642,178 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jBtChamadosActionPerformed
 
-    private void jBtPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPerfilActionPerformed
+    private void jOcorrenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jOcorrenciasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jBtPerfilActionPerformed
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaOcorrenciaManu);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+//        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaOcorrenciaManu) && objCampos.getCodigoAbrir() == 1) {
+            if (objOcr == null || objOcr.isClosed()) {
+                objOcr = new TelaOcorrenciasHD();
+                jPainelDesktop.add(objOcr);
+                objOcr.setVisible(true);
+            } else {
+                if (objOcr.isVisible()) {
+                    if (objOcr.isIcon()) { // Se esta minimizado
+                        try {
+                            objOcr.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objOcr.toFront(); // traz para frente
+                        objOcr.pack();//volta frame 
+                    }
+                } else {
+                    objOcr = new TelaOcorrenciasHD();
+                    TelaClienteChamadosSuporte.jPainelDesktop.add(objOcr);//adicona frame ao JDesktopPane  
+                    objOcr.setVisible(true);
+                }
+            }
+            try {
+                objOcr.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jOcorrenciasActionPerformed
+
+    private void jAgendaRecadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgendaRecadosActionPerformed
+        // TODO add your handling code here:
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaOcorrenciaManu);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+//        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaRecado) && objCampos.getCodigoAbrir() == 1) {
+            if (objjAgendaRec == null || objjAgendaRec.isClosed()) {
+                objjAgendaRec = new TelaRecados();
+                jPainelDesktop.add(objjAgendaRec);
+                objjAgendaRec.setVisible(true);
+            } else {
+                if (objjAgendaRec.isVisible()) {
+                    if (objjAgendaRec.isIcon()) { // Se esta minimizado
+                        try {
+                            objjAgendaRec.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objjAgendaRec.toFront(); // traz para frente
+                        objjAgendaRec.pack();//volta frame 
+                    }
+                } else {
+                    objjAgendaRec = new TelaRecados();
+                    TelaClienteChamadosSuporte.jPainelDesktop.add(objjAgendaRec);//adicona frame ao JDesktopPane  
+                    objjAgendaRec.setVisible(true);
+                }
+            }
+            try {
+                objjAgendaRec.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jAgendaRecadosActionPerformed
+
+    private void jAgendaCompromissosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgendaCompromissosActionPerformed
+        // TODO add your handling code here:
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaOcorrenciaManu);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+//        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaCompromisso) && objCampos.getCodigoAbrir() == 1) {
+            if (objAgendaComp == null || objAgendaComp.isClosed()) {
+                objAgendaComp = new TelaAgendaCompromissos();
+                jPainelDesktop.add(objAgendaComp);
+                objAgendaComp.setVisible(true);
+            } else {
+                if (objAgendaComp.isVisible()) {
+                    if (objAgendaComp.isIcon()) { // Se esta minimizado
+                        try {
+                            objAgendaComp.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objAgendaComp.toFront(); // traz para frente
+                        objAgendaComp.pack();//volta frame 
+                    }
+                } else {
+                    objAgendaComp = new TelaAgendaCompromissos();
+                    TelaClienteChamadosSuporte.jPainelDesktop.add(objAgendaComp);//adicona frame ao JDesktopPane  
+                    objAgendaComp.setVisible(true);
+                }
+            }
+            try {
+                objAgendaComp.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jAgendaCompromissosActionPerformed
+
+    private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
+        // TODO add your handling code here:
+        int selectedOption = JOptionPane.showConfirmDialog(null, "Deseja realmente sair do Sistema?", "Sistema informa:", JOptionPane.YES_NO_OPTION);
+        if (selectedOption == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_jSairActionPerformed
+
+    private void jMenuSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSairMouseClicked
+        // TODO add your handling code here:
+        int selectedOption = JOptionPane.showConfirmDialog(null, "Deseja realmente sair do Sistema?", "Sistema informa:", JOptionPane.YES_NO_OPTION);
+        if (selectedOption == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_jMenuSairMouseClicked
+
+    private void jChamadosSuporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChamadosSuporteActionPerformed
+        // TODO add your handling code here:
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaChamadosSuporte);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+//        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSuporte) && objCampos.getCodigoAbrir() == 1) {
+            if (objChamaSup == null || objChamaSup.isClosed()) {
+                objChamaSup = new TelaChamadoSuporte();
+                TelaClienteChamadosSuporte.jPainelDesktop.add(objChamaSup);
+                objChamaSup.setVisible(true);
+            } else {
+                if (objChamaSup.isVisible()) {
+                    if (objChamaSup.isIcon()) { // Se esta minimizado
+                        try {
+                            objChamaSup.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objChamaSup.toFront(); // traz para frente
+                        objChamaSup.pack();//volta frame 
+                    }
+                } else {
+                    objChamaSup = new TelaChamadoSuporte();
+                    TelaClienteChamadosSuporte.jPainelDesktop.add(objChamaSup);//adicona frame ao JDesktopPane  
+                    objChamaSup.setVisible(true);
+                }
+            }
+            try {
+                objChamaSup.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jChamadosSuporteActionPerformed
+
+    private void jRelatoriosChamadosSuporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRelatoriosChamadosSuporteActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(rootPane, "Em desenvolvimento...");
+    }//GEN-LAST:event_jRelatoriosChamadosSuporteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -486,12 +851,14 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem jAgendaCompromissos;
+    private javax.swing.JMenuItem jAgendaRecados;
     private javax.swing.JButton jBtChamados;
-    private javax.swing.JButton jBtDashboard;
     private javax.swing.JButton jBtLogoff;
-    private javax.swing.JButton jBtPerfil;
+    private javax.swing.JButton jBtOcorrencias;
     private javax.swing.JButton jBtTrocarSenha;
     private javax.swing.JButton jButton4;
+    private javax.swing.JMenuItem jChamadosSuporte;
     public static javax.swing.JTextField jDataSistema;
     public static javax.swing.JTextField jHoraSistema;
     private javax.swing.JLabel jLabel1;
@@ -500,17 +867,54 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLoginConectado;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuSair;
+    private javax.swing.JMenuItem jOcorrencias;
     public static javax.swing.JDesktopPane jPainelDesktop;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JTextField jQtdChamadosAberto;
+    private javax.swing.JTextField jQtdChamadosFechados;
+    private javax.swing.JMenuItem jRelatoriosChamadosSuporte;
+    private javax.swing.JMenuItem jSair;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
     private javax.swing.JToolBar jToolBar4;
     // End of variables declaration//GEN-END:variables
+
+    public void corCampos() {
+        jQtdChamadosAberto.setBackground(Color.white);
+        jQtdChamadosFechados.setBackground(Color.white);
+    }
+
+    public void pCALCULAR_chamados() {
+        pTOTAL_REGISTROS_aberto = 0;
+        pTOTAL_REGISTROS_fechado = 0;
+        try {
+            for (ChamadoSuporte p : CONTROL.QUANDIDADE_CHAMADOS_ABERTO_read()) {
+                jQtdChamadosAberto.setText(String.valueOf(pTOTAL_REGISTROS_aberto));
+            }
+
+            for (ChamadoSuporte pp : CONTROL.QUANDIDADE_CHAMADOS_FECHADO_read()) {
+                jQtdChamadosFechados.setText(String.valueOf(pTOTAL_REGISTROS_fechado));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaClienteChamadosSuporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     public void rodaRelogio() {
         try {

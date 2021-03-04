@@ -39,7 +39,7 @@ public class ControleAcessoGeral {
         return objCampos;
     }
 
-    public CamposAcessos buscarNivelUsuario(CamposAcessos objCampos) {
+    public CamposAcessos pesquisarNivelUsuario(CamposAcessos objCampos) {
         conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT "
