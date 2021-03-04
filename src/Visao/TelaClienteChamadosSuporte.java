@@ -35,7 +35,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     //
     private TelaChamadoSuporte objChamaSup = null;
     private TelaOcorrenciasHD objOcr = null;
-    private TelaRecados objjAgendaRec = null;
+    private TelaRecadosCliente objjAgendaRec = null;
     private TelaAgendaCompromissos objAgendaComp = null;
     //
     public static int pTOTAL_REGISTROS_aberto = 0;
@@ -689,7 +689,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaRecado) && objCampos.getCodigoAbrir() == 1) {
             if (objjAgendaRec == null || objjAgendaRec.isClosed()) {
-                objjAgendaRec = new TelaRecados();
+                objjAgendaRec = new TelaRecadosCliente();
                 jPainelDesktop.add(objjAgendaRec);
                 objjAgendaRec.setVisible(true);
             } else {
@@ -704,7 +704,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
                         objjAgendaRec.pack();//volta frame 
                     }
                 } else {
-                    objjAgendaRec = new TelaRecados();
+                    objjAgendaRec = new TelaRecadosCliente();
                     TelaClienteChamadosSuporte.jPainelDesktop.add(objjAgendaRec);//adicona frame ao JDesktopPane  
                     objjAgendaRec.setVisible(true);
                 }
