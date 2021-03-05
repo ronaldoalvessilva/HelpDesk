@@ -3139,11 +3139,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         try {
             conecta.executaSQL("SELECT "
                     + "TipoServidor, "
-                    + "TipoBancoDados "
+                    + "TipoBanco "
                     + "FROM SOFTWARE");
             conecta.rs.first();
             tipoServidor = conecta.rs.getString("TipoServidor");
-            tipoBancoDados = conecta.rs.getString("TipoBancoDados");
+            tipoBancoDados = conecta.rs.getString("TipoBanco");
         } catch (Exception e) {
         }
         conecta.desconecta();
