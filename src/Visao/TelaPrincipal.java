@@ -15,6 +15,7 @@ import Modelo.CadastroTelasSistema;
 import Modelo.ChamadoSuporte;
 import Util.SQL.TableExample;
 import static Visao.LoginHD.nameUser;
+import static Visao.LoginHD.pTOTAL_REGISTROS_dia;
 import static Visao.TelaAgendaCompromissos.jAssunto;
 import static Visao.TelaAgendaCompromissos.jBtAlterarComp;
 import static Visao.TelaAgendaCompromissos.jBtCancelarComp;
@@ -117,7 +118,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     //VARIAVEL QUE IMPEDI OUTRO USUÁRIO A EDITAR OU EXCLUIR O REGISTRO CRIADO PELO USUÁRIO QUE CRIOU
     public static String nomeUserRegistro;
     //
-    int tempo = (1000 * 60) * 10;   // 5 min.  
+    int tempo = (1000 * 60) * 1;   // 1 min.  
     int periodo = 1;  // quantidade de vezes a ser executado.  
     //
     //
@@ -2430,8 +2431,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 jTotalChamadosFechados.setText(String.valueOf(pTOTAL_REGISTROS_fechado));
             }
             //ATENDIMENTOS NO DIA
-            for (ChamadoSuporte cp2 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
-                jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_fechado));
+            for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
+                jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
             }
         } catch (Exception ex) {
             Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -2754,7 +2755,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public void buscarAcessoUsuario(String nomeTelaAcesso) {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM USUARIOS "
+            conecta.executaSQL("SELECT "
+                    + "IdUsuario, "
+                    + "NomeUsuario "
+                    + "FROM USUARIOS "
                     + "WHERE NomeUsuario='" + nameUser + "'");
             conecta.rs.first();
             codigoUser = conecta.rs.getInt("IdUsuario");
@@ -2762,7 +2766,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM TELAS_ACESSO "
+            conecta.executaSQL("SELECT "
+                    + "IdUsuario, "
+                    + "Abrir, "
+                    + "Incluir, "
+                    + "Alterar, "
+                    + "Excluir, "
+                    + "Gravar, "
+                    + "Consultar, "
+                    + "NomeTela "
+                    + "FROM TELAS_ACESSO "
                     + "WHERE IdUsuario='" + codigoUser + "' "
                     + "AND NomeTela='" + nomeTelaAcesso + "'");
             conecta.rs.first();
@@ -2785,7 +2798,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
             buscarUsuario(nameUser);
             conecta.abrirConexao();
             try {
-                conecta.executaSQL("SELECT * FROM AGENDA_RECADOS "
+                conecta.executaSQL("SELECT "
+                        + "IdUsuario, "
+                        + "StatusAgenda "
+                        + "FROM AGENDA_RECADOS "
                         + "WHERE IdUsuario='" + codUsuario + "' "
                         + "AND StatusAgenda='" + statusAgenda + "'");
                 conecta.rs.first();
@@ -2818,7 +2834,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     }
 
                     flag = 1;
-                    preencherTabelaTodosRecados("SELECT * FROM AGENDA_RECADOS "
+                    preencherTabelaTodosRecados("SELECT "
+                            + "StatusAgenda, "
+                            + "NomeUsuario "
+                            + "FROM AGENDA_RECADOS "
                             + "INNER JOIN USUARIOS "
                             + "ON AGENDA_RECADOS.IdUsuario=USUARIOS.IdUsuario "
                             + "WHERE NomeUsuario='" + nameUser + "' "
@@ -2833,7 +2852,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         jBtConfirmar.setEnabled(true);
                         conecta.abrirConexao();
                         try {
-                            conecta.executaSQL("SELECT * FROM AGENDA_RECADOS "
+                            conecta.executaSQL("SELECT "
+                                    + "IdLanc, "
+                                    + "DataLanc, "
+                                    + "Horario, "
+                                    + "StatusAgenda, "
+                                    + "NomeUsuarioLogado, "
+                                    + "NomeUsuario, "
+                                    + "Recados "
+                                    + "FROM AGENDA_RECADOS "
                                     + "INNER JOIN USUARIOS "
                                     + "ON AGENDA_RECADOS.IdUsuario=USUARIOS.IdUsuario "
                                     + "WHERE NomeUsuario='" + nameUser + "' "
@@ -2864,7 +2891,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public void buscarUsuario(String nomeUser) {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM USUARIOS "
+            conecta.executaSQL("SELECT "
+                    + "IdUsuario, "
+                    + "NomeUsuario "
+                    + "FROM USUARIOS "
                     + "WHERE NomeUsuario='" + nomeUser + "'");
             conecta.rs.first();
             codUsuario = conecta.rs.getInt("IdUsuario");
@@ -3107,7 +3137,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public void verificarParametrosSRV() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM SOFTWARE");
+            conecta.executaSQL("SELECT "
+                    + "TipoServidor, "
+                    + "TipoBancoDados "
+                    + "FROM SOFTWARE");
             conecta.rs.first();
             tipoServidor = conecta.rs.getString("TipoServidor");
             tipoBancoDados = conecta.rs.getString("TipoBancoDados");

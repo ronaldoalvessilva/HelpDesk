@@ -1907,6 +1907,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "Informe o assunto do chamdo.");
             } else if (jComboBoxAtendente.getSelectedItem().equals("Selecione...")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o nome do Atendente.");
+            } else if (jComboBoxTipoChamadoSuporte.getSelectedItem() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Selecine o tipo de chamado.");
+            } else if (jComboBoxTipoChamadoSuporte.getSelectedItem().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Selecine o tipo de chamado.");
+            } else if (jComboBoxTipoChamadoSuporte.getSelectedItem().equals("Selecione...")) {
+                JOptionPane.showMessageDialog(rootPane, "Selecine o tipo de chamado.");
             } else {
                 objCHSup.setStatusCha(jStatusChamado.getText());
                 objCHSup.setDataCha(jDataChamado.getDate());
@@ -2917,7 +2923,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     public void NovoCliente() {
         limparTodosCampos();
         bloquearCampos();
-        bloquearBotoes();       
+        bloquearBotoes();
         jStatusChamado.setText("ABERTO NO SUPORTE TÉCNICO");
         jDataChamado.setCalendar(Calendar.getInstance());
         jComboBoxAtendente.setEnabled(true);
