@@ -29,6 +29,7 @@ import static Visao.TelaChamadoSuporte.jUnidadePrisional;
 import static Visao.TelaClienteChamadosSuporte.pTOTAL_REGISTROS_aberto;
 import static Visao.TelaClienteChamadosSuporte.pTOTAL_REGISTROS_fechado;
 import static Visao.TelaPrincipal.nomeUserRegistro;
+import static Visao.TelaPrincipal.pDATA_pesquisa;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -1269,7 +1270,7 @@ public class ChamadosSuporteDao {
                     + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
                     + "WHERE NomeUsuario='" + nameUser + "' "
                     + "AND StatusCha LIKE'%" + pSTATUS_CHAMADO_fechado + "%' "
-                    + "AND DataCha='" + pDATA_sistema + "'");
+                    + "AND DataCha>='" + pDATA_pesquisa + "'");
             while (conecta.rs.next()) {
                 ChamadoSuporte pITENS_chamado = new ChamadoSuporte();
                 pITENS_chamado.setIdCHSup(conecta.rs.getInt("IdCHSup"));

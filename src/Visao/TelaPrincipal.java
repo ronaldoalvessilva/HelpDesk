@@ -15,6 +15,7 @@ import Modelo.CadastroTelasSistema;
 import Modelo.ChamadoSuporte;
 import Util.SQL.TableExample;
 import static Visao.LoginHD.nameUser;
+import static Visao.LoginHD.pDATA_sistema;
 import static Visao.LoginHD.pTOTAL_REGISTROS_dia;
 import static Visao.TelaAgendaCompromissos.jAssunto;
 import static Visao.TelaAgendaCompromissos.jBtAlterarComp;
@@ -206,6 +207,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     //    
     public static String tipoServidor = "";
     public static String tipoBancoDados = "";
+    //
+    public static String pDATA_pesquisa;
 
     public static TelaTrocaSenha telaTrocaSenha;
 
@@ -2431,8 +2434,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 jTotalChamadosFechados.setText(String.valueOf(pTOTAL_REGISTROS_fechado));
             }
             //ATENDIMENTOS NO DIA
-            for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
-                jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
+            if (tipoServidor == null || tipoServidor.equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
+            } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
+                pDATA_pesquisa = jDataSistema.getText();
+                String ano = pDATA_pesquisa.substring(6, 10);
+                String mes = pDATA_pesquisa.substring(3, 5);
+                String dia = pDATA_pesquisa.substring(0, 2);
+                pDATA_pesquisa = ano + "/" + mes + "/" + dia;                
+                for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
+                    jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
+                }
+            } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
+                for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
+                    jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
