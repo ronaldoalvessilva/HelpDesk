@@ -8,9 +8,11 @@ package Visao;
 import Controle.ModeloTabela;
 import Controle.converterDataStringDataDate;
 import static Controle.converterDataStringDataDate.dataSisConvert;
+import Dao.ChamadosSuporteDao;
 import Dao.ConexaoBancoDados;
 import Dao.telasSistemaDao;
 import Modelo.CadastroTelasSistema;
+import Modelo.ChamadoSuporte;
 import Util.SQL.TableExample;
 import static Visao.LoginHD.nameUser;
 import static Visao.TelaAgendaCompromissos.jAssunto;
@@ -36,6 +38,8 @@ import static Visao.TelaAgendaCompromissos.jNomeUsuarioAgenda;
 import static Visao.TelaAgendaCompromissos.jTabelaAgendaEventos;
 import static Visao.TelaAgendaCompromissos.jTextoEvento;
 import static Visao.TelaAgendaCompromissos.jtotalRegistros;
+import static Visao.TelaClienteChamadosSuporte.pTOTAL_REGISTROS_aberto;
+import static Visao.TelaClienteChamadosSuporte.pTOTAL_REGISTROS_fechado;
 import static Visao.TelaRecados.jBtAlterar;
 import static Visao.TelaRecados.jBtCancelar;
 import static Visao.TelaRecados.jBtConfirmar;
@@ -51,6 +55,7 @@ import static Visao.TelaRecados.jNomeDestinatario;
 import static Visao.TelaRecados.jNomeRementente;
 import static Visao.TelaRecados.jRecado;
 import static Visao.TelaRecados.jTabelaTodosRecados;
+import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -62,6 +67,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -80,6 +87,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss"); // HORAIO DE 24 HORAS, PARA O DE 12 HORAS UTILIZAR hh:mm:ss
     SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
     converterDataStringDataDate convertedata = new converterDataStringDataDate();
+    //
+    ChamadoSuporte objCHSup = new ChamadoSuporte();
+    ChamadosSuporteDao CONTROL = new ChamadosSuporteDao();
     //    
     private TelaEmpresa objEmp = null;
     private TelaOcorrenciasHD objOcr = null;
@@ -233,7 +243,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pesquisarTelasAcessos();
         verificarParametrosSRV();
         threadMensagem(); // A cada 5 minutos verifica mensagem   
-
+        corCampos();
+        TOTALIZADOR_CHAMADOS_atendente();
     }
 
     public void mostrarTelaTrocaSenha() {
@@ -256,6 +267,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jPainelPrincipal = new javax.swing.JDesktopPane();
         jLabel6 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jTotalChamadosAtendidosPeriodo = new javax.swing.JTextField();
+        jTotalChamadosFechados = new javax.swing.JTextField();
+        jTotalChamadosAberto = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jBtOcorrencias = new javax.swing.JButton();
         jBtEmpresa = new javax.swing.JButton();
@@ -296,8 +314,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jSolicitantes = new javax.swing.JMenuItem();
         jatendentes = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jUsuarios = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        jUsuarios = new javax.swing.JMenuItem();
         jSoftware = new javax.swing.JMenuItem();
         jModulosSistema = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -325,14 +343,90 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/help-desk-icon-button-online-600w-193844171.jpg"))); // NOI18N
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(153, 0, 0));
+        jLabel7.setText("Chamados em Aberto:");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 102, 0));
+        jLabel8.setText("Chamados Atendidos:");
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel9.setText("Atendimentos no dia:");
+
+        jTotalChamadosAtendidosPeriodo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTotalChamadosAtendidosPeriodo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalChamadosAtendidosPeriodo.setText("0");
+        jTotalChamadosAtendidosPeriodo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalChamadosAtendidosPeriodo.setDisabledTextColor(new java.awt.Color(0, 0, 204));
+        jTotalChamadosAtendidosPeriodo.setEnabled(false);
+
+        jTotalChamadosFechados.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTotalChamadosFechados.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalChamadosFechados.setText("0");
+        jTotalChamadosFechados.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalChamadosFechados.setDisabledTextColor(new java.awt.Color(0, 102, 0));
+        jTotalChamadosFechados.setEnabled(false);
+
+        jTotalChamadosAberto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTotalChamadosAberto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalChamadosAberto.setText("0");
+        jTotalChamadosAberto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalChamadosAberto.setDisabledTextColor(new java.awt.Color(153, 0, 0));
+        jTotalChamadosAberto.setEnabled(false);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTotalChamadosAberto, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTotalChamadosFechados, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTotalChamadosAtendidosPeriodo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
+                .addGap(3, 10, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jTotalChamadosAberto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jTotalChamadosFechados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel9)
+                    .addComponent(jTotalChamadosAtendidosPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jTotalChamadosAberto, jTotalChamadosAtendidosPeriodo, jTotalChamadosFechados});
+
         jPainelPrincipal.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jPainelPrincipal.setLayer(jPanel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jPainelPrincipalLayout = new javax.swing.GroupLayout(jPainelPrincipal);
         jPainelPrincipal.setLayout(jPainelPrincipalLayout);
         jPainelPrincipalLayout.setHorizontalGroup(
             jPainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPainelPrincipalLayout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPainelPrincipalLayout.createSequentialGroup()
+                .addGap(2, 2, 2)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -341,6 +435,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPainelPrincipalLayout.createSequentialGroup()
                 .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPainelPrincipalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204))));
@@ -580,7 +678,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(16, Short.MAX_VALUE)
                 .addComponent(jBtRelatoriosSuporteTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtChamadosSuporte, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -721,6 +819,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jCadastro.add(jatendentes);
         jCadastro.add(jSeparator2);
 
+        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191524_16.png"))); // NOI18N
+        jMenu4.setText("Configurações");
+
         jUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         jUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191009_16.png"))); // NOI18N
         jUsuarios.setMnemonic('U');
@@ -730,10 +831,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 jUsuariosActionPerformed(evt);
             }
         });
-        jCadastro.add(jUsuarios);
-
-        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191524_16.png"))); // NOI18N
-        jMenu4.setText("Sistemas e Módulos");
+        jMenu4.add(jUsuarios);
 
         jSoftware.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         jSoftware.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191524_16.png"))); // NOI18N
@@ -916,7 +1014,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 265, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jToolBar4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -2252,6 +2350,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLoginConectado;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
@@ -2260,6 +2361,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public static javax.swing.JDesktopPane jPainelPrincipal;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JMenu jRelatorios;
@@ -2275,11 +2377,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
     private javax.swing.JToolBar jToolBar4;
+    private javax.swing.JTextField jTotalChamadosAberto;
+    private javax.swing.JTextField jTotalChamadosAtendidosPeriodo;
+    private javax.swing.JTextField jTotalChamadosFechados;
     private javax.swing.JMenuItem jUsuarios;
     private javax.swing.JMenuItem jatendentes;
     private javax.swing.JMenuItem listagemChamadosDesenvolvimento;
     private javax.swing.JMenuItem listagemChamadosSuporteTecnico;
     // End of variables declaration//GEN-END:variables
+
+    public void corCampos() {
+        jTotalChamadosAberto.setBackground(Color.white);
+        jTotalChamadosFechados.setBackground(Color.white);
+        jTotalChamadosAtendidosPeriodo.setBackground(Color.white);
+    }
 
     // Verificar a cada 5 minutos se o recado foi lido (10/01/2015)
     public void threadMensagem() {
@@ -2305,6 +2416,25 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 Thread.sleep(1000);
             }
         } catch (InterruptedException ex) {
+        }
+    }
+
+    public void TOTALIZADOR_CHAMADOS_atendente() {
+        try {
+            //CHAMADOS ABERTO POR USUÁRIO
+            for (ChamadoSuporte cp1 : CONTROL.QUANDIDADE_CHAMADOS_ABERTO_ATENDENTE_read()) {
+                jTotalChamadosAberto.setText(String.valueOf(pTOTAL_REGISTROS_aberto));
+            }
+            //CHAMDOS FECHADO POR USUÁRIO
+            for (ChamadoSuporte cp2 : CONTROL.QUANDIDADE_CHAMADOS_FECHADO_ATENDENTE_read()) {
+                jTotalChamadosFechados.setText(String.valueOf(pTOTAL_REGISTROS_fechado));
+            }
+            //ATENDIMENTOS NO DIA
+            for (ChamadoSuporte cp2 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
+                jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_fechado));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
