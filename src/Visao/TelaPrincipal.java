@@ -244,7 +244,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         verificarParametrosSRV();
         threadMensagem(); // A cada 5 minutos verifica mensagem   
         corCampos();
-        TOTALIZADOR_CHAMADOS_atendente();
     }
 
     public void mostrarTelaTrocaSenha() {
@@ -2401,6 +2400,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             public void run() {
                 verificarRecado(); // Verificar recados a cada 5 minutos               
                 verificarAgendaCompromisso();
+                TOTALIZADOR_CHAMADOS_atendente();
             }
         }, periodo, tempo);
     }
