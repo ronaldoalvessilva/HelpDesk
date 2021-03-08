@@ -834,7 +834,10 @@ public class TelaAgendaCompromissos extends javax.swing.JInternalFrame {
         if (jCodigoPesq.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Informe o código para pesquisa.");
         } else {
-            preencherTabelaAgendaCompromisso("SELECT * FROM AGENDA_COMPROMISSOS "
+            preencherTabelaAgendaCompromisso("SELECT "
+                    + "IdAgenda, "
+                    + "UsuarioAgenda "
+                    + "FROM AGENDA_COMPROMISSOS "
                     + "WHERE IdAgenda='" + jCodigoPesq.getText() + "' "
                     + "AND UsuarioAgenda='" + nameUser + "'");
         }

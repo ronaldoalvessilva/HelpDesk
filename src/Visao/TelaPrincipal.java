@@ -2441,7 +2441,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 String ano = pDATA_pesquisa.substring(6, 10);
                 String mes = pDATA_pesquisa.substring(3, 5);
                 String dia = pDATA_pesquisa.substring(0, 2);
-                pDATA_pesquisa = ano + "/" + mes + "/" + dia;                
+                pDATA_pesquisa = ano + "/" + mes + "/" + dia;
                 for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
                     jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
                 }
@@ -2956,8 +2956,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     public void verificarAgendaCompromisso() {
-        buscarAcessoUsuario(telaAgendaRecado);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaAgendaRecado) && codAbrir == 1) {
+        buscarAcessoUsuario(telaAgendaCompromisso);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaAgendaCompromisso) && codAbrir == 1) {
             convertedata.converter(jDataSistema.getText());
             if (tipoServidor == null || tipoServidor.equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
@@ -2965,7 +2965,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 buscarUsuario(nameUser);
                 conecta.abrirConexao();
                 try {
-                    conecta.executaSQL("SELECT * FROM AGENDA_COMPROMISSOS "
+                    conecta.executaSQL("SELECT "
+                            + "StatusAgenda, "
+                            + "DataLembrete, "
+                            + "HoraLembrete, "
+                            + "UsuarioAgenda, "
+                            + "IdAgenda "
+                            + "FROM AGENDA_COMPROMISSOS "
                             + "WHERE UsuarioAgenda='" + nameUser + "' "
                             + "AND StatusAgenda='" + statusAgenda + "' "
                             + "AND DataLembrete='" + dataSisConvert + "' "
@@ -2981,7 +2987,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         objAgendaComp.show();
                         //
                         flag = 1;
-                        preencherTabelaAgendaCompromisso("SELECT * FROM AGENDA_COMPROMISSOS "
+                        preencherTabelaAgendaCompromisso("SELECT "
+                                + "IdAgenda, "
+                                + "StatusAgenda, "
+                                + "DataLembrete, "
+                                + "HoraLembrete, "
+                                + "UsuarioAgenda "
+                                + "FROM AGENDA_COMPROMISSOS "
                                 + "WHERE AGENDA_COMPROMISSOS.UsuarioAgenda='" + nameUser + "' "
                                 + "AND AGENDA_COMPROMISSOS.StatusAgenda='" + statusAgenda + "' "
                                 + "AND DataLembrete='" + dataSisConvert + "' "
@@ -2996,7 +3008,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                             jBtConfirmarCompromisso.setEnabled(true);
                             conecta.abrirConexao();
                             try {
-                                conecta.executaSQL("SELECT * FROM AGENDA_COMPROMISSOS "
+                                conecta.executaSQL("SELECT "
+                                        + "* "
+                                        + "FROM AGENDA_COMPROMISSOS "
                                         + "WHERE AGENDA_COMPROMISSOS.UsuarioAgenda='" + nomeUsuarioCompromisso + "' "
                                         + "AND AGENDA_COMPROMISSOS.StatusAgenda='" + statusAgenda + "' "
                                         + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "' "
@@ -3030,7 +3044,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 buscarUsuario(nameUser);
                 conecta.abrirConexao();
                 try {
-                    conecta.executaSQL("SELECT * FROM AGENDA_COMPROMISSOS "
+                    conecta.executaSQL("SELECT "
+                            + "IdAgenda, "
+                            + "StatusAgenda, "
+                            + "DataLembrete, "
+                            + "HoraLembrete, "
+                            + "UsuarioAgenda "
+                            + "FROM AGENDA_COMPROMISSOS "
                             + "WHERE UsuarioAgenda='" + nameUser + "' "
                             + "AND StatusAgenda='" + statusAgenda + "' "
                             + "AND DataLembrete='" + jDataSistema.getText() + "' "
@@ -3046,7 +3066,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         objAgendaComp.show();
                         //
                         flag = 1;
-                        preencherTabelaAgendaCompromisso("SELECT * FROM AGENDA_COMPROMISSOS "
+                        preencherTabelaAgendaCompromisso("SELECT "
+                                + "IdAgenda, "
+                                + "StatusAgenda, "
+                                + "DataLembrete, "
+                                + "HoraLembrete, "
+                                + "UsuarioAgenda "
+                                + "FROM AGENDA_COMPROMISSOS "
                                 + "WHERE AGENDA_COMPROMISSOS.UsuarioAgenda='" + nameUser + "' "
                                 + "AND AGENDA_COMPROMISSOS.StatusAgenda='" + statusAgenda + "' "
                                 + "AND DataLembrete='" + jDataSistema.getText() + "' "
@@ -3061,7 +3087,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                             jBtConfirmarCompromisso.setEnabled(true);
                             conecta.abrirConexao();
                             try {
-                                conecta.executaSQL("SELECT * FROM AGENDA_COMPROMISSOS "
+                                conecta.executaSQL("SELECT "
+                                        + "* "
+                                        + "FROM AGENDA_COMPROMISSOS "
                                         + "WHERE AGENDA_COMPROMISSOS.UsuarioAgenda='" + nomeUsuarioCompromisso + "' "
                                         + "AND AGENDA_COMPROMISSOS.StatusAgenda='" + statusAgenda + "' "
                                         + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "' "
