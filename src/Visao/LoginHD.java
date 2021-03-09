@@ -63,6 +63,7 @@ public class LoginHD extends javax.swing.JDialog {
     public static String pHORA_sistema;
     //
     public static int pTOTAL_REGISTROS_dia = 0;
+    public static int pTOTAL_REGISTROS_EM_atendimento = 0;
     /**
      * Creates new form LoginHD
      */

@@ -217,6 +217,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jLabel19 = new javax.swing.JLabel();
         jPesquisarAssunto = new javax.swing.JTextField();
         jBtAssunto = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        jComboBoxStatus = new javax.swing.JComboBox<>();
+        jBtStatus = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -243,6 +246,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jBtReabrir = new javax.swing.JButton();
         jBtSair = new javax.swing.JButton();
         jBtAuditoriaItem = new javax.swing.JButton();
+        jToggleButtonStatus = new javax.swing.JToggleButton();
         jPanel9 = new javax.swing.JPanel();
         jBtNovo = new javax.swing.JButton();
         jBtAlterar = new javax.swing.JButton();
@@ -461,12 +465,27 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel20.setText("Status:");
+
+        jComboBoxStatus.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Aberto", "Fechado", "Atendimento" }));
+        jComboBoxStatus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+        jBtStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
+        jBtStatus.setContentAreaFilled(false);
+        jBtStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtStatusActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(88, 88, 88)
+                .addGap(66, 66, 66)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel19)
                     .addComponent(jLabel13)
@@ -475,33 +494,39 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addComponent(jPesqSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jBtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel10Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel10Layout.createSequentialGroup()
                                 .addComponent(jIdChamadoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtPesqCHCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCheckBoxTodosCH)))
-                        .addGap(114, 114, 114))
+                                .addComponent(jBtPesqCHCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(92, 92, 92))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jLabel15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jPesquisarAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel20)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jPesquisarAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jCheckBoxTodosCH)))
+                .addGap(44, 44, 44))
         );
 
         jPanel10Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPesqSolicitante, jPesquisarAssunto});
@@ -509,32 +534,32 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(19, 19, 19)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel12)
                     .addComponent(jIdChamadoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtPesqCHCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBoxTodosCH))
+                    .addComponent(jBtPesqCHCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                .addComponent(jLabel15)
-                                .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel14)
-                                .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jBtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPesqSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel19)
-                            .addComponent(jPesquisarAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jBtAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jBtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20)
+                    .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15)
+                    .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jBtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPesqSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jCheckBoxTodosCH)
+                    .addComponent(jBtAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPesquisarAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -563,7 +588,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
                 .addGap(3, 3, 3)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -794,23 +819,36 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             }
         });
 
+        jToggleButtonStatus.setForeground(new java.awt.Color(0, 102, 0));
+        jToggleButtonStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/tick.png"))); // NOI18N
+        jToggleButtonStatus.setText("A. Status");
+        jToggleButtonStatus.setToolTipText("Altarar Status do Atendimento");
+        jToggleButtonStatus.setEnabled(false);
+        jToggleButtonStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonStatusActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBtReabrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jBtEncerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jBtSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jBtReabrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBtEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBtImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBtAuditoriaItem, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(33, 33, 33)))
+                    .addComponent(jToggleButtonStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBtAuditoriaItem, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
         );
 
         jPanel8Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtEncerrar, jBtEnviar, jBtImprimir, jBtReabrir, jBtSair});
@@ -820,7 +858,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jBtEncerrar)
-                .addGap(37, 37, 37)
+                .addGap(18, 18, 18)
+                .addComponent(jToggleButtonStatus)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBtEnviar)
                 .addGap(1, 1, 1)
                 .addComponent(jBtReabrir)
@@ -828,7 +868,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addComponent(jBtImprimir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtAuditoriaItem)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jBtSair)
                 .addContainerGap())
         );
@@ -1501,10 +1541,10 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTabbedPane2)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 628, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1512,7 +1552,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel2, jScrollPane4, jTabbedPane2});
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel2, jTabbedPane2});
 
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1526,7 +1566,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addGap(4, 4, 4)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Manutenção", jPanel4);
@@ -1806,10 +1846,14 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encontra-se no desenvolvimento...");
                 } else {
                     if (pCLIENTE_servidor.equals("Cliente")) {
-                        horaMov = pHORA_sistema;
-                        dataModFinal = pDATA_sistema;
-                        acao = 2;
-                        AlterarCliente();
+                        if (jStatusChamado.getText().equals("EM ATENDIMENTO NO SUPORTE TÉCNICO") && !jComboBoxAtendente.getSelectedItem().equals(nameUser)) {
+                            JOptionPane.showMessageDialog(rootPane, "Não é Possível alterar esse chamado. O chamado está sendo atendido no suporte técnico.");
+                        } else {
+                            horaMov = pHORA_sistema;
+                            dataModFinal = pDATA_sistema;
+                            acao = 2;
+                            AlterarCliente();
+                        }
                     } else if (pCLIENTE_servidor.equals("Servidor")) {
                         statusMov = "Alterou";
                         horaMov = jHoraSistema.getText();
@@ -1849,15 +1893,19 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encontra-se no desenvolvimento...");
                     } else {
                         if (pCLIENTE_servidor.equals("Cliente")) {
-                            statusMov = "Excluiu";
-                            horaMov = pHORA_sistema;
-                            dataModFinal = pDATA_sistema;
-                            int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
-                                    JOptionPane.YES_NO_OPTION);
-                            if (resposta == JOptionPane.YES_OPTION) {
-                                objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                                CONTROL.excluirChamadoSup(objCHSup);
-                                Excluir();
+                            if (jStatusChamado.getText().equals("EM ATENDIMENTO NO SUPORTE TÉCNICO") && !jComboBoxAtendente.getSelectedItem().equals(nameUser)) {
+                                JOptionPane.showMessageDialog(rootPane, "Não é Possível alterar esse chamado. O chamado está sendo atendido no suporte técnico.");
+                            } else {
+                                statusMov = "Excluiu";
+                                horaMov = pHORA_sistema;
+                                dataModFinal = pDATA_sistema;
+                                int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
+                                        JOptionPane.YES_NO_OPTION);
+                                if (resposta == JOptionPane.YES_OPTION) {
+                                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                                    CONTROL.excluirChamadoSup(objCHSup);
+                                    Excluir();
+                                }
                             }
                         } else if (pCLIENTE_servidor.equals("Servidor")) {
                             statusMov = "Excluiu";
@@ -2657,9 +2705,41 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         if (jPesquisarAssunto.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Informe o assunto para pesquisa.");
         } else {
+            pLIMPAR_TABELA_chamados();
             MOSTRAR_TABELA_assuntos();
         }
     }//GEN-LAST:event_jBtAssuntoActionPerformed
+
+    private void jBtStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtStatusActionPerformed
+        // TODO add your handling code here:
+        if (jComboBoxStatus.getSelectedItem().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de status.");
+        } else if (jComboBoxStatus.getSelectedItem().equals("Aberto")) {
+            pLIMPAR_TABELA_chamados();
+            MOSTRAR_STATUS_aberto();
+        } else if (jComboBoxStatus.getSelectedItem().equals("Fechado")) {
+            pLIMPAR_TABELA_chamados();
+            MOSTRAR_STATUS_fechado();
+        }else if(jComboBoxStatus.getSelectedItem().equals("Atendimento")){
+            pLIMPAR_TABELA_chamados();
+            MOSTRAR_STATUS_andamento();
+        }
+    }//GEN-LAST:event_jBtStatusActionPerformed
+
+    private void jToggleButtonStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonStatusActionPerformed
+        // TODO add your handling code here:
+        if (jIdChamado.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Não existe registro selecionado.");
+        } else if (jStatusChamado.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Não existe registro selecionado.");
+        } else {
+            if (jToggleButtonStatus.isSelected()) {
+                jStatusChamado.setText("EM ATENDIMENTO NO SUPORTE TÉCNICO");
+            } else {
+                jStatusChamado.setText("ABERTO NO SUPORTE TÉCNICO");
+            }
+        }
+    }//GEN-LAST:event_jToggleButtonStatusActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2696,12 +2776,14 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     public static javax.swing.JButton jBtSalvar;
     public static javax.swing.JButton jBtSalvarItem;
     private javax.swing.JButton jBtSolicitante;
+    private javax.swing.JButton jBtStatus;
     private javax.swing.JButton jBtVisualizaFigura1;
     private javax.swing.JButton jBtVisualizaFigura2;
     private javax.swing.JButton jBtVisualizaFigura3;
     private javax.swing.JButton jBtVisualizaFigura4;
     private javax.swing.JCheckBox jCheckBoxTodosCH;
     public static javax.swing.JComboBox<String> jComboBoxAtendente;
+    private javax.swing.JComboBox<String> jComboBoxStatus;
     private javax.swing.JComboBox<String> jComboBoxTipoChamadoSuporte;
     private com.toedter.calendar.JDateChooser jDataChamado;
     private com.toedter.calendar.JDateChooser jDataOcorrencia;
@@ -2728,6 +2810,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2770,6 +2853,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTabelaItens;
     private javax.swing.JTextArea jTextoDesenvolvimento;
     private javax.swing.JTextArea jTextoSuporte;
+    private javax.swing.JToggleButton jToggleButtonStatus;
     public static javax.swing.JTextField jUnidadePrisional;
     private javax.swing.JLabel jtotalRegistros;
     // End of variables declaration//GEN-END:variables
@@ -2829,6 +2913,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jBtSalvar.setEnabled(!true);
         jBtCancelar.setEnabled(!true);
         jBtAuditoria.setEnabled(!true);
+        jToggleButtonStatus.setEnabled(!true);
         //
         jBtEncerrar.setEnabled(!true);
         jBtImprimir.setEnabled(!true);
@@ -2944,6 +3029,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jComboBoxTipoChamadoSuporte.setEnabled(true);
         jAssunto.setEnabled(true);
         jBtPesquisaSoli.setEnabled(true);
+        jToggleButtonStatus.setEnabled(true);
         //
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
@@ -3170,7 +3256,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                     jComboBoxTipoChamadoSuporte.setSelectedItem(b.getTipoChamadoSuporte());
                 }
             } catch (Exception ex) {
-                Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TelaChamadoSuporte.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
             pLIMPAR_TABELA_itens();
             MOSTRAR_ITENS_chamado();
@@ -3249,7 +3336,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3275,7 +3363,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3301,7 +3390,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3327,7 +3417,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3353,7 +3444,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3379,7 +3471,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3405,7 +3498,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3431,7 +3525,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3457,7 +3552,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3483,7 +3579,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3509,7 +3606,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3535,7 +3633,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3561,7 +3660,88 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void MOSTRAR_STATUS_aberto() {
+        DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaChamdosSup.getModel();
+        ChamadoSuporte d = new ChamadoSuporte();
+        try {
+            for (ChamadoSuporte dd : CONTROL.PESQUISAR_STATUS_aberto_read()) {
+                pDATA_Registros = String.valueOf(dd.getDataCha());
+                String dia = pDATA_Registros.substring(8, 10);
+                String mes = pDATA_Registros.substring(5, 7);
+                String ano = pDATA_Registros.substring(0, 4);
+                pDATA_Registros = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                dadosOrigem.addRow(new Object[]{dd.getIdCHSup(), pDATA_Registros, dd.getStatusCha(), dd.getAssunto(), dd.getNomeSolicitante(), dd.getDescricaoUnidade()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaChamdosSup.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void MOSTRAR_STATUS_fechado() {
+        DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaChamdosSup.getModel();
+        ChamadoSuporte d = new ChamadoSuporte();
+        try {
+            for (ChamadoSuporte dd : CONTROL.PESQUISAR_STATUS_fechado_read()) {
+                pDATA_Registros = String.valueOf(dd.getDataCha());
+                String dia = pDATA_Registros.substring(8, 10);
+                String mes = pDATA_Registros.substring(5, 7);
+                String ano = pDATA_Registros.substring(0, 4);
+                pDATA_Registros = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                dadosOrigem.addRow(new Object[]{dd.getIdCHSup(), pDATA_Registros, dd.getStatusCha(), dd.getAssunto(), dd.getNomeSolicitante(), dd.getDescricaoUnidade()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaChamdosSup.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void MOSTRAR_STATUS_andamento() {
+        DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaChamdosSup.getModel();
+        ChamadoSuporte d = new ChamadoSuporte();
+        try {
+            for (ChamadoSuporte dd : CONTROL.PESQUISAR_STATUS_andamento_read()) {
+                pDATA_Registros = String.valueOf(dd.getDataCha());
+                String dia = pDATA_Registros.substring(8, 10);
+                String mes = pDATA_Registros.substring(5, 7);
+                String ano = pDATA_Registros.substring(0, 4);
+                pDATA_Registros = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                dadosOrigem.addRow(new Object[]{dd.getIdCHSup(), pDATA_Registros, dd.getStatusCha(), dd.getAssunto(), dd.getNomeSolicitante(), dd.getDescricaoUnidade()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaChamdosSup.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3589,7 +3769,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaItens.getColumnModel().getColumn(3).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 

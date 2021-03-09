@@ -16,6 +16,7 @@ import Modelo.ChamadoSuporte;
 import Util.SQL.TableExample;
 import static Visao.LoginHD.nameUser;
 import static Visao.LoginHD.pDATA_sistema;
+import static Visao.LoginHD.pTOTAL_REGISTROS_EM_atendimento;
 import static Visao.LoginHD.pTOTAL_REGISTROS_dia;
 import static Visao.TelaAgendaCompromissos.jAssunto;
 import static Visao.TelaAgendaCompromissos.jBtAlterarComp;
@@ -277,6 +278,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jTotalChamadosAtendidosPeriodo = new javax.swing.JTextField();
         jTotalChamadosFechados = new javax.swing.JTextField();
         jTotalChamadosAberto = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jTotalChamadosEmAtendimento = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jBtOcorrencias = new javax.swing.JButton();
         jBtEmpresa = new javax.swing.JButton();
@@ -382,30 +385,55 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jTotalChamadosAberto.setDisabledTextColor(new java.awt.Color(153, 0, 0));
         jTotalChamadosAberto.setEnabled(false);
 
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel10.setText("Chamados em Atendimento:");
+
+        jTotalChamadosEmAtendimento.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTotalChamadosEmAtendimento.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalChamadosEmAtendimento.setText("0");
+        jTotalChamadosEmAtendimento.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalChamadosEmAtendimento.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTotalChamadosEmAtendimento.setEnabled(false);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTotalChamadosAberto, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTotalChamadosFechados, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTotalChamadosAtendidosPeriodo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
-                .addGap(3, 10, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTotalChamadosEmAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTotalChamadosAberto, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTotalChamadosFechados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTotalChamadosAtendidosPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTotalChamadosAberto, jTotalChamadosAtendidosPeriodo, jTotalChamadosEmAtendimento, jTotalChamadosFechados});
+
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(14, 14, 14)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jTotalChamadosAberto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jTotalChamadosEmAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -414,7 +442,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel9)
                     .addComponent(jTotalChamadosAtendidosPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jTotalChamadosAberto, jTotalChamadosAtendidosPeriodo, jTotalChamadosFechados});
@@ -2348,6 +2376,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public static javax.swing.JTextField jHoraSistema;
     private javax.swing.JMenuItem jInformacoes;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -2382,6 +2411,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar4;
     private javax.swing.JTextField jTotalChamadosAberto;
     private javax.swing.JTextField jTotalChamadosAtendidosPeriodo;
+    private javax.swing.JTextField jTotalChamadosEmAtendimento;
     private javax.swing.JTextField jTotalChamadosFechados;
     private javax.swing.JMenuItem jUsuarios;
     private javax.swing.JMenuItem jatendentes;
@@ -2433,6 +2463,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
             for (ChamadoSuporte cp2 : CONTROL.QUANDIDADE_CHAMADOS_FECHADO_ATENDENTE_read()) {
                 jTotalChamadosFechados.setText(String.valueOf(pTOTAL_REGISTROS_fechado));
             }
+            //EM ATENDIMENTO
+            for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
+                jTotalChamadosEmAtendimento.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
+            }
             //ATENDIMENTOS NO DIA
             if (tipoServidor == null || tipoServidor.equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
@@ -2442,11 +2476,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 String mes = pDATA_pesquisa.substring(3, 5);
                 String dia = pDATA_pesquisa.substring(0, 2);
                 pDATA_pesquisa = ano + "/" + mes + "/" + dia;
-                for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
+                for (ChamadoSuporte cp4 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
                     jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
                 }
             } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
-                for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
+                for (ChamadoSuporte cp4 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
                     jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
                 }
             }

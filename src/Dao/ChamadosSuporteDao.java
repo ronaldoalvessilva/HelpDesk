@@ -7,7 +7,7 @@ package Dao;
 
 import Modelo.ChamadoSuporte;
 import static Visao.LoginHD.nameUser;
-import static Visao.LoginHD.pDATA_sistema;
+import static Visao.LoginHD.pTOTAL_REGISTROS_EM_atendimento;
 import static Visao.LoginHD.pTOTAL_REGISTROS_dia;
 import static Visao.TelaChamadoSuporte.dataFinal;
 import static Visao.TelaChamadoSuporte.dataInicial;
@@ -56,6 +56,7 @@ public class ChamadosSuporteDao {
     String pSTATUS_atendente = "Ativo";
     String pSTATUS_CHAMADO_aberto = "ABERTO";
     String pSTATUS_CHAMADO_fechado = "ENCERRADO";
+    String pSTATUS_CHAMADO_EM_atendimento = "EM ATENDIMENTO NO SUPORTE TÉCNICO";
 
     public ChamadoSuporte incluirChamadoSup(ChamadoSuporte objCHSup) {
         pesquisarUsuario(objCHSup.getNomeUsuario());
@@ -1280,6 +1281,161 @@ public class ChamadosSuporteDao {
                 pTOTAL_REGISTROS_dia++;
             }
             return LISTA_ITENS_chamado;
+        } catch (SQLException ex) {
+            Logger.getLogger(ChamadosSuporteDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+    
+     public List<ChamadoSuporte> QUANDIDADE_CHAMADOS_EM_ATENDENTE_read() throws Exception {
+        pTOTAL_REGISTROS_EM_atendimento = 0;
+        conecta.abrirConexao();
+        List<ChamadoSuporte> LISTA_ITENS_chamado = new ArrayList<ChamadoSuporte>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdCHSup, "
+                    + "StatusCha, "
+                    + "DataCha, "
+                    + "NomeUsuario "
+                    + "FROM CHAMADOS_SUPORTE "
+                    + "INNER JOIN USUARIOS "
+                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                    + "WHERE NomeUsuario='" + nameUser + "' "
+                    + "AND StatusCha='" + pSTATUS_CHAMADO_EM_atendimento + "'");
+            while (conecta.rs.next()) {
+                ChamadoSuporte pITENS_chamado = new ChamadoSuporte();
+                pITENS_chamado.setIdCHSup(conecta.rs.getInt("IdCHSup"));
+                pITENS_chamado.setStatusCha(conecta.rs.getString("StatusCha"));
+                pITENS_chamado.setNomeSolicitante(conecta.rs.getString("NomeUsuario"));
+                LISTA_ITENS_chamado.add(pITENS_chamado);
+                pTOTAL_REGISTROS_EM_atendimento++;
+            }
+            return LISTA_ITENS_chamado;
+        } catch (SQLException ex) {
+            Logger.getLogger(ChamadosSuporteDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    public List<ChamadoSuporte> PESQUISAR_STATUS_aberto_read() throws Exception {
+        pTOTAL_REGISTROS_dia = 0;
+        conecta.abrirConexao();
+        List<ChamadoSuporte> LISTA_chamados = new ArrayList<ChamadoSuporte>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdCHSup, "
+                    + "DataCha, "
+                    + "StatusCha, "
+                    + "AssuntoSuporte, "
+                    + "NomeSolicitante, "
+                    + "DescricaoUnidade "
+                    + "FROM CHAMADOS_SUPORTE "
+                    + "INNER JOIN USUARIOS "
+                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                    + "INNER JOIN SOLICITANTES "
+                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
+                    + "WHERE NomeUsuario='" + nameUser + "' "
+                    + "AND StatusCha LIKE'%" + pSTATUS_CHAMADO_aberto + "%' ");
+            while (conecta.rs.next()) {
+                ChamadoSuporte chamadoSuporte = new ChamadoSuporte();
+                chamadoSuporte.setIdCHSup(conecta.rs.getInt("IdCHSup"));
+                chamadoSuporte.setDataCha(conecta.rs.getDate("DataCha"));
+                chamadoSuporte.setStatusCha(conecta.rs.getString("StatusCha"));
+                chamadoSuporte.setAssunto(conecta.rs.getString("AssuntoSuporte"));
+                chamadoSuporte.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                chamadoSuporte.setDescricaoUnidade(conecta.rs.getString("DescricaoUnidade"));
+                LISTA_chamados.add(chamadoSuporte);
+                pTOTAL_REGISTROS_dia++;
+            }
+            return LISTA_chamados;
+        } catch (SQLException ex) {
+            Logger.getLogger(ChamadosSuporteDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    public List<ChamadoSuporte> PESQUISAR_STATUS_fechado_read() throws Exception {
+        pTOTAL_REGISTROS_dia = 0;
+        conecta.abrirConexao();
+        List<ChamadoSuporte> LISTA_chamados = new ArrayList<ChamadoSuporte>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdCHSup, "
+                    + "DataCha, "
+                    + "StatusCha, "
+                    + "AssuntoSuporte, "
+                    + "NomeSolicitante, "
+                    + "DescricaoUnidade "
+                    + "FROM CHAMADOS_SUPORTE "
+                    + "INNER JOIN USUARIOS "
+                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                    + "INNER JOIN SOLICITANTES "
+                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
+                    + "WHERE NomeUsuario='" + nameUser + "' "
+                    + "AND StatusCha LIKE'%" + pSTATUS_CHAMADO_fechado + "%' ");
+            while (conecta.rs.next()) {
+                ChamadoSuporte chamadoSuporte = new ChamadoSuporte();
+                chamadoSuporte.setIdCHSup(conecta.rs.getInt("IdCHSup"));
+                chamadoSuporte.setDataCha(conecta.rs.getDate("DataCha"));
+                chamadoSuporte.setStatusCha(conecta.rs.getString("StatusCha"));
+                chamadoSuporte.setAssunto(conecta.rs.getString("AssuntoSuporte"));
+                chamadoSuporte.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                chamadoSuporte.setDescricaoUnidade(conecta.rs.getString("DescricaoUnidade"));
+                LISTA_chamados.add(chamadoSuporte);
+                pTOTAL_REGISTROS_dia++;
+            }
+            return LISTA_chamados;
+        } catch (SQLException ex) {
+            Logger.getLogger(ChamadosSuporteDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+    
+    public List<ChamadoSuporte> PESQUISAR_STATUS_andamento_read() throws Exception {
+        pTOTAL_REGISTROS_dia = 0;
+        conecta.abrirConexao();
+        List<ChamadoSuporte> LISTA_chamados = new ArrayList<ChamadoSuporte>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdCHSup, "
+                    + "DataCha, "
+                    + "StatusCha, "
+                    + "AssuntoSuporte, "
+                    + "NomeSolicitante, "
+                    + "DescricaoUnidade "
+                    + "FROM CHAMADOS_SUPORTE "
+                    + "INNER JOIN USUARIOS "
+                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                    + "INNER JOIN SOLICITANTES "
+                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
+                    + "WHERE NomeUsuario='" + nameUser + "' "
+                    + "AND StatusCha='" + pSTATUS_CHAMADO_EM_atendimento + "' ");
+            while (conecta.rs.next()) {
+                ChamadoSuporte chamadoSuporte = new ChamadoSuporte();
+                chamadoSuporte.setIdCHSup(conecta.rs.getInt("IdCHSup"));
+                chamadoSuporte.setDataCha(conecta.rs.getDate("DataCha"));
+                chamadoSuporte.setStatusCha(conecta.rs.getString("StatusCha"));
+                chamadoSuporte.setAssunto(conecta.rs.getString("AssuntoSuporte"));
+                chamadoSuporte.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                chamadoSuporte.setDescricaoUnidade(conecta.rs.getString("DescricaoUnidade"));
+                LISTA_chamados.add(chamadoSuporte);
+                pTOTAL_REGISTROS_dia++;
+            }
+            return LISTA_chamados;
         } catch (SQLException ex) {
             Logger.getLogger(ChamadosSuporteDao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
