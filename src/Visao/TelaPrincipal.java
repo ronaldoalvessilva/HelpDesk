@@ -2421,6 +2421,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     public void corCampos() {
         jTotalChamadosAberto.setBackground(Color.white);
+        jTotalChamadosEmAtendimento.setBackground(Color.white);
         jTotalChamadosFechados.setBackground(Color.white);
         jTotalChamadosAtendidosPeriodo.setBackground(Color.white);
     }
