@@ -15,6 +15,7 @@ import static Visao.LoginHD.nameUser;
 import static Visao.LoginHD.pCLIENTE_servidor;
 import static Visao.LoginHD.pDATA_sistema;
 import static Visao.LoginHD.pHORA_sistema;
+import static Visao.LoginHD.pTOTAL_REGISTROS_dia;
 import static Visao.TelaPrincipal.botaoEncerrarSup;
 import static Visao.TelaPrincipal.botaoEnviarSup;
 import static Visao.TelaPrincipal.botaoImprimirSup;
@@ -3675,7 +3676,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 String mes = pDATA_Registros.substring(5, 7);
                 String ano = pDATA_Registros.substring(0, 4);
                 pDATA_Registros = dia + "/" + mes + "/" + ano;
-                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                jtotalRegistros.setText(Integer.toString(pTOTAL_REGISTROS_dia));
                 dadosOrigem.addRow(new Object[]{dd.getIdCHSup(), pDATA_Registros, dd.getStatusCha(), dd.getAssunto(), dd.getNomeSolicitante(), dd.getDescricaoUnidade()});
                 // BARRA DE ROLAGEM HORIZONTAL
                 jTabelaChamdosSup.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -3728,7 +3729,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 String mes = pDATA_Registros.substring(5, 7);
                 String ano = pDATA_Registros.substring(0, 4);
                 pDATA_Registros = dia + "/" + mes + "/" + ano;
-                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                jtotalRegistros.setText(Integer.toString(pTOTAL_REGISTROS_dia));
                 dadosOrigem.addRow(new Object[]{dd.getIdCHSup(), pDATA_Registros, dd.getStatusCha(), dd.getAssunto(), dd.getNomeSolicitante(), dd.getDescricaoUnidade()});
                 // BARRA DE ROLAGEM HORIZONTAL
                 jTabelaChamdosSup.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
