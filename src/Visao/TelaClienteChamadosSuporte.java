@@ -812,7 +812,9 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
 
     private void jRelatoriosChamadosSuporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRelatoriosChamadosSuporteActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(rootPane, "Em desenvolvimento...");
+        TelaRelatorioGeralChamadosSuporteTecnicoCliente objRelChamadoCliente = new TelaRelatorioGeralChamadosSuporteTecnicoCliente();
+        jPainelDesktop.add(objRelChamadoCliente);
+        objRelChamadoCliente.show();
     }//GEN-LAST:event_jRelatoriosChamadosSuporteActionPerformed
 
     /**

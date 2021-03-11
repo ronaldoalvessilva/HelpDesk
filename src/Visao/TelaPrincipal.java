@@ -68,6 +68,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -77,6 +78,11 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -1832,7 +1838,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void listagemChamadosSuporteTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listagemChamadosSuporteTecnicoActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(rootPane, "Em desenvolvimento...");
+        TelaRelatorioGeralChamadosSuporteTecnico objRelChamados = new TelaRelatorioGeralChamadosSuporteTecnico();
+        jPainelPrincipal.add(objRelChamados);
+        objRelChamados.show();
     }//GEN-LAST:event_listagemChamadosSuporteTecnicoActionPerformed
 
     private void listagemChamadosDesenvolvimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listagemChamadosDesenvolvimentoActionPerformed

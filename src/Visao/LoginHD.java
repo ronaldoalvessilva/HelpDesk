@@ -64,6 +64,9 @@ public class LoginHD extends javax.swing.JDialog {
     //
     public static int pTOTAL_REGISTROS_dia = 0;
     public static int pTOTAL_REGISTROS_EM_atendimento = 0;
+    //
+    public static String tipoServidor = "";
+    public static String tipoBancoDados = "";
     /**
      * Creates new form LoginHD
      */
@@ -88,6 +91,8 @@ public class LoginHD extends javax.swing.JDialog {
         String date = formatter2.format(data); // Hora da conexão
         pDATA_sistema = String.valueOf(hora);    // no lugar do label, por seu JTextField    
         pHORA_sistema = String.valueOf(date);
+        //
+        verificarParametrosSRV();
     }
 
     public void mostrarTelaAmbos() {
@@ -325,5 +330,21 @@ public class LoginHD extends javax.swing.JDialog {
             jLogin.setText("");
             jSenha.setText("");
         }
+    }
+    // PARAMETRO PARA IDENTIFICAR O OS DO SERVIDOR DE BANCO DE DADOS.
+
+    public void verificarParametrosSRV() {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "TipoServidor, "
+                    + "TipoBanco "
+                    + "FROM SOFTWARE");
+            conecta.rs.first();
+            tipoServidor = conecta.rs.getString("TipoServidor");
+            tipoBancoDados = conecta.rs.getString("TipoBanco");
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
     }
 }
