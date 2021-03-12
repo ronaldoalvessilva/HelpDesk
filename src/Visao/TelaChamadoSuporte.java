@@ -133,6 +133,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     public static TelaPesquisaSoftwareModulo pesqSM;
     public static TelaEnvioChamadoSuporteDesenvolvimento enviaDadosDes;
     public static PdfView pPDF_ANEXO;
+    public static DownloadFileExecutavel pEXE_ANEXO;
     public static TelaFotoHelpDesk1 pFOTO1;
     public static TelaFotoHelpDesk2 pFOTO2;
     public static TelaFotoHelpDesk3 pFOTO3;
@@ -164,6 +165,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         pPDF_ANEXO.setVisible(true);
     }
 
+    public void mostrarEXE(){
+        pEXE_ANEXO = new DownloadFileExecutavel(this, true);
+        pEXE_ANEXO.setVisible(true);
+    }
+    
     public void mostraTelaFotoDoc1() {
         pFOTO1 = new TelaFotoHelpDesk1(this, true);
         pFOTO1.setVisible(true);
@@ -248,6 +254,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jBtSair = new javax.swing.JButton();
         jBtAuditoriaItem = new javax.swing.JButton();
         jToggleButtonStatus = new javax.swing.JToggleButton();
+        jBtAnexarArquivo = new javax.swing.JButton();
+        jBtEXE = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jBtNovo = new javax.swing.JButton();
         jBtAlterar = new javax.swing.JButton();
@@ -281,7 +289,6 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jBtAlterarItem = new javax.swing.JButton();
         jBtNovoItem = new javax.swing.JButton();
         jBtExcluirItem = new javax.swing.JButton();
-        jBtAnexarArquivo = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         jFigura1 = new javax.swing.JLabel();
@@ -589,7 +596,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
                 .addGap(3, 3, 3)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -831,25 +838,52 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             }
         });
 
+        jBtAnexarArquivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Pdf16.png"))); // NOI18N
+        jBtAnexarArquivo.setText("PDF");
+        jBtAnexarArquivo.setToolTipText("Anexar Pdf");
+        jBtAnexarArquivo.setEnabled(false);
+        jBtAnexarArquivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtAnexarArquivoActionPerformed(evt);
+            }
+        });
+
+        jBtEXE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Download-16.png"))); // NOI18N
+        jBtEXE.setText("EXE");
+        jBtEXE.setToolTipText("Anexar arquivos executável");
+        jBtEXE.setEnabled(false);
+        jBtEXE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtEXEActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jBtEncerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jBtReabrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBtEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBtImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBtAuditoriaItem, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(33, 33, 33)))
-                    .addComponent(jToggleButtonStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jToggleButtonStatus))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jBtEncerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBtSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jBtReabrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jBtEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jBtImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jBtAuditoriaItem, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(33, 33, 33)))
+                            .addComponent(jBtAnexarArquivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBtEXE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         jPanel8Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtEncerrar, jBtEnviar, jBtImprimir, jBtReabrir, jBtSair});
@@ -857,10 +891,14 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
                 .addComponent(jBtEncerrar)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jToggleButtonStatus)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtAnexarArquivo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtEXE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBtEnviar)
                 .addGap(1, 1, 1)
@@ -869,7 +907,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addComponent(jBtImprimir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtAuditoriaItem)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtSair)
                 .addContainerGap())
         );
@@ -1116,15 +1154,6 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             }
         });
 
-        jBtAnexarArquivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Pdf16.png"))); // NOI18N
-        jBtAnexarArquivo.setToolTipText("Anexar Pdf");
-        jBtAnexarArquivo.setEnabled(false);
-        jBtAnexarArquivo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtAnexarArquivoActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
@@ -1140,9 +1169,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addComponent(jBtSalvarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
                 .addComponent(jBtCancelarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addComponent(jBtAnexarArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         jPanel11Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtAlterarItem, jBtCancelarItem, jBtExcluirItem, jBtNovoItem, jBtSalvarItem});
@@ -1156,8 +1183,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                     .addComponent(jBtAlterarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 23, Short.MAX_VALUE)
                     .addComponent(jBtExcluirItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jBtSalvarItem)
-                    .addComponent(jBtCancelarItem)
-                    .addComponent(jBtAnexarArquivo))
+                    .addComponent(jBtCancelarItem))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1567,7 +1593,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 .addGap(4, 4, 4)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Manutenção", jPanel4);
@@ -1580,10 +1606,10 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
         );
 
-        setBounds(250, 0, 792, 558);
+        setBounds(250, 0, 792, 567);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtPesqCHCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesqCHCodigoActionPerformed
@@ -2454,6 +2480,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             jBtCancelarItem.setEnabled(true);
             jBtAuditoriaItem.setEnabled(true);
             jBtAnexarArquivo.setEnabled(true);
+            jBtEXE.setEnabled(true);
             //
             jBtVisualizaFigura1.setEnabled(true);
             jBtVisualizaFigura2.setEnabled(true);
@@ -2742,6 +2769,15 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jToggleButtonStatusActionPerformed
 
+    private void jBtEXEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtEXEActionPerformed
+        // TODO add your handling code here:
+        if (jIdChamado.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Selecione primeiro o chamado abaixo para anexar o arquivo EXE.");
+        } else {
+            mostrarEXE();
+        }
+    }//GEN-LAST:event_jBtEXEActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField jAssunto;
@@ -2753,6 +2789,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     public static javax.swing.JButton jBtAuditoriaItem;
     public static javax.swing.JButton jBtCancelar;
     public static javax.swing.JButton jBtCancelarItem;
+    private javax.swing.JButton jBtEXE;
     public static javax.swing.JButton jBtEncerrar;
     public static javax.swing.JButton jBtEnviar;
     public static javax.swing.JButton jBtExcluir;
@@ -2931,6 +2968,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         jBtCancelarItem.setEnabled(!true);
         jBtAuditoriaItem.setEnabled(!true);
         jBtAnexarArquivo.setEnabled(!true);
+        jBtEXE.setEnabled(!true);
         //
         jBtNovaFigura1.setEnabled(!true);
         jBtExcluirFigura1.setEnabled(!true);

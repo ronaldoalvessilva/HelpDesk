@@ -6,7 +6,6 @@
 package Visao;
 
 import Dao.Sql;
-import Dao.PdfDAO;
 import Modelo.PdfVO;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -18,10 +17,12 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import Dao.Tabela_PdfVO;
-import Dao.Tabela_PdfVODoc;
 import Dao.ConexaoBancoDados;
+import Dao.ExeDAO;
 import Dao.LogSistemaDao;
+import Dao.Tabela_ExeVO;
+import static Dao.Tabela_ExeVO.count_ExeVO;
+import Dao.Tabela_ExeVODoc;
 import static Dao.Tabela_PdfVO.count_PdfVO;
 import static Dao.Tabela_PdfVODoc.count_PdfVODoc;
 import Modelo.ChamadoSuporte;
@@ -38,18 +39,18 @@ import java.awt.Toolkit;
  *
  * @author ronal
  */
-public class PdfView extends javax.swing.JDialog {
+public class DownloadFileExecutavel extends javax.swing.JDialog {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     ChamadoSuporte objCHSuporte = new ChamadoSuporte();
     PdfVO objPdf = new PdfVO();
     //
-    Tabela_PdfVO tpdf = new Tabela_PdfVO();
-    Tabela_PdfVODoc tpdfDoc = new Tabela_PdfVODoc();
+    Tabela_ExeVO texe = new Tabela_ExeVO();
+    Tabela_ExeVODoc texeDoc = new Tabela_ExeVODoc();
     LogSistemaDao controlLog = new LogSistemaDao();
     LogSistema objLogSys = new LogSistema();
     // Variáveis para gravar o log
-    String nomeModuloTela = "HelpDesk:Adicionar-Consultar:Documentação Chamados";
+    String nomeModuloTela = "HelpDesk:Adicionar-Consultar:Arquivo Executável";
     String statusMov;
     String horaMov;
     String dataModFinal;
@@ -57,27 +58,26 @@ public class PdfView extends javax.swing.JDialog {
     String rota_documento = "";
     int id = -1;
     int acao = 0;
-    //
     String pDESCRICAO_arquivo = "";
-    public static String pRESPOSTA_pdf = "";
+    public static String pRESPOSTA_download = "";
 
     /**
      * Creates new form PdfView
      */
-    public static TelaChamadoSuporte pTELA_PDF_ANEXO;
+    public static TelaChamadoSuporte pTELA_EXE_ANEXO;
 
-    public PdfView(TelaChamadoSuporte parent, boolean modal) {
-        this.pTELA_PDF_ANEXO = parent;
+    public DownloadFileExecutavel(TelaChamadoSuporte parent, boolean modal) {
+        this.pTELA_EXE_ANEXO = parent;
         this.setModal(modal);
-        setLocationRelativeTo(pTELA_PDF_ANEXO);
+        setLocationRelativeTo(pTELA_EXE_ANEXO);
         initComponents();
         //
         validadosAcessoCRC_TRIAGEM();
         corCampos();
-        tpdf.visualizar_PdfBean(tabela);//tabela
+        texe.visualizar_ExeBean(tabela);//tabela
         habilitaBotao(!true, true, !true, !true, !true, !true);
         txtDocumento.setEnabled(!true);
-        jtotalRegistrosPDF.setText(String.valueOf(count_PdfVO));
+        jtotalRegistrosPDF.setText(String.valueOf(count_ExeVO));
     }
 
     /**
@@ -120,9 +120,9 @@ public class PdfView extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("...::: Adicionar/Consultar Documentação de Internos :::...");
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Imagens/Pdf16.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Imagens/Download-16.png")));
 
-        pdfCamposjPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Detalhes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(0, 0, 255))); // NOI18N
+        pdfCamposjPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Detalhes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(153, 0, 0))); // NOI18N
 
         docjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         docjLabel.setText("Descrição: ");
@@ -191,7 +191,7 @@ public class PdfView extends javax.swing.JDialog {
 
         pdfCamposjPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnPesquisar, btnSelecionar});
 
-        pdfGradejPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "PDF", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(204, 0, 0))); // NOI18N
+        pdfGradejPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "EXE/JAR", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(0, 0, 204))); // NOI18N
 
         tabela.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         tabela.setModel(new javax.swing.table.DefaultTableModel(
@@ -461,17 +461,20 @@ public class PdfView extends javax.swing.JDialog {
 
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
         // TODO add your handling code here:
-        selecionarPdf();
+        selecionarExe();
     }//GEN-LAST:event_btnSelecionarActionPerformed
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         // TODO add your handling code here:
+
         int column = tabela.getColumnModel().getColumnIndexAtX(evt.getX());
         int row = evt.getY() / tabela.getRowHeight();
         habilitaBotao(!true, !true, true, true, false, true);
         txtDocumento.setEnabled(true);
         txtPesquisa.setEnabled(false);
         if (row < tabela.getRowCount() && row >= 0 && column < tabela.getColumnCount() && column >= 0) {
+            pDESCRICAO_arquivo = "" + tabela.getValueAt(tabela.getSelectedRow(), 1);
+            txtDocumento.setText(pDESCRICAO_arquivo);
             id = (int) tabela.getValueAt(row, 0);
             Object value = tabela.getValueAt(row, column);
             if (value instanceof JButton) {
@@ -482,9 +485,9 @@ public class PdfView extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(null, "sem PDF");
                 }
             } else {
-                PdfDAO pd = new PdfDAO();
-                pd.exibir_PDF(id, pDESCRICAO_arquivo);//Revisar se é o método correto
-                if (pRESPOSTA_pdf.equals("Sim")) {
+                ExeDAO pd = new ExeDAO();
+                pd.exibir_EXE(id, pDESCRICAO_arquivo);//Revisar se é o método correto
+                if (pRESPOSTA_download.equals("Sim")) {
                     JOptionPane.showMessageDialog(rootPane, "Arquivo criado com sucesso.");
                     int resposta = JOptionPane.showConfirmDialog(this, "Deseja abrir o arquivo criado?", "Confirmação",
                             JOptionPane.YES_NO_OPTION);
@@ -494,8 +497,8 @@ public class PdfView extends javax.swing.JDialog {
                         } catch (Exception e) {
                         }
                     }
-                } else if (pRESPOSTA_pdf.equals("Não")) {
-                    JOptionPane.showMessageDialog(rootPane, "Não foi possível criar o arquivo, tente novamente.");
+                } else if (pRESPOSTA_download.equals("Não")) {
+                    JOptionPane.showMessageDialog(rootPane, "Não foi possível criar arquivo. Tente novamente.");
                 }
             }
         } else {
@@ -510,8 +513,8 @@ public class PdfView extends javax.swing.JDialog {
         statusMov = "Excluiu";
         horaMov = jHoraSistema.getText();
         dataModFinal = jDataSistema.getText();
-        excluirPdf(id);
-        tpdf.visualizar_PdfBean(tabela);
+        excluirExe(id);
+        texe.visualizar_ExeBean(tabela);
         habilitaBotao(!true, true, !true, !true, !true, !true);
         txtDocumento.setEnabled(!true);
         rota_documento = "";
@@ -523,11 +526,11 @@ public class PdfView extends javax.swing.JDialog {
             String nome = txtDocumento.getText();
             objCHSuporte.setIdCHSup(Integer.valueOf(jCodigoCHAMADO_PDF.getText()));
             Sql s = new Sql();
-            int codigo = s.auto_icrement("SELECT MAX(IdPdf) FROM PDF_CHAMADOS_SUPORTE;");
+            int codigo = s.auto_icrement("SELECT MAX(IdEXE) FROM DWL_EXE_CHAMADOS_SUPORTE;");
             File rota = new File(rota_documento);
             if (nome.trim().length() != 0 && rota_documento.trim().length() != 0) {
-                salvarPdf(codigo, objCHSuporte.getIdCHSup(), nome, rota);
-                tpdf.visualizar_PdfBean(tabela);
+                salvarExe(codigo, objCHSuporte.getIdCHSup(), nome, rota);
+                texe.visualizar_ExeBean(tabela);
                 rota_documento = "";
                 habilitaBotao(!true, true, !true, !true, !true, !true);
                 txtDocumento.setEnabled(false);
@@ -544,11 +547,11 @@ public class PdfView extends javax.swing.JDialog {
                 String nome = txtDocumento.getText();
                 File rota = new File(rota_documento);
                 if (nome.trim().length() != 0 && rota_documento.trim().length() != 0) {
-                    alterarPdf(id, nome, rota);
-                    tpdf.visualizar_PdfBean(tabela);
+                    alterarExe(id, nome, rota);
+                    texe.visualizar_ExeBean(tabela);
                 } else if (rota_documento.trim().length() == 0) {
-                    alterarPdf(id, nome);
-                    tpdf.visualizar_PdfBean(tabela);
+                    alterarExe(id, nome);
+                    texe.visualizar_ExeBean(tabela);
                 }
                 rota_documento = "";
                 habilitaBotao(!true, true, !true, !true, !true, !true);
@@ -596,7 +599,7 @@ public class PdfView extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(rootPane, "Informe o nome do Documento para pesquisa.");
         } else {
             count_PdfVO = 0;
-            tpdfDoc.visualizar_PdfBeanDoc(tabela);
+            texeDoc.visualizar_PdfBeanDoc(tabela);
             jtotalRegistrosPDF.setText(String.valueOf(count_PdfVODoc));
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
@@ -618,21 +621,23 @@ public class PdfView extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PdfView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DownloadFileExecutavel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PdfView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DownloadFileExecutavel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PdfView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DownloadFileExecutavel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PdfView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DownloadFileExecutavel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                PdfView dialog = new PdfView(pTELA_PDF_ANEXO, true);
+                DownloadFileExecutavel dialog = new DownloadFileExecutavel(pTELA_EXE_ANEXO, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -687,8 +692,8 @@ public class PdfView extends javax.swing.JDialog {
         jNomeAtendentePDF.setBackground(Color.white);
     }
 
-    public void salvarPdf(int codigo, int codInt, String nome, File rota) {
-        PdfDAO pa = new PdfDAO();
+    public void salvarExe(int codigo, int codInt, String nome, File rota) {
+        ExeDAO pa = new ExeDAO();
         PdfVO po = new PdfVO();
         po.setId(codigo);
         po.setIdCHSup(codInt);
@@ -701,7 +706,7 @@ public class PdfView extends javax.swing.JDialog {
         } catch (IOException e) {
             po.setDocumento(null);
         }
-        pa.inserir_PdfVO(po);
+        pa.inserir_ExeVO(po);
     }
 
     public void Cancelar() {
@@ -711,43 +716,43 @@ public class PdfView extends javax.swing.JDialog {
         txtPesquisa.setEnabled(true);
     }
 
-    public void alterarPdf(int codigo, String nome, File rota) {
-        PdfDAO pa = new PdfDAO();
+    public void alterarExe(int codigo, String nome, File rota) {
+        ExeDAO pa = new ExeDAO();
         PdfVO po = new PdfVO();
         po.setId(codigo);
         po.setDescricao(nome);
         try {
-            byte[] pdf = new byte[(int) rota.length()];
+            byte[] exe = new byte[(int) rota.length()];
             InputStream input = new FileInputStream(rota);
-            input.read(pdf);
-            po.setDocumento(pdf);
+            input.read(exe);
+            po.setDocumento(exe);
         } catch (IOException e) {
             po.setDocumento(null);
         }
-        pa.alterar_PdfVO(po);
+        pa.alterar_ExeVO(po);
     }
 
-    public void alterarPdf(int codigo, String nome) {
-        PdfDAO pa = new PdfDAO();
+    public void alterarExe(int codigo, String nome) {
+        ExeDAO pa = new ExeDAO();
         PdfVO po = new PdfVO();
         po.setId(codigo);
         po.setDescricao(nome);
-        pa.alterar_PdfVO2(po);
+        pa.alterar_ExeVO2(po);
     }
 
-    public void excluirPdf(int codigo) {
-        PdfDAO pa = new PdfDAO();
+    public void excluirExe(int codigo) {
+        ExeDAO pa = new ExeDAO();
         PdfVO po = new PdfVO();
         if (JOptionPane.showConfirmDialog(null, "Deseja realemente excluir o registro selecionado?", "Excluir", JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_NO_OPTION) {
             po.setId(codigo);
-            pa.excluir_PdfVO(po);
+            pa.excluir_ExeVO(po);
         }
     }
 
-    public void selecionarPdf() {
+    public void selecionarExe() {
         JFileChooser j = new JFileChooser();
-        FileNameExtensionFilter fi = new FileNameExtensionFilter("pdf", "PDF");
+        FileNameExtensionFilter fi = new FileNameExtensionFilter("jar", "JAR", "exe", "EXE");
         j.setFileFilter(fi);
         int se = j.showOpenDialog(this);
         if (se == 0) {
