@@ -191,7 +191,7 @@ public class DownloadFileExecutavel extends javax.swing.JDialog {
 
         pdfCamposjPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnPesquisar, btnSelecionar});
 
-        pdfGradejPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "EXE/JAR", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(0, 0, 204))); // NOI18N
+        pdfGradejPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "EXE/JAR/ZIP/WAR", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(0, 0, 204))); // NOI18N
 
         tabela.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         tabela.setModel(new javax.swing.table.DefaultTableModel(
@@ -752,7 +752,7 @@ public class DownloadFileExecutavel extends javax.swing.JDialog {
 
     public void selecionarExe() {
         JFileChooser j = new JFileChooser();
-        FileNameExtensionFilter fi = new FileNameExtensionFilter("jar", "JAR", "exe", "EXE");
+        FileNameExtensionFilter fi = new FileNameExtensionFilter("jar", "JAR", "exe", "EXE","zip","ZIP","war", "WAR");
         j.setFileFilter(fi);
         int se = j.showOpenDialog(this);
         if (se == 0) {
