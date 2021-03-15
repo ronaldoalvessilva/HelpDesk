@@ -9,6 +9,7 @@ import Dao.ConexaoBancoDados;
 import Dao.UsuarioDao;
 import Modelo.Usuarios;
 import Util.SQL.Utilitarios.Criptografia;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -119,6 +120,7 @@ public class LoginHD extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("...::: Login de Acesso :::...");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Imagens/Base1-18.png")));
 
         jBtConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/accept.png"))); // NOI18N
         jBtConfirmar.setText("Confirmar");

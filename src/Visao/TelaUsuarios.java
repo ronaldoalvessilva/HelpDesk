@@ -31,6 +31,10 @@ import static Visao.TelaPrincipal.telaCadastroAcessos;
 import static Visao.TelaPrincipal.telaCadastroCopiar;
 import static Visao.TelaPrincipal.telaCadastroUsuarios;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -44,11 +48,14 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
+import org.opencv.core.Core;
 
 /**
  *
@@ -101,8 +108,14 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     String codigoUsuario = "";
     String nomeUsuario = "";
     String pLogin = "";
-
+    //
+    public static String caminhoFotoFunc;
+    //ARRAY PARA FOTO DO COLABORADOR
+    byte[] persona_imagem = null;
+    //
     public static TelaCopiaPerfilUsuario pesquisarPerfilUsuario;
+    public static TelaBiometriaColaboradores pBIOMETRIA_ususarios;
+    public static TelaWebCamColaborador webCamFunc;
 
     /**
      * Creates new form TelaUsuarios
@@ -116,6 +129,16 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     public void mostrarUsuario() {
         pesquisarPerfilUsuario = new TelaCopiaPerfilUsuario(this, true);
         pesquisarPerfilUsuario.setVisible(true);
+    }
+
+    public void mostrarBiometria() {
+        pBIOMETRIA_ususarios = new TelaBiometriaColaboradores(this, true);
+        pBIOMETRIA_ususarios.setVisible(true);
+    }
+
+    public void mostrarWebCamFunc() {
+        webCamFunc = new TelaWebCamColaborador(this, true);
+        webCamFunc.setVisible(true);
     }
 
     /**
@@ -167,6 +190,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jBtSalvar = new javax.swing.JButton();
         jBtCancelar = new javax.swing.JButton();
         jBtSair = new javax.swing.JButton();
+        jBtCadastroBiometria = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -203,6 +227,12 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jBtNovoAcesso = new javax.swing.JButton();
         jBtSairAcesso = new javax.swing.JButton();
         jBtExcluirAcesso = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        jFotoUsuario = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jBtNovaFoto = new javax.swing.JButton();
+        jBtExcluirFoto = new javax.swing.JButton();
+        jBtZoom = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -344,7 +374,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -359,7 +389,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -471,12 +501,12 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Cargo)
                     .addComponent(jLabel6)
                     .addComponent(jLabel5)
-                    .addComponent(jCargo, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
+                    .addComponent(jCargo)
                     .addComponent(jSetorUsuario)
                     .addComponent(jNomeUsuario)
                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -486,7 +516,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBoxServidorCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jComboBoxServidorCliente, 0, 132, Short.MAX_VALUE))))
                 .addGap(18, 18, 18))
         );
         jPanel5Layout.setVerticalGroup(
@@ -593,33 +623,51 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             }
         });
 
+        jBtCadastroBiometria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Biometria16Vermelho.png"))); // NOI18N
+        jBtCadastroBiometria.setToolTipText("Cadastrar Biometria de usuário");
+        jBtCadastroBiometria.setEnabled(false);
+        jBtCadastroBiometria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtCadastroBiometriaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jBtNovo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtAlterar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtExcluir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtSalvar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
+                .addComponent(jBtCadastroBiometria, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
                 .addComponent(jBtSair, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(40, 40, 40))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jBtNovo)
-                .addComponent(jBtAlterar)
-                .addComponent(jBtExcluir)
-                .addComponent(jBtSalvar)
-                .addComponent(jBtCancelar))
-            .addComponent(jBtSair)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jBtCadastroBiometria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jBtNovo)
+                        .addComponent(jBtAlterar)
+                        .addComponent(jBtExcluir)
+                        .addComponent(jBtSalvar)
+                        .addComponent(jBtCancelar))
+                    .addComponent(jBtSair))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
@@ -650,36 +698,37 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jConfirmaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jConfirmaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLogin))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel8Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jConfirmaSenha, jSenhaUsuario});
 
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(jConfirmaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -688,12 +737,12 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -702,11 +751,10 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(9, 9, 9)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane1.addTab("Manutenção", jPanel2);
@@ -1006,17 +1054,16 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
                 .addComponent(jBtNovoAcesso)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtAlterarAcesso)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtExcluirAcesso)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtSalvarAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jBtCancelarAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBtSairAcesso)
-                .addContainerGap())
+                .addComponent(jBtSairAcesso))
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1039,7 +1086,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -1050,26 +1097,105 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Acessos", jPanel7);
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true), "Foto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(153, 0, 0))); // NOI18N
+
+        jFotoUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jFotoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jFotoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+        );
+
+        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jBtNovaFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/2998132-camera-photo-photography_99870.png"))); // NOI18N
+        jBtNovaFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtNovaFotoActionPerformed(evt);
+            }
+        });
+
+        jBtExcluirFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/191216104515_16.png"))); // NOI18N
+        jBtExcluirFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtExcluirFotoActionPerformed(evt);
+            }
+        });
+
+        jBtZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/11985_16x16.png"))); // NOI18N
+        jBtZoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtZoomActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jBtNovaFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1)
+                        .addComponent(jBtExcluirFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1)
+                        .addComponent(jBtZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 26, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
-        setBounds(320, 20, 470, 473);
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtExcluirFoto, jBtNovaFoto, jBtZoom});
+
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBtExcluirFoto)
+                    .addComponent(jBtNovaFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtZoom))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, Short.MAX_VALUE)
+        );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtExcluirFoto, jBtNovaFoto, jBtZoom});
+
+        setBounds(320, 20, 624, 466);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
@@ -1077,7 +1203,12 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         count = 0;
         flag = 1;
         if (evt.getStateChange() == evt.SELECTED) {
-            this.pesquisarTodos("SELECT * FROM USUARIOS ");
+            this.pesquisarTodos("SELECT "
+                    + "IdUsuario, "
+                    + "DataCadastro, "
+                    + "StatusUsuario, "
+                    + "NomeUsuario "
+                    + "FROM USUARIOS ");
         } else {
             limparTabela();
         }
@@ -1091,7 +1222,11 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(rootPane, "Informe dados para pesquisa.");
             jPesquisaUsuarioNome.requestFocus();
         } else {
-            pesquisarTodos("SELECT * FROM USUARIOS "
+            pesquisarTodos("SELECT "
+                    + "IdUsuario, "
+                    + "DataCadastro, "
+                    + "StatusUsuario, "
+                    + "NomeUsuario "
                     + "WHERE NomeUsuario LIKE'%" + jPesquisaUsuarioNome.getText() + "%'");
         }
     }//GEN-LAST:event_jBtPesquisarNomeUserActionPerformed
@@ -1110,12 +1245,25 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 jBtNovo.setEnabled(true);
                 jBtAlterar.setEnabled(true);
                 jBtExcluir.setEnabled(true);
+                jBtCadastroBiometria.setEnabled(true);
                 //
                 jBtCopiarPerfil.setEnabled(true);
             }
             conecta.abrirConexao();
             try {
-                conecta.executaSQL("SELECT * FROM USUARIOS "
+                conecta.executaSQL("SELECT "
+                        + "IdUsuario, "
+                        + "DataCadastro, "
+                        + "StatusUsuario, "
+                        + "NomeUsuario, "
+                        + "SetorUsuario, "
+                        + "CargoUsuario, "
+                        + "NivelUsuario, "
+                        + "LoginUsuario, "
+                        + "SenhaUsuario, "
+                        + "SenhaUsuario1, "
+                        + "ClienteServidor "
+                        + "FROM USUARIOS "
                         + "WHERE IdUsuario='" + user + "'");
                 conecta.rs.first();
                 jIdUsuario.setText(String.valueOf(conecta.rs.getInt("IdUsuario")));
@@ -1129,7 +1277,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                     nivelNome = "Desenvolvedor";
                 } else if (nivel == 1) {
                     nivelNome = "Suporte Técnico";
-                }else if(nivel == 2){
+                } else if (nivel == 2) {
                     nivelNome = "Técnico de Informática - UP";
                 }
                 jComboBoxNivelAcesso.setSelectedItem(nivelNome);
@@ -1141,7 +1289,16 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "Não foi possível listar usuario\nERRO: " + ex);
             }
             preencherTabelaAcessos("SELECT "
-                    + "* "
+                    + "IdTela, "
+                    + "NomeTela, "
+                    + "Abrir, "
+                    + "Incluir, "
+                    + "Alterar, "
+                    + "Excluir, "
+                    + "Gravar, "
+                    + "Consultar, "
+                    + "NomeModulo, "
+                    + "IdUsuario "
                     + "FROM TELAS_ACESSO "
                     + "WHERE IdUsuario='" + jIdUsuario.getText() + "'");
         }
@@ -1337,7 +1494,18 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jComboBoxConsultar.removeItem(evt);
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM TELAS_ACESSO "
+            conecta.executaSQL("SELECT "
+                    + "TELAS_ACESSO.IdTela, "
+                    + "TELAS_ACESSO.NomeTela, "
+                    + "TELAS_ACESSO.Abrir, "
+                    + "TELAS_ACESSO.Incluir, "
+                    + "TELAS_ACESSO.Alterar, "
+                    + "TELAS_ACESSO.Excluir, "
+                    + "TELAS_ACESSO.Gravar, "
+                    + "TELAS_ACESSO.Consultar, "
+                    + "TELAS_ACESSO.NomeModulo, "
+                    + "TELAS_ACESSO.IdUsuario "
+                    + "FROM TELAS_ACESSO "
                     + "INNER JOIN USUARIOS "
                     + "ON TELAS_ACESSO.IdUsuario=USUARIOS.IdUsuario "
                     + "WHERE TELAS_ACESSO.IdTela='" + idTela + "'");
@@ -1469,7 +1637,18 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                         objLog();
                         controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                         SalvarAcesso();
-                        preencherTabelaAcessos("SELECT * FROM TELAS_ACESSO "
+                        preencherTabelaAcessos("SELECT "
+                                + "IdTela, "
+                                + "NomeTela, "
+                                + "Abrir, "
+                                + "Incluir, "
+                                + "Alterar, "
+                                + "Excluir, "
+                                + "Gravar, "
+                                + "Consultar, "
+                                + "NomeModulo, "
+                                + "IdUsuario "
+                                + "FROM TELAS_ACESSO "
                                 + "WHERE IdUsuario='" + jIdUsuario.getText() + "'");
                         JOptionPane.showMessageDialog(rootPane, "Cadastro Realizado com sucesso");
                     }
@@ -1484,7 +1663,18 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                     objLog();
                     controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                     SalvarAcesso();
-                    preencherTabelaAcessos("SELECT * FROM TELAS_ACESSO "
+                    preencherTabelaAcessos("SELECT "
+                            + "IdTela, "
+                            + "NomeTela, "
+                            + "Abrir, "
+                            + "Incluir, "
+                            + "Alterar, "
+                            + "Excluir, "
+                            + "Gravar, "
+                            + "Consultar, "
+                            + "NomeModulo, "
+                            + "IdUsuario "
+                            + "FROM TELAS_ACESSO "
                             + "WHERE IdUsuario='" + jIdUsuario.getText() + "'");
                     JOptionPane.showMessageDialog(rootPane, "Cadastro Realizado com sucesso");
                 }
@@ -1537,7 +1727,9 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 objLog();
                 controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                 ExcluirAcesso();
-                preencherTabelaAcessos("SELECT * FROM TELAS_ACESSO "
+                preencherTabelaAcessos("SELECT "
+                        + "* "
+                        + "FROM TELAS_ACESSO "
                         + "WHERE IdUsuario='" + jIdUsuario.getText() + "'");
                 JOptionPane.showMessageDialog(null, "Registro excluído com sucesso.");
             }
@@ -1546,16 +1738,64 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jBtExcluirAcessoActionPerformed
 
+    private void jBtCadastroBiometriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCadastroBiometriaActionPerformed
+        // TODO add your handling code here:
+        if (jIdUsuario.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Pesquise o usuário primeiro para cadastrar ou alterar a biometria.");
+        } else {
+            mostrarBiometria();
+        }
+    }//GEN-LAST:event_jBtCadastroBiometriaActionPerformed
+
+    private void jBtNovaFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovaFotoActionPerformed
+        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+        int acao = chooser.showOpenDialog(this);
+        if (acao == JFileChooser.APPROVE_OPTION) {
+            File f = chooser.getSelectedFile();
+            caminhoFotoFunc = f.getAbsolutePath();
+            ImageIcon imagemicon = new ImageIcon(new ImageIcon(caminhoFotoFunc).getImage().getScaledInstance(jFotoUsuario.getWidth(), jFotoUsuario.getHeight(), Image.SCALE_SMOOTH));
+            jFotoUsuario.setIcon(imagemicon);
+            try {
+                File image = new File(caminhoFotoFunc);
+                FileInputStream fis = new FileInputStream(image);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] buf = new byte[1024];
+                for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                    bos.write(buf, 0, readNum);
+                }
+                persona_imagem = bos.toByteArray();
+            } catch (Exception e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Seleção da figura cancelada.");
+        }
+    }//GEN-LAST:event_jBtNovaFotoActionPerformed
+
+    private void jBtExcluirFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirFotoActionPerformed
+        // TODO add your handling code here:
+        jFotoUsuario.setIcon(null);
+    }//GEN-LAST:event_jBtExcluirFotoActionPerformed
+
+    private void jBtZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtZoomActionPerformed
+        // TODO add your handling code here:
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        mostrarWebCamFunc();
+    }//GEN-LAST:event_jBtZoomActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Cargo;
     private javax.swing.JButton jBtAlterar;
     private javax.swing.JButton jBtAlterarAcesso;
+    private javax.swing.JButton jBtCadastroBiometria;
     private javax.swing.JButton jBtCancelar;
     private javax.swing.JButton jBtCancelarAcesso;
     private javax.swing.JButton jBtCopiarPerfil;
     private javax.swing.JButton jBtExcluir;
     private javax.swing.JButton jBtExcluirAcesso;
+    private javax.swing.JButton jBtExcluirFoto;
+    private javax.swing.JButton jBtNovaFoto;
     private javax.swing.JButton jBtNovo;
     private javax.swing.JButton jBtNovoAcesso;
     private javax.swing.JButton jBtPesquisarNomeUser;
@@ -1563,6 +1803,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtSairAcesso;
     private javax.swing.JButton jBtSalvar;
     private javax.swing.JButton jBtSalvarAcesso;
+    private javax.swing.JButton jBtZoom;
     private javax.swing.JTextField jCargo;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox jComboBoxAbrir;
@@ -1577,6 +1818,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     public static javax.swing.JComboBox jComboBoxTelaAcesso;
     private javax.swing.JPasswordField jConfirmaSenha;
     private com.toedter.calendar.JDateChooser jDataCadastro;
+    public static javax.swing.JLabel jFotoUsuario;
     public static javax.swing.JTextField jIdUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1599,9 +1841,10 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField jLogin;
-    private javax.swing.JTextField jNomeUsuario;
+    public static javax.swing.JTextField jNomeUsuario;
     private javax.swing.JTextField jNomeUsuarioAcesso;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
@@ -1615,6 +1858,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JTextField jPesquisaUsuarioNome;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
@@ -1942,7 +2186,9 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     public void verificarTelaAcesso() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM TELAS_ACESSO "
+            conecta.executaSQL("SELECT "
+                    + "* "
+                    + "FROM TELAS_ACESSO "
                     + "WHERE NomeTela='" + jComboBoxTelaAcesso.getSelectedItem() + "' "
                     + "AND IdUsuario='" + jIdUsuario.getText() + "'");
             conecta.rs.first();
