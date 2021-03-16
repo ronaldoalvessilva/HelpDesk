@@ -3375,8 +3375,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3402,8 +3401,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3429,8 +3427,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3456,8 +3453,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3483,8 +3479,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3510,8 +3505,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3537,8 +3531,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3564,8 +3557,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3591,8 +3583,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3618,8 +3609,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3645,8 +3635,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3672,8 +3661,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3699,8 +3687,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3726,8 +3713,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3753,8 +3739,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public void MOSTRAR_STATUS_andamento() {
@@ -3779,8 +3764,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3808,8 +3792,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jTabelaItens.getColumnModel().getColumn(3).setCellRenderer(centralizado);
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaChamadoSuporte.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

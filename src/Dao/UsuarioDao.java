@@ -5,6 +5,7 @@
  */
 package Dao;
 
+import Modelo.TelaAcessos;
 import Modelo.Usuarios;
 import Util.SQL.Utilitarios.Criptografia;
 import static Visao.LoginHD.jLogin;
@@ -19,8 +20,15 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import static Visao.TelaTrocaSenha.pSENHA_anterior;
 import static Visao.TelaTrocaSenha.pCODIGO_usuario;
-import static Visao.TelaUsuarios.pRESPOSTA_user;
 import static Visao.TelaUsuarios.jIdUsuario;
+import static Visao.TelaUsuarios.jPesquisaUsuarioNome;
+import static Visao.TelaUsuarios.pRESPOSTA_user;
+import static Visao.TelaUsuarios.pTOTAL_usuarios;
+import static Visao.TelaUsuarios.user;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,7 +37,10 @@ import static Visao.TelaUsuarios.jIdUsuario;
 public class UsuarioDao {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
-    Usuarios user = new Usuarios();
+    Usuarios usuario = new Usuarios();
+    //
+    int nivel = 0;
+    String nivelNome = "";
 
     public Usuarios incluirUsuarios(Usuarios objUser) {
 
@@ -183,5 +194,142 @@ public class UsuarioDao {
         }
         conecta.desconecta();
         return objUser;
+    }
+
+    public List<Usuarios> pPESQUISA_cancelar_read() throws Exception {
+        pTOTAL_usuarios = 0;
+        List<Usuarios> LISTA_usuarios = new ArrayList<Usuarios>();
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdUsuario, "
+                    + "DataCadastro, "
+                    + "StatusUsuario, "
+                    + "NomeUsuario, "
+                    + "SetorUsuario, "
+                    + "CargoUsuario, "
+                    + "NivelUsuario, "
+                    + "LoginUsuario, "
+                    + "SenhaUsuario, "
+                    + "SenhaUsuario1, "
+                    + "ClienteServidor, "
+                    + "FotoPerfilUsuario "
+                    + "FROM USUARIOS "
+                    + "WHERE IdUsuario='" + user.toString() + "'");
+            while (conecta.rs.next()) {
+                Usuarios objUser = new Usuarios();
+                objUser.setIdUsuario(conecta.rs.getInt("IdUsuario"));
+                objUser.setStatus(conecta.rs.getString("StatusUsuario"));
+                objUser.setDataCadastro(conecta.rs.getDate("DataCadastro"));
+                objUser.setNomeUsuario(conecta.rs.getString("NomeUsuario"));
+                objUser.setSetorUsuario(conecta.rs.getString("SetorUsuario"));
+                objUser.setCargoUsuario(conecta.rs.getString("CargoUsuario"));
+                objUser.setNivelUsuario(conecta.rs.getInt("NivelUsuario"));
+                objUser.setLoginUsuario(conecta.rs.getString("LoginUsuario"));
+                objUser.setSenhaUsuario(conecta.rs.getString("SenhaUsuario"));
+                objUser.setSenhaUsuario1(conecta.rs.getString("SenhaUsuario1"));
+                objUser.setClienteServidor(conecta.rs.getString("ClienteServidor"));
+                objUser.setFotoPerfilUsuario(conecta.rs.getBytes("FotoPerfilUsuario"));
+                LISTA_usuarios.add(objUser);
+                pTOTAL_usuarios++;
+            }
+            return LISTA_usuarios;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    public List<Usuarios> pPESQUISA_todos_read() throws Exception {
+        pTOTAL_usuarios = 0;
+        List<Usuarios> LISTA_usuarios = new ArrayList<Usuarios>();
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdUsuario, "
+                    + "DataCadastro, "
+                    + "StatusUsuario, "
+                    + "NomeUsuario, "
+                    + "SetorUsuario, "
+                    + "CargoUsuario, "
+                    + "NivelUsuario, "
+                    + "LoginUsuario, "
+                    + "SenhaUsuario, "
+                    + "SenhaUsuario1, "
+                    + "ClienteServidor, "
+                    + "FotoPerfilUsuario "
+                    + "FROM USUARIOS ");
+            while (conecta.rs.next()) {
+                Usuarios objUser = new Usuarios();
+                objUser.setIdUsuario(conecta.rs.getInt("IdUsuario"));
+                objUser.setStatus(conecta.rs.getString("StatusUsuario"));
+                objUser.setDataCadastro(conecta.rs.getDate("DataCadastro"));
+                objUser.setNomeUsuario(conecta.rs.getString("NomeUsuario"));
+                objUser.setSetorUsuario(conecta.rs.getString("SetorUsuario"));
+                objUser.setCargoUsuario(conecta.rs.getString("CargoUsuario"));
+                objUser.setNivelUsuario(conecta.rs.getInt("NivelUsuario"));
+                objUser.setLoginUsuario(conecta.rs.getString("LoginUsuario"));
+                objUser.setSenhaUsuario(conecta.rs.getString("SenhaUsuario"));
+                objUser.setSenhaUsuario1(conecta.rs.getString("SenhaUsuario1"));
+                objUser.setClienteServidor(conecta.rs.getString("ClienteServidor"));
+                objUser.setFotoPerfilUsuario(conecta.rs.getBytes("FotoPerfilUsuario"));
+                LISTA_usuarios.add(objUser);
+                pTOTAL_usuarios++;
+            }
+            return LISTA_usuarios;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    public List<Usuarios> pPESQUISA_NOME_read() throws Exception {
+        pTOTAL_usuarios = 0;
+        List<Usuarios> LISTA_usuarios = new ArrayList<Usuarios>();
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT DISTINCT "
+                    + "IdUsuario, "
+                    + "DataCadastro, "
+                    + "StatusUsuario, "
+                    + "NomeUsuario, "
+                    + "SetorUsuario, "
+                    + "CargoUsuario, "
+                    + "NivelUsuario, "
+                    + "LoginUsuario, "
+                    + "SenhaUsuario, "
+                    + "SenhaUsuario1, "
+                    + "ClienteServidor, "
+                    + "FotoPerfilUsuario "
+                    + "FROM USUARIOS "
+                    + "WHERE NomeUsuario LIKE'%" + jPesquisaUsuarioNome.getText() + "%'");
+            while (conecta.rs.next()) {
+                Usuarios objUser = new Usuarios();
+                objUser.setIdUsuario(conecta.rs.getInt("IdUsuario"));
+                objUser.setStatus(conecta.rs.getString("StatusUsuario"));
+                objUser.setDataCadastro(conecta.rs.getDate("DataCadastro"));
+                objUser.setNomeUsuario(conecta.rs.getString("NomeUsuario"));
+                objUser.setSetorUsuario(conecta.rs.getString("SetorUsuario"));
+                objUser.setCargoUsuario(conecta.rs.getString("CargoUsuario"));
+                objUser.setNivelUsuario(conecta.rs.getInt("NivelUsuario"));
+                objUser.setLoginUsuario(conecta.rs.getString("LoginUsuario"));
+                objUser.setSenhaUsuario(conecta.rs.getString("SenhaUsuario"));
+                objUser.setSenhaUsuario1(conecta.rs.getString("SenhaUsuario1"));
+                objUser.setClienteServidor(conecta.rs.getString("ClienteServidor"));
+                objUser.setFotoPerfilUsuario(conecta.rs.getBytes("FotoPerfilUsuario"));
+                LISTA_usuarios.add(objUser);
+                pTOTAL_usuarios++;
+            }
+            return LISTA_usuarios;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
     }
 }

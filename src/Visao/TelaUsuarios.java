@@ -51,10 +51,11 @@ import javax.crypto.SecretKey;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableRowSorter;
+import javax.swing.table.DefaultTableModel;
 import org.opencv.core.Core;
 
 /**
@@ -67,12 +68,14 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     Usuarios objUser = new Usuarios();
     UsuarioDao userDao = new UsuarioDao();
     TelaAcessos objTelaAcesso = new TelaAcessos();
-    telaAcessoDao controlaAcess = new telaAcessoDao();
+    telaAcessoDao CONTROLE_ACESSOS = new telaAcessoDao();
     //
     LogSistemaDao controlLog = new LogSistemaDao();
     LogSistema objLogSys = new LogSistema();
     //
-    int count = 0;
+    public static int pTOTAL_usuarios = 0;
+    public static int pTOTAL_acessos = 0;
+    public static String idTela;
     int acao = 0;
     int flag = 0;
     String dataCadastro = "";
@@ -113,6 +116,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     //ARRAY PARA FOTO DO COLABORADOR
     public static byte[] persona_imagem = null;
     public static String pLOCAL_foto = "/HELP_DESK/Fotos/";
+    public static String user;
     //
     public static String pRESPOSTA_user = "";
     //
@@ -306,7 +310,15 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             new String [] {
                 "Código", "Data", "Status", "Nome do Usuário"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTabelaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTabelaUsuariosMouseClicked(evt);
@@ -495,7 +507,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jLabel11.setText("Servidor/Cliente");
 
         jComboBoxServidorCliente.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxServidorCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Servidor", "Cliente", "Ambos" }));
+        jComboBoxServidorCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Servidor", "Cliente", "Ambos", "Usuário" }));
         jComboBoxServidorCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxServidorCliente.setEnabled(false);
 
@@ -944,7 +956,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1207,15 +1219,10 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
 
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
         // TODO add your handling code here:
-        count = 0;
+        pTOTAL_usuarios = 0;
         flag = 1;
         if (evt.getStateChange() == evt.SELECTED) {
-            this.pesquisarTodos("SELECT "
-                    + "IdUsuario, "
-                    + "DataCadastro, "
-                    + "StatusUsuario, "
-                    + "NomeUsuario "
-                    + "FROM USUARIOS ");
+            PESQUISAR_todos();
         } else {
             limparTabela();
         }
@@ -1224,17 +1231,12 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     private void jBtPesquisarNomeUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisarNomeUserActionPerformed
         // TODO add your handling code here:
         flag = 1;
-        count = 0;
+        pTOTAL_usuarios = 0;
         if (jPesquisaUsuarioNome.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Informe dados para pesquisa.");
             jPesquisaUsuarioNome.requestFocus();
         } else {
-            pesquisarTodos("SELECT "
-                    + "IdUsuario, "
-                    + "DataCadastro, "
-                    + "StatusUsuario, "
-                    + "NomeUsuario "
-                    + "WHERE NomeUsuario LIKE'%" + jPesquisaUsuarioNome.getText() + "%'");
+            PESQUISA_NOME_usuario();
         }
     }//GEN-LAST:event_jBtPesquisarNomeUserActionPerformed
 
@@ -1242,7 +1244,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         flag = 1;
         if (flag == 1) {
-            String user = "" + jTabelaUsuarios.getValueAt(jTabelaUsuarios.getSelectedRow(), 0);
+            user = "" + jTabelaUsuarios.getValueAt(jTabelaUsuarios.getSelectedRow(), 0);
             String nomeuser = "" + jTabelaUsuarios.getValueAt(jTabelaUsuarios.getSelectedRow(), 3);
             jPesquisaUsuarioNome.setText(nomeuser);
             //
@@ -1256,69 +1258,9 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 //
                 jBtCopiarPerfil.setEnabled(true);
             }
-            conecta.abrirConexao();
-            try {
-                conecta.executaSQL("SELECT "
-                        + "IdUsuario, "
-                        + "DataCadastro, "
-                        + "StatusUsuario, "
-                        + "NomeUsuario, "
-                        + "SetorUsuario, "
-                        + "CargoUsuario, "
-                        + "NivelUsuario, "
-                        + "LoginUsuario, "
-                        + "SenhaUsuario, "
-                        + "SenhaUsuario1, "
-                        + "ClienteServidor, "
-                        + "FotoPerfilUsuario "
-                        + "FROM USUARIOS "
-                        + "WHERE IdUsuario='" + user + "'");
-                conecta.rs.first();
-                jIdUsuario.setText(String.valueOf(conecta.rs.getInt("IdUsuario")));
-                jComboBoxStatus.addItem(conecta.rs.getString("StatusUsuario"));
-                jDataCadastro.setDate(conecta.rs.getDate("DataCadastro"));
-                jNomeUsuario.setText(conecta.rs.getString("NomeUsuario"));
-                jSetorUsuario.setText(conecta.rs.getString("SetorUsuario"));
-                jCargo.setText(conecta.rs.getString("CargoUsuario"));
-                nivel = conecta.rs.getInt("NivelUsuario");
-                if (nivel == 0) {
-                    nivelNome = "Desenvolvedor";
-                } else if (nivel == 1) {
-                    nivelNome = "Suporte Técnico";
-                } else if (nivel == 2) {
-                    nivelNome = "Técnico de Informática - UP";
-                }
-                jComboBoxNivelAcesso.setSelectedItem(nivelNome);
-                jLogin.setText(conecta.rs.getString("LoginUsuario"));
-                jSenhaUsuario.setText(conecta.rs.getString("SenhaUsuario"));
-                jConfirmaSenha.setText(conecta.rs.getString("SenhaUsuario1"));
-                jComboBoxServidorCliente.setSelectedItem(conecta.rs.getString("ClienteServidor"));
-                //FOTO DO USUÁRIO
-                persona_imagem = conecta.rs.getBytes("FotoPerfilUsuario");
-                byte[] imgBytes = ((byte[]) conecta.rs.getBytes("FotoPerfilUsuario"));
-                if (imgBytes != null) {
-                    ImageIcon pic = null;
-                    pic = new ImageIcon(imgBytes);
-                    Image scaled = pic.getImage().getScaledInstance(jFotoUsuario.getWidth(), jFotoUsuario.getHeight(), Image.SCALE_SMOOTH);
-                    ImageIcon icon = new ImageIcon(scaled);
-                    jFotoUsuario.setIcon(icon);
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(rootPane, "Não foi possível listar usuario\nERRO: " + ex);
-            }
-            preencherTabelaAcessos("SELECT "
-                    + "IdTela, "
-                    + "NomeTela, "
-                    + "Abrir, "
-                    + "Incluir, "
-                    + "Alterar, "
-                    + "Excluir, "
-                    + "Gravar, "
-                    + "Consultar, "
-                    + "NomeModulo, "
-                    + "IdUsuario "
-                    + "FROM TELAS_ACESSO "
-                    + "WHERE IdUsuario='" + jIdUsuario.getText() + "'");
+            pMOSTRAR_dados();
+            limparTabelaAcessos();
+            PREENCHER_TABELA_acessos();
         }
     }//GEN-LAST:event_jTabelaUsuariosMouseClicked
 
@@ -1508,7 +1450,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     private void jTabelaAcessosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaAcessosMouseClicked
         // TODO add your handling code here:
         flag = 1;
-        String idTela = "" + jTabelaAcessos.getValueAt(jTabelaAcessos.getSelectedRow(), 0);
+        idTela = "" + jTabelaAcessos.getValueAt(jTabelaAcessos.getSelectedRow(), 0);
         //
         jBtNovoAcesso.setEnabled(true);
         jBtAlterarAcesso.setEnabled(true);
@@ -1523,65 +1465,50 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jComboBoxExcluir.removeItem(evt);
         jComboBoxGravar.removeItem(evt);
         jComboBoxConsultar.removeItem(evt);
-        conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT "
-                    + "TELAS_ACESSO.IdTela, "
-                    + "TELAS_ACESSO.NomeTela, "
-                    + "TELAS_ACESSO.Abrir, "
-                    + "TELAS_ACESSO.Incluir, "
-                    + "TELAS_ACESSO.Alterar, "
-                    + "TELAS_ACESSO.Excluir, "
-                    + "TELAS_ACESSO.Gravar, "
-                    + "TELAS_ACESSO.Consultar, "
-                    + "TELAS_ACESSO.NomeModulo, "
-                    + "TELAS_ACESSO.IdUsuario "
-                    + "FROM TELAS_ACESSO "
-                    + "INNER JOIN USUARIOS "
-                    + "ON TELAS_ACESSO.IdUsuario=USUARIOS.IdUsuario "
-                    + "WHERE TELAS_ACESSO.IdTela='" + idTela + "'");
-            conecta.rs.first();
-            codigoTelaAcesso = conecta.rs.getInt("IdTela");
-            jNomeUsuarioAcesso.setText(jNomeUsuario.getText());
-            jComboBoxTelaAcesso.addItem(conecta.rs.getString("NomeTela"));
-            pAbrir = conecta.rs.getInt("Abrir");
-            if (pAbrir == 0) {
-                jComboBoxAbrir.setSelectedItem("Não");
-            } else if (pAbrir == 1) {
-                jComboBoxAbrir.setSelectedItem("Sim");
+            for (TelaAcessos a : CONTROLE_ACESSOS.pPESQUISA_ACESSO_CONSULTA_read()) {
+                codigoTelaAcesso = a.getIdTela();
+                jNomeUsuarioAcesso.setText(a.getNomeUsuario());
+                jComboBoxTelaAcesso.addItem(a.getNomeTela());
+                pAbrir = a.getAbrir();
+                if (pAbrir == 0) {
+                    jComboBoxAbrir.setSelectedItem("Não");
+                } else if (pAbrir == 1) {
+                    jComboBoxAbrir.setSelectedItem("Sim");
+                }
+                pIncluir = a.getIncluir();
+                if (pIncluir == 0) {
+                    jComboBoxIncluir.setSelectedItem("Não");
+                } else if (pIncluir == 1) {
+                    jComboBoxIncluir.setSelectedItem("Sim");
+                }
+                pAlterar = a.getAlterar();
+                if (pAlterar == 0) {
+                    jComboBoxAlterar.setSelectedItem("Não");
+                } else if (pAlterar == 1) {
+                    jComboBoxAlterar.setSelectedItem("Sim");
+                }
+                pExcluir = a.getExcluir();
+                if (pExcluir == 0) {
+                    jComboBoxExcluir.setSelectedItem("Não");
+                } else if (pExcluir == 1) {
+                    jComboBoxExcluir.setSelectedItem("Sim");
+                }
+                pGravar = a.getGravar();
+                if (pGravar == 0) {
+                    jComboBoxGravar.setSelectedItem("Não");
+                } else if (pGravar == 1) {
+                    jComboBoxGravar.setSelectedItem("Sim");
+                }
+                pConsultar = a.getConsultar();
+                if (pConsultar == 0) {
+                    jComboBoxConsultar.setSelectedItem("Não");
+                } else if (pConsultar == 1) {
+                    jComboBoxConsultar.setSelectedItem("Sim");
+                }
             }
-            pIncluir = conecta.rs.getInt("Incluir");
-            if (pIncluir == 0) {
-                jComboBoxIncluir.setSelectedItem("Não");
-            } else if (pIncluir == 1) {
-                jComboBoxIncluir.setSelectedItem("Sim");
-            }
-            pAlterar = conecta.rs.getInt("Alterar");
-            if (pAlterar == 0) {
-                jComboBoxAlterar.setSelectedItem("Não");
-            } else if (pAlterar == 1) {
-                jComboBoxAlterar.setSelectedItem("Sim");
-            }
-            pExcluir = conecta.rs.getInt("Excluir");
-            if (pExcluir == 0) {
-                jComboBoxExcluir.setSelectedItem("Não");
-            } else if (pExcluir == 1) {
-                jComboBoxExcluir.setSelectedItem("Sim");
-            }
-            pGravar = conecta.rs.getInt("Gravar");
-            if (pGravar == 0) {
-                jComboBoxGravar.setSelectedItem("Não");
-            } else if (pGravar == 1) {
-                jComboBoxGravar.setSelectedItem("Sim");
-            }
-            pConsultar = conecta.rs.getInt("Consultar");
-            if (pConsultar == 0) {
-                jComboBoxConsultar.setSelectedItem("Não");
-            } else if (pConsultar == 1) {
-                jComboBoxConsultar.setSelectedItem("Sim");
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "Não foi possível listar dados do usuário.\nERRO: " + ex);
+        } catch (Exception ex) {
+            Logger.getLogger(TelaUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTabelaAcessosMouseClicked
 
@@ -1664,23 +1591,11 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                         objTelaAcesso.setDataInsert(dataModFinal);
                         objTelaAcesso.setHorarioInsert(horaMov);
                         //
-                        controlaAcess.incluirTelaAcesso(objTelaAcesso);
+                        CONTROLE_ACESSOS.incluirTelaAcesso(objTelaAcesso);
                         objLog();
                         controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                         SalvarAcesso();
-                        preencherTabelaAcessos("SELECT "
-                                + "IdTela, "
-                                + "NomeTela, "
-                                + "Abrir, "
-                                + "Incluir, "
-                                + "Alterar, "
-                                + "Excluir, "
-                                + "Gravar, "
-                                + "Consultar, "
-                                + "NomeModulo, "
-                                + "IdUsuario "
-                                + "FROM TELAS_ACESSO "
-                                + "WHERE IdUsuario='" + jIdUsuario.getText() + "'");
+                        PREENCHER_TABELA_acessos();
                         JOptionPane.showMessageDialog(rootPane, "Cadastro Realizado com sucesso");
                     }
                 }
@@ -1690,23 +1605,11 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                     objTelaAcesso.setHorarioUp(horaMov);
                     //
                     objTelaAcesso.setIdTela(codigoTelaAcesso);
-                    controlaAcess.alterarTelaAcesso(objTelaAcesso);
+                    CONTROLE_ACESSOS.alterarTelaAcesso(objTelaAcesso);
                     objLog();
                     controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                     SalvarAcesso();
-                    preencherTabelaAcessos("SELECT "
-                            + "IdTela, "
-                            + "NomeTela, "
-                            + "Abrir, "
-                            + "Incluir, "
-                            + "Alterar, "
-                            + "Excluir, "
-                            + "Gravar, "
-                            + "Consultar, "
-                            + "NomeModulo, "
-                            + "IdUsuario "
-                            + "FROM TELAS_ACESSO "
-                            + "WHERE IdUsuario='" + jIdUsuario.getText() + "'");
+                    PREENCHER_TABELA_acessos();
                     JOptionPane.showMessageDialog(rootPane, "Cadastro Realizado com sucesso");
                 }
             }
@@ -1754,14 +1657,11 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                     JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {
                 objTelaAcesso.setIdTela(Integer.valueOf(codigoTelaAcesso));
-                controlaAcess.excluirTelaAcesso(objTelaAcesso);
+                CONTROLE_ACESSOS.excluirTelaAcesso(objTelaAcesso);
                 objLog();
                 controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                 ExcluirAcesso();
-                preencherTabelaAcessos("SELECT "
-                        + "* "
-                        + "FROM TELAS_ACESSO "
-                        + "WHERE IdUsuario='" + jIdUsuario.getText() + "'");
+                PREENCHER_TABELA_acessos();
                 JOptionPane.showMessageDialog(null, "Registro excluído com sucesso.");
             }
         } else {
@@ -1890,7 +1790,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JTextField jPesquisaUsuarioNome;
+    public static javax.swing.JTextField jPesquisaUsuarioNome;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPasswordField jSenhaUsuario;
@@ -2095,22 +1995,45 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     }
 
     public void pMOSTRAR_dados() {
-
+        try {
+            for (Usuarios objUser : userDao.pPESQUISA_cancelar_read()) {
+                jIdUsuario.setText(String.valueOf(objUser.getIdUsuario()));
+                jComboBoxStatus.addItem(objUser.getStatus());
+                jDataCadastro.setDate(objUser.getDataCadastro());
+                jNomeUsuario.setText(objUser.getNomeUsuario());
+                jSetorUsuario.setText(objUser.getSetorUsuario());
+                jCargo.setText(objUser.getCargoUsuario());
+                nivel = objUser.getNivelUsuario();
+                if (nivel == 0) {
+                    nivelNome = "Desenvolvedor";
+                } else if (nivel == 1) {
+                    nivelNome = "Suporte Técnico";
+                } else if (nivel == 2) {
+                    nivelNome = "Técnico de Informática - UP";
+                } else if (nivel == 3) {
+                    nivelNome = "Usuário";
+                }
+                jComboBoxNivelAcesso.setSelectedItem(nivelNome);
+                jLogin.setText(objUser.getLoginUsuario());
+                jSenhaUsuario.setText(objUser.getSenhaUsuario());
+                jConfirmaSenha.setText(objUser.getSenhaUsuario1());
+                jComboBoxServidorCliente.setSelectedItem(objUser.getClienteServidor());
+                //FOTO DO USUÁRIO
+                persona_imagem = objUser.getFotoPerfilUsuario();
+                byte[] imgBytes = ((byte[]) objUser.getFotoPerfilUsuario());
+                if (imgBytes != null) {
+                    ImageIcon pic = null;
+                    pic = new ImageIcon(imgBytes);
+                    Image scaled = pic.getImage().getScaledInstance(jFotoUsuario.getWidth(), jFotoUsuario.getHeight(), Image.SCALE_SMOOTH);
+                    ImageIcon icon = new ImageIcon(scaled);
+                    jFotoUsuario.setIcon(icon);
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-//    public void buscarCodigo() {
-//        conecta.abrirConexao();
-//        try {
-//            conecta.executaSQL("SELECT "
-//                    + "IdUsuario "
-//                    + "FROM USUARIOS");
-//            conecta.rs.last();
-//            jIdUsuario.setText(conecta.rs.getString("IdUsuario"));
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(rootPane, "Não foi possível obter o código do usuário.");
-//        }
-//        conecta.desconecta();
-//    }
     public void AlterarAdm() {
         jSenhaUsuario.setText("");
         jConfirmaSenha.setText("");
@@ -2240,209 +2163,135 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     }
 
     public void verificarTelaAcesso() {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT "
-                    + "IdUsuario, "
-                    + "NomeTela "
-                    + "FROM TELAS_ACESSO "
-                    + "WHERE NomeTela='" + jComboBoxTelaAcesso.getSelectedItem() + "' "
-                    + "AND IdUsuario='" + jIdUsuario.getText() + "'");
-            conecta.rs.first();
-            nomeTelaUsuario = conecta.rs.getString("NomeTela");
-            codigoUsuario = conecta.rs.getString("IdUsuario");
-        } catch (Exception e) {
-        }
-        conecta.desconecta();
+        CONTROLE_ACESSOS.PESQUISAR_telas(objTelaAcesso);
+        nomeTelaUsuario = objTelaAcesso.getNomeTela();
+        codigoUsuario = String.valueOf(objTelaAcesso.getIdUsuario());
     }
 
-    public void pesquisarTodos(String sql) {
-        ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Código", "Data", "Status", "Nome do Usuário"};
-        conecta.abrirConexao();
+    public void PESQUISAR_todos() {
+        DefaultTableModel dadosUsuarios = (DefaultTableModel) jTabelaUsuarios.getModel();
         try {
-            conecta.executaSQL(sql);
-            conecta.rs.first();
-            do {
-                count = count + 1;
-                dataCadastro = conecta.rs.getString("DataCadastro");
-                String diae = dataCadastro.substring(8, 10);
-                String mese = dataCadastro.substring(5, 7);
-                String anoe = dataCadastro.substring(0, 4);
-                dataCadastro = diae + "/" + mese + "/" + anoe;
-                jtotalRegistros.setText(Integer.toString(count)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{conecta.rs.getInt("IdUsuario"), dataCadastro, conecta.rs.getString("StatusUsuario"), conecta.rs.getString("NomeUsuario")});
-            } while (conecta.rs.next());
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "Dados não encontrado, use o botão TODOS !!!");
+            for (Usuarios dd : userDao.pPESQUISA_todos_read()) {
+                dataCadastro = String.valueOf(dd.getDataCadastro());
+                String dia = dataCadastro.substring(8, 10);
+                String mes = dataCadastro.substring(5, 7);
+                String ano = dataCadastro.substring(0, 4);
+                dataCadastro = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_usuarios)); // Converter inteiro em string para exibir na tela
+                dadosUsuarios.addRow(new Object[]{dd.getIdUsuario(), dataCadastro, dd.getStatus(), dd.getNomeUsuario()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaUsuarios.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaUsuarios.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaUsuarios.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+                jTabelaUsuarios.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
-        jTabelaUsuarios.setRowSorter(new TableRowSorter(modelo)); //FAZER ORDENAMENTO NA TABLEA  
-        jTabelaUsuarios.setModel(modelo);
-        jTabelaUsuarios.getColumnModel().getColumn(0).setPreferredWidth(70);
-        jTabelaUsuarios.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaUsuarios.getColumnModel().getColumn(1).setPreferredWidth(70);
-        jTabelaUsuarios.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaUsuarios.getColumnModel().getColumn(2).setPreferredWidth(70);
-        jTabelaUsuarios.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaUsuarios.getColumnModel().getColumn(3).setPreferredWidth(250);
-        jTabelaUsuarios.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaUsuarios.getTableHeader().setReorderingAllowed(false);
-        jTabelaUsuarios.setAutoResizeMode(jTabelaUsuarios.AUTO_RESIZE_OFF);
-        jTabelaUsuarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        alinharCamposTabelaUsuario();
-        conecta.desconecta();
     }
 
-    public void alinharCamposTabelaUsuario() {
-        //
-        DefaultTableCellRenderer esquerda = new DefaultTableCellRenderer();
-        DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
-        DefaultTableCellRenderer direita = new DefaultTableCellRenderer();
-        esquerda.setHorizontalAlignment(SwingConstants.LEFT);
-        centralizado.setHorizontalAlignment(SwingConstants.CENTER);
-        direita.setHorizontalAlignment(SwingConstants.RIGHT);
-        //
-        jTabelaUsuarios.getColumnModel().getColumn(0).setCellRenderer(centralizado);
-        jTabelaUsuarios.getColumnModel().getColumn(1).setCellRenderer(centralizado);
-        jTabelaUsuarios.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+    public void PESQUISA_NOME_usuario() {
+        DefaultTableModel dadosUsuarios = (DefaultTableModel) jTabelaUsuarios.getModel();
+        try {
+            for (Usuarios dd : userDao.pPESQUISA_NOME_read()) {
+                dataCadastro = String.valueOf(dd.getDataCadastro());
+                String dia = dataCadastro.substring(8, 10);
+                String mes = dataCadastro.substring(5, 7);
+                String ano = dataCadastro.substring(0, 4);
+                dataCadastro = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_usuarios)); // Converter inteiro em string para exibir na tela
+                dadosUsuarios.addRow(new Object[]{dd.getIdUsuario(), dataCadastro, dd.getStatus(), dd.getNomeUsuario()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaUsuarios.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaUsuarios.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaUsuarios.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+                jTabelaUsuarios.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void limparTabela() {
-        ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Código", "Data", "Status", "Nome do Usuário"};
-        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
-        jTabelaUsuarios.setRowSorter(new TableRowSorter(modelo)); //FAZER ORDENAMENTO NA TABLEA  
-        jTabelaUsuarios.setModel(modelo);
-        jTabelaUsuarios.getColumnModel().getColumn(0).setPreferredWidth(70);
-        jTabelaUsuarios.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaUsuarios.getColumnModel().getColumn(1).setPreferredWidth(70);
-        jTabelaUsuarios.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaUsuarios.getColumnModel().getColumn(2).setPreferredWidth(70);
-        jTabelaUsuarios.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaUsuarios.getColumnModel().getColumn(3).setPreferredWidth(250);
-        jTabelaUsuarios.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaUsuarios.getTableHeader().setReorderingAllowed(false);
-        jTabelaUsuarios.setAutoResizeMode(jTabelaUsuarios.AUTO_RESIZE_OFF);
-        jTabelaUsuarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        modelo.getLinhas().clear();
+        // APAGAR DADOS DA TABELA
+        while (jTabelaUsuarios.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTabelaUsuarios.getModel()).removeRow(0);
+        }
+        jtotalRegistros.setText("");
     }
 
     public void limparTabelaAcessos() {
-        ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Código", "Tela", "Abrir", "Incluir", "Alterar", "Excluir", "Gravar", "Consultar"};
-        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
-        jTabelaAcessos.setModel(modelo);
-        jTabelaAcessos.getColumnModel().getColumn(0).setPreferredWidth(50);
-        jTabelaAcessos.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaAcessos.getColumnModel().getColumn(1).setPreferredWidth(400);
-        jTabelaAcessos.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaAcessos.getColumnModel().getColumn(2).setPreferredWidth(60);
-        jTabelaAcessos.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaAcessos.getColumnModel().getColumn(3).setPreferredWidth(60);
-        jTabelaAcessos.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaAcessos.getColumnModel().getColumn(4).setPreferredWidth(60);
-        jTabelaAcessos.getColumnModel().getColumn(4).setResizable(false);
-        jTabelaAcessos.getColumnModel().getColumn(5).setPreferredWidth(60);
-        jTabelaAcessos.getColumnModel().getColumn(5).setResizable(false);
-        jTabelaAcessos.getColumnModel().getColumn(6).setPreferredWidth(60);
-        jTabelaAcessos.getColumnModel().getColumn(6).setResizable(false);
-        jTabelaAcessos.getColumnModel().getColumn(7).setPreferredWidth(60);
-        jTabelaAcessos.getColumnModel().getColumn(7).setResizable(false);
-        jTabelaAcessos.getTableHeader().setReorderingAllowed(false);
-        jTabelaAcessos.setAutoResizeMode(jTabelaAcessos.AUTO_RESIZE_OFF);
-        jTabelaAcessos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        modelo.getLinhas().clear();
+        // APAGAR DADOS DA TABELA
+        while (jTabelaAcessos.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTabelaAcessos.getModel()).removeRow(0);
+        }
     }
 
-    public void preencherTabelaAcessos(String sql) {
-        ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Código", "Tela", "Abrir", "Incluir", "Alterar", "Excluir", "Gravar", "Consultar"};
-        conecta.abrirConexao();
+    public void PREENCHER_TABELA_acessos() {
+        DefaultTableModel dadosAcesso = (DefaultTableModel) jTabelaAcessos.getModel();
         try {
-            conecta.executaSQL(sql);
-            conecta.rs.first();
-            do {
-                pAbrir = conecta.rs.getInt("Abrir");
+            for (TelaAcessos pp : CONTROLE_ACESSOS.pPESQUISA_ACESSO_USUARIO_read()) {
+                pAbrir = pp.getAbrir();
                 if (pAbrir == 0) {
                     pAbrirAcesso = "Não";
                 } else if (pAbrir == 1) {
                     pAbrirAcesso = "Sim";
                 }
-                pIncluir = conecta.rs.getInt("Incluir");
+                pIncluir = pp.getIncluir();
                 if (pIncluir == 0) {
                     pIncluirAcesso = "Não";
                 } else if (pIncluir == 1) {
                     pIncluirAcesso = "Sim";
                 }
-                pAlterar = conecta.rs.getInt("Alterar");
+                pAlterar = pp.getAlterar();
                 if (pAlterar == 0) {
                     pAlterarAcesso = "Não";
                 } else if (pAlterar == 1) {
                     pAlterarAcesso = "Sim";
                 }
-                pExcluir = conecta.rs.getInt("Excluir");
+                pExcluir = pp.getExcluir();
                 if (pExcluir == 0) {
                     pExcluirAcesso = "Não";
                 } else if (pExcluir == 1) {
                     pExcluirAcesso = "Sim";
                 }
-                pGravar = conecta.rs.getInt("Gravar");
+                pGravar = pp.getGravar();
                 if (pGravar == 0) {
                     pGravarAcesso = "Não";
                 } else if (pGravar == 1) {
                     pGravarAcesso = "Sim";
                 }
-                pConsultar = conecta.rs.getInt("Consultar");
+                pConsultar = pp.getConsultar();
                 if (pConsultar == 0) {
                     pConsultarAcesso = "Não";
                 } else if (pConsultar == 1) {
                     pConsultarAcesso = "Sim";
                 }
-                dados.add(new Object[]{conecta.rs.getString("IdTela"), conecta.rs.getString("NomeTela"), pAbrirAcesso, pIncluirAcesso, pAlterarAcesso, pExcluirAcesso, pGravarAcesso, pConsultarAcesso});
-            } while (conecta.rs.next());
-        } catch (SQLException ex) {
+                dadosAcesso.addRow(new Object[]{pp.getIdTela(), pp.getNomeTela(), pAbrirAcesso, pIncluirAcesso, pAlterarAcesso, pExcluirAcesso, pGravarAcesso, pConsultarAcesso});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaAcessos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaAcessos.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaAcessos.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+                jTabelaAcessos.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+                jTabelaAcessos.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+                jTabelaAcessos.getColumnModel().getColumn(5).setCellRenderer(centralizado);
+                jTabelaAcessos.getColumnModel().getColumn(6).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
-        jTabelaAcessos.setModel(modelo);
-        jTabelaAcessos.getColumnModel().getColumn(0).setPreferredWidth(50);
-        jTabelaAcessos.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaAcessos.getColumnModel().getColumn(1).setPreferredWidth(400);
-        jTabelaAcessos.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaAcessos.getColumnModel().getColumn(2).setPreferredWidth(60);
-        jTabelaAcessos.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaAcessos.getColumnModel().getColumn(3).setPreferredWidth(60);
-        jTabelaAcessos.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaAcessos.getColumnModel().getColumn(4).setPreferredWidth(60);
-        jTabelaAcessos.getColumnModel().getColumn(4).setResizable(false);
-        jTabelaAcessos.getColumnModel().getColumn(5).setPreferredWidth(60);
-        jTabelaAcessos.getColumnModel().getColumn(5).setResizable(false);
-        jTabelaAcessos.getColumnModel().getColumn(6).setPreferredWidth(60);
-        jTabelaAcessos.getColumnModel().getColumn(6).setResizable(false);
-        jTabelaAcessos.getColumnModel().getColumn(7).setPreferredWidth(60);
-        jTabelaAcessos.getColumnModel().getColumn(7).setResizable(false);
-        jTabelaAcessos.getTableHeader().setReorderingAllowed(false);
-        jTabelaAcessos.setAutoResizeMode(jTabelaAcessos.AUTO_RESIZE_OFF);
-        jTabelaAcessos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        alinharCamposTabelaAcessos();
-        conecta.desconecta();
-    }
-
-    public void alinharCamposTabelaAcessos() {
-        DefaultTableCellRenderer esquerda = new DefaultTableCellRenderer();
-        DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
-        DefaultTableCellRenderer direita = new DefaultTableCellRenderer();
-        esquerda.setHorizontalAlignment(SwingConstants.LEFT);
-        centralizado.setHorizontalAlignment(SwingConstants.CENTER);
-        direita.setHorizontalAlignment(SwingConstants.RIGHT);
-        //       
-        jTabelaAcessos.getColumnModel().getColumn(0).setCellRenderer(centralizado);
-        jTabelaAcessos.getColumnModel().getColumn(2).setCellRenderer(centralizado);
-        jTabelaAcessos.getColumnModel().getColumn(3).setCellRenderer(centralizado);
-        jTabelaAcessos.getColumnModel().getColumn(4).setCellRenderer(centralizado);
-        jTabelaAcessos.getColumnModel().getColumn(5).setCellRenderer(centralizado);
-        jTabelaAcessos.getColumnModel().getColumn(6).setCellRenderer(centralizado);
-        jTabelaAcessos.getColumnModel().getColumn(7).setCellRenderer(centralizado);
     }
 
     public void objLog() {

@@ -22,6 +22,7 @@ public class Usuarios {
     private String SenhaUsuario;
     private String SenhaUsuario1;
     private int NivelUsuario;   
+    private String nomeNivelUsuario;
     private String SetorUsuario; 
     private String CargoUsuario;      
     private byte [] senhaCriptografada;
@@ -32,7 +33,7 @@ public class Usuarios {
     public Usuarios() {
     }
 
-    public Usuarios(int IdUsuario, String Status, Date dataCadastro, String NomeUsuario, String LoginUsuario, String SenhaUsuario, String SenhaUsuario1, int NivelUsuario, String SetorUsuario, String CargoUsuario, byte[] senhaCriptografada, byte[] contraSenhaCriptografada, String clienteServidor, byte[] fotoPerfilUsuario) {
+    public Usuarios(int IdUsuario, String Status, Date dataCadastro, String NomeUsuario, String LoginUsuario, String SenhaUsuario, String SenhaUsuario1, int NivelUsuario, String nomeNivelUsuario, String SetorUsuario, String CargoUsuario, byte[] senhaCriptografada, byte[] contraSenhaCriptografada, String clienteServidor, byte[] fotoPerfilUsuario) {
         this.IdUsuario = IdUsuario;
         this.Status = Status;
         this.dataCadastro = dataCadastro;
@@ -41,6 +42,7 @@ public class Usuarios {
         this.SenhaUsuario = SenhaUsuario;
         this.SenhaUsuario1 = SenhaUsuario1;
         this.NivelUsuario = NivelUsuario;
+        this.nomeNivelUsuario = nomeNivelUsuario;
         this.SetorUsuario = SetorUsuario;
         this.CargoUsuario = CargoUsuario;
         this.senhaCriptografada = senhaCriptografada;
@@ -159,6 +161,20 @@ public class Usuarios {
      */
     public void setNivelUsuario(int NivelUsuario) {
         this.NivelUsuario = NivelUsuario;
+    }
+
+    /**
+     * @return the nomeNivelUsuario
+     */
+    public String getNomeNivelUsuario() {
+        return nomeNivelUsuario;
+    }
+
+    /**
+     * @param nomeNivelUsuario the nomeNivelUsuario to set
+     */
+    public void setNomeNivelUsuario(String nomeNivelUsuario) {
+        this.nomeNivelUsuario = nomeNivelUsuario;
     }
 
     /**
