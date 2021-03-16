@@ -111,7 +111,10 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     //
     public static String caminhoFotoFunc;
     //ARRAY PARA FOTO DO COLABORADOR
-    byte[] persona_imagem = null;
+    public static byte[] persona_imagem = null;
+    public static String pLOCAL_foto = "/HELP_DESK/Fotos/";
+    //
+    public static String pRESPOSTA_user = "";
     //
     public static TelaCopiaPerfilUsuario pesquisarPerfilUsuario;
     public static TelaBiometriaColaboradores pBIOMETRIA_ususarios;
@@ -492,7 +495,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jLabel11.setText("Servidor/Cliente");
 
         jComboBoxServidorCliente.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxServidorCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Servidor", "Cliente", "Todos" }));
+        jComboBoxServidorCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Servidor", "Cliente", "Ambos" }));
         jComboBoxServidorCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxServidorCliente.setEnabled(false);
 
@@ -625,6 +628,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
 
         jBtCadastroBiometria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Biometria16Vermelho.png"))); // NOI18N
         jBtCadastroBiometria.setToolTipText("Cadastrar Biometria de usuário");
+        jBtCadastroBiometria.setContentAreaFilled(false);
         jBtCadastroBiometria.setEnabled(false);
         jBtCadastroBiometria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1135,6 +1139,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         );
 
         jBtNovaFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/2998132-camera-photo-photography_99870.png"))); // NOI18N
+        jBtNovaFoto.setEnabled(false);
         jBtNovaFoto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtNovaFotoActionPerformed(evt);
@@ -1142,13 +1147,15 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         });
 
         jBtExcluirFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/191216104515_16.png"))); // NOI18N
+        jBtExcluirFoto.setEnabled(false);
         jBtExcluirFoto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtExcluirFotoActionPerformed(evt);
             }
         });
 
-        jBtZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/11985_16x16.png"))); // NOI18N
+        jBtZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/webcam_start.png"))); // NOI18N
+        jBtZoom.setEnabled(false);
         jBtZoom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtZoomActionPerformed(evt);
@@ -1262,7 +1269,8 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                         + "LoginUsuario, "
                         + "SenhaUsuario, "
                         + "SenhaUsuario1, "
-                        + "ClienteServidor "
+                        + "ClienteServidor, "
+                        + "FotoPerfilUsuario "
                         + "FROM USUARIOS "
                         + "WHERE IdUsuario='" + user + "'");
                 conecta.rs.first();
@@ -1285,6 +1293,16 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 jSenhaUsuario.setText(conecta.rs.getString("SenhaUsuario"));
                 jConfirmaSenha.setText(conecta.rs.getString("SenhaUsuario1"));
                 jComboBoxServidorCliente.setSelectedItem(conecta.rs.getString("ClienteServidor"));
+                //FOTO DO USUÁRIO
+                persona_imagem = conecta.rs.getBytes("FotoPerfilUsuario");
+                byte[] imgBytes = ((byte[]) conecta.rs.getBytes("FotoPerfilUsuario"));
+                if (imgBytes != null) {
+                    ImageIcon pic = null;
+                    pic = new ImageIcon(imgBytes);
+                    Image scaled = pic.getImage().getScaledInstance(jFotoUsuario.getWidth(), jFotoUsuario.getHeight(), Image.SCALE_SMOOTH);
+                    ImageIcon icon = new ImageIcon(scaled);
+                    jFotoUsuario.setIcon(icon);
+                }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(rootPane, "Não foi possível listar usuario\nERRO: " + ex);
             }
@@ -1364,7 +1382,11 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 bloquearBotoes();
                 bloquearCampos();
                 Excluir();
-                JOptionPane.showMessageDialog(null, "Exclusão do USUÁRIO com sucesso!!");
+                if (pRESPOSTA_user.equals("Sim")) {
+                    JOptionPane.showMessageDialog(null, "Exclusão do USUÁRIO com sucesso!!");
+                } else if (pRESPOSTA_user.equals("Não")) {
+                    JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o registro, tente novamente.");
+                }
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1407,18 +1429,23 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 objUser.setLoginUsuario(jLogin.getText());
                 objUser.setSenhaUsuario(jSenhaUsuario.getText());
                 objUser.setSenhaUsuario1(jConfirmaSenha.getText());
+                objUser.setFotoPerfilUsuario(persona_imagem);
                 if (acao == 1) {
                     // Só inclui registro se os campo não for em branco e compara se as senhas são iguais
                     if (jSenhaUsuario.getText() == null ? jConfirmaSenha.getText() == null : jConfirmaSenha.getText().equals(jSenhaUsuario.getText())) {
                         userDao.incluirUsuarios(objUser);
-                        buscarCodigo();
+                        userDao.pBUSCAR_CODIGO_gravado(objUser);
                         //
                         objLog();
                         controlLog.incluirLogSistema(objLogSys); // Grava o log da operação 
                         bloquearCampos();
                         bloquearBotoes();
                         Salvar();
-                        JOptionPane.showMessageDialog(rootPane, "Realizado com sucesso.");
+                        if (pRESPOSTA_user.equals("Sim")) {
+                            JOptionPane.showMessageDialog(rootPane, "Realizado com sucesso.");
+                        } else if (pRESPOSTA_user.equals("Não")) {
+                            JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro, tente novamente.");
+                        }
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Senhas não conferem !!!");
                     }
@@ -1433,7 +1460,11 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                         bloquearCampos();
                         bloquearBotoes();
                         Salvar();
-                        JOptionPane.showMessageDialog(rootPane, "Realizado com sucesso.");
+                        if (pRESPOSTA_user.equals("Sim")) {
+                            JOptionPane.showMessageDialog(rootPane, "Realizado com sucesso.");
+                        } else if (pRESPOSTA_user.equals("Não")) {
+                            JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro, tente novamente.");
+                        }
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Senhas não conferem !!!");
                     }
@@ -1894,6 +1925,10 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jBtExcluir.setEnabled(!true);
         jBtSalvar.setEnabled(!true);
         jBtCancelar.setEnabled(!true);
+        //
+        jBtNovaFoto.setEnabled(!true);
+        jBtExcluirFoto.setEnabled(!true);
+        jBtZoom.setEnabled(!true);
     }
 
     public void bloquearCampos() {
@@ -1946,11 +1981,17 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jConfirmaSenha.setEnabled(true);
         jComboBoxServidorCliente.setEnabled(true);
         //
+        jBtNovaFoto.setEnabled(true);
+        jBtExcluirFoto.setEnabled(true);
+        jBtZoom.setEnabled(true);
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
     }
 
     public void Alterar() {
+        jSenhaUsuario.setText("");
+        jConfirmaSenha.setText("");
+        //
         jComboBoxStatus.setEnabled(true);
         jDataCadastro.setEnabled(true);
         jNomeUsuario.setEnabled(true);
@@ -1962,6 +2003,9 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jConfirmaSenha.setEnabled(true);
         jComboBoxServidorCliente.setEnabled(true);
         //
+        jBtNovaFoto.setEnabled(true);
+        jBtExcluirFoto.setEnabled(true);
+        jBtZoom.setEnabled(true);
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
     }
@@ -2029,6 +2073,8 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             jBtSalvar.setEnabled(!true);
             jBtCancelar.setEnabled(!true);
         } else {
+            //MOSTRAR OS DADOS SEM ALTERARÇÃO
+            pMOSTRAR_dados();
             jComboBoxStatus.setEnabled(!true);
             jDataCadastro.setEnabled(!true);
             jNomeUsuario.setEnabled(!true);
@@ -2048,19 +2094,27 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         }
     }
 
-    public void buscarCodigo() {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT * FROM USUARIOS");
-            conecta.rs.last();
-            jIdUsuario.setText(conecta.rs.getString("IdUsuario"));
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Não foi possível obter o código do usuário.");
-        }
-        conecta.desconecta();
+    public void pMOSTRAR_dados() {
+
     }
 
+//    public void buscarCodigo() {
+//        conecta.abrirConexao();
+//        try {
+//            conecta.executaSQL("SELECT "
+//                    + "IdUsuario "
+//                    + "FROM USUARIOS");
+//            conecta.rs.last();
+//            jIdUsuario.setText(conecta.rs.getString("IdUsuario"));
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(rootPane, "Não foi possível obter o código do usuário.");
+//        }
+//        conecta.desconecta();
+//    }
     public void AlterarAdm() {
+        jSenhaUsuario.setText("");
+        jConfirmaSenha.setText("");
+        //
         jSenhaUsuario.setEnabled(true);
         jConfirmaSenha.setEnabled(true);
         //        
@@ -2172,7 +2226,9 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jComboBoxTelaAcesso.removeAllItems();
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM TELAS ");
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS ");
             conecta.rs.first();
             do {
                 jComboBoxTelaAcesso.addItem(conecta.rs.getString("NomeTela"));
@@ -2187,7 +2243,8 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT "
-                    + "* "
+                    + "IdUsuario, "
+                    + "NomeTela "
                     + "FROM TELAS_ACESSO "
                     + "WHERE NomeTela='" + jComboBoxTelaAcesso.getSelectedItem() + "' "
                     + "AND IdUsuario='" + jIdUsuario.getText() + "'");

@@ -731,7 +731,7 @@
                         <StringItem index="0" value="Selecione..."/>
                         <StringItem index="1" value="Servidor"/>
                         <StringItem index="2" value="Cliente"/>
-                        <StringItem index="3" value="Todos"/>
+                        <StringItem index="3" value="Ambos"/>
                       </StringArray>
                     </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -907,6 +907,7 @@
                       <Image iconType="3" name="/Imagens/Biometria16Vermelho.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Cadastrar Biometria de usu&#xe1;rio"/>
+                    <Property name="contentAreaFilled" type="boolean" value="false"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
@@ -1748,6 +1749,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Imagens/2998132-camera-photo-photography_99870.png"/>
         </Property>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtNovaFotoActionPerformed"/>
@@ -1758,6 +1760,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Imagens/191216104515_16.png"/>
         </Property>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtExcluirFotoActionPerformed"/>
@@ -1766,8 +1769,9 @@
     <Component class="javax.swing.JButton" name="jBtZoom">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/Imagens/11985_16x16.png"/>
+          <Image iconType="3" name="/Imagens/webcam_start.png"/>
         </Property>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtZoomActionPerformed"/>

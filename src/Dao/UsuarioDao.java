@@ -19,6 +19,8 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import static Visao.TelaTrocaSenha.pSENHA_anterior;
 import static Visao.TelaTrocaSenha.pCODIGO_usuario;
+import static Visao.TelaUsuarios.pRESPOSTA_user;
+import static Visao.TelaUsuarios.jIdUsuario;
 
 /**
  *
@@ -33,7 +35,7 @@ public class UsuarioDao {
 
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO USUARIOS (StatusUsuario,DataCadastro,NomeUsuario,NivelUsuario,SetorUsuario,CargoUsuario,LoginUsuario,SenhaUsuario,SenhaUsuario1,SenhaCriptografada,ClienteServidor)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO USUARIOS (StatusUsuario,DataCadastro,NomeUsuario,NivelUsuario,SetorUsuario,CargoUsuario,LoginUsuario,SenhaUsuario,SenhaUsuario1,SenhaCriptografada,ClienteServidor,FotoPerfilUsuario)VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, objUser.getStatus());
             if (objUser.getDataCadastro() != null) {
                 pst.setTimestamp(2, new java.sql.Timestamp(objUser.getDataCadastro().getTime()));
@@ -49,8 +51,11 @@ public class UsuarioDao {
             pst.setString(9, Criptografia.criptografar(objUser.getSenhaUsuario1()));
             pst.setBytes(10, objUser.getSenhaCriptografada());
             pst.setString(11, objUser.getClienteServidor());
+            pst.setBytes(12, objUser.getFotoPerfilUsuario());
             pst.execute(); // Executa a inserção
+            pRESPOSTA_user = "Sim";
         } catch (SQLException ex) {
+            pRESPOSTA_user = "Não";
             JOptionPane.showMessageDialog(null, "Não Foi possível INSERIR os Dados.\nERRO: " + ex);
         }
         conecta.desconecta();
@@ -61,7 +66,7 @@ public class UsuarioDao {
 
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE USUARIOS SET StatusUsuario=?,DataCadastro=?,NomeUsuario=?,NivelUsuario=?,SetorUsuario=?,CargoUsuario=?,LoginUsuario=?,SenhaUsuario=?,SenhaUsuario1=?,SenhaCriptografada=?,ClienteServidor=? WHERE IdUsuario='" + objUser.getIdUsuario() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE USUARIOS SET StatusUsuario=?,DataCadastro=?,NomeUsuario=?,NivelUsuario=?,SetorUsuario=?,CargoUsuario=?,LoginUsuario=?,SenhaUsuario=?,SenhaUsuario1=?,SenhaCriptografada=?,ClienteServidor=?,FotoPerfilUsuario=? WHERE IdUsuario='" + objUser.getIdUsuario() + "'");
             pst.setString(1, objUser.getStatus());
             if (objUser.getDataCadastro() != null) {
                 pst.setTimestamp(2, new java.sql.Timestamp(objUser.getDataCadastro().getTime()));
@@ -77,8 +82,11 @@ public class UsuarioDao {
             pst.setString(9, Criptografia.criptografar(objUser.getSenhaUsuario1()));
             pst.setBytes(10, objUser.getSenhaCriptografada());
             pst.setString(11, objUser.getClienteServidor());
+            pst.setBytes(12, objUser.getFotoPerfilUsuario());
             pst.executeUpdate(); // Executa a inserção
+            pRESPOSTA_user = "Sim";
         } catch (SQLException ex) {
+            pRESPOSTA_user = "Não";
             JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\n\nERRO: " + ex);
         }
         conecta.desconecta();
@@ -91,7 +99,9 @@ public class UsuarioDao {
         try {
             PreparedStatement pst = conecta.con.prepareStatement("DELETE FROM USUARIOS WHERE IdUsuario='" + objUser.getIdUsuario() + "'");
             pst.executeUpdate(); // Executa a inserção
+            pRESPOSTA_user = "Sim";
         } catch (SQLException ex) {
+            pRESPOSTA_user = "Não";
             JOptionPane.showMessageDialog(null, "Não Foi possivel EXCLUIR os Dados\n\nERRO: " + ex);
         }
         conecta.desconecta();
@@ -106,7 +116,9 @@ public class UsuarioDao {
             pst.setString(1, Criptografia.criptografar(objUser.getSenhaUsuario()));
             pst.setString(2, Criptografia.criptografar(objUser.getSenhaUsuario1()));
             pst.executeUpdate(); // Executa a inserção
+            pRESPOSTA_user = "Sim";
         } catch (SQLException ex) {
+            pRESPOSTA_user = "Não";
             JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\nERRO:" + ex);
         }
         conecta.desconecta();
@@ -152,6 +164,22 @@ public class UsuarioDao {
             pCODIGO_usuario = conecta.rs.getInt("IdUsuario");
             pSENHA_anterior = conecta.rs.getString("SenhaUsuario");
         } catch (Exception e) {
+        }
+        conecta.desconecta();
+        return objUser;
+    }
+
+    //------------------------------ PESQUISAS ----------------------------------
+    public Usuarios pBUSCAR_CODIGO_gravado(Usuarios objUser) {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdUsuario "
+                    + "FROM USUARIOS");
+            conecta.rs.last();
+            jIdUsuario.setText(conecta.rs.getString("IdUsuario"));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Não foi possível obter o código do usuário.");
         }
         conecta.desconecta();
         return objUser;

@@ -27,11 +27,12 @@ public class Usuarios {
     private byte [] senhaCriptografada;
     private byte [] contraSenhaCriptografada;
     private String clienteServidor;
+    private byte [] fotoPerfilUsuario;
 
     public Usuarios() {
     }
 
-    public Usuarios(int IdUsuario, String Status, Date dataCadastro, String NomeUsuario, String LoginUsuario, String SenhaUsuario, String SenhaUsuario1, int NivelUsuario, String SetorUsuario, String CargoUsuario, byte[] senhaCriptografada, byte[] contraSenhaCriptografada, String clienteServidor) {
+    public Usuarios(int IdUsuario, String Status, Date dataCadastro, String NomeUsuario, String LoginUsuario, String SenhaUsuario, String SenhaUsuario1, int NivelUsuario, String SetorUsuario, String CargoUsuario, byte[] senhaCriptografada, byte[] contraSenhaCriptografada, String clienteServidor, byte[] fotoPerfilUsuario) {
         this.IdUsuario = IdUsuario;
         this.Status = Status;
         this.dataCadastro = dataCadastro;
@@ -45,6 +46,7 @@ public class Usuarios {
         this.senhaCriptografada = senhaCriptografada;
         this.contraSenhaCriptografada = contraSenhaCriptografada;
         this.clienteServidor = clienteServidor;
+        this.fotoPerfilUsuario = fotoPerfilUsuario;
     }
 
     /**
@@ -227,5 +229,19 @@ public class Usuarios {
      */
     public void setClienteServidor(String clienteServidor) {
         this.clienteServidor = clienteServidor;
+    }
+
+    /**
+     * @return the fotoPerfilUsuario
+     */
+    public byte[] getFotoPerfilUsuario() {
+        return fotoPerfilUsuario;
+    }
+
+    /**
+     * @param fotoPerfilUsuario the fotoPerfilUsuario to set
+     */
+    public void setFotoPerfilUsuario(byte[] fotoPerfilUsuario) {
+        this.fotoPerfilUsuario = fotoPerfilUsuario;
     }
 }

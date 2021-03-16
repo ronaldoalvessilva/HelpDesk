@@ -144,7 +144,7 @@
               <Color blue="ff" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/gestor/Imagens/page_find.png"/>
+              <Image iconType="3" name="/Imagens/page_add.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Iniciar"/>
             <Property name="toolTipText" type="java.lang.String" value="Inicia a captura da imagem"/>
@@ -159,7 +159,7 @@
               <Color blue="0" green="0" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/gestor/Imagens/191216082320_16.png"/>
+              <Image iconType="3" name="/Imagens/191216082320_16.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Pausa"/>
             <Property name="toolTipText" type="java.lang.String" value="Pausa a captura da imagem"/>
@@ -174,7 +174,7 @@
               <Color blue="0" green="99" red="0" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/gestor/Imagens/1294_16x16.png"/>
+              <Image iconType="3" name="/Imagens/1294_16x16.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Salvar"/>
             <Property name="toolTipText" type="java.lang.String" value="Salvar imagem em local especifico"/>
@@ -186,7 +186,7 @@
         <Component class="javax.swing.JButton" name="jBtSair">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/gestor/Imagens/Log_Out_Icon_16.png"/>
+              <Image iconType="3" name="/Imagens/shutdown-icone-6920-16.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Sair"/>
             <Property name="toolTipText" type="java.lang.String" value="Sair da tela"/>

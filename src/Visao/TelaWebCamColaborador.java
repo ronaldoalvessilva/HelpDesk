@@ -8,11 +8,15 @@ package Visao;
 import Dao.ConexaoBancoDados;
 import static Visao.TelaUsuarios.caminhoFotoFunc;
 import static Visao.TelaUsuarios.jFotoUsuario;
+import static Visao.TelaUsuarios.pLOCAL_foto;
+import static Visao.TelaUsuarios.persona_imagem;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -36,7 +40,7 @@ public class TelaWebCamColaborador extends javax.swing.JDialog {
     private DaemonThread myThread = null;
     int count = 0;
     VideoCapture webSource = null;
-
+    //
     Mat frame = new Mat();
     MatOfByte mem = new MatOfByte();
 
@@ -127,7 +131,7 @@ public class TelaWebCamColaborador extends javax.swing.JDialog {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
 
         jBtIniciar.setForeground(new java.awt.Color(0, 0, 255));
-        jBtIniciar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gestor/Imagens/page_find.png"))); // NOI18N
+        jBtIniciar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/page_add.png"))); // NOI18N
         jBtIniciar.setText("Iniciar");
         jBtIniciar.setToolTipText("Inicia a captura da imagem");
         jBtIniciar.addActionListener(new java.awt.event.ActionListener() {
@@ -137,7 +141,7 @@ public class TelaWebCamColaborador extends javax.swing.JDialog {
         });
 
         jBtParar.setForeground(new java.awt.Color(255, 0, 0));
-        jBtParar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gestor/Imagens/191216082320_16.png"))); // NOI18N
+        jBtParar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/191216082320_16.png"))); // NOI18N
         jBtParar.setText("Pausa");
         jBtParar.setToolTipText("Pausa a captura da imagem");
         jBtParar.addActionListener(new java.awt.event.ActionListener() {
@@ -147,7 +151,7 @@ public class TelaWebCamColaborador extends javax.swing.JDialog {
         });
 
         jBtSalvar.setForeground(new java.awt.Color(0, 153, 0));
-        jBtSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gestor/Imagens/1294_16x16.png"))); // NOI18N
+        jBtSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/1294_16x16.png"))); // NOI18N
         jBtSalvar.setText("Salvar");
         jBtSalvar.setToolTipText("Salvar imagem em local especifico");
         jBtSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -156,7 +160,7 @@ public class TelaWebCamColaborador extends javax.swing.JDialog {
             }
         });
 
-        jBtSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gestor/Imagens/Log_Out_Icon_16.png"))); // NOI18N
+        jBtSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/shutdown-icone-6920-16.png"))); // NOI18N
         jBtSair.setText("Sair");
         jBtSair.setToolTipText("Sair da tela");
         jBtSair.addActionListener(new java.awt.event.ActionListener() {
@@ -273,8 +277,8 @@ public class TelaWebCamColaborador extends javax.swing.JDialog {
 
     private void jBtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSalvarActionPerformed
         // TODO add your handling code here:
-        localFotoFunc();
-        if (localFotoColaborador == null || localFotoColaborador == "") {
+//        localFotoFunc();
+        if (pLOCAL_foto == null || pLOCAL_foto == "") {
             javax.swing.JFileChooser seletor = new javax.swing.JFileChooser();
             FileNameExtensionFilter tipoExtensao = new FileNameExtensionFilter("Imagem de Foto", "jpg", "bmp", "gif", "png");
             seletor.setAcceptAllFileFilterUsed(false);
@@ -316,6 +320,18 @@ public class TelaWebCamColaborador extends javax.swing.JDialog {
                     caminhoFotoFunc = f.getPath();
                 } else if (f.getPath().endsWith("")) {
                     JOptionPane.showMessageDialog(rootPane, "Informe uma extensão de arquivo de foto válida. '" + ".jpg" + "'");
+                }
+                //PREPARAR A IMAGEM PARA SER GRAVADA NO BANCO DE DADOS
+                try {
+                    File image = new File(caminhoFotoFunc);
+                    FileInputStream fis = new FileInputStream(image);
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    byte[] buf = new byte[1024];
+                    for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                        bos.write(buf, 0, readNum);
+                    }
+                    persona_imagem = bos.toByteArray();
+                } catch (Exception e) {
                 }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Seleção da foto foi cancelada");
@@ -516,7 +532,9 @@ public class TelaWebCamColaborador extends javax.swing.JDialog {
     public void localFotoFunc() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM PARAMETROSCRC");
+            conecta.executaSQL("SELECT "
+                    + "LocalFotosColaboradores "
+                    + "FROM PARAMETROSCRC");
             conecta.rs.first();
             localFotoColaborador = conecta.rs.getString("LocalFotosColaboradores");
         } catch (Exception e) {
