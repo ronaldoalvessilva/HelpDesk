@@ -1606,7 +1606,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         setBounds(250, 0, 792, 567);

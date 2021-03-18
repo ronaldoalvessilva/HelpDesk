@@ -9,11 +9,6 @@
             <Property name="text" type="java.lang.String" value="Cadastros"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jTecnicosUnidade">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="T&#xe9;cnicos"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jOcorrencias">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -66,29 +61,18 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Suporte T&#xe9;cnico"/>
+            <Property name="text" type="java.lang.String" value="Solicita&#xe7;&#xe3;o T&#xe9;cnica"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jChamadosSuporte">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Imagens/Configura&#xe7;&#xe3;o18.png"/>
+                  <Image iconType="3" name="/Imagens/HelpDeskFem_16.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Chamados para Suporte T&#xe9;cnico"/>
+                <Property name="text" type="java.lang.String" value="Solicita&#xe7;&#xe3;o de Atendimento T&#xe9;cnico"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jChamadosSuporteActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jAtendimentosUsuariosLocal">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Imagens/240119191009_16.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Atendimento aos Usu&#xe1;rios Local"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jAtendimentosUsuariosLocalActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -159,7 +143,7 @@
                           <Component id="jPanel5" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPainelDesktop" max="32767" attributes="0"/>
+                      <Component id="jPainelDesktopUser" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jToolBar1" min="-2" pref="68" max="-2" attributes="0"/>
@@ -198,7 +182,7 @@
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jPainelDesktop" max="32767" attributes="0"/>
+                  <Component id="jPainelDesktopUser" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -274,7 +258,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/Configuracao48.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Chamados S.T."/>
+            <Property name="text" type="java.lang.String" value="Solicita&#xe7;&#xe3;o T&#xe9;cnica"/>
             <Property name="toolTipText" type="java.lang.String" value="Chamados no Suporte T&#xe9;cnico"/>
           </Properties>
           <Events>
@@ -283,7 +267,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JDesktopPane" name="jPainelDesktop">
+    <Container class="javax.swing.JDesktopPane" name="jPainelDesktopUser">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -317,7 +301,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Imagens/icone-helpdesk.png"/>
+              <Image iconType="3" name="/Imagens/help-icon.png"/>
             </Property>
           </Properties>
         </Component>
@@ -516,10 +500,10 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="cc" type="rgb"/>
+              <Color blue="cc" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="CLIENTE HELP DESK"/>
+            <Property name="text" type="java.lang.String" value="USU&#xc1;RIOS HELP DESK"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -657,8 +641,8 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="99" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Chamamdos em Aberto:"/>
-            <Property name="toolTipText" type="java.lang.String" value="Chamados Aberto no Suporte T&#xe9;cnico"/>
+            <Property name="text" type="java.lang.String" value="Solicita&#xe7;&#xf5;es em Aberto:"/>
+            <Property name="toolTipText" type="java.lang.String" value="Solicita&#xe7;&#xf5;es Aberto no Suporte T&#xe9;cnico"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
@@ -669,7 +653,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="66" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Chamados Encerrados:"/>
+            <Property name="text" type="java.lang.String" value="Solicita&#xe7;&#xf5;es Encerrados:"/>
             <Property name="toolTipText" type="java.lang.String" value="Chamados Encerrado no Suporte T&#xe9;cnico"/>
           </Properties>
         </Component>

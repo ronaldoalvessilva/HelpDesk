@@ -456,7 +456,7 @@
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                               <Component id="jDataCadastro" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -471,8 +471,8 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
-                              <Component id="jComboBoxStatus" alignment="2" min="-2" pref="19" max="-2" attributes="0"/>
                               <Component id="jIdUsuario" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jComboBoxStatus" alignment="2" min="-2" pref="19" max="-2" attributes="0"/>
                               <Component id="jDataCadastro" alignment="2" min="-2" pref="19" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -730,12 +730,13 @@
                       <Font name="Tahoma" size="11" style="1"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="5">
+                      <StringArray count="6">
                         <StringItem index="0" value="Selecione..."/>
                         <StringItem index="1" value="Servidor"/>
                         <StringItem index="2" value="Cliente"/>
-                        <StringItem index="3" value="Ambos"/>
-                        <StringItem index="4" value="Usu&#xe1;rio"/>
+                        <StringItem index="3" value="Usu&#xe1;rio"/>
+                        <StringItem index="4" value="Ambos"/>
+                        <StringItem index="5" value=" "/>
                       </StringArray>
                     </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">

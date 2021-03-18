@@ -48,7 +48,7 @@ public class TelaEscolhaAcesso extends javax.swing.JDialog {
         jLabel1.setText("Escolha o tipo de Aplicativo: Cliente ou Servidor");
 
         jComboBoxTipoAcesso.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxTipoAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Cliente", "Servidor" }));
+        jComboBoxTipoAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Cliente", "Servidor", "Usuários" }));
         jComboBoxTipoAcesso.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jBtConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/tick.png"))); // NOI18N
@@ -130,6 +130,10 @@ public class TelaEscolhaAcesso extends javax.swing.JDialog {
         } else if (jComboBoxTipoAcesso.getSelectedItem().equals("Cliente")) {
             TelaClienteChamadosSuporte objCliente = new TelaClienteChamadosSuporte();
             objCliente.setVisible(true);
+            this.dispose();
+        }else if(jComboBoxTipoAcesso.getSelectedItem().equals("Usuários")){
+            TelaSolicitacaoAtendimentoUsuarios objUsuarios = new TelaSolicitacaoAtendimentoUsuarios();
+            objUsuarios.setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_jBtConfirmarActionPerformed

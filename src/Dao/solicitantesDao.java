@@ -85,7 +85,10 @@ public class solicitantesDao {
     public void buscarEmpresa(int id, String desc) {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM EMPRESA "
+            conecta.executaSQL("SELECT "
+                    + "IdEmpresa, "
+                    + "RazaoSocial "
+                    + "FROM EMPRESA "
                     + "WHERE IdEmpresa='" + id + "' "
                     + "AND RazaoSocial='" + desc + "'");
             conecta.rs.first();
@@ -98,7 +101,10 @@ public class solicitantesDao {
     public void buscarUnidade(int cod, String unid) {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM UNIDADE_PENAL_EMPRESA "
+            conecta.executaSQL("SELECT "
+                    + "IdUnidEmp, "
+                    + "DescricaoUnidade "
+                    + "FROM UNIDADE_PENAL_EMPRESA "
                     + "WHERE IdUnidEmp='" + cod + "' "
                     + "AND DescricaoUnidade='" + unid + "'");
             conecta.rs.first();

@@ -323,6 +323,9 @@ public class LoginHD extends javax.swing.JDialog {
                 TelaClienteChamadosSuporte objCliente = new TelaClienteChamadosSuporte();
                 objCliente.setVisible(true);
                 this.dispose();
+            } else if (pCLIENTE_servidor.equals("Usuários")) {
+                mostrarTelaAmbos();
+                this.dispose();
             } else if (pCLIENTE_servidor.equals("Ambos")) {
                 mostrarTelaAmbos();
                 this.dispose();

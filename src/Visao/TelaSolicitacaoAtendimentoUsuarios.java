@@ -6,6 +6,7 @@
 package Visao;
 
 import Dao.ChamadosSuporteDao;
+import Dao.ConexaoBancoDados;
 import Dao.ControleAcessoGeral;
 import Modelo.CamposAcessos;
 import Modelo.ChamadoSuporte;
@@ -22,8 +23,9 @@ import javax.swing.JOptionPane;
  *
  * @author ronaldo.silva7
  */
-public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
+public class TelaSolicitacaoAtendimentoUsuarios extends javax.swing.JFrame {
 
+    ConexaoBancoDados conecta = new ConexaoBancoDados();
     ChamadoSuporte objCHSup = new ChamadoSuporte();
     ChamadosSuporteDao CONTROL = new ChamadosSuporteDao();
     //
@@ -33,13 +35,16 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss"); // HORAIO DE 24 HORAS, PARA O DE 12 HORAS UTILIZAR hh:mm:ss
     SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
     //
-    private TelaChamadoSuporte objChamaSup = null;
+    private TelaSolicitacaoUsuario objSolicitacao = null;
     private TelaOcorrenciasHD objOcr = null;
     private TelaRecadosCliente objjAgendaRec = null;
     private TelaAgendaCompromissos objAgendaComp = null;
     //
     public static int pTOTAL_REGISTROS_aberto = 0;
     public static int pTOTAL_REGISTROS_fechado = 0;
+    //
+    public static String tipoServidor = "";
+    public static String tipoBancoDados = "";
     //
     public static int codigoUser = 0;
     public static int codUserAcesso = 0;
@@ -58,7 +63,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     public static String telaAgendaRecado = "Cadastro Agenda Recados:Manutenção";
     public static String telaAgendaCompromisso = "Cadastro Agenda de Compromisso:Manutenção";
     //SUPORTE CHAMADOS
-    public static String telaChamadosSuporte = "Suporte Técnico:Chamados Suporte:Manutenção";
+    public static String telaChamadosSolicitacao = "Suporte Técnico:Chamados Suporte:Manutenção";
     public static String telaItensChamadoSuporte = "Suporte Técnico:Chamados Suporte:Itens";
     public static String botaoEncerrarSup = "Encerrar Chamado no Suporte";
     public static String botaoImprimirSup = "Imprimir Chamado no Suporte";
@@ -68,7 +73,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     /**
      * Creates new form TelaClienteChamadosSuporte
      */
-    public TelaClienteChamadosSuporte() {
+    public TelaSolicitacaoAtendimentoUsuarios() {
         initComponents();
         jLoginConectado.setText(nameUser);
         setExtendedState(MAXIMIZED_BOTH); // Maximnizar a tela prinicpal
@@ -102,7 +107,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jBtOcorrencias = new javax.swing.JButton();
         jBtChamados = new javax.swing.JButton();
-        jPainelDesktop = new javax.swing.JDesktopPane();
+        jPainelDesktopUser = new javax.swing.JDesktopPane();
         jLabel1 = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
         jLabel3 = new javax.swing.JLabel();
@@ -129,7 +134,6 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         jQtdChamadosFechados = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jTecnicosUnidade = new javax.swing.JMenuItem();
         jOcorrencias = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jAgendaRecados = new javax.swing.JMenuItem();
@@ -138,7 +142,6 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         jSair = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jChamadosSuporte = new javax.swing.JMenuItem();
-        jAtendimentosUsuariosLocal = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jRelatoriosChamadosSuporte = new javax.swing.JMenuItem();
         jMenuSair = new javax.swing.JMenu();
@@ -158,7 +161,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         });
 
         jBtChamados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Configuracao48.png"))); // NOI18N
-        jBtChamados.setText("Chamados S.T.");
+        jBtChamados.setText("Solicitação Técnica");
         jBtChamados.setToolTipText("Chamados no Suporte Técnico");
         jBtChamados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,25 +197,25 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtChamados, jBtOcorrencias});
 
-        jPainelDesktop.setBackground(new java.awt.Color(255, 255, 255));
+        jPainelDesktopUser.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/icone-helpdesk.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/help-icon.png"))); // NOI18N
 
-        jPainelDesktop.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jPainelDesktopUser.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        javax.swing.GroupLayout jPainelDesktopLayout = new javax.swing.GroupLayout(jPainelDesktop);
-        jPainelDesktop.setLayout(jPainelDesktopLayout);
-        jPainelDesktopLayout.setHorizontalGroup(
-            jPainelDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPainelDesktopLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPainelDesktopUserLayout = new javax.swing.GroupLayout(jPainelDesktopUser);
+        jPainelDesktopUser.setLayout(jPainelDesktopUserLayout);
+        jPainelDesktopUserLayout.setHorizontalGroup(
+            jPainelDesktopUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPainelDesktopUserLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPainelDesktopLayout.setVerticalGroup(
-            jPainelDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPainelDesktopLayout.createSequentialGroup()
+        jPainelDesktopUserLayout.setVerticalGroup(
+            jPainelDesktopUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPainelDesktopUserLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
@@ -297,9 +300,9 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(204, 0, 0));
+        jLabel6.setForeground(new java.awt.Color(0, 0, 204));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("CLIENTE HELP DESK");
+        jLabel6.setText("USUÁRIOS HELP DESK");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -359,12 +362,12 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(153, 0, 0));
-        jLabel7.setText("Chamamdos em Aberto:");
-        jLabel7.setToolTipText("Chamados Aberto no Suporte Técnico");
+        jLabel7.setText("Solicitações em Aberto:");
+        jLabel7.setToolTipText("Solicitações Aberto no Suporte Técnico");
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel8.setText("Chamados Encerrados:");
+        jLabel8.setText("Solicitações Encerrados:");
         jLabel8.setToolTipText("Chamados Encerrado no Suporte Técnico");
 
         jQtdChamadosAberto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -414,9 +417,6 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
 
         jMenu1.setText("Cadastros");
 
-        jTecnicosUnidade.setText("Técnicos");
-        jMenu1.add(jTecnicosUnidade);
-
         jOcorrencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/250119203457_16.png"))); // NOI18N
         jOcorrencias.setText("Ocorrências");
         jOcorrencias.addActionListener(new java.awt.event.ActionListener() {
@@ -457,25 +457,16 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Suporte Técnico");
+        jMenu2.setText("Solicitação Técnica");
 
-        jChamadosSuporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Configuração18.png"))); // NOI18N
-        jChamadosSuporte.setText("Chamados para Suporte Técnico");
+        jChamadosSuporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskFem_16.png"))); // NOI18N
+        jChamadosSuporte.setText("Solicitação de Atendimento Técnico");
         jChamadosSuporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jChamadosSuporteActionPerformed(evt);
             }
         });
         jMenu2.add(jChamadosSuporte);
-
-        jAtendimentosUsuariosLocal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191009_16.png"))); // NOI18N
-        jAtendimentosUsuariosLocal.setText("Atendimento aos Usuários Local");
-        jAtendimentosUsuariosLocal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jAtendimentosUsuariosLocalActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jAtendimentosUsuariosLocal);
 
         jMenuBar1.add(jMenu2);
 
@@ -516,7 +507,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPainelDesktop))
+                        .addComponent(jPainelDesktopUser))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -547,7 +538,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(4, 4, 4))
-                    .addComponent(jPainelDesktop))
+                    .addComponent(jPainelDesktopUser))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -594,7 +585,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaOcorrenciaManu) && objCampos.getCodigoAbrir() == 1) {
             if (objOcr == null || objOcr.isClosed()) {
                 objOcr = new TelaOcorrenciasHD();
-                jPainelDesktop.add(objOcr);
+                jPainelDesktopUser.add(objOcr);
                 objOcr.setVisible(true);
             } else {
                 if (objOcr.isVisible()) {
@@ -609,7 +600,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
                     }
                 } else {
                     objOcr = new TelaOcorrenciasHD();
-                    TelaClienteChamadosSuporte.jPainelDesktop.add(objOcr);//adicona frame ao JDesktopPane  
+                    TelaSolicitacaoAtendimentoUsuarios.jPainelDesktopUser.add(objOcr);//adicona frame ao JDesktopPane  
                     objOcr.setVisible(true);
                 }
             }
@@ -625,34 +616,34 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     private void jBtChamadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtChamadosActionPerformed
         // TODO add your handling code here:
         objCampos.setNomeUsuario(nameUser);
-        objCampos.setNomeTelaAcesso(telaChamadosSuporte);
+        objCampos.setNomeTelaAcesso(telaChamadosSolicitacao);
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSuporte) && objCampos.getCodigoAbrir() == 1) {
-            if (objChamaSup == null || objChamaSup.isClosed()) {
-                objChamaSup = new TelaChamadoSuporte();
-                TelaClienteChamadosSuporte.jPainelDesktop.add(objChamaSup);
-                objChamaSup.setVisible(true);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacao) && objCampos.getCodigoAbrir() == 1) {
+            if (objSolicitacao == null || objSolicitacao.isClosed()) {
+                objSolicitacao = new TelaSolicitacaoUsuario();
+                TelaSolicitacaoAtendimentoUsuarios.jPainelDesktopUser.add(objSolicitacao);
+                objSolicitacao.setVisible(true);
             } else {
-                if (objChamaSup.isVisible()) {
-                    if (objChamaSup.isIcon()) { // Se esta minimizado
+                if (objSolicitacao.isVisible()) {
+                    if (objSolicitacao.isIcon()) { // Se esta minimizado
                         try {
-                            objChamaSup.setIcon(false); // maximiniza
+                            objSolicitacao.setIcon(false); // maximiniza
                         } catch (PropertyVetoException ex) {
                         }
                     } else {
-                        objChamaSup.toFront(); // traz para frente
-                        objChamaSup.pack();//volta frame 
+                        objSolicitacao.toFront(); // traz para frente
+                        objSolicitacao.pack();//volta frame 
                     }
                 } else {
-                    objChamaSup = new TelaChamadoSuporte();
-                    TelaClienteChamadosSuporte.jPainelDesktop.add(objChamaSup);//adicona frame ao JDesktopPane  
-                    objChamaSup.setVisible(true);
+                    objSolicitacao = new TelaSolicitacaoUsuario();
+                    TelaSolicitacaoAtendimentoUsuarios.jPainelDesktopUser.add(objSolicitacao);//adicona frame ao JDesktopPane  
+                    objSolicitacao.setVisible(true);
                 }
             }
             try {
-                objChamaSup.setSelected(true);
+                objSolicitacao.setSelected(true);
             } catch (java.beans.PropertyVetoException e) {
             }
         } else {
@@ -670,7 +661,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaOcorrenciaManu) && objCampos.getCodigoAbrir() == 1) {
             if (objOcr == null || objOcr.isClosed()) {
                 objOcr = new TelaOcorrenciasHD();
-                jPainelDesktop.add(objOcr);
+                jPainelDesktopUser.add(objOcr);
                 objOcr.setVisible(true);
             } else {
                 if (objOcr.isVisible()) {
@@ -685,7 +676,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
                     }
                 } else {
                     objOcr = new TelaOcorrenciasHD();
-                    TelaClienteChamadosSuporte.jPainelDesktop.add(objOcr);//adicona frame ao JDesktopPane  
+                    TelaSolicitacaoAtendimentoUsuarios.jPainelDesktopUser.add(objOcr);//adicona frame ao JDesktopPane  
                     objOcr.setVisible(true);
                 }
             }
@@ -708,7 +699,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaRecado) && objCampos.getCodigoAbrir() == 1) {
             if (objjAgendaRec == null || objjAgendaRec.isClosed()) {
                 objjAgendaRec = new TelaRecadosCliente();
-                jPainelDesktop.add(objjAgendaRec);
+                jPainelDesktopUser.add(objjAgendaRec);
                 objjAgendaRec.setVisible(true);
             } else {
                 if (objjAgendaRec.isVisible()) {
@@ -723,7 +714,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
                     }
                 } else {
                     objjAgendaRec = new TelaRecadosCliente();
-                    TelaClienteChamadosSuporte.jPainelDesktop.add(objjAgendaRec);//adicona frame ao JDesktopPane  
+                    TelaSolicitacaoAtendimentoUsuarios.jPainelDesktopUser.add(objjAgendaRec);//adicona frame ao JDesktopPane  
                     objjAgendaRec.setVisible(true);
                 }
             }
@@ -746,7 +737,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaCompromisso) && objCampos.getCodigoAbrir() == 1) {
             if (objAgendaComp == null || objAgendaComp.isClosed()) {
                 objAgendaComp = new TelaAgendaCompromissos();
-                jPainelDesktop.add(objAgendaComp);
+                jPainelDesktopUser.add(objAgendaComp);
                 objAgendaComp.setVisible(true);
             } else {
                 if (objAgendaComp.isVisible()) {
@@ -761,7 +752,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
                     }
                 } else {
                     objAgendaComp = new TelaAgendaCompromissos();
-                    TelaClienteChamadosSuporte.jPainelDesktop.add(objAgendaComp);//adicona frame ao JDesktopPane  
+                    TelaSolicitacaoAtendimentoUsuarios.jPainelDesktopUser.add(objAgendaComp);//adicona frame ao JDesktopPane  
                     objAgendaComp.setVisible(true);
                 }
             }
@@ -793,34 +784,34 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     private void jChamadosSuporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChamadosSuporteActionPerformed
         // TODO add your handling code here:
         objCampos.setNomeUsuario(nameUser);
-        objCampos.setNomeTelaAcesso(telaChamadosSuporte);
+        objCampos.setNomeTelaAcesso(telaChamadosSolicitacao);
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSuporte) && objCampos.getCodigoAbrir() == 1) {
-            if (objChamaSup == null || objChamaSup.isClosed()) {
-                objChamaSup = new TelaChamadoSuporte();
-                TelaClienteChamadosSuporte.jPainelDesktop.add(objChamaSup);
-                objChamaSup.setVisible(true);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacao) && objCampos.getCodigoAbrir() == 1) {
+            if (objSolicitacao == null || objSolicitacao.isClosed()) {
+                objSolicitacao = new TelaSolicitacaoUsuario();
+                TelaSolicitacaoAtendimentoUsuarios.jPainelDesktopUser.add(objSolicitacao);
+                objSolicitacao.setVisible(true);
             } else {
-                if (objChamaSup.isVisible()) {
-                    if (objChamaSup.isIcon()) { // Se esta minimizado
+                if (objSolicitacao.isVisible()) {
+                    if (objSolicitacao.isIcon()) { // Se esta minimizado
                         try {
-                            objChamaSup.setIcon(false); // maximiniza
+                            objSolicitacao.setIcon(false); // maximiniza
                         } catch (PropertyVetoException ex) {
                         }
                     } else {
-                        objChamaSup.toFront(); // traz para frente
-                        objChamaSup.pack();//volta frame 
+                        objSolicitacao.toFront(); // traz para frente
+                        objSolicitacao.pack();//volta frame 
                     }
                 } else {
-                    objChamaSup = new TelaChamadoSuporte();
-                    TelaClienteChamadosSuporte.jPainelDesktop.add(objChamaSup);//adicona frame ao JDesktopPane  
-                    objChamaSup.setVisible(true);
+                    objSolicitacao = new TelaSolicitacaoUsuario();
+                    TelaSolicitacaoAtendimentoUsuarios.jPainelDesktopUser.add(objSolicitacao);//adicona frame ao JDesktopPane  
+                    objSolicitacao.setVisible(true);
                 }
             }
             try {
-                objChamaSup.setSelected(true);
+                objSolicitacao.setSelected(true);
             } catch (java.beans.PropertyVetoException e) {
             }
         } else {
@@ -831,13 +822,9 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     private void jRelatoriosChamadosSuporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRelatoriosChamadosSuporteActionPerformed
         // TODO add your handling code here:
         TelaRelatorioGeralChamadosSuporteTecnicoCliente objRelChamadoCliente = new TelaRelatorioGeralChamadosSuporteTecnicoCliente();
-        jPainelDesktop.add(objRelChamadoCliente);
+        jPainelDesktopUser.add(objRelChamadoCliente);
         objRelChamadoCliente.show();
     }//GEN-LAST:event_jRelatoriosChamadosSuporteActionPerformed
-
-    private void jAtendimentosUsuariosLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAtendimentosUsuariosLocalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jAtendimentosUsuariosLocalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -856,20 +843,21 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaClienteChamadosSuporte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaSolicitacaoAtendimentoUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaClienteChamadosSuporte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaSolicitacaoAtendimentoUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaClienteChamadosSuporte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaSolicitacaoAtendimentoUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaClienteChamadosSuporte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaSolicitacaoAtendimentoUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaClienteChamadosSuporte().setVisible(true);
+                new TelaSolicitacaoAtendimentoUsuarios().setVisible(true);
             }
         });
     }
@@ -877,7 +865,6 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem jAgendaCompromissos;
     private javax.swing.JMenuItem jAgendaRecados;
-    private javax.swing.JMenuItem jAtendimentosUsuariosLocal;
     private javax.swing.JButton jBtChamados;
     private javax.swing.JButton jBtLogoff;
     private javax.swing.JButton jBtOcorrencias;
@@ -901,7 +888,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuSair;
     private javax.swing.JMenuItem jOcorrencias;
-    public static javax.swing.JDesktopPane jPainelDesktop;
+    public static javax.swing.JDesktopPane jPainelDesktopUser;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -913,7 +900,6 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     private javax.swing.JMenuItem jSair;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JMenuItem jTecnicosUnidade;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
@@ -937,7 +923,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
                 jQtdChamadosFechados.setText(String.valueOf(pTOTAL_REGISTROS_fechado));
             }
         } catch (Exception ex) {
-            Logger.getLogger(TelaClienteChamadosSuporte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaSolicitacaoAtendimentoUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -954,5 +940,21 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
             }
         } catch (InterruptedException ex) {
         }
+    }
+
+    // PARAMETRO PARA IDENTIFICAR O OS DO SERVIDOR DE BANCO DE DADOS.
+    public void verificarParametrosSRV() {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "TipoServidor, "
+                    + "TipoBanco "
+                    + "FROM SOFTWARE");
+            conecta.rs.first();
+            tipoServidor = conecta.rs.getString("TipoServidor");
+            tipoBancoDados = conecta.rs.getString("TipoBanco");
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
     }
 }
