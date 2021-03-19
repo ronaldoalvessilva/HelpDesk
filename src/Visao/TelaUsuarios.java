@@ -176,6 +176,8 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jIdUsuario = new javax.swing.JTextField();
         jComboBoxStatus = new javax.swing.JComboBox<>();
         jDataCadastro = new com.toedter.calendar.JDateChooser();
+        jLabel12 = new javax.swing.JLabel();
+        jComboBoxEmpresaUnidade = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jNomeUsuario = new javax.swing.JTextField();
@@ -401,7 +403,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -435,31 +437,48 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jDataCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jDataCadastro.setEnabled(false);
 
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel12.setText("Unidade");
+
+        jComboBoxEmpresaUnidade.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxEmpresaUnidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione..." }));
+        jComboBoxEmpresaUnidade.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBoxEmpresaUnidade.setEnabled(false);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jComboBoxStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jDataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jComboBoxStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jDataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jComboBoxEmpresaUnidade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel12)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(7, 7, 7)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
@@ -469,7 +488,11 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                     .addComponent(jIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxEmpresaUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
@@ -496,7 +519,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jLabel10.setText("Nivel de Acesso");
 
         jComboBoxNivelAcesso.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxNivelAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Desenvolvedor", "Suporte Técnico", "Técnico de Informática - UP" }));
+        jComboBoxNivelAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Desenvolvedor", "Suporte Técnico", "Técnico de Informática - UP", "Usuários - UP" }));
         jComboBoxNivelAcesso.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxNivelAcesso.setEnabled(false);
 
@@ -762,11 +785,11 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(3, 3, 3)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addGap(3, 3, 3)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9)
+                .addGap(3, 3, 3)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -805,14 +828,13 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                         .addComponent(jLabel28)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addComponent(jLabel22)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addComponent(jComboBoxTelaAcesso, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
-                        .addComponent(jNomeUsuarioAcesso)
-                        .addGap(32, 32, 32))))
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel14Layout.createSequentialGroup()
+                                .addComponent(jLabel22)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jNomeUsuarioAcesso)
+                            .addComponent(jComboBoxTelaAcesso, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1111,10 +1133,9 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                .addGap(3, 3, 3)
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane1.addTab("Acessos", jPanel7);
@@ -1206,12 +1227,12 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                     .addComponent(jBtZoom))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtExcluirFoto, jBtNovaFoto, jBtZoom});
 
-        setBounds(320, 20, 624, 466);
+        setBounds(320, 20, 624, 490);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
@@ -1269,6 +1290,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             bloquearCampos();
             bloquearBotoes();
             Novo();
+            userDao.PESQUISAR_NOME_unidades(objUser);
             statusMov = "Incluiu";
             horaMov = jHoraSistema.getText();
             dataModFinal = jDataSistema.getText();
@@ -1287,6 +1309,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 bloquearCampos();
                 bloquearBotoes();
                 AlterarAdm();
+                userDao.PESQUISAR_NOME_unidades(objUser);
                 statusMov = "Alterou";
                 horaMov = jHoraSistema.getText();
                 dataModFinal = jDataSistema.getText();
@@ -1295,6 +1318,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 bloquearBotoes();
                 bloquearCampos();
                 Alterar();
+                userDao.PESQUISAR_NOME_unidades(objUser);
                 statusMov = "Alterou";
                 horaMov = jHoraSistema.getText();
                 dataModFinal = jDataSistema.getText();
@@ -1364,11 +1388,15 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 } else if (jComboBoxNivelAcesso.getSelectedItem().equals("Técnico de Informática - UP")) {
                     nivel = 2;
                     objUser.setNivelUsuario(nivel);
+                } else if (jComboBoxNivelAcesso.getSelectedItem().equals("Usuários - UP")) {
+                    nivel = 2;
+                    objUser.setNivelUsuario(nivel);
                 }
                 objUser.setLoginUsuario(jLogin.getText());
                 objUser.setSenhaUsuario(jSenhaUsuario.getText());
                 objUser.setSenhaUsuario1(jConfirmaSenha.getText());
                 objUser.setFotoPerfilUsuario(persona_imagem);
+                objUser.setNomeUnidade((String) jComboBoxEmpresaUnidade.getSelectedItem());
                 if (acao == 1) {
                     // Só inclui registro se os campo não for em branco e compara se as senhas são iguais
                     if (jSenhaUsuario.getText() == null ? jConfirmaSenha.getText() == null : jConfirmaSenha.getText().equals(jSenhaUsuario.getText())) {
@@ -1737,6 +1765,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox jComboBoxAbrir;
     private javax.swing.JComboBox jComboBoxAlterar;
     private javax.swing.JComboBox jComboBoxConsultar;
+    public static javax.swing.JComboBox<String> jComboBoxEmpresaUnidade;
     private javax.swing.JComboBox jComboBoxExcluir;
     private javax.swing.JComboBox jComboBoxGravar;
     private javax.swing.JComboBox jComboBoxIncluir;
@@ -1751,6 +1780,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel28;
@@ -1829,6 +1859,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     }
 
     public void bloquearCampos() {
+        jComboBoxEmpresaUnidade.setEnabled(!true);
         jIdUsuario.setEnabled(!true);
         jComboBoxStatus.setEnabled(!true);
         jDataCadastro.setEnabled(!true);
@@ -1842,6 +1873,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     }
 
     public void limparCampos() {
+        jComboBoxEmpresaUnidade.setSelectedItem("Selecione...");
         jIdUsuario.setText("");
         jComboBoxStatus.setSelectedItem("Ativo");
         jDataCadastro.setDate(null);
@@ -1855,6 +1887,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     }
 
     public void Novo() {
+        jComboBoxEmpresaUnidade.setSelectedItem("Selecione...");
         jIdUsuario.setText("");
         jComboBoxStatus.setSelectedItem("Ativo");
         jDataCadastro.setCalendar(Calendar.getInstance());
@@ -1867,6 +1900,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jConfirmaSenha.setText("");
         jComboBoxServidorCliente.setSelectedItem("Selecione...");
         //
+        jComboBoxEmpresaUnidade.setEnabled(true);
         jComboBoxStatus.setEnabled(true);
         jDataCadastro.setEnabled(true);
         jNomeUsuario.setEnabled(true);
@@ -1889,6 +1923,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         jSenhaUsuario.setText("");
         jConfirmaSenha.setText("");
         //
+        jComboBoxEmpresaUnidade.setEnabled(true);
         jComboBoxStatus.setEnabled(true);
         jDataCadastro.setEnabled(true);
         jNomeUsuario.setEnabled(true);
@@ -1908,6 +1943,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     }
 
     public void Excluir() {
+        jComboBoxEmpresaUnidade.setEnabled(!true);
         jComboBoxStatus.setEnabled(!true);
         jDataCadastro.setEnabled(!true);
         jNomeUsuario.setEnabled(!true);
@@ -1923,6 +1959,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     }
 
     public void Salvar() {
+        jComboBoxEmpresaUnidade.setEnabled(!true);
         jComboBoxStatus.setEnabled(!true);
         jDataCadastro.setEnabled(!true);
         jNomeUsuario.setEnabled(!true);
@@ -1941,6 +1978,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
 
     public void Cancelar() {
         if (jIdUsuario.getText().equals("")) {
+            jComboBoxEmpresaUnidade.setSelectedItem("Selecione...");
             jIdUsuario.setText("");
             jComboBoxStatus.setSelectedItem("Ativo");
             jDataCadastro.setDate(null);
@@ -1953,6 +1991,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             jConfirmaSenha.setText("");
             jComboBoxServidorCliente.setSelectedItem("Selecione...");
             //
+            jComboBoxEmpresaUnidade.setEnabled(!true);
             jComboBoxStatus.setEnabled(!true);
             jDataCadastro.setEnabled(!true);
             jNomeUsuario.setEnabled(!true);
@@ -1972,6 +2011,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         } else {
             //MOSTRAR OS DADOS SEM ALTERARÇÃO
             pMOSTRAR_dados();
+            jComboBoxEmpresaUnidade.setEnabled(!true);
             jComboBoxStatus.setEnabled(!true);
             jDataCadastro.setEnabled(!true);
             jNomeUsuario.setEnabled(!true);
@@ -1994,6 +2034,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     public void pMOSTRAR_dados() {
         try {
             for (Usuarios objUser : userDao.pPESQUISA_cancelar_read()) {
+                jComboBoxEmpresaUnidade.setSelectedItem(objUser.getNomeUnidade());
                 jIdUsuario.setText(String.valueOf(objUser.getIdUsuario()));
                 jComboBoxStatus.addItem(objUser.getStatus());
                 jDataCadastro.setDate(objUser.getDataCadastro());

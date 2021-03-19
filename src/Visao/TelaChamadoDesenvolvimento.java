@@ -31,7 +31,7 @@ import static Visao.TelaPrincipal.jPainelPrincipal;
 import static Visao.TelaPrincipal.nomeTela;
 import static Visao.TelaPrincipal.telaChamadosDesenvolvimento;
 import static Visao.TelaPrincipal.telaItensChamadoDesenvolvimento;
-import static Visao.TelaPrincipal.tipoServidor;
+import static Visao.LoginHD.tipoServidor;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;

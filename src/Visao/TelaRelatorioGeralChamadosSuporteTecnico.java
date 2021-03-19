@@ -7,7 +7,7 @@ package Visao;
 
 import Dao.ConexaoBancoDados;
 import static Visao.LoginHD.nameUser;
-import static Visao.TelaPrincipal.tipoServidor;
+import static Visao.LoginHD.tipoServidor;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import javax.swing.JOptionPane;

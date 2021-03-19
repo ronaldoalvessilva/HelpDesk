@@ -12,6 +12,7 @@ import Dao.LogSistemaDao;
 import Modelo.ChamadoSuporte;
 import Modelo.LogSistema;
 import static Visao.LoginHD.nameUser;
+import static Visao.LoginHD.nomeUserRegistro;
 import static Visao.LoginHD.pCLIENTE_servidor;
 import static Visao.LoginHD.pDATA_sistema;
 import static Visao.LoginHD.pHORA_sistema;
@@ -34,8 +35,8 @@ import static Visao.TelaPrincipal.jPainelPrincipal;
 import static Visao.TelaPrincipal.nomeTela;
 import static Visao.TelaPrincipal.telaChamadosSuporte;
 import static Visao.TelaPrincipal.telaItensChamadoSuporte;
-import static Visao.TelaPrincipal.tipoServidor;
-import static Visao.TelaPrincipal.nomeUserRegistro;
+import static Visao.LoginHD.tipoServidor;
+import static Visao.LoginHD.nomeUserRegistro;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.ByteArrayOutputStream;
@@ -43,7 +44,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -52,7 +52,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -125,6 +124,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     //
     public static int pID_EMPRESA = 0;
     public static int pID_UNIDADE = 0;
+    public static String pRESPOSTA = "";
 
     /**
      * Creates new form TelaChamadoSuporte
@@ -165,11 +165,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         pPDF_ANEXO.setVisible(true);
     }
 
-    public void mostrarEXE(){
+    public void mostrarEXE() {
         pEXE_ANEXO = new DownloadFileExecutavel(this, true);
         pEXE_ANEXO.setVisible(true);
     }
-    
+
     public void mostraTelaFotoDoc1() {
         pFOTO1 = new TelaFotoHelpDesk1(this, true);
         pFOTO1.setVisible(true);
@@ -1932,6 +1932,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                                     objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
                                     CONTROL.excluirChamadoSup(objCHSup);
                                     Excluir();
+                                    if (pRESPOSTA.equals("Sim")) {
+                                        JOptionPane.showMessageDialog(rootPane, "Registro excluído com sucesso.");
+                                    } else if (pRESPOSTA.equals("Não")) {
+                                        JOptionPane.showMessageDialog(rootPane, "Não foi possívep excluir o registro, tente novamente.");
+                                    }
                                 }
                             }
                         } else if (pCLIENTE_servidor.equals("Servidor")) {
@@ -1944,6 +1949,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                                 objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
                                 CONTROL.excluirChamadoSup(objCHSup);
                                 Excluir();
+                                if (pRESPOSTA.equals("Sim")) {
+                                    JOptionPane.showMessageDialog(rootPane, "Registro excluído com sucesso.");
+                                } else if (pRESPOSTA.equals("Não")) {
+                                    JOptionPane.showMessageDialog(rootPane, "Não foi possívep excluir o registro, tente novamente.");
+                                }
                             }
                         } else if (pCLIENTE_servidor.equals("Ambos")) {
                             statusMov = "Excluiu";
@@ -1955,6 +1965,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                                 objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
                                 CONTROL.excluirChamadoSup(objCHSup);
                                 Excluir();
+                                if (pRESPOSTA.equals("Sim")) {
+                                    JOptionPane.showMessageDialog(rootPane, "Registro excluído com sucesso.");
+                                } else if (pRESPOSTA.equals("Não")) {
+                                    JOptionPane.showMessageDialog(rootPane, "Não foi possívep excluir o registro, tente novamente.");
+                                }
                             }
                         }
                     }
@@ -2009,7 +2024,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                     objLog();
                     controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                     Salvar();
-                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                    if (pRESPOSTA.equals("Sim")) {
+                        JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                    } else if (pRESPOSTA.equals("Não")) {
+                        JOptionPane.showMessageDialog(rootPane, "Não foi possívep gravar o registro, tente novamente.");
+                    }
                 }
                 if (acao == 2) {
                     objCHSup.setUsuarioUp(nameUser);
@@ -2021,7 +2040,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                     objLog();
                     controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                     Salvar();
-                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                    if (pRESPOSTA.equals("Sim")) {
+                        JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                    } else if (pRESPOSTA.equals("Não")) {
+                        JOptionPane.showMessageDialog(rootPane, "Não foi possívep gravar o registro, tente novamente.");
+                    }
                 }
             }
         } else {
@@ -2337,12 +2360,15 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         ExcluirItem();
                         pLIMPAR_TABELA_itens();
                         MOSTRAR_ITENS_chamado();
-                        JOptionPane.showMessageDialog(rootPane, "Registro excluido com sucesso.");
+                        if (pRESPOSTA.equals("Sim")) {
+                            JOptionPane.showMessageDialog(rootPane, "Registro excluído com sucesso.");
+                        } else if (pRESPOSTA.equals("Não")) {
+                            JOptionPane.showMessageDialog(rootPane, "Não foi possívep excluir o registro, tente novamente.");
+                        }
                     }
                 }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
-                conecta.desconecta();
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -2417,7 +2443,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         SalvarItem();
                         pLIMPAR_TABELA_itens();
                         MOSTRAR_ITENS_chamado();
-                        JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                        if (pRESPOSTA.equals("Sim")) {
+                            JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                        } else if (pRESPOSTA.equals("Não")) {
+                            JOptionPane.showMessageDialog(rootPane, "Não foi possívep gravar o registro, tente novamente.");
+                        }
                     }
                 }
                 if (acao == 4) {
@@ -2451,7 +2481,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         SalvarItem();
                         pLIMPAR_TABELA_itens();
                         MOSTRAR_ITENS_chamado();
-                        JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                        if (pRESPOSTA.equals("Sim")) {
+                            JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                        } else if (pRESPOSTA.equals("Não")) {
+                            JOptionPane.showMessageDialog(rootPane, "Não foi possívep gravar o registro, tente novamente.");
+                        }
                     }
                 }
             }
@@ -2748,7 +2782,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         } else if (jComboBoxStatus.getSelectedItem().equals("Fechado")) {
             pLIMPAR_TABELA_chamados();
             MOSTRAR_STATUS_fechado();
-        }else if(jComboBoxStatus.getSelectedItem().equals("Atendimento")){
+        } else if (jComboBoxStatus.getSelectedItem().equals("Atendimento")) {
             pLIMPAR_TABELA_chamados();
             MOSTRAR_STATUS_andamento();
         }
@@ -3742,6 +3776,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void MOSTRAR_STATUS_andamento() {
         DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaChamdosSup.getModel();
         ChamadoSuporte d = new ChamadoSuporte();

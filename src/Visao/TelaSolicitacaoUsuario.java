@@ -12,12 +12,16 @@ import Modelo.CamposAcessos;
 import Modelo.LogSistema;
 import Modelo.SolicitacaoAtendimentoUsuarios;
 import static Visao.LoginHD.nameUser;
+import static Visao.LoginHD.nomeUserRegistro;
+import static Visao.LoginHD.pDATA_sistema;
+import static Visao.LoginHD.pHORA_sistema;
 import static Visao.TelaSolicitacaoAtendimentoUsuarios.telaChamadosSolicitacao;
-import static Visao.TelaSolicitacaoAtendimentoUsuarios.tipoServidor;
+import static Visao.LoginHD.tipoServidor;
 import java.awt.Color;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -57,6 +61,8 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
     public static String nomeSolicitante = "";
     public static String dataInicial = "";
     public static String dataFinal = "";
+    //
+    public static String idSolicitacaoTabela = "";
 
     /**
      * Creates new form TelaSolicitacaoUsuario
@@ -82,7 +88,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         jPanel6 = new javax.swing.JPanel();
         jBtPesqCHData = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
-        jIdChamadoPesquisa = new javax.swing.JTextField();
+        jIdRegistroSolicitantePesquisa = new javax.swing.JTextField();
         jBtPesqCHCodigo = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -90,11 +96,11 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         jDataPesFinal = new com.toedter.calendar.JDateChooser();
         jCheckBoxTodosCH = new javax.swing.JCheckBox();
         jLabel20 = new javax.swing.JLabel();
-        jComboBoxStatus = new javax.swing.JComboBox<>();
+        jComboBoxStatusPesquisa = new javax.swing.JComboBox<>();
         jBtStatus = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         jBtAssunto = new javax.swing.JButton();
-        jComboBoxTipoSolicitacao1 = new javax.swing.JComboBox<>();
+        jComboBoxTipoSolicitacaoPesquisa = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTabelaSolicitacao = new javax.swing.JTable();
         jPanel31 = new javax.swing.JPanel();
@@ -111,7 +117,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jIdSolicitacao = new javax.swing.JTextField();
+        jIdRegistroSolicitante = new javax.swing.JTextField();
         jStatusSolicitacao = new javax.swing.JTextField();
         jNomeSolicitante = new javax.swing.JTextField();
         jNomeComputadorSolicitante = new javax.swing.JTextField();
@@ -153,8 +159,8 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel12.setText("Código:");
 
-        jIdChamadoPesquisa.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jIdChamadoPesquisa.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jIdRegistroSolicitantePesquisa.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jIdRegistroSolicitantePesquisa.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jBtPesqCHCodigo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
         jBtPesqCHCodigo.setToolTipText("Pesquisa de Chamados por Código");
@@ -186,9 +192,9 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel20.setText("Status:");
 
-        jComboBoxStatus.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Aberto", "Fechado", "Atendimento" }));
-        jComboBoxStatus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBoxStatusPesquisa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxStatusPesquisa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Aberto", "Fechado", "Atendimento" }));
+        jComboBoxStatusPesquisa.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jBtStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
         jBtStatus.setContentAreaFilled(false);
@@ -209,9 +215,9 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
             }
         });
 
-        jComboBoxTipoSolicitacao1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxTipoSolicitacao1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Avaliação", "Correções", "Dúvidas", "Erros de Sistema", "Implementação (SISCONP)", "Manutenção Hardware (CPU)", "Manutenção Software", "Manutenção em Servidores", "Manutenção Impressoras", "Manutenção em Rede", "Melhorias (Imp. Diversas)", "Problema(s)", "Reclamação(ões)", "Sugestão(ões)", "Outros" }));
-        jComboBoxTipoSolicitacao1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBoxTipoSolicitacaoPesquisa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxTipoSolicitacaoPesquisa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Avaliação", "Correções", "Dúvidas", "Erros de Sistema", "Implementação (SISCONP)", "Manutenção Hardware (CPU)", "Manutenção Software", "Manutenção em Servidores", "Manutenção Impressoras", "Manutenção em Rede", "Melhorias (Imp. Diversas)", "Problema(s)", "Reclamação(ões)", "Sugestão(ões)", "Outros" }));
+        jComboBoxTipoSolicitacaoPesquisa.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -227,26 +233,22 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jComboBoxTipoSolicitacaoPesquisa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
                                 .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel15)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jComboBoxStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBoxTipoSolicitacao1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jBtAssunto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jBtStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(21, 21, 21)))
-                        .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBoxStatusPesquisa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBtAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jIdChamadoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jIdRegistroSolicitantePesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtPesqCHCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -259,7 +261,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 .addContainerGap(11, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jBtPesqCHCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jIdChamadoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jIdRegistroSolicitantePesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
                     .addComponent(jCheckBoxTodosCH))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -273,11 +275,11 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jBtAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19)
-                    .addComponent(jComboBoxTipoSolicitacao1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxTipoSolicitacaoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jBtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxStatusPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20))
                 .addContainerGap())
         );
@@ -384,7 +386,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -418,11 +420,14 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel7.setText("Técnico");
 
-        jIdSolicitacao.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jIdSolicitacao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jIdSolicitacao.setEnabled(false);
+        jIdRegistroSolicitante.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jIdRegistroSolicitante.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jIdRegistroSolicitante.setEnabled(false);
 
+        jStatusSolicitacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jStatusSolicitacao.setForeground(new java.awt.Color(204, 0, 0));
         jStatusSolicitacao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jStatusSolicitacao.setDisabledTextColor(new java.awt.Color(204, 0, 0));
         jStatusSolicitacao.setEnabled(false);
 
         jNomeSolicitante.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
@@ -471,7 +476,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jIdSolicitacao, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jIdRegistroSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(4, 4, 4)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -512,7 +517,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jIdSolicitacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jIdRegistroSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jStatusSolicitacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDataSolicitacao, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -673,9 +678,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
-                .addGap(3, 3, 3))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -698,7 +701,8 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Manutenção", jPanel2);
@@ -711,15 +715,16 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        setBounds(300, 60, 471, 505);
+        setBounds(300, 60, 471, 484);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtPesqCHDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesqCHDataActionPerformed
         // TODO add your handling code here:
         nomeSolicitante = nameUser;
+        DAOs.BUSCAR_NIVEL_acesso();
         pTOTAL_registros = 0;
         flag = 1;
         if (tipoServidor == null || tipoServidor.equals("")) {
@@ -855,28 +860,28 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
 
     private void jBtPesqCHCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesqCHCodigoActionPerformed
         // TODO add your handling code here:
-//        nomeAtendente = nameUser;
-//        buscarNivelUsuario();
-//        count = 0;
-//        flag = 1;
-//        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
-//            if (jIdChamadoPesquisa.getText().equals("")) {
-//                JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
-//            } else {
-//                pLIMPAR_TABELA_chamados();
-//                MOSTRAR_DADOS_CODIGO_adm();
-//            }
-//        } else if (nivelUsuario == 0 || nivelUsuario == 1) {
-//            pLIMPAR_TABELA_chamados();
-//            MOSTRAR_DADOS_NIVEL_01();
-//        } else if (nivelUsuario == 2) {
-//            if (jIdChamadoPesquisa.getText().equals("")) {
-//                JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
-//            } else {
-//                pLIMPAR_TABELA_chamados();
-//                MOSTRAR_DADOS_NIVEL_2();
-//            }
-//        }
+        nomeSolicitante = nameUser;
+        DAOs.BUSCAR_NIVEL_acesso();
+        pTOTAL_registros = 0;
+        flag = 1;
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+            if (jIdRegistroSolicitantePesquisa.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
+            } else {
+                pLIMPAR_tabela();
+                MOSTRAR_DADOS_CODIGO();
+            }
+        } else if (nivelUsuario == 0 || nivelUsuario == 1) {
+            pLIMPAR_tabela();
+            MOSTRAR_DADOS_CODIGO_01();
+        } else if (nivelUsuario == 2) {
+            if (jIdRegistroSolicitantePesquisa.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
+            } else {
+                pLIMPAR_tabela();
+                MOSTRAR_DADOS_CODIGO_02();
+            }
+        }
     }//GEN-LAST:event_jBtPesqCHCodigoActionPerformed
 
     private void jCheckBoxTodosCHItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxTodosCHItemStateChanged
@@ -941,6 +946,31 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
 
     private void jTabelaSolicitacaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaSolicitacaoMouseClicked
         // TODO add your handling code here:
+        flag = 1;
+        if (flag == 1) {
+            idSolicitacaoTabela = "" + jTabelaSolicitacao.getValueAt(jTabelaSolicitacao.getSelectedRow(), 0);
+            jIdRegistroSolicitantePesquisa.setText(idSolicitacaoTabela);
+            //
+            bloquearBotoes(!true);
+            bloquearCampos(!true);
+            //
+            jBtNovo.setEnabled(true);
+            jBtAlterar.setEnabled(true);
+            jBtExcluir.setEnabled(true);
+            jBtAuditoria.setEnabled(true);
+            //
+            DAOs.MOSTRA_DADOS_tabela(objSolicita);
+            jIdRegistroSolicitante.setText(String.valueOf(objSolicita.getIdSolicitacao()));
+            jStatusSolicitacao.setText(objSolicita.getStatusSolicitacao());
+            jDataSolicitacao.setDate(objSolicita.getDataSolicitacao());
+            jNomeSolicitante.setText(objSolicita.getNomeSolicitante());
+            jComboBoxNomeTecnico.setSelectedItem(objSolicita.getNomeTecnico());
+            jNomeComputadorSolicitante.setText(objSolicita.getNomeComputadorSolicitante());
+            jIPComputadorSolicitante.setText(objSolicita.getiPComputadorSolicitante());
+            jDepartamentoSolicitante.setText(objSolicita.getDepartamentoSolicitante());
+            jComboBoxTipoSolicitacao.setSelectedItem(objSolicita.getTipoSolicitacao());
+            jTextoSolicitacao.setText(objSolicita.getTextoSolicitacao());
+        }
     }//GEN-LAST:event_jTabelaSolicitacaoMouseClicked
 
     private void jBtNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoActionPerformed
@@ -951,7 +981,15 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacao) && objCampos.getCodigoIncluir() == 1) {
-
+            statusMov = "Incluiu";
+            horaMov = pHORA_sistema;
+            dataModFinal = pDATA_sistema;
+            acao = 1;
+            BUSCAR_NOME_IP_desktop();
+            limparCampos();
+            bloquearBotoes(!true);
+            habilitarCampos(true);
+            Novo();
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
@@ -965,7 +1003,18 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacao) && objCampos.getCodigoAlterar() == 1) {
-
+            if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                statusMov = "Alterou";
+                horaMov = pHORA_sistema;
+                dataModFinal = pDATA_sistema;
+                BUSCAR_NOME_IP_desktop();
+                bloquearBotoes(!true);
+                habilitarCampos(true);
+                acao = 2;
+                Alterar();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
+            }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
@@ -979,7 +1028,25 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacao) && objCampos.getCodigoExcluir() == 1) {
-
+            if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
+                        JOptionPane.YES_NO_OPTION);
+                if (resposta == JOptionPane.YES_OPTION) {
+                    objSolicita.setIdRegistroSolicitante(Integer.parseInt(jIdRegistroSolicitante.getText()));
+                    DAOs.excluirSolicitacaoAtencimento(objSolicita);
+                    statusMov = "Excluiu";
+                    horaMov = pHORA_sistema;
+                    dataModFinal = pDATA_sistema;
+                    limparCampos();
+                    if (pRESPOSTA.equals("Sim")) {
+                        JOptionPane.showMessageDialog(rootPane, "Registro excluído com sucesso.");
+                    } else if (pRESPOSTA.equals("Não")) {
+                        JOptionPane.showMessageDialog(rootPane, "Não foi possívep excluir o registro, tente novamente.");
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
+            }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
@@ -993,7 +1060,63 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacao) && objCampos.getCodigoGravar() == 1) {
-
+            if (jNomeSolicitante.getText().equals("Informe o nome do solicitante.")) {
+                JOptionPane.showMessageDialog(rootPane, "");
+            } else if (jComboBoxNomeTecnico.getSelectedItem().equals("Selecione...")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o nome do técnico.");
+            } else if (jNomeComputadorSolicitante.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível gravar o registro sem o nome do computador.");
+            } else if (jIPComputadorSolicitante.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível gravar o registro sem o IP do computador.");
+            } else if (jDepartamentoSolicitante.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "É necessário informar o nome do departamento.");
+            } else if (jComboBoxTipoSolicitacao.getSelectedItem().equals("Selecione...")) {
+                JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de solicitação.");
+            } else if (jTextoSolicitacao.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "É necessário informar o motivo da solicitação de atendimento.");
+            } else {                
+                objSolicita.setStatusSolicitacao(jStatusSolicitacao.getText());
+                objSolicita.setDataSolicitacao(jDataSolicitacao.getDate());
+                objSolicita.setNomeSolicitante(jNomeSolicitante.getText());
+                objSolicita.setNomeTecnico((String) jComboBoxNomeTecnico.getSelectedItem());
+                objSolicita.setNomeComputadorSolicitante(jNomeComputadorSolicitante.getText());
+                objSolicita.setiPComputadorSolicitante(jIPComputadorSolicitante.getText());
+                objSolicita.setDepartamentoSolicitante(jDepartamentoSolicitante.getText());
+                objSolicita.setTipoSolicitacao((String) jComboBoxTipoSolicitacao.getSelectedItem());
+                objSolicita.setTextoSolicitacao(jTextoSolicitacao.getText());
+                if (acao == 1) {
+                    objSolicita.setUsuarioInsert(nameUser);
+                    objSolicita.setDataInsert(dataModFinal);
+                    objSolicita.setHorarioInsert(horaMov);
+                    DAOs.incluirSolicitacaoAtencimento(objSolicita);
+                    BUSCAR_codigo();
+                    //
+                    objLog();
+                    controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
+                    Salvar();
+                    if (pRESPOSTA.equals("Sim")) {
+                        JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                    } else if (pRESPOSTA.equals("Não")) {
+                        JOptionPane.showMessageDialog(rootPane, "Não foi possívep gravar o registro, tente novamente.");
+                    }
+                }
+                if (acao == 2) {
+                    objSolicita.setUsuarioUp(nameUser);
+                    objSolicita.setDataUp(dataModFinal);
+                    objSolicita.setHorarioUp(horaMov);
+                    objSolicita.setIdRegistroSolicitante(Integer.parseInt(jIdRegistroSolicitante.getText()));
+                    DAOs.alterarSolicitacaoAtencimento(objSolicita);
+                    //
+                    objLog();
+                    controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
+                    Salvar();
+                    if (pRESPOSTA.equals("Sim")) {
+                        JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                    } else if (pRESPOSTA.equals("Não")) {
+                        JOptionPane.showMessageDialog(rootPane, "Não foi possívep gravar o registro, tente novamente.");
+                    }
+                }
+            }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
@@ -1027,17 +1150,17 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtSalvar;
     private javax.swing.JButton jBtStatus;
     private javax.swing.JCheckBox jCheckBoxTodosCH;
-    private javax.swing.JComboBox<String> jComboBoxNomeTecnico;
-    private javax.swing.JComboBox<String> jComboBoxStatus;
+    public static javax.swing.JComboBox<String> jComboBoxNomeTecnico;
+    private javax.swing.JComboBox<String> jComboBoxStatusPesquisa;
     private javax.swing.JComboBox<String> jComboBoxTipoSolicitacao;
-    private javax.swing.JComboBox<String> jComboBoxTipoSolicitacao1;
+    private javax.swing.JComboBox<String> jComboBoxTipoSolicitacaoPesquisa;
     public static com.toedter.calendar.JDateChooser jDataPesFinal;
     public static com.toedter.calendar.JDateChooser jDataPesqInicial;
     private com.toedter.calendar.JDateChooser jDataSolicitacao;
     private javax.swing.JTextField jDepartamentoSolicitante;
     private javax.swing.JTextField jIPComputadorSolicitante;
-    public static javax.swing.JTextField jIdChamadoPesquisa;
-    public static javax.swing.JTextField jIdSolicitacao;
+    public static javax.swing.JTextField jIdRegistroSolicitante;
+    public static javax.swing.JTextField jIdRegistroSolicitantePesquisa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
@@ -1074,7 +1197,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     public void corCampos() {
-        jIdSolicitacao.setBackground(Color.white);
+        jIdRegistroSolicitante.setBackground(Color.white);
         jStatusSolicitacao.setBackground(Color.white);
         jDataSolicitacao.setBackground(Color.white);
         jNomeSolicitante.setBackground(Color.white);
@@ -1101,7 +1224,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
     }
 
     public void bloquearCampos(boolean opcao) {
-        jIdSolicitacao.setEnabled(opcao);
+        jIdRegistroSolicitante.setEnabled(opcao);
         jStatusSolicitacao.setEnabled(opcao);
         jDataSolicitacao.setEnabled(opcao);
         jNomeSolicitante.setEnabled(opcao);
@@ -1113,41 +1236,80 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         jTextoSolicitacao.setEnabled(opcao);
     }
 
+    public void limparCampos() {
+        jIdRegistroSolicitante.setText("");
+        jStatusSolicitacao.setText("");
+        jDataSolicitacao.setDate(null);
+        jNomeSolicitante.setText("");
+        jComboBoxNomeTecnico.setSelectedItem("Selecione...");
+        jNomeComputadorSolicitante.setText("");
+        jIPComputadorSolicitante.setText("");
+        jDepartamentoSolicitante.setText("");
+        jComboBoxTipoSolicitacao.setSelectedItem("Selecione...");
+        jTextoSolicitacao.setText("");
+    }
+
     public void habilitarCampos(boolean opcao) {
-        jIdSolicitacao.setEnabled(opcao);
-        jStatusSolicitacao.setEnabled(opcao);
-        jDataSolicitacao.setEnabled(opcao);
-        jNomeSolicitante.setEnabled(opcao);
         jComboBoxNomeTecnico.setEnabled(opcao);
-        jNomeComputadorSolicitante.setEnabled(opcao);
-        jIPComputadorSolicitante.setEnabled(opcao);
-        jDepartamentoSolicitante.setEnabled(opcao);
         jComboBoxTipoSolicitacao.setEnabled(opcao);
         jTextoSolicitacao.setEnabled(opcao);
     }
 
     public void Novo() {
-
+        jStatusSolicitacao.setText("ABERTO NO SOLICITANTE");
+        jDataSolicitacao.setCalendar(Calendar.getInstance());
+        jNomeSolicitante.setText(nameUser);
+        jNomeComputadorSolicitante.setText(hostNameSRV);
+        jIPComputadorSolicitante.setText(ipHostSRV);
+        //
+        jBtSalvar.setEnabled(true);
+        jBtCancelar.setEnabled(true);
     }
 
     public void Alterar() {
-
+        jNomeComputadorSolicitante.setText(hostNameSRV);
+        jIPComputadorSolicitante.setText(ipHostSRV);
+        //
+        jBtSalvar.setEnabled(true);
+        jBtCancelar.setEnabled(true);
     }
 
     public void Excluir() {
-
+        jBtNovo.setEnabled(true);
     }
 
     public void Salvar() {
-
+        jBtNovo.setEnabled(true);
+        jBtAlterar.setEnabled(true);
+        jBtExcluir.setEnabled(true);
+        jBtAuditoria.setEnabled(true);
     }
 
     public void Cancelar() {
-
+        if (jIdRegistroSolicitante.getText().equals("")) {
+            limparCampos();
+            bloquearBotoes(!true);
+            bloquearCampos(!true);
+            //
+            jBtNovo.setEnabled(true);
+        } else {
+            bloquearBotoes(!true);
+            bloquearCampos(!true);
+            MOSTRAR_DADOS_gravado();
+            //
+            jBtNovo.setEnabled(true);
+            jBtAlterar.setEnabled(true);
+            jBtExcluir.setEnabled(true);
+            jBtAuditoria.setEnabled(true);
+        }
     }
 
     public void BUSCAR_codigo() {
         DAOs.pBUSCAR_codigo(objSolicita);
+    }
+
+    public void MOSTRAR_DADOS_gravado() {
+        DAOs.MOSTRA_PESQUISA_CANCELAR_operacao(objSolicita);
     }
 
     public void pLIMPAR_tabela() {
@@ -1308,6 +1470,81 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         }
     }
 
+    public void MOSTRAR_DADOS_CODIGO() {
+        DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaSolicitacao.getModel();
+        try {
+            for (SolicitacaoAtendimentoUsuarios dd : DAOs.PESQUISAR_CODIGO_read()) {
+                pDATA_Registros = String.valueOf(dd.getDataSolicitacao());
+                String dia = pDATA_Registros.substring(8, 10);
+                String mes = pDATA_Registros.substring(5, 7);
+                String ano = pDATA_Registros.substring(0, 4);
+                pDATA_Registros = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                dadosOrigem.addRow(new Object[]{dd.getIdSolicitacao(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaSolicitacao.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaSolicitacao.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void MOSTRAR_DADOS_CODIGO_01() {
+        DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaSolicitacao.getModel();
+        try {
+            for (SolicitacaoAtendimentoUsuarios dd : DAOs.PESQUISAR_CODIGO_01_read()) {
+                pDATA_Registros = String.valueOf(dd.getDataSolicitacao());
+                String dia = pDATA_Registros.substring(8, 10);
+                String mes = pDATA_Registros.substring(5, 7);
+                String ano = pDATA_Registros.substring(0, 4);
+                pDATA_Registros = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                dadosOrigem.addRow(new Object[]{dd.getIdSolicitacao(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaSolicitacao.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaSolicitacao.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void MOSTRAR_DADOS_CODIGO_02() {
+        DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaSolicitacao.getModel();
+        try {
+            for (SolicitacaoAtendimentoUsuarios dd : DAOs.PESQUISAR_CODIGO_02_read()) {
+                pDATA_Registros = String.valueOf(dd.getDataSolicitacao());
+                String dia = pDATA_Registros.substring(8, 10);
+                String mes = pDATA_Registros.substring(5, 7);
+                String ano = pDATA_Registros.substring(0, 4);
+                pDATA_Registros = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                dadosOrigem.addRow(new Object[]{dd.getIdSolicitacao(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaSolicitacao.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaSolicitacao.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void BUSCAR_NOME_IP_desktop() {
         InetAddress myself;
         try {
@@ -1323,7 +1560,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         objLogSys.setDataMov(dataModFinal);
         objLogSys.setHorarioMov(horaMov);
         objLogSys.setNomeModuloTela(nomeModuloTela);
-        objLogSys.setIdLancMov(Integer.valueOf(jIdSolicitacao.getText()));
+        objLogSys.setIdLancMov(Integer.valueOf(jIdRegistroSolicitante.getText()));
         objLogSys.setNomeUsuarioLogado(nameUser);
         objLogSys.setStatusMov(statusMov);
     }

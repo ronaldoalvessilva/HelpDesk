@@ -29,11 +29,15 @@ public class Usuarios {
     private byte [] contraSenhaCriptografada;
     private String clienteServidor;
     private byte [] fotoPerfilUsuario;
+    private Integer idUnidade;
+    private String nomeUnidade;
+    private Integer idEmpresa;
+    private String nomeEmpresa;
 
     public Usuarios() {
     }
 
-    public Usuarios(int IdUsuario, String Status, Date dataCadastro, String NomeUsuario, String LoginUsuario, String SenhaUsuario, String SenhaUsuario1, int NivelUsuario, String nomeNivelUsuario, String SetorUsuario, String CargoUsuario, byte[] senhaCriptografada, byte[] contraSenhaCriptografada, String clienteServidor, byte[] fotoPerfilUsuario) {
+    public Usuarios(int IdUsuario, String Status, Date dataCadastro, String NomeUsuario, String LoginUsuario, String SenhaUsuario, String SenhaUsuario1, int NivelUsuario, String nomeNivelUsuario, String SetorUsuario, String CargoUsuario, byte[] senhaCriptografada, byte[] contraSenhaCriptografada, String clienteServidor, byte[] fotoPerfilUsuario, Integer idUnidade, String nomeUnidade, Integer idEmpresa, String nomeEmpresa) {
         this.IdUsuario = IdUsuario;
         this.Status = Status;
         this.dataCadastro = dataCadastro;
@@ -49,6 +53,10 @@ public class Usuarios {
         this.contraSenhaCriptografada = contraSenhaCriptografada;
         this.clienteServidor = clienteServidor;
         this.fotoPerfilUsuario = fotoPerfilUsuario;
+        this.idUnidade = idUnidade;
+        this.nomeUnidade = nomeUnidade;
+        this.idEmpresa = idEmpresa;
+        this.nomeEmpresa = nomeEmpresa;
     }
 
     /**
@@ -259,5 +267,61 @@ public class Usuarios {
      */
     public void setFotoPerfilUsuario(byte[] fotoPerfilUsuario) {
         this.fotoPerfilUsuario = fotoPerfilUsuario;
+    }
+
+    /**
+     * @return the idUnidade
+     */
+    public Integer getIdUnidade() {
+        return idUnidade;
+    }
+
+    /**
+     * @param idUnidade the idUnidade to set
+     */
+    public void setIdUnidade(Integer idUnidade) {
+        this.idUnidade = idUnidade;
+    }
+
+    /**
+     * @return the nomeUnidade
+     */
+    public String getNomeUnidade() {
+        return nomeUnidade;
+    }
+
+    /**
+     * @param nomeUnidade the nomeUnidade to set
+     */
+    public void setNomeUnidade(String nomeUnidade) {
+        this.nomeUnidade = nomeUnidade;
+    }
+
+    /**
+     * @return the idEmpresa
+     */
+    public Integer getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    /**
+     * @param idEmpresa the idEmpresa to set
+     */
+    public void setIdEmpresa(Integer idEmpresa) {
+        this.idEmpresa = idEmpresa;
+    }
+
+    /**
+     * @return the nomeEmpresa
+     */
+    public String getNomeEmpresa() {
+        return nomeEmpresa;
+    }
+
+    /**
+     * @param nomeEmpresa the nomeEmpresa to set
+     */
+    public void setNomeEmpresa(String nomeEmpresa) {
+        this.nomeEmpresa = nomeEmpresa;
     }
 }

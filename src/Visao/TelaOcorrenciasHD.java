@@ -53,7 +53,7 @@ import static Visao.TelaPrincipal.codConsultar;
 import static Visao.TelaPrincipal.codAbrir;
 import static Visao.TelaPrincipal.jPainelPrincipal;
 import static Visao.TelaPrincipal.telaOcorrenciaManu;
-import static Visao.TelaPrincipal.tipoServidor;
+import static Visao.LoginHD.tipoServidor;
 import java.io.BufferedOutputStream;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;

@@ -15,7 +15,7 @@ import Modelo.LogSistema;
 import static Visao.LoginHD.nameUser;
 import static Visao.TelaPrincipal.jDataSistema;
 import static Visao.TelaPrincipal.jHoraSistema;
-import static Visao.TelaPrincipal.tipoServidor;
+import static Visao.LoginHD.tipoServidor;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;

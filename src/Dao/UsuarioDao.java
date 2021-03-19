@@ -25,6 +25,7 @@ import static Visao.TelaUsuarios.jPesquisaUsuarioNome;
 import static Visao.TelaUsuarios.pRESPOSTA_user;
 import static Visao.TelaUsuarios.pTOTAL_usuarios;
 import static Visao.TelaUsuarios.user;
+import static Visao.TelaUsuarios.jComboBoxEmpresaUnidade;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -41,12 +42,13 @@ public class UsuarioDao {
     //
     int nivel = 0;
     String nivelNome = "";
+    Integer pCODIGO_unidade = null;
 
     public Usuarios incluirUsuarios(Usuarios objUser) {
-
+        pBUSCA_CODIGO_unidade(objUser.getNomeUnidade());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO USUARIOS (StatusUsuario,DataCadastro,NomeUsuario,NivelUsuario,SetorUsuario,CargoUsuario,LoginUsuario,SenhaUsuario,SenhaUsuario1,SenhaCriptografada,ClienteServidor,FotoPerfilUsuario)VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO USUARIOS (StatusUsuario,DataCadastro,NomeUsuario,NivelUsuario,SetorUsuario,CargoUsuario,LoginUsuario,SenhaUsuario,SenhaUsuario1,SenhaCriptografada,ClienteServidor,FotoPerfilUsuario,IdUnidEmp)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, objUser.getStatus());
             if (objUser.getDataCadastro() != null) {
                 pst.setTimestamp(2, new java.sql.Timestamp(objUser.getDataCadastro().getTime()));
@@ -63,6 +65,7 @@ public class UsuarioDao {
             pst.setBytes(10, objUser.getSenhaCriptografada());
             pst.setString(11, objUser.getClienteServidor());
             pst.setBytes(12, objUser.getFotoPerfilUsuario());
+            pst.setInt(13, pCODIGO_unidade);
             pst.execute(); // Executa a inserção
             pRESPOSTA_user = "Sim";
         } catch (SQLException ex) {
@@ -74,10 +77,10 @@ public class UsuarioDao {
     }
 
     public Usuarios alterarUsuarios(Usuarios objUser) {
-
+        pBUSCA_CODIGO_unidade(objUser.getNomeUnidade());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE USUARIOS SET StatusUsuario=?,DataCadastro=?,NomeUsuario=?,NivelUsuario=?,SetorUsuario=?,CargoUsuario=?,LoginUsuario=?,SenhaUsuario=?,SenhaUsuario1=?,SenhaCriptografada=?,ClienteServidor=?,FotoPerfilUsuario=? WHERE IdUsuario='" + objUser.getIdUsuario() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE USUARIOS SET StatusUsuario=?,DataCadastro=?,NomeUsuario=?,NivelUsuario=?,SetorUsuario=?,CargoUsuario=?,LoginUsuario=?,SenhaUsuario=?,SenhaUsuario1=?,SenhaCriptografada=?,ClienteServidor=?,FotoPerfilUsuario=?,IdUnidEmp=? WHERE IdUsuario='" + objUser.getIdUsuario() + "'");
             pst.setString(1, objUser.getStatus());
             if (objUser.getDataCadastro() != null) {
                 pst.setTimestamp(2, new java.sql.Timestamp(objUser.getDataCadastro().getTime()));
@@ -94,6 +97,7 @@ public class UsuarioDao {
             pst.setBytes(10, objUser.getSenhaCriptografada());
             pst.setString(11, objUser.getClienteServidor());
             pst.setBytes(12, objUser.getFotoPerfilUsuario());
+            pst.setInt(13, pCODIGO_unidade);
             pst.executeUpdate(); // Executa a inserção
             pRESPOSTA_user = "Sim";
         } catch (SQLException ex) {
@@ -180,6 +184,21 @@ public class UsuarioDao {
         return objUser;
     }
 
+    public void pBUSCA_CODIGO_unidade(String descricao) {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdUnidEmp, "
+                    + "DescricaoUnidade "
+                    + "FROM UNIDADE_PENAL_EMPRESA "
+                    + "WHERE DescricaoUnidade='" + descricao + "'");
+            conecta.rs.first();
+            pCODIGO_unidade = conecta.rs.getInt("IdUnidEmp");
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
+    }
+
     //------------------------------ PESQUISAS ----------------------------------
     public Usuarios pBUSCAR_CODIGO_gravado(Usuarios objUser) {
         conecta.abrirConexao();
@@ -191,6 +210,24 @@ public class UsuarioDao {
             jIdUsuario.setText(conecta.rs.getString("IdUsuario"));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Não foi possível obter o código do usuário.");
+        }
+        conecta.desconecta();
+        return objUser;
+    }
+
+    public Usuarios PESQUISAR_NOME_unidades(Usuarios objUser) {
+        jComboBoxEmpresaUnidade.removeAllItems();
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "DescricaoUnidade "
+                    + "FROM UNIDADE_PENAL_EMPRESA ");
+            conecta.rs.first();
+            do {
+                jComboBoxEmpresaUnidade.addItem(conecta.rs.getString("DescricaoUnidade"));
+            } while (conecta.rs.next());
+            jComboBoxEmpresaUnidade.updateUI();
+        } catch (SQLException ex) {
         }
         conecta.desconecta();
         return objUser;
@@ -213,8 +250,11 @@ public class UsuarioDao {
                     + "SenhaUsuario, "
                     + "SenhaUsuario1, "
                     + "ClienteServidor, "
-                    + "FotoPerfilUsuario "
+                    + "FotoPerfilUsuario, "
+                    + "DescricaoUnidade "
                     + "FROM USUARIOS "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON USUARIOS.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
                     + "WHERE IdUsuario='" + user.toString() + "'");
             while (conecta.rs.next()) {
                 Usuarios objUser = new Usuarios();
@@ -230,6 +270,7 @@ public class UsuarioDao {
                 objUser.setSenhaUsuario1(conecta.rs.getString("SenhaUsuario1"));
                 objUser.setClienteServidor(conecta.rs.getString("ClienteServidor"));
                 objUser.setFotoPerfilUsuario(conecta.rs.getBytes("FotoPerfilUsuario"));
+                objUser.setNomeUnidade(conecta.rs.getString("DescricaoUnidade"));
                 LISTA_usuarios.add(objUser);
                 pTOTAL_usuarios++;
             }

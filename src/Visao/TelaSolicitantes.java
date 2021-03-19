@@ -26,7 +26,7 @@ import static Visao.TelaPrincipal.jHoraSistema;
 import static Visao.TelaPrincipal.jPainelPrincipal;
 import static Visao.TelaPrincipal.nomeTela;
 import static Visao.TelaPrincipal.telaCadastroSolicitantes;
-import static Visao.TelaPrincipal.tipoServidor;
+import static Visao.LoginHD.tipoServidor;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;

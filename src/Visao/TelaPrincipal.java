@@ -15,9 +15,9 @@ import Modelo.CadastroTelasSistema;
 import Modelo.ChamadoSuporte;
 import Util.SQL.TableExample;
 import static Visao.LoginHD.nameUser;
-import static Visao.LoginHD.pDATA_sistema;
 import static Visao.LoginHD.pTOTAL_REGISTROS_EM_atendimento;
 import static Visao.LoginHD.pTOTAL_REGISTROS_dia;
+import static Visao.LoginHD.tipoServidor;
 import static Visao.TelaAgendaCompromissos.jAssunto;
 import static Visao.TelaAgendaCompromissos.jBtAlterarComp;
 import static Visao.TelaAgendaCompromissos.jBtCancelarComp;
@@ -68,7 +68,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -78,11 +77,6 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRResultSetDataSource;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -123,8 +117,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     String horaLembrete;
     String usuarioAgenda;
     String codigoAgendaComp;
-    //VARIAVEL QUE IMPEDI OUTRO USUÁRIO A EDITAR OU EXCLUIR O REGISTRO CRIADO PELO USUÁRIO QUE CRIOU
-    public static String nomeUserRegistro;
     //
     int tempo = (1000 * 60) * 1;   // 1 min.  
     int periodo = 1;  // quantidade de vezes a ser executado.  
@@ -171,6 +163,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public static String botaoBuscarCH = "Buscar Chamados no Suporte Técnico";
     public static String telaConsultasSql = "Desenvolvimento:Consultas SQL:Manutenção";
     public static String telaCadastroAtendentes = "Cadastro:Atendentes:Manutenção";
+    //
+    public static String telaChamadosSolicitacao = "Suporte Técnico:Chamados Suporte:Manutenção";
     // MENU CADASTRO
     //EMPRESA
     String pNomeCE = "";
@@ -211,10 +205,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     String pNomeCSQL = "";
     //ATENDENTES
     String pNomeAT = "";
-    //    
-    public static String tipoServidor = "";
-    public static String tipoBancoDados = "";
     //
+    String pNomeSAT = "";
+
     public static String pDATA_pesquisa;
 
     public static TelaTrocaSenha telaTrocaSenha;
@@ -252,7 +245,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         pesquisarTelasAcessos();
-        verificarParametrosSRV();
         threadMensagem(); // A cada 5 minutos verifica mensagem   
         corCampos();
     }
@@ -2693,6 +2685,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
             pNomeAT = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
+        try {
+            conecta.executaSQL("SELECT * FROM TELAS "
+                    + "WHERE NomeTela='" + telaChamadosSolicitacao + "'");
+            conecta.rs.first();
+            pNomeSAT = conecta.rs.getString("NomeTela");
+        } catch (SQLException ex) {
+        }
         // CADASTRO
         //EMPRESA/UNIDADES
         if (!pNomeCE.equals(telaCadastroEmpresa) || pNomeCE == null || pNomeCE.equals("")) {
@@ -2805,6 +2804,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         if (!pNomeAT.equals(telaCadastroAtendentes) || pNomeAT == null || pNomeAT.equals("")) {
             objCadastroTela.setNomeTela(telaCadastroAtendentes);
+            controle.incluirTelaAcesso(objCadastroTela);
+        }
+        if (!pNomeSAT.equals(telaChamadosSolicitacao) || pNomeSAT == null || pNomeSAT.equals("")) {
+            objCadastroTela.setNomeTela(telaChamadosSolicitacao);
             controle.incluirTelaAcesso(objCadastroTela);
         }
     }
@@ -3216,21 +3219,5 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jTabelaAgendaEventos.getColumnModel().getColumn(0).setCellRenderer(centralizado);
         jTabelaAgendaEventos.getColumnModel().getColumn(1).setCellRenderer(centralizado);
         jTabelaAgendaEventos.getColumnModel().getColumn(2).setCellRenderer(centralizado);
-    }
-
-    // PARAMETRO PARA IDENTIFICAR O OS DO SERVIDOR DE BANCO DE DADOS.
-    public void verificarParametrosSRV() {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT "
-                    + "TipoServidor, "
-                    + "TipoBanco "
-                    + "FROM SOFTWARE");
-            conecta.rs.first();
-            tipoServidor = conecta.rs.getString("TipoServidor");
-            tipoBancoDados = conecta.rs.getString("TipoBanco");
-        } catch (Exception e) {
-        }
-        conecta.desconecta();
     }
 }

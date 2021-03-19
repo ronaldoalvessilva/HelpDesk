@@ -13,10 +13,12 @@ import java.util.Date;
  */
 public class SolicitacaoAtendimentoUsuarios {
 
-    private Integer idSolicitacao;
+    private Integer idRegistroSolicitante;
     private String statusSolicitacao;
     private Date dataSolicitacao;
+    private Integer idSolicitacao;
     private String nomeSolicitante;
+    private Integer idTecnico;
     private String nomeTecnico;
     private String nomeComputadorSolicitante;
     private String iPComputadorSolicitante;
@@ -33,11 +35,13 @@ public class SolicitacaoAtendimentoUsuarios {
     public SolicitacaoAtendimentoUsuarios() {
     }
 
-    public SolicitacaoAtendimentoUsuarios(Integer idSolicitacao, String statusSolicitacao, Date dataSolicitacao, String nomeSolicitante, String nomeTecnico, String nomeComputadorSolicitante, String iPComputadorSolicitante, String departamentoSolicitante, String tipoSolicitacao, String textoSolicitacao, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp) {
-        this.idSolicitacao = idSolicitacao;
+    public SolicitacaoAtendimentoUsuarios(Integer idRegistroSolicitante, String statusSolicitacao, Date dataSolicitacao, Integer idSolicitacao, String nomeSolicitante, Integer idTecnico, String nomeTecnico, String nomeComputadorSolicitante, String iPComputadorSolicitante, String departamentoSolicitante, String tipoSolicitacao, String textoSolicitacao, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp) {
+        this.idRegistroSolicitante = idRegistroSolicitante;
         this.statusSolicitacao = statusSolicitacao;
         this.dataSolicitacao = dataSolicitacao;
+        this.idSolicitacao = idSolicitacao;
         this.nomeSolicitante = nomeSolicitante;
+        this.idTecnico = idTecnico;
         this.nomeTecnico = nomeTecnico;
         this.nomeComputadorSolicitante = nomeComputadorSolicitante;
         this.iPComputadorSolicitante = iPComputadorSolicitante;
@@ -53,17 +57,17 @@ public class SolicitacaoAtendimentoUsuarios {
     }
 
     /**
-     * @return the idSolicitacao
+     * @return the idRegistroSolicitante
      */
-    public Integer getIdSolicitacao() {
-        return idSolicitacao;
+    public Integer getIdRegistroSolicitante() {
+        return idRegistroSolicitante;
     }
 
     /**
-     * @param idSolicitacao the idSolicitacao to set
+     * @param idRegistroSolicitante the idRegistroSolicitante to set
      */
-    public void setIdSolicitacao(Integer idSolicitacao) {
-        this.idSolicitacao = idSolicitacao;
+    public void setIdRegistroSolicitante(Integer idRegistroSolicitante) {
+        this.idRegistroSolicitante = idRegistroSolicitante;
     }
 
     /**
@@ -95,6 +99,20 @@ public class SolicitacaoAtendimentoUsuarios {
     }
 
     /**
+     * @return the idSolicitacao
+     */
+    public Integer getIdSolicitacao() {
+        return idSolicitacao;
+    }
+
+    /**
+     * @param idSolicitacao the idSolicitacao to set
+     */
+    public void setIdSolicitacao(Integer idSolicitacao) {
+        this.idSolicitacao = idSolicitacao;
+    }
+
+    /**
      * @return the nomeSolicitante
      */
     public String getNomeSolicitante() {
@@ -106,6 +124,20 @@ public class SolicitacaoAtendimentoUsuarios {
      */
     public void setNomeSolicitante(String nomeSolicitante) {
         this.nomeSolicitante = nomeSolicitante;
+    }
+
+    /**
+     * @return the idTecnico
+     */
+    public Integer getIdTecnico() {
+        return idTecnico;
+    }
+
+    /**
+     * @param idTecnico the idTecnico to set
+     */
+    public void setIdTecnico(Integer idTecnico) {
+        this.idTecnico = idTecnico;
     }
 
     /**

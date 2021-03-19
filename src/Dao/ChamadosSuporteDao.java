@@ -26,9 +26,10 @@ import static Visao.TelaChamadoSuporte.idSolicitante;
 import static Visao.TelaChamadoSuporte.jComboBoxAtendente;
 import static Visao.TelaChamadoSuporte.jSolicitante;
 import static Visao.TelaChamadoSuporte.jUnidadePrisional;
+import static Visao.TelaChamadoSuporte.pRESPOSTA;
 import static Visao.TelaClienteChamadosSuporte.pTOTAL_REGISTROS_aberto;
 import static Visao.TelaClienteChamadosSuporte.pTOTAL_REGISTROS_fechado;
-import static Visao.TelaPrincipal.nomeUserRegistro;
+import static Visao.LoginHD.nomeUserRegistro;
 import static Visao.TelaPrincipal.pDATA_pesquisa;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -78,7 +79,9 @@ public class ChamadosSuporteDao {
             pst.setInt(10, codAtendente);
             pst.setString(11, objCHSup.getTipoChamadoSuporte());
             pst.execute();
+            pRESPOSTA = "Sim";
         } catch (SQLException ex) {
+            pRESPOSTA = "Não";
             JOptionPane.showMessageDialog(null, "Não Foi possivel INSERIR os Dados.\nERRO: " + ex);
         }
         conecta.desconecta();
@@ -105,7 +108,9 @@ public class ChamadosSuporteDao {
             pst.setInt(10, codAtendente);
             pst.setString(11, objCHSup.getTipoChamadoSuporte());
             pst.executeUpdate();
+            pRESPOSTA = "Sim";
         } catch (SQLException ex) {
+            pRESPOSTA = "Não";
             JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\nERRO: " + ex);
         }
         conecta.desconecta();
@@ -123,7 +128,9 @@ public class ChamadosSuporteDao {
             pst.setString(3, objCHSup.getDataUp());
             pst.setString(4, objCHSup.getHorarioUp());
             pst.executeUpdate();
+            pRESPOSTA = "Sim";
         } catch (SQLException ex) {
+            pRESPOSTA = "Não";
             JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\nERRO: " + ex);
         }
         conecta.desconecta();
@@ -136,7 +143,9 @@ public class ChamadosSuporteDao {
             PreparedStatement pst = conecta.con.prepareStatement("DELETE FROM CHAMADOS_SUPORTE "
                     + "WHERE IdCHSup='" + objCHSup.getIdCHSup() + "'");
             pst.executeUpdate();
+            pRESPOSTA = "Sim";
         } catch (SQLException ex) {
+            pRESPOSTA = "Não";
             JOptionPane.showMessageDialog(null, "Não Foi possivel EXCLUIR os Dados.\nERRO: " + ex);
         }
         conecta.desconecta();
@@ -166,7 +175,9 @@ public class ChamadosSuporteDao {
             pst.setBytes(15, objCHSup.getImagemDocumento2());
             pst.setBytes(16, objCHSup.getImagemDocumento3());
             pst.executeUpdate();
+            pRESPOSTA = "Sim";
         } catch (SQLException ex) {
+            pRESPOSTA = "Não";
             JOptionPane.showMessageDialog(null, "Não Foi possivel INSERIR os Dados.\nERRO: " + ex);
         }
         conecta.desconecta();
@@ -195,7 +206,9 @@ public class ChamadosSuporteDao {
             pst.setBytes(14, objCHSup.getImagemDocumento2());
             pst.setBytes(15, objCHSup.getImagemDocumento3());
             pst.executeUpdate();
+            pRESPOSTA = "Sim";
         } catch (SQLException ex) {
+            pRESPOSTA = "Não";
             JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\nERRO: " + ex);
         }
         conecta.desconecta();
@@ -208,7 +221,9 @@ public class ChamadosSuporteDao {
             PreparedStatement pst = conecta.con.prepareStatement("DELETE FROM ITENS_CHAMADOS_SUPORTE "
                     + "WHERE IdItem='" + objCHSup.getIdItemCh() + "'");
             pst.executeUpdate();
+            pRESPOSTA = "Sim";
         } catch (SQLException ex) {
+            pRESPOSTA = "Não";
             JOptionPane.showMessageDialog(null, "Não Foi possivel EXCLUIR os Dados.\nERRO: " + ex);
         }
         conecta.desconecta();
