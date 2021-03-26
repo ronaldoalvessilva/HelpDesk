@@ -8,9 +8,11 @@ package Dao;
 import Modelo.SolicitacaoAtendimentoUsuarios;
 import static Visao.LoginHD.nameUser;
 import static Visao.LoginHD.nomeUserRegistro;
+import static Visao.LoginHD.pCODIGO_unidade;
 import static Visao.TelaSolicitacaoUsuario.dataFinal;
 import static Visao.TelaSolicitacaoUsuario.dataInicial;
 import static Visao.TelaSolicitacaoUsuario.idSolicitacaoTabela;
+import static Visao.TelaSolicitacaoUsuario.jComboBoxNomeTecnico;
 import static Visao.TelaSolicitacaoUsuario.pTOTAL_registros;
 import static Visao.TelaSolicitacaoUsuario.pRESPOSTA;
 import static Visao.TelaSolicitacaoUsuario.nivelUsuario;
@@ -35,25 +37,29 @@ public class SolicitacaoAtendimentoDao {
     SolicitacaoAtendimentoUsuarios objSolicita = new SolicitacaoAtendimentoUsuarios();
 
     Integer pCODIGO_usuario = null;
+    Integer pCODIGO_solicitante = null;
     String pCARGO_tecnico = "TECNICO EM INFORMATICA";
+    String pSTATUS_usuario = "Ativo";
 
-    public SolicitacaoAtendimentoUsuarios incluirSolicitacaoAtencimento(SolicitacaoAtendimentoUsuarios objSoli) {
+    public SolicitacaoAtendimentoUsuarios incluirSolicitacaoAtencimento(SolicitacaoAtendimentoUsuarios objSolicita) {
         pBUSCAR_USUARIO_tecnico(objSolicita.getNomeTecnico());
+//        pBUSCAR_USUARIO_solicitante(objSolicita.getNomeSolicitante());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO SOLICITACAO_ATENDIMENTO_USUARIOS (StatusSolicitacao,DataSolicitacao,NomeSolicitante,IdUsuario,NomeComputadorSolicitante,IPComputadorSolicitante,DepartamentoSolicitante,TipoSolicitacao,TextoSolicitacao,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
-            pst.setString(1, objSoli.getStatusSolicitacao());
-            pst.setTimestamp(2, new java.sql.Timestamp(objSoli.getDataSolicitacao().getTime()));
-            pst.setString(3, objSoli.getNomeSolicitante());
-            pst.setInt(4, objSoli.getIdTecnico());
-            pst.setString(5, objSoli.getNomeComputadorSolicitante());
-            pst.setString(6, objSoli.getiPComputadorSolicitante());
-            pst.setString(7, objSoli.getDepartamentoSolicitante());
-            pst.setString(8, objSoli.getTipoSolicitacao());
-            pst.setString(9, objSoli.getTextoSolicitacao());
-            pst.setString(10, objSoli.getUsuarioInsert());
-            pst.setString(11, objSoli.getDataInsert());
-            pst.setString(12, objSoli.getHorarioInsert());
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO SOLICITACAO_ATENDIMENTO_USUARIOS (StatusSolicitacao,DataSolicitacao,NomeSolicitante,IdUsuario,IdUnidEmp,NomeComputadorSolicitante,IPComputadorSolicitante,DepartamentoSolicitante,TipoSolicitacao,TextoSolicitacao,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            pst.setString(1, objSolicita.getStatusSolicitacao());
+            pst.setTimestamp(2, new java.sql.Timestamp(objSolicita.getDataSolicitacao().getTime()));
+            pst.setString(3, objSolicita.getNomeSolicitante());
+            pst.setInt(4, pCODIGO_usuario);
+            pst.setInt(5, objSolicita.getIdUnidade());
+            pst.setString(6, objSolicita.getNomeComputadorSolicitante());
+            pst.setString(7, objSolicita.getiPComputadorSolicitante());
+            pst.setString(8, objSolicita.getDepartamentoSolicitante());
+            pst.setString(9, objSolicita.getTipoSolicitacao());
+            pst.setString(10, objSolicita.getTextoSolicitacao());
+            pst.setString(11, objSolicita.getUsuarioInsert());
+            pst.setString(12, objSolicita.getDataInsert());
+            pst.setString(13, objSolicita.getHorarioInsert());
             pst.execute();
             pRESPOSTA = "Sim";
         } catch (SQLException ex) {
@@ -61,26 +67,28 @@ public class SolicitacaoAtendimentoDao {
             JOptionPane.showMessageDialog(null, "Não Foi possivel INSERIR os Dados.\nERRO: " + ex);
         }
         conecta.desconecta();
-        return objSoli;
+        return objSolicita;
     }
 
-    public SolicitacaoAtendimentoUsuarios alterarSolicitacaoAtencimento(SolicitacaoAtendimentoUsuarios objSoli) {
+    public SolicitacaoAtendimentoUsuarios alterarSolicitacaoAtencimento(SolicitacaoAtendimentoUsuarios objSolicita) {
         pBUSCAR_USUARIO_tecnico(objSolicita.getNomeTecnico());
+        pBUSCAR_USUARIO_solicitante(objSolicita.getNomeSolicitante());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE SOLICITACAO_ATENDIMENTO_USUARIOS SET StatusSolicitacao=?,DataSolicitacao=?,NomeSolicitante=?,IdUsuario=?,NomeComputadorSolicitante=?,IPComputadorSolicitante=?,DepartamentoSolicitante=?,TipoSolicitacao=?,TextoSolicitacao=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdRegistroSolicitante='" + objSoli.getIdRegistroSolicitante() + "'");
-            pst.setString(1, objSoli.getStatusSolicitacao());
-            pst.setTimestamp(2, new java.sql.Timestamp(objSoli.getDataSolicitacao().getTime()));
-            pst.setString(3, objSoli.getNomeSolicitante());
-            pst.setInt(4, objSoli.getIdTecnico());
-            pst.setString(5, objSoli.getNomeComputadorSolicitante());
-            pst.setString(6, objSoli.getiPComputadorSolicitante());
-            pst.setString(7, objSoli.getDepartamentoSolicitante());
-            pst.setString(8, objSoli.getTipoSolicitacao());
-            pst.setString(9, objSoli.getTextoSolicitacao());
-            pst.setString(10, objSoli.getUsuarioUp());
-            pst.setString(11, objSoli.getDataUp());
-            pst.setString(12, objSoli.getHorarioUp());
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE SOLICITACAO_ATENDIMENTO_USUARIOS SET StatusSolicitacao=?,DataSolicitacao=?,NomeSolicitante=?,IdUsuario=?,IdUnidEmp=?,NomeComputadorSolicitante=?,IPComputadorSolicitante=?,DepartamentoSolicitante=?,TipoSolicitacao=?,TextoSolicitacao=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdRegistroSolicitante='" + objSolicita.getIdRegistroSolicitante() + "'");
+            pst.setString(1, objSolicita.getStatusSolicitacao());
+            pst.setTimestamp(2, new java.sql.Timestamp(objSolicita.getDataSolicitacao().getTime()));
+            pst.setString(3, objSolicita.getNomeSolicitante());
+            pst.setInt(4, pCODIGO_usuario);
+            pst.setInt(5, objSolicita.getIdUnidade());
+            pst.setString(6, objSolicita.getNomeComputadorSolicitante());
+            pst.setString(7, objSolicita.getiPComputadorSolicitante());
+            pst.setString(8, objSolicita.getDepartamentoSolicitante());
+            pst.setString(9, objSolicita.getTipoSolicitacao());
+            pst.setString(10, objSolicita.getTextoSolicitacao());
+            pst.setString(11, objSolicita.getUsuarioUp());
+            pst.setString(12, objSolicita.getDataUp());
+            pst.setString(13, objSolicita.getHorarioUp());
             pst.executeUpdate();
             pRESPOSTA = "Sim";
         } catch (SQLException ex) {
@@ -88,13 +96,13 @@ public class SolicitacaoAtendimentoDao {
             JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\nERRO: " + ex);
         }
         conecta.desconecta();
-        return objSoli;
+        return objSolicita;
     }
 
-    public SolicitacaoAtendimentoUsuarios excluirSolicitacaoAtencimento(SolicitacaoAtendimentoUsuarios objSoli) {
+    public SolicitacaoAtendimentoUsuarios excluirSolicitacaoAtencimento(SolicitacaoAtendimentoUsuarios objSolicita) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("DELETE FROM SOLICITACAO_ATENDIMENTO_USUARIOS WHERE IdRegistroSolicitante='" + objSoli.getIdRegistroSolicitante() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("DELETE FROM SOLICITACAO_ATENDIMENTO_USUARIOS WHERE IdRegistroSolicitante='" + objSolicita.getIdRegistroSolicitante() + "'");
             pst.executeUpdate();
             pRESPOSTA = "Sim";
         } catch (SQLException ex) {
@@ -102,7 +110,7 @@ public class SolicitacaoAtendimentoDao {
             JOptionPane.showMessageDialog(null, "Não Foi possivel EXCLUIR os Dados.\nERRO: " + ex);
         }
         conecta.desconecta();
-        return objSoli;
+        return objSolicita;
     }
 
     public void pBUSCAR_USUARIO_solicitante(String nome) {
@@ -111,11 +119,11 @@ public class SolicitacaoAtendimentoDao {
             conecta.executaSQL("SELECT "
                     + "IdUsuario, "
                     + "NomeUsuario, "
-                    + "Setor "
+                    + "SetorUsuario "
                     + "FROM USUARIOS "
                     + "WHERE NomeUsuario='" + nome + "'");
             conecta.rs.first();
-            pCODIGO_usuario = conecta.rs.getInt("IdUsuario");
+            pCODIGO_solicitante = conecta.rs.getInt("IdUsuario");
         } catch (Exception e) {
         }
         conecta.desconecta();
@@ -125,20 +133,76 @@ public class SolicitacaoAtendimentoDao {
         conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT "
-                    + "IdUsuario, "
-                    + "NomeUsuario, "
-                    + "Cargo "
-                    + "FROM USUARIOS "
-                    + "WHERE NomeUsuario='" + nome + "' "
-                    + "AND Cargo='" + pCARGO_tecnico + "'");
+                    + "IdSolicitante, "
+                    + "NomeSolicitante "
+                    + "FROM SOLICITANTES "
+                    + "WHERE NomeSolicitante='" + nome + "' ");
             conecta.rs.first();
-            pCODIGO_usuario = conecta.rs.getInt("IdUsuario");
+            pCODIGO_usuario = conecta.rs.getInt("IdSolicitante");
         } catch (Exception e) {
         }
         conecta.desconecta();
     }
 
-    public SolicitacaoAtendimentoUsuarios pBUSCAR_codigo(SolicitacaoAtendimentoUsuarios objSoli) {
+    public SolicitacaoAtendimentoUsuarios VERIFICAR_ORIGEM_usuario(SolicitacaoAtendimentoUsuarios objCHSup) {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdRegistroSolicitante, "
+                    + "UsuarioInsert "
+                    + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS "
+                    + "WHERE IdRegistroSolicitante='" + jIdRegistroSolicitante.getText() + "'");
+            conecta.rs.first();
+            nomeUserRegistro = conecta.rs.getString("UsuarioInsert");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possivel encontrar o usuário.");
+        }
+        conecta.desconecta();
+        return objCHSup;
+    }
+
+    public SolicitacaoAtendimentoUsuarios LISTAR_TECNICOS_unidade(SolicitacaoAtendimentoUsuarios objSolicita) {
+        jComboBoxNomeTecnico.removeAllItems();
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdUsuario, "
+                    + "StatusUsuario, "
+                    + "NomeUsuario, "
+                    + "SetorUsuario, "
+                    + "CargoUsuario "
+                    + "FROM USUARIOS "
+                    + "WHERE CargoUsuario='" + pCARGO_tecnico + "' "
+                    + "AND StatusUsuario='" + pSTATUS_usuario + "' "
+                    + "AND IdUnidEmp='" + pCODIGO_unidade + "'");
+            conecta.rs.first();
+            do {
+                jComboBoxNomeTecnico.addItem(conecta.rs.getString("NomeUsuario"));
+            } while (conecta.rs.next());
+            jComboBoxNomeTecnico.updateUI();
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
+
+        return objSolicita;
+    }
+
+    public void pBUSCAR_EMPRESA_usuario(String desc) {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdUnidEmp, "
+                    + "DescricaoUnidade "
+                    + "FROM UNIDADE_PENAL_EMPRESA "
+                    + "WHERE DescricaoUnidade='" + desc + "'");
+            conecta.rs.first();
+            pCODIGO_unidade = conecta.rs.getInt("IdUnidEmp");
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
+    }
+
+    public SolicitacaoAtendimentoUsuarios pBUSCAR_codigo(SolicitacaoAtendimentoUsuarios objSolicita) {
         conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT "
@@ -149,7 +213,7 @@ public class SolicitacaoAtendimentoDao {
         } catch (Exception e) {
         }
         conecta.desconecta();
-        return objSoli;
+        return objSolicita;
     }
 
     public void BUSCAR_NIVEL_acesso() {
@@ -180,7 +244,7 @@ public class SolicitacaoAtendimentoDao {
                     + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS");
             while (conecta.rs.next()) {
                 SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
-                pTODAS_solicitacoes.setIdSolicitacao(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
                 pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
                 pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
                 pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
@@ -209,7 +273,7 @@ public class SolicitacaoAtendimentoDao {
                     + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS");
             while (conecta.rs.next()) {
                 SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
-                pTODAS_solicitacoes.setIdSolicitacao(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
                 pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
                 pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
                 pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
@@ -239,7 +303,7 @@ public class SolicitacaoAtendimentoDao {
                     + "WHERE NomeSolicitante='" + nomeSolicitante + "'");
             while (conecta.rs.next()) {
                 SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
-                pTODAS_solicitacoes.setIdSolicitacao(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
                 pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
                 pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
                 pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
@@ -270,7 +334,7 @@ public class SolicitacaoAtendimentoDao {
                     + "AND'" + dataFinal + "'");
             while (conecta.rs.next()) {
                 SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
-                pTODAS_solicitacoes.setIdSolicitacao(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
                 pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
                 pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
                 pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
@@ -301,7 +365,7 @@ public class SolicitacaoAtendimentoDao {
                     + "AND'" + dataFinal + "'");
             while (conecta.rs.next()) {
                 SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
-                pTODAS_solicitacoes.setIdSolicitacao(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
                 pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
                 pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
                 pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
@@ -333,7 +397,7 @@ public class SolicitacaoAtendimentoDao {
                     + "AND NomeSolicitante='" + nomeSolicitante + "'");
             while (conecta.rs.next()) {
                 SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
-                pTODAS_solicitacoes.setIdSolicitacao(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
                 pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
                 pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
                 pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
@@ -363,7 +427,7 @@ public class SolicitacaoAtendimentoDao {
                     + "WHERE IdRegistroSolicitante='" + jIdRegistroSolicitantePesquisa.getText() + "'");
             while (conecta.rs.next()) {
                 SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
-                pTODAS_solicitacoes.setIdSolicitacao(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
                 pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
                 pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
                 pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
@@ -393,7 +457,7 @@ public class SolicitacaoAtendimentoDao {
                     + "WHERE IdRegistroSolicitante='" + jIdRegistroSolicitantePesquisa.getText() + "'");
             while (conecta.rs.next()) {
                 SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
-                pTODAS_solicitacoes.setIdSolicitacao(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
                 pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
                 pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
                 pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
@@ -424,7 +488,7 @@ public class SolicitacaoAtendimentoDao {
                     + "AND NomeSolicitante='" + nameUser + "'");
             while (conecta.rs.next()) {
                 SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
-                pTODAS_solicitacoes.setIdSolicitacao(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
                 pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
                 pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
                 pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
@@ -448,7 +512,7 @@ public class SolicitacaoAtendimentoDao {
                     + "DataSolicitacao, "
                     + "StatusSolicitacao, "
                     + "NomeSolicitante, "
-                    + "NomeTecnico, "
+                    + "NomeUsuario, "
                     + "NomeComputadorSolicitante, "
                     + "IPcomputadorSolicitante, "
                     + "DepartamentoSolicitante, "
@@ -459,11 +523,11 @@ public class SolicitacaoAtendimentoDao {
                     + "ON SOLICITACAO_ATENDIMENTO_USUARIOS.IdUsuario=USUARIOS.IdUsuario "
                     + "WHERE IdRegistroSolicitante='" + idSolicitacaoTabela + "'");
             conecta.rs.first();
-            objSolicita.setIdSolicitacao(conecta.rs.getInt("IdRegistroSolicitante"));
+            objSolicita.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
             objSolicita.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
             objSolicita.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
-            objSolicita.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
-            objSolicita.setNomeTecnico(conecta.rs.getString("NomeTecnico"));
+            objSolicita.setNomeSolicitante(conecta.rs.getString("NomeUsuario"));
+            objSolicita.setNomeTecnico(conecta.rs.getString("NomeSolicitante"));
             objSolicita.setNomeComputadorSolicitante(conecta.rs.getString("NomeComputadorSolicitante"));
             objSolicita.setiPComputadorSolicitante(conecta.rs.getString("IPcomputadorSolicitante"));
             objSolicita.setDepartamentoSolicitante(conecta.rs.getString("DepartamentoSolicitante"));
@@ -484,7 +548,7 @@ public class SolicitacaoAtendimentoDao {
                     + "DataSolicitacao, "
                     + "StatusSolicitacao, "
                     + "NomeSolicitante, "
-                    + "NomeTecnico, "
+                    + "NomeUsuario, "
                     + "NomeComputadorSolicitante, "
                     + "IPcomputadorSolicitante, "
                     + "DepartamentoSolicitante, "
@@ -493,13 +557,15 @@ public class SolicitacaoAtendimentoDao {
                     + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS "
                     + "INNER JOIN USUARIOS "
                     + "ON SOLICITACAO_ATENDIMENTO_USUARIOS.IdUsuario=USUARIOS.IdUsuario "
+                    + "INNER JOIN SOLICITANTES "
+                    + "ON SOLICITACAO_ATENDIMENTO_USUARIOS.IdSolicitante=SOLICITANTES.IdSolicitante "
                     + "WHERE IdRegistroSolicitante='" + jIdRegistroSolicitantePesquisa.getText() + "'");
             conecta.rs.first();
-            objSolicita.setIdSolicitacao(conecta.rs.getInt("IdRegistroSolicitante"));
+            objSolicita.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
             objSolicita.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
             objSolicita.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
             objSolicita.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
-            objSolicita.setNomeTecnico(conecta.rs.getString("NomeTecnico"));
+            objSolicita.setNomeTecnico(conecta.rs.getString("NomeUsuario"));
             objSolicita.setNomeComputadorSolicitante(conecta.rs.getString("NomeComputadorSolicitante"));
             objSolicita.setiPComputadorSolicitante(conecta.rs.getString("IPcomputadorSolicitante"));
             objSolicita.setDepartamentoSolicitante(conecta.rs.getString("DepartamentoSolicitante"));
@@ -507,23 +573,6 @@ public class SolicitacaoAtendimentoDao {
             objSolicita.setTextoSolicitacao(conecta.rs.getString("TextoSolicitacao"));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não foi possível exibir os dados, tente novamente.\n" + ex);
-        }
-        conecta.desconecta();
-        return objSolicita;
-    }
-
-    public SolicitacaoAtendimentoUsuarios VERIFICAR_ORIGEM_usuario(SolicitacaoAtendimentoUsuarios objSolicita) {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT "
-                    + "IdRegistroSolicitante, "
-                    + "UsuarioInsert "
-                    + "FROM CHAMADOS_SUPORTE "
-                    + "WHERE IdRegistroSolicitante='" + jIdRegistroSolicitante.getText() + "'");
-            conecta.rs.first();
-            nomeUserRegistro = conecta.rs.getString("UsuarioInsert");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Não foi possivel encontrar o usuário.");
         }
         conecta.desconecta();
         return objSolicita;

@@ -15,6 +15,8 @@ import static Visao.LoginHD.pLOGIN_usuario;
 import static Visao.LoginHD.pSENHA_usuario;
 import static Visao.LoginHD.pCLIENTE_servidor;
 import static Visao.LoginHD.nameUser;
+import static Visao.LoginHD.pCODIGO_unidade;
+import static Visao.LoginHD.pSETOR_usuario;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -41,8 +43,7 @@ public class UsuarioDao {
     Usuarios usuario = new Usuarios();
     //
     int nivel = 0;
-    String nivelNome = "";
-    Integer pCODIGO_unidade = null;
+    String nivelNome = "";   
 
     public Usuarios incluirUsuarios(Usuarios objUser) {
         pBUSCA_CODIGO_unidade(objUser.getNomeUnidade());
@@ -150,7 +151,9 @@ public class UsuarioDao {
                     + "StatusUsuario, "
                     + "NomeUsuario, "
                     + "SenhaCriptografada, "
-                    + "ClienteServidor "
+                    + "ClienteServidor, "
+                    + "IdUnidEmp, "
+                    + "SetorUsuario "
                     + "FROM USUARIOS "
                     + "WHERE LoginUsuario='" + jLogin.getText() + "' ");
             conecta.rs.first();
@@ -160,6 +163,8 @@ public class UsuarioDao {
             pSENHA_usuario = conecta.rs.getString("SenhaUsuario");
             nameUser = conecta.rs.getString("NomeUsuario");
             pCLIENTE_servidor = conecta.rs.getString("ClienteServidor");
+            pCODIGO_unidade = conecta.rs.getInt("IdUnidEmp");
+            pSETOR_usuario = conecta.rs.getString("SetorUsuario");
         } catch (SQLException e) {
 
         }

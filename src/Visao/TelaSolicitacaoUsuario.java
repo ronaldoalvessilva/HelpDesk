@@ -15,8 +15,9 @@ import static Visao.LoginHD.nameUser;
 import static Visao.LoginHD.nomeUserRegistro;
 import static Visao.LoginHD.pDATA_sistema;
 import static Visao.LoginHD.pHORA_sistema;
-import static Visao.TelaSolicitacaoAtendimentoUsuarios.telaChamadosSolicitacao;
 import static Visao.LoginHD.tipoServidor;
+import static Visao.LoginHD.pCODIGO_unidade;
+import static Visao.LoginHD.pSETOR_usuario;
 import java.awt.Color;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -29,6 +30,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import static Visao.TelaSolicitacaoAtendimentoUsuarios.telaChamadosSolicitacaoUsuarios;
 
 /**
  *
@@ -59,8 +61,8 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
     public static String ipHostSRV;
     public static int nivelUsuario = 0;
     public static String nomeSolicitante = "";
-    public static String dataInicial = "";
-    public static String dataFinal = "";
+    public static String dataInicial;
+    public static String dataFinal;
     //
     public static String idSolicitacaoTabela = "";
 
@@ -747,6 +749,9 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                             dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
                             pLIMPAR_tabela();
                             MOSTAR_DADOS_data();
+                            if (pTOTAL_registros == 0) {
+                                JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                            }
                         }
                     }
                 }
@@ -768,88 +773,103 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                                 dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
                                 pLIMPAR_tabela();
                                 MOSTRAR_DADOS_DATAS_NIVEL_1();
-                            }
-                        }
-                    }
-                } else if (nivelUsuario == 0 || nivelUsuario == 1) {
-                    if (jDataPesqInicial.getDate() == null) {
-                        JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                        jDataPesqInicial.requestFocus();
-                    } else {
-                        if (jDataPesFinal.getDate() == null) {
-                            JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                            jDataPesFinal.requestFocus();
-                        } else {
-                            if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
-                                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
-                            } else {
-                                SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
-                                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                                dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                                pLIMPAR_tabela();
-                                MOSTRAR_DADOS_DATAS_NIVEL_2();
+                                if (pTOTAL_registros == 0) {
+                                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                                }
                             }
                         }
                     }
                 }
-            } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
-                    if (jDataPesqInicial.getDate() == null) {
-                        JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                        jDataPesqInicial.requestFocus();
+            } else if (nivelUsuario == 2) {
+                if (jDataPesqInicial.getDate() == null) {
+                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                    jDataPesqInicial.requestFocus();
+                } else {
+                    if (jDataPesFinal.getDate() == null) {
+                        JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                        jDataPesFinal.requestFocus();
                     } else {
-                        if (jDataPesFinal.getDate() == null) {
-                            JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                            jDataPesFinal.requestFocus();
+                        if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
+                            JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
                         } else {
-                            if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
-                                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
-                            } else {
-                                SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
-                                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                                dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                                pLIMPAR_tabela();
-                                MOSTAR_DADOS_data();
+                            SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
+                            dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                            dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+                            pLIMPAR_tabela();
+                            MOSTRAR_DADOS_DATAS_NIVEL_2();
+                            if (pTOTAL_registros == 0) {
+                                JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
                             }
                         }
                     }
-                } else if (nivelUsuario == 0 || nivelUsuario == 1) {
-                    if (jDataPesqInicial.getDate() == null) {
-                        JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                        jDataPesqInicial.requestFocus();
+                }
+            }
+        } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
+            if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                if (jDataPesqInicial.getDate() == null) {
+                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                    jDataPesqInicial.requestFocus();
+                } else {
+                    if (jDataPesFinal.getDate() == null) {
+                        JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                        jDataPesFinal.requestFocus();
                     } else {
-                        if (jDataPesFinal.getDate() == null) {
-                            JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                            jDataPesFinal.requestFocus();
+                        if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
+                            JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
                         } else {
-                            if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
-                                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
-                            } else {
-                                SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
-                                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                                dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                                pLIMPAR_tabela();
-                                MOSTRAR_DADOS_DATAS_NIVEL_1();
+                            SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
+                            dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                            dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+                            pLIMPAR_tabela();
+                            MOSTAR_DADOS_data();
+                            if (pTOTAL_registros == 0) {
+                                JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
                             }
                         }
                     }
-                } else if (nivelUsuario == 2) {
-                    if (jDataPesqInicial.getDate() == null) {
-                        JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                        jDataPesqInicial.requestFocus();
+                }
+            } else if (nivelUsuario == 0 || nivelUsuario == 1) {
+                if (jDataPesqInicial.getDate() == null) {
+                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                    jDataPesqInicial.requestFocus();
+                } else {
+                    if (jDataPesFinal.getDate() == null) {
+                        JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                        jDataPesFinal.requestFocus();
                     } else {
-                        if (jDataPesFinal.getDate() == null) {
-                            JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                            jDataPesFinal.requestFocus();
+                        if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
+                            JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
                         } else {
-                            if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
-                                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
-                            } else {
-                                SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
-                                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                                dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                                pLIMPAR_tabela();
-                                MOSTRAR_DADOS_DATAS_NIVEL_2();
+                            SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
+                            dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                            dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+                            pLIMPAR_tabela();
+                            MOSTRAR_DADOS_DATAS_NIVEL_1();
+                            if (pTOTAL_registros == 0) {
+                                JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                            }
+                        }
+                    }
+                }
+            } else if (nivelUsuario == 2) {
+                if (jDataPesqInicial.getDate() == null) {
+                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                    jDataPesqInicial.requestFocus();
+                } else {
+                    if (jDataPesFinal.getDate() == null) {
+                        JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                        jDataPesFinal.requestFocus();
+                    } else {
+                        if (jDataPesqInicial.getDate().after(jDataPesFinal.getDate())) {
+                            JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+                        } else {
+                            SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
+                            dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                            dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+                            pLIMPAR_tabela();
+                            MOSTRAR_DADOS_DATAS_NIVEL_2();
+                            if (pTOTAL_registros == 0) {
+                                JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
                             }
                         }
                     }
@@ -960,7 +980,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
             jBtAuditoria.setEnabled(true);
             //
             DAOs.MOSTRA_DADOS_tabela(objSolicita);
-            jIdRegistroSolicitante.setText(String.valueOf(objSolicita.getIdSolicitacao()));
+            jIdRegistroSolicitante.setText(String.valueOf(objSolicita.getIdRegistroSolicitante()));
             jStatusSolicitacao.setText(objSolicita.getStatusSolicitacao());
             jDataSolicitacao.setDate(objSolicita.getDataSolicitacao());
             jNomeSolicitante.setText(objSolicita.getNomeSolicitante());
@@ -976,16 +996,17 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
     private void jBtNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoActionPerformed
         // TODO add your handling code here:
         objCampos.setNomeUsuario(nameUser);
-        objCampos.setNomeTelaAcesso(telaChamadosSolicitacao);
+        objCampos.setNomeTelaAcesso(telaChamadosSolicitacaoUsuarios);
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacao) && objCampos.getCodigoIncluir() == 1) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacaoUsuarios) && objCampos.getCodigoIncluir() == 1) {
             statusMov = "Incluiu";
             horaMov = pHORA_sistema;
             dataModFinal = pDATA_sistema;
             acao = 1;
             BUSCAR_NOME_IP_desktop();
+            BUSCAR_tecnico();
             limparCampos();
             bloquearBotoes(!true);
             habilitarCampos(true);
@@ -998,16 +1019,18 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
     private void jBtAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarActionPerformed
         // TODO add your handling code here:
         objCampos.setNomeUsuario(nameUser);
-        objCampos.setNomeTelaAcesso(telaChamadosSolicitacao);
+        objCampos.setNomeTelaAcesso(telaChamadosSolicitacaoUsuarios);
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacao) && objCampos.getCodigoAlterar() == 1) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacaoUsuarios) && objCampos.getCodigoAlterar() == 1) {
+            DAOs.VERIFICAR_ORIGEM_usuario(objSolicita);
             if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
                 statusMov = "Alterou";
                 horaMov = pHORA_sistema;
                 dataModFinal = pDATA_sistema;
                 BUSCAR_NOME_IP_desktop();
+                BUSCAR_tecnico();
                 bloquearBotoes(!true);
                 habilitarCampos(true);
                 acao = 2;
@@ -1023,11 +1046,12 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
     private void jBtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirActionPerformed
         // TODO add your handling code here:
         objCampos.setNomeUsuario(nameUser);
-        objCampos.setNomeTelaAcesso(telaChamadosSolicitacao);
+        objCampos.setNomeTelaAcesso(telaChamadosSolicitacaoUsuarios);
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacao) && objCampos.getCodigoExcluir() == 1) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacaoUsuarios) && objCampos.getCodigoExcluir() == 1) {
+            DAOs.VERIFICAR_ORIGEM_usuario(objSolicita);
             if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
                 int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
                         JOptionPane.YES_NO_OPTION);
@@ -1055,11 +1079,11 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
     private void jBtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSalvarActionPerformed
         // TODO add your handling code here:
         objCampos.setNomeUsuario(nameUser);
-        objCampos.setNomeTelaAcesso(telaChamadosSolicitacao);
+        objCampos.setNomeTelaAcesso(telaChamadosSolicitacaoUsuarios);
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacao) && objCampos.getCodigoGravar() == 1) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacaoUsuarios) && objCampos.getCodigoGravar() == 1) {
             if (jNomeSolicitante.getText().equals("Informe o nome do solicitante.")) {
                 JOptionPane.showMessageDialog(rootPane, "");
             } else if (jComboBoxNomeTecnico.getSelectedItem().equals("Selecione...")) {
@@ -1074,7 +1098,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de solicitação.");
             } else if (jTextoSolicitacao.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "É necessário informar o motivo da solicitação de atendimento.");
-            } else {                
+            } else {
                 objSolicita.setStatusSolicitacao(jStatusSolicitacao.getText());
                 objSolicita.setDataSolicitacao(jDataSolicitacao.getDate());
                 objSolicita.setNomeSolicitante(jNomeSolicitante.getText());
@@ -1084,6 +1108,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 objSolicita.setDepartamentoSolicitante(jDepartamentoSolicitante.getText());
                 objSolicita.setTipoSolicitacao((String) jComboBoxTipoSolicitacao.getSelectedItem());
                 objSolicita.setTextoSolicitacao(jTextoSolicitacao.getText());
+                objSolicita.setIdUnidade(pCODIGO_unidade);
                 if (acao == 1) {
                     objSolicita.setUsuarioInsert(nameUser);
                     objSolicita.setDataInsert(dataModFinal);
@@ -1093,6 +1118,8 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                     //
                     objLog();
                     controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
+                    bloquearBotoes(!true);
+                    bloquearCampos(!true);
                     Salvar();
                     if (pRESPOSTA.equals("Sim")) {
                         JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
@@ -1109,6 +1136,8 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                     //
                     objLog();
                     controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
+                    bloquearBotoes(!true);
+                    bloquearCampos(!true);
                     Salvar();
                     if (pRESPOSTA.equals("Sim")) {
                         JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
@@ -1261,6 +1290,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         jNomeSolicitante.setText(nameUser);
         jNomeComputadorSolicitante.setText(hostNameSRV);
         jIPComputadorSolicitante.setText(ipHostSRV);
+        jDepartamentoSolicitante.setText(pSETOR_usuario);
         //
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
@@ -1269,6 +1299,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
     public void Alterar() {
         jNomeComputadorSolicitante.setText(hostNameSRV);
         jIPComputadorSolicitante.setText(ipHostSRV);
+        jDepartamentoSolicitante.setText(pSETOR_usuario);
         //
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
@@ -1330,7 +1361,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 String ano = pDATA_Registros.substring(0, 4);
                 pDATA_Registros = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
-                dadosOrigem.addRow(new Object[]{dd.getIdSolicitacao(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
                 // BARRA DE ROLAGEM HORIZONTAL
                 jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 // ALINHAR TEXTO DA TABELA CENTRALIZADO
@@ -1355,7 +1386,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 String ano = pDATA_Registros.substring(0, 4);
                 pDATA_Registros = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
-                dadosOrigem.addRow(new Object[]{dd.getIdSolicitacao(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
                 // BARRA DE ROLAGEM HORIZONTAL
                 jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 // ALINHAR TEXTO DA TABELA CENTRALIZADO
@@ -1380,7 +1411,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 String ano = pDATA_Registros.substring(0, 4);
                 pDATA_Registros = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
-                dadosOrigem.addRow(new Object[]{dd.getIdSolicitacao(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
                 // BARRA DE ROLAGEM HORIZONTAL
                 jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 // ALINHAR TEXTO DA TABELA CENTRALIZADO
@@ -1405,7 +1436,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 String ano = pDATA_Registros.substring(0, 4);
                 pDATA_Registros = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
-                dadosOrigem.addRow(new Object[]{dd.getIdSolicitacao(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
                 // BARRA DE ROLAGEM HORIZONTAL
                 jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 // ALINHAR TEXTO DA TABELA CENTRALIZADO
@@ -1430,7 +1461,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 String ano = pDATA_Registros.substring(0, 4);
                 pDATA_Registros = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
-                dadosOrigem.addRow(new Object[]{dd.getIdSolicitacao(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
                 // BARRA DE ROLAGEM HORIZONTAL
                 jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 // ALINHAR TEXTO DA TABELA CENTRALIZADO
@@ -1455,7 +1486,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 String ano = pDATA_Registros.substring(0, 4);
                 pDATA_Registros = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
-                dadosOrigem.addRow(new Object[]{dd.getIdSolicitacao(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
                 // BARRA DE ROLAGEM HORIZONTAL
                 jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 // ALINHAR TEXTO DA TABELA CENTRALIZADO
@@ -1480,7 +1511,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 String ano = pDATA_Registros.substring(0, 4);
                 pDATA_Registros = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
-                dadosOrigem.addRow(new Object[]{dd.getIdSolicitacao(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
                 // BARRA DE ROLAGEM HORIZONTAL
                 jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 // ALINHAR TEXTO DA TABELA CENTRALIZADO
@@ -1505,7 +1536,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 String ano = pDATA_Registros.substring(0, 4);
                 pDATA_Registros = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
-                dadosOrigem.addRow(new Object[]{dd.getIdSolicitacao(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
                 // BARRA DE ROLAGEM HORIZONTAL
                 jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 // ALINHAR TEXTO DA TABELA CENTRALIZADO
@@ -1530,7 +1561,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                 String ano = pDATA_Registros.substring(0, 4);
                 pDATA_Registros = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
-                dadosOrigem.addRow(new Object[]{dd.getIdSolicitacao(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
                 // BARRA DE ROLAGEM HORIZONTAL
                 jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 // ALINHAR TEXTO DA TABELA CENTRALIZADO
@@ -1554,6 +1585,10 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         } catch (UnknownHostException ex) {
             Logger.getLogger(TelaSolicitacaoUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void BUSCAR_tecnico() {
+        DAOs.LISTAR_TECNICOS_unidade(objSolicita);
     }
 
     public void objLog() {

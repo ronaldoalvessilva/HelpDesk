@@ -52,7 +52,8 @@
                   <Image iconType="3" name="/Imagens/240119192043_16.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="76"/>
-                <Property name="text" type="java.lang.String" value="Solicitantes"/>
+                <Property name="text" type="java.lang.String" value="Solicitantes (T&#xe9;cnicos de Inform&#xe1;tica)"/>
+                <Property name="toolTipText" type="java.lang.String" value="T&#xe9;cnicos de inform&#xe1;tica das Unidades"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jSolicitantesActionPerformed"/>

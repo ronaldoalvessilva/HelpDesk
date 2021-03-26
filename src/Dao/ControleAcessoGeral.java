@@ -88,6 +88,7 @@ public class ControleAcessoGeral {
                     + "Abrir, "
                     + "Incluir, "
                     + "Alterar, "
+                    + "Excluir, "
                     + "Gravar, "
                     + "Consultar, "
                     + "NomeTela "

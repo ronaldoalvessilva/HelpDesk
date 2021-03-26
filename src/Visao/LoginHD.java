@@ -70,10 +70,12 @@ public class LoginHD extends javax.swing.JDialog {
     //
     public static String tipoServidor = "";
     public static String tipoBancoDados = "";
+    public static Integer pCODIGO_unidade = null;
+    public static String pSETOR_usuario = "";
+
     /**
      * Creates new form LoginHD
      */
-
     public static TelaEscolhaAcesso pTELA_acesso;
 
     public LoginHD(java.awt.Frame parent, boolean modal) {
@@ -92,8 +94,8 @@ public class LoginHD extends javax.swing.JDialog {
         Date data = new Date();
         String hora = formatter.format(data); // Data da conexão
         String date = formatter2.format(data); // Hora da conexão
-        pDATA_sistema = String.valueOf(hora);    // no lugar do label, por seu JTextField    
-        pHORA_sistema = String.valueOf(date);
+        pDATA_sistema = String.valueOf(date);    // no lugar do label, por seu JTextField    
+        pHORA_sistema = String.valueOf(hora);
         //
         verificarParametrosSRV();
     }

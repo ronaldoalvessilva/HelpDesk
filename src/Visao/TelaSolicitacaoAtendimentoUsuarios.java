@@ -8,11 +8,14 @@ package Visao;
 import Dao.ChamadosSuporteDao;
 import Dao.ConexaoBancoDados;
 import Dao.ControleAcessoGeral;
+import Dao.telasSistemaDao;
+import Modelo.CadastroTelasSistema;
 import Modelo.CamposAcessos;
 import Modelo.ChamadoSuporte;
 import static Visao.LoginHD.nameUser;
 import java.awt.Color;
 import java.beans.PropertyVetoException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -46,29 +49,31 @@ public class TelaSolicitacaoAtendimentoUsuarios extends javax.swing.JFrame {
     public static String tipoServidor = "";
     public static String tipoBancoDados = "";
     //
-    public static int codigoUser = 0;
-    public static int codUserAcesso = 0;
-    public static int codigoUserGroup = 0;
-    public static int codAbrir = 0;
-    public static int codIncluir = 0;
-    public static int codAlterar = 0;
-    public static int codExcluir = 0;
-    public static int codGravar = 0;
-    public static int codConsultar = 0;
-    public static int codigoGrupo = 0;
-    public static String nomeGrupo = "";
-    public static String nomeTela = "";
+//    public static int codigoUser = 0;
+//    public static int codUserAcesso = 0;
+//    public static int codigoUserGroup = 0;
+//    public static int codAbrir = 0;
+//    public static int codIncluir = 0;
+//    public static int codAlterar = 0;
+//    public static int codExcluir = 0;
+//    public static int codGravar = 0;
+//    public static int codConsultar = 0;
+//    public static int codigoGrupo = 0;
+//    public static String nomeGrupo = "";
+//    public static String nomeTela = "";
     //CADASTRO
     public static String telaOcorrenciaManu = "Cadastro:Ocorrências:Manutenção";
     public static String telaAgendaRecado = "Cadastro Agenda Recados:Manutenção";
     public static String telaAgendaCompromisso = "Cadastro Agenda de Compromisso:Manutenção";
     //SUPORTE CHAMADOS
-    public static String telaChamadosSolicitacao = "Suporte Técnico:Chamados Suporte:Manutenção";
-    public static String telaItensChamadoSuporte = "Suporte Técnico:Chamados Suporte:Itens";
-    public static String botaoEncerrarSup = "Encerrar Chamado no Suporte";
-    public static String botaoImprimirSup = "Imprimir Chamado no Suporte";
-    public static String botaoEnviarSup = "Enviar Chamado no Suporte";
-    public static String botaoReabrirSup = "Reabrir Chamado no Suporte";
+    public static String telaChamadosSolicitacaoUsuarios = "Suporte Técnico:Solicitação Chamados Usuários:Manutenção";
+//    public static String telaItensChamadoSuporte = "Suporte Técnico:Chamados Suporte:Itens";
+//    public static String botaoEncerrarSup = "Encerrar Chamado no Suporte";
+//    public static String botaoImprimirSup = "Imprimir Chamado no Suporte";
+//    public static String botaoEnviarSup = "Enviar Chamado no Suporte";
+//    public static String botaoReabrirSup = "Reabrir Chamado no Suporte";
+//    //
+//    String pNomeCSU = "";
 
     /**
      * Creates new form TelaClienteChamadosSuporte
@@ -616,11 +621,11 @@ public class TelaSolicitacaoAtendimentoUsuarios extends javax.swing.JFrame {
     private void jBtChamadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtChamadosActionPerformed
         // TODO add your handling code here:
         objCampos.setNomeUsuario(nameUser);
-        objCampos.setNomeTelaAcesso(telaChamadosSolicitacao);
+        objCampos.setNomeTelaAcesso(telaChamadosSolicitacaoUsuarios);
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacao) && objCampos.getCodigoAbrir() == 1) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacaoUsuarios) && objCampos.getCodigoAbrir() == 1) {
             if (objSolicitacao == null || objSolicitacao.isClosed()) {
                 objSolicitacao = new TelaSolicitacaoUsuario();
                 TelaSolicitacaoAtendimentoUsuarios.jPainelDesktopUser.add(objSolicitacao);
@@ -784,11 +789,11 @@ public class TelaSolicitacaoAtendimentoUsuarios extends javax.swing.JFrame {
     private void jChamadosSuporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChamadosSuporteActionPerformed
         // TODO add your handling code here:
         objCampos.setNomeUsuario(nameUser);
-        objCampos.setNomeTelaAcesso(telaChamadosSolicitacao);
+        objCampos.setNomeTelaAcesso(telaChamadosSolicitacaoUsuarios);
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacao) && objCampos.getCodigoAbrir() == 1) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacaoUsuarios) && objCampos.getCodigoAbrir() == 1) {
             if (objSolicitacao == null || objSolicitacao.isClosed()) {
                 objSolicitacao = new TelaSolicitacaoUsuario();
                 TelaSolicitacaoAtendimentoUsuarios.jPainelDesktopUser.add(objSolicitacao);

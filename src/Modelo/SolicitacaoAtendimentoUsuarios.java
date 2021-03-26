@@ -20,6 +20,8 @@ public class SolicitacaoAtendimentoUsuarios {
     private String nomeSolicitante;
     private Integer idTecnico;
     private String nomeTecnico;
+    private Integer idUnidade;
+    private String nomeUnidade;
     private String nomeComputadorSolicitante;
     private String iPComputadorSolicitante;
     private String departamentoSolicitante;
@@ -35,7 +37,7 @@ public class SolicitacaoAtendimentoUsuarios {
     public SolicitacaoAtendimentoUsuarios() {
     }
 
-    public SolicitacaoAtendimentoUsuarios(Integer idRegistroSolicitante, String statusSolicitacao, Date dataSolicitacao, Integer idSolicitacao, String nomeSolicitante, Integer idTecnico, String nomeTecnico, String nomeComputadorSolicitante, String iPComputadorSolicitante, String departamentoSolicitante, String tipoSolicitacao, String textoSolicitacao, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp) {
+    public SolicitacaoAtendimentoUsuarios(Integer idRegistroSolicitante, String statusSolicitacao, Date dataSolicitacao, Integer idSolicitacao, String nomeSolicitante, Integer idTecnico, String nomeTecnico, Integer idUnidade, String nomeUnidade, String nomeComputadorSolicitante, String iPComputadorSolicitante, String departamentoSolicitante, String tipoSolicitacao, String textoSolicitacao, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp) {
         this.idRegistroSolicitante = idRegistroSolicitante;
         this.statusSolicitacao = statusSolicitacao;
         this.dataSolicitacao = dataSolicitacao;
@@ -43,6 +45,8 @@ public class SolicitacaoAtendimentoUsuarios {
         this.nomeSolicitante = nomeSolicitante;
         this.idTecnico = idTecnico;
         this.nomeTecnico = nomeTecnico;
+        this.idUnidade = idUnidade;
+        this.nomeUnidade = nomeUnidade;
         this.nomeComputadorSolicitante = nomeComputadorSolicitante;
         this.iPComputadorSolicitante = iPComputadorSolicitante;
         this.departamentoSolicitante = departamentoSolicitante;
@@ -152,6 +156,34 @@ public class SolicitacaoAtendimentoUsuarios {
      */
     public void setNomeTecnico(String nomeTecnico) {
         this.nomeTecnico = nomeTecnico;
+    }
+
+    /**
+     * @return the idUnidade
+     */
+    public Integer getIdUnidade() {
+        return idUnidade;
+    }
+
+    /**
+     * @param idUnidade the idUnidade to set
+     */
+    public void setIdUnidade(Integer idUnidade) {
+        this.idUnidade = idUnidade;
+    }
+
+    /**
+     * @return the nomeUnidade
+     */
+    public String getNomeUnidade() {
+        return nomeUnidade;
+    }
+
+    /**
+     * @param nomeUnidade the nomeUnidade to set
+     */
+    public void setNomeUnidade(String nomeUnidade) {
+        this.nomeUnidade = nomeUnidade;
     }
 
     /**

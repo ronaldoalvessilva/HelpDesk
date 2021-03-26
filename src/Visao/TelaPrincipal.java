@@ -155,6 +155,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public static String botaoReabrirSup = "Reabrir Chamado no Suporte";
     //SUPORTE DESENVOLVIMENTO
     public static String telaChamadosDesenvolvimento = "Desenvolvimento:Chamados Desenvolvimento:Manutenção";
+    public static String telaChamadosSolicitacaoUsuarios = "Suporte Técnico:Solicitação Chamados Usuários:Manutenção";
     public static String telaItensChamadoDesenvolvimento = "Desenvolvimento:Chamados Desenvolvimento:Itens";
     public static String botaoEncerrarDes = "Encerrar Chamado no Desenvolvedor";
     public static String botaoImprimirDes = "Imprimir Chamado no Desenvolvedor";
@@ -187,6 +188,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     String pNomeACM = "";
     //CHAMADOS DE SUPORTE
     String pNomeCSU = "";
+    String pNomeCUAU = "";
     String pNomeCSI = "";
     String pNomeBTE = "";
     String pNomeBTI = "";
@@ -826,7 +828,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jSolicitantes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jSolicitantes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119192043_16.png"))); // NOI18N
         jSolicitantes.setMnemonic('L');
-        jSolicitantes.setText("Solicitantes");
+        jSolicitantes.setText("Solicitantes (Técnicos de Informática)");
+        jSolicitantes.setToolTipText("Técnicos de informática das Unidades");
         jSolicitantes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSolicitantesActionPerformed(evt);
@@ -2692,6 +2695,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
             pNomeSAT = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
+        //CHAMADOS SUPORTE USUÁRIOS DA UNIDADE
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM TELAS "
+                    + "WHERE NomeTela='" + telaChamadosSolicitacaoUsuarios + "'");
+            conecta.rs.first();
+            pNomeCUAU = conecta.rs.getString("NomeTela");
+        } catch (SQLException ex) {
+        }        
         // CADASTRO
         //EMPRESA/UNIDADES
         if (!pNomeCE.equals(telaCadastroEmpresa) || pNomeCE == null || pNomeCE.equals("")) {
@@ -2808,6 +2820,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         if (!pNomeSAT.equals(telaChamadosSolicitacao) || pNomeSAT == null || pNomeSAT.equals("")) {
             objCadastroTela.setNomeTela(telaChamadosSolicitacao);
+            controle.incluirTelaAcesso(objCadastroTela);
+        }
+        //CHAMADOS SUPORTE USUÁRIOS DA UNIDADE
+        if (!pNomeCUAU.equals(telaChamadosSolicitacaoUsuarios) || pNomeCUAU == null || pNomeCUAU.equals("")) {
+            objCadastroTela.setNomeTela(telaChamadosSolicitacaoUsuarios);
             controle.incluirTelaAcesso(objCadastroTela);
         }
     }

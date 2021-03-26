@@ -10,7 +10,7 @@
     </Property>
   </Properties>
   <SyntheticProperties>
-    <SyntheticProperty name="formSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,55,0,0,3,24"/>
+    <SyntheticProperty name="formSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,50,0,0,3,24"/>
     <SyntheticProperty name="formPosition" type="java.awt.Point" value="-84,-19,0,5,115,114,0,14,106,97,118,97,46,97,119,116,46,80,111,105,110,116,-74,-60,-118,114,52,126,-56,38,2,0,2,73,0,1,120,73,0,1,121,120,112,0,0,0,-6,0,0,0,0"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="0"/>
     <SyntheticProperty name="generatePosition" type="boolean" value="true"/>
@@ -36,7 +36,10 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="jTabbedPane1" pref="532" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -85,7 +88,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="334" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="329" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="2" attributes="0">
                           <Component id="jPanel30" alignment="2" min="-2" max="-2" attributes="0"/>
@@ -595,9 +598,9 @@
                           <Component id="jScrollPane4" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
-                          <Component id="jPanel8" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jPanel8" max="32767" attributes="0"/>
+                          <Component id="jPanel9" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -606,17 +609,22 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jPanel8" min="-2" pref="274" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                              <Component id="jTabbedPane2" min="-2" pref="219" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jScrollPane4" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel8" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                      <Component id="jTabbedPane2" min="-2" pref="219" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane4" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -989,32 +997,23 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="jToggleButtonStatus" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jBtEncerrar" linkSize="4" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jBtSair" linkSize="4" max="32767" attributes="0"/>
-                                      <Group type="103" alignment="0" groupAlignment="0" attributes="0">
-                                          <Component id="jBtReabrir" linkSize="4" max="32767" attributes="0"/>
-                                          <Component id="jBtEnviar" linkSize="4" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jBtImprimir" linkSize="4" alignment="0" max="32767" attributes="0"/>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <EmptySpace pref="34" max="-2" attributes="0"/>
-                                              <Component id="jBtAuditoriaItem" min="-2" pref="26" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Component id="jBtAnexarArquivo" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jBtEXE" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jBtEncerrar" linkSize="4" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jBtSair" linkSize="4" max="32767" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                                  <Component id="jBtReabrir" linkSize="4" max="32767" attributes="0"/>
+                                  <Component id="jBtEnviar" linkSize="4" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jBtImprimir" linkSize="4" alignment="0" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace pref="34" max="-2" attributes="0"/>
+                                      <Component id="jBtAuditoriaItem" min="-2" pref="26" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
+                              <Component id="jBtAnexarArquivo" linkSize="4" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jBtEXE" linkSize="4" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace pref="14" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1023,8 +1022,6 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jBtEncerrar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jToggleButtonStatus" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jBtAnexarArquivo" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -1036,10 +1033,10 @@
                           <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                           <Component id="jBtImprimir" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jBtAuditoriaItem" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="jBtSair" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                          <Component id="jBtAuditoriaItem" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1136,22 +1133,6 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JToggleButton" name="jToggleButtonStatus">
-                  <Properties>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="0" green="66" red="0" type="rgb"/>
-                    </Property>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Imagens/tick.png"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="A. Status"/>
-                    <Property name="toolTipText" type="java.lang.String" value="Altarar Status do Atendimento"/>
-                    <Property name="enabled" type="boolean" value="false"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButtonStatusActionPerformed"/>
-                  </Events>
-                </Component>
                 <Component class="javax.swing.JButton" name="jBtAnexarArquivo">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -1197,30 +1178,30 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jBtAlterar" linkSize="8" min="-2" pref="65" max="-2" attributes="0"/>
-                                      <Component id="jBtNovo" linkSize="8" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jBtExcluir" linkSize="8" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jBtSalvar" linkSize="8" alignment="0" min="-2" pref="65" max="-2" attributes="0"/>
-                                      <Component id="jBtCancelar" linkSize="8" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                                  <Component id="jBtAuditoria" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="jBtAlterar" linkSize="8" min="-2" pref="65" max="-2" attributes="0"/>
+                              <Component id="jBtNovo" linkSize="8" min="-2" max="-2" attributes="0"/>
+                              <Component id="jBtExcluir" linkSize="8" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jBtSalvar" linkSize="8" alignment="0" min="-2" pref="65" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="jToggleButtonStatus" linkSize="8" max="32767" attributes="0"/>
+                                  <Component id="jBtCancelar" linkSize="8" alignment="1" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jBtAuditoria" min="-2" pref="25" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                           <Component id="jBtNovo" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                           <Component id="jBtAlterar" min="-2" max="-2" attributes="0"/>
@@ -1230,9 +1211,11 @@
                           <Component id="jBtSalvar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                           <Component id="jBtCancelar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jToggleButtonStatus" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jBtAuditoria" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          <EmptySpace pref="15" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1327,6 +1310,22 @@
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
+                </Component>
+                <Component class="javax.swing.JToggleButton" name="jToggleButtonStatus">
+                  <Properties>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="0" green="66" red="0" type="rgb"/>
+                    </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Imagens/tick.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Status"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Altarar Status do Atendimento"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButtonStatusActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
