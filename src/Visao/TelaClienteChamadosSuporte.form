@@ -9,11 +9,6 @@
             <Property name="text" type="java.lang.String" value="Cadastros"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jTecnicosUnidade">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="T&#xe9;cnicos"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jOcorrencias">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -85,7 +80,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/240119191009_16.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Atendimento aos Usu&#xe1;rios Local"/>
+                <Property name="text" type="java.lang.String" value="Consulta de Atendimento aos Usu&#xe1;rios Local"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jAtendimentosUsuariosLocalActionPerformed"/>
@@ -232,15 +227,14 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jBtChamados" linkSize="2" min="-2" pref="183" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jBtChamados" linkSize="2" alignment="0" pref="183" max="32767" attributes="0"/>
+                      <Component id="jBtOcorrencias" linkSize="2" alignment="0" pref="183" max="32767" attributes="0"/>
+                      <Component id="jButton1" linkSize="2" alignment="0" max="32767" attributes="0"/>
+                  </Group>
                   <EmptySpace pref="11" max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jBtOcorrencias" linkSize="2" min="-2" pref="183" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -250,8 +244,10 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jBtChamados" linkSize="3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jButton1" linkSize="3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jBtOcorrencias" linkSize="3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="249" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="220" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -279,6 +275,18 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtChamadosActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButton1">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Imagens/240119172710_32.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="C.S.Usu&#xe1;rios"/>
+            <Property name="toolTipText" type="java.lang.String" value="Consulta de Solicta&#xe7;&#xf5;es de usu&#xe1;rios Local"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

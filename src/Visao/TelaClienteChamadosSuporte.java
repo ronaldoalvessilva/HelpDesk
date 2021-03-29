@@ -37,6 +37,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     private TelaOcorrenciasHD objOcr = null;
     private TelaRecadosCliente objjAgendaRec = null;
     private TelaAgendaCompromissos objAgendaComp = null;
+    private TelaConsultaSolicitacaoUsuarioLocal objConsutaSoli = null;
     //
     public static int pTOTAL_REGISTROS_aberto = 0;
     public static int pTOTAL_REGISTROS_fechado = 0;
@@ -102,6 +103,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jBtOcorrencias = new javax.swing.JButton();
         jBtChamados = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPainelDesktop = new javax.swing.JDesktopPane();
         jLabel1 = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
@@ -129,7 +131,6 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         jQtdChamadosFechados = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jTecnicosUnidade = new javax.swing.JMenuItem();
         jOcorrencias = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jAgendaRecados = new javax.swing.JMenuItem();
@@ -166,21 +167,29 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119172710_32.png"))); // NOI18N
+        jButton1.setText("C.S.Usuários");
+        jButton1.setToolTipText("Consulta de Solictações de usuários Local");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jBtChamados, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jBtChamados, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .addComponent(jBtOcorrencias, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(11, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBtOcorrencias, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtChamados, jBtOcorrencias});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtChamados, jBtOcorrencias, jButton1});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,11 +197,13 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBtChamados)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtOcorrencias)
-                .addGap(249, 249, 249))
+                .addGap(220, 220, 220))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtChamados, jBtOcorrencias});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtChamados, jBtOcorrencias, jButton1});
 
         jPainelDesktop.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -414,9 +425,6 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
 
         jMenu1.setText("Cadastros");
 
-        jTecnicosUnidade.setText("Técnicos");
-        jMenu1.add(jTecnicosUnidade);
-
         jOcorrencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/250119203457_16.png"))); // NOI18N
         jOcorrencias.setText("Ocorrências");
         jOcorrencias.addActionListener(new java.awt.event.ActionListener() {
@@ -469,7 +477,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
         jMenu2.add(jChamadosSuporte);
 
         jAtendimentosUsuariosLocal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191009_16.png"))); // NOI18N
-        jAtendimentosUsuariosLocal.setText("Atendimento aos Usuários Local");
+        jAtendimentosUsuariosLocal.setText("Consulta de Atendimento aos Usuários Local");
         jAtendimentosUsuariosLocal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jAtendimentosUsuariosLocalActionPerformed(evt);
@@ -837,7 +845,61 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
 
     private void jAtendimentosUsuariosLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAtendimentosUsuariosLocalActionPerformed
         // TODO add your handling code here:
+        if (objConsutaSoli == null || objConsutaSoli.isClosed()) {
+            objConsutaSoli = new TelaConsultaSolicitacaoUsuarioLocal();
+            TelaClienteChamadosSuporte.jPainelDesktop.add(objConsutaSoli);
+            objConsutaSoli.setVisible(true);
+        } else {
+            if (objConsutaSoli.isVisible()) {
+                if (objConsutaSoli.isIcon()) { // Se esta minimizado
+                    try {
+                        objConsutaSoli.setIcon(false); // maximiniza
+                    } catch (PropertyVetoException ex) {
+                    }
+                } else {
+                    objConsutaSoli.toFront(); // traz para frente
+                    objConsutaSoli.pack();//volta frame 
+                }
+            } else {
+                objConsutaSoli = new TelaConsultaSolicitacaoUsuarioLocal();
+                TelaClienteChamadosSuporte.jPainelDesktop.add(objConsutaSoli);//adicona frame ao JDesktopPane  
+                objChamaSup.setVisible(true);
+            }
+        }
+        try {
+            objConsutaSoli.setSelected(true);
+        } catch (java.beans.PropertyVetoException e) {
+        }
     }//GEN-LAST:event_jAtendimentosUsuariosLocalActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if (objConsutaSoli == null || objConsutaSoli.isClosed()) {
+            objConsutaSoli = new TelaConsultaSolicitacaoUsuarioLocal();
+            TelaClienteChamadosSuporte.jPainelDesktop.add(objConsutaSoli);
+            objConsutaSoli.setVisible(true);
+        } else {
+            if (objConsutaSoli.isVisible()) {
+                if (objConsutaSoli.isIcon()) { // Se esta minimizado
+                    try {
+                        objConsutaSoli.setIcon(false); // maximiniza
+                    } catch (PropertyVetoException ex) {
+                    }
+                } else {
+                    objConsutaSoli.toFront(); // traz para frente
+                    objConsutaSoli.pack();//volta frame 
+                }
+            } else {
+                objConsutaSoli = new TelaConsultaSolicitacaoUsuarioLocal();
+                TelaClienteChamadosSuporte.jPainelDesktop.add(objConsutaSoli);//adicona frame ao JDesktopPane  
+                objChamaSup.setVisible(true);
+            }
+        }
+        try {
+            objConsutaSoli.setSelected(true);
+        } catch (java.beans.PropertyVetoException e) {
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -882,6 +944,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     private javax.swing.JButton jBtLogoff;
     private javax.swing.JButton jBtOcorrencias;
     private javax.swing.JButton jBtTrocarSenha;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JMenuItem jChamadosSuporte;
     public static javax.swing.JTextField jDataSistema;
@@ -913,7 +976,6 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     private javax.swing.JMenuItem jSair;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JMenuItem jTecnicosUnidade;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;

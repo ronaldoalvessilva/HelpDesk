@@ -9,11 +9,13 @@ import Modelo.SolicitacaoAtendimentoUsuarios;
 import static Visao.LoginHD.nameUser;
 import static Visao.LoginHD.nomeUserRegistro;
 import static Visao.LoginHD.pCODIGO_unidade;
+import static Visao.TelaConsultaSolicitacaoUsuarioLocal.pTOTAL_REGISTROS_listados;
 import static Visao.TelaSolicitacaoAtendimentoUsuarios.pTOTAL_REGISTROS_aberto;
 import static Visao.TelaSolicitacaoAtendimentoUsuarios.pTOTAL_REGISTROS_fechado;
 import static Visao.TelaSolicitacaoUsuario.dataFinal;
 import static Visao.TelaSolicitacaoUsuario.dataInicial;
 import static Visao.TelaSolicitacaoUsuario.idSolicitacaoTabela;
+import static Visao.TelaConsultaSolicitacaoUsuarioLocal.idSolicitacaoTabelaConsulta;
 import static Visao.TelaSolicitacaoUsuario.jComboBoxNomeTecnico;
 import static Visao.TelaSolicitacaoUsuario.jComboBoxStatusPesquisa;
 import static Visao.TelaSolicitacaoUsuario.jComboBoxTipoSolicitacaoPesquisa;
@@ -517,20 +519,21 @@ public class SolicitacaoAtendimentoDao {
         conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT "
-                    + "IdRegistroSolicitante, "
-                    + "DataSolicitacao, "
-                    + "StatusSolicitacao, "
-                    + "NomeSolicitante, "
-                    + "NomeUsuario, "
-                    + "NomeComputadorSolicitante, "
-                    + "IPcomputadorSolicitante, "
-                    + "DepartamentoSolicitante, "
-                    + "TipoSolicitacao, "
-                    + "TextoSolicitacao "
-                    + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS "
-                    + "INNER JOIN USUARIOS "
-                    + "ON SOLICITACAO_ATENDIMENTO_USUARIOS.IdUsuario=USUARIOS.IdUsuario "
-                    + "WHERE IdRegistroSolicitante='" + idSolicitacaoTabela + "'");
+                    + "S.IdRegistroSolicitante, "
+                    + "S.DataSolicitacao, "
+                    + "S.StatusSolicitacao, "
+                    + "S.NomeSolicitante, "
+                    + "U.Idusuario, "
+                    + "U.NomeUsuario, "
+                    + "S.NomeComputadorSolicitante, "
+                    + "S.IPcomputadorSolicitante, "
+                    + "S.DepartamentoSolicitante, "
+                    + "S.TipoSolicitacao, "
+                    + "S.TextoSolicitacao "
+                    + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS AS S "
+                    + "INNER JOIN USUARIOS AS U "
+                    + "ON S.IdUsuario=U.IdUsuario "
+                    + "WHERE S.IdRegistroSolicitante='" + idSolicitacaoTabela + "'");
             conecta.rs.first();
             objSolicita.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
             objSolicita.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
@@ -549,6 +552,46 @@ public class SolicitacaoAtendimentoDao {
         return objSolicita;
     }
 
+    public SolicitacaoAtendimentoUsuarios MOSTRA_DADOS_TABELA_consulta(SolicitacaoAtendimentoUsuarios objSolicita) {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "S.IdRegistroSolicitante, "
+                    + "S.DataSolicitacao, "
+                    + "S.StatusSolicitacao, "
+                    + "S.NomeSolicitante, "
+                    + "U.Idusuario, "
+                    + "U.NomeUsuario, "
+                    + "S.NomeComputadorSolicitante, "
+                    + "S.IPcomputadorSolicitante, "
+                    + "S.DepartamentoSolicitante, "
+                    + "S.TipoSolicitacao, "
+                    + "S.TextoSolicitacao, "
+                    + "S.HorarioInsert "
+                    + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS AS S "
+                    + "INNER JOIN USUARIOS AS U "
+                    + "ON S.IdUsuario=U.IdUsuario "
+                    + "WHERE S.IdRegistroSolicitante='" + idSolicitacaoTabelaConsulta + "'");
+            conecta.rs.first();
+            objSolicita.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
+            objSolicita.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
+            objSolicita.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
+            objSolicita.setNomeSolicitante(conecta.rs.getString("NomeUsuario"));
+            objSolicita.setNomeTecnico(conecta.rs.getString("NomeSolicitante"));
+            objSolicita.setNomeComputadorSolicitante(conecta.rs.getString("NomeComputadorSolicitante"));
+            objSolicita.setiPComputadorSolicitante(conecta.rs.getString("IPcomputadorSolicitante"));
+            objSolicita.setDepartamentoSolicitante(conecta.rs.getString("DepartamentoSolicitante"));
+            objSolicita.setTipoSolicitacao(conecta.rs.getString("TipoSolicitacao"));
+            objSolicita.setTextoSolicitacao(conecta.rs.getString("TextoSolicitacao"));
+            objSolicita.setHorarioInsert(conecta.rs.getString("HorarioInsert"));
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível exibir os dados, tente novamente.\n" + ex);
+        }
+        conecta.desconecta();
+        return objSolicita;
+    }
+
+    
     public SolicitacaoAtendimentoUsuarios MOSTRA_PESQUISA_CANCELAR_operacao(SolicitacaoAtendimentoUsuarios objSolicita) {
         conecta.abrirConexao();
         try {
@@ -566,8 +609,6 @@ public class SolicitacaoAtendimentoDao {
                     + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS "
                     + "INNER JOIN USUARIOS "
                     + "ON SOLICITACAO_ATENDIMENTO_USUARIOS.IdUsuario=USUARIOS.IdUsuario "
-                    + "INNER JOIN SOLICITANTES "
-                    + "ON SOLICITACAO_ATENDIMENTO_USUARIOS.IdSolicitante=SOLICITANTES.IdSolicitante "
                     + "WHERE IdRegistroSolicitante='" + jIdRegistroSolicitantePesquisa.getText() + "'");
             conecta.rs.first();
             objSolicita.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
@@ -812,7 +853,7 @@ public class SolicitacaoAtendimentoDao {
                     + "NomeSolicitante "
                     + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS "
                     + "WHERE NomeSolicitante='" + nameUser + "' "
-                    + "AND StatusCha LIKE'%" + pSTATUS_CHAMADO_fechado + "%'");
+                    + "AND StatusSolicitacao LIKE'%" + pSTATUS_CHAMADO_fechado + "%'");
             while (conecta.rs.next()) {
                 SolicitacaoAtendimentoUsuarios CHAMADOS_usuario = new SolicitacaoAtendimentoUsuarios();
                 CHAMADOS_usuario.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
@@ -824,6 +865,55 @@ public class SolicitacaoAtendimentoDao {
             return LISTA_ITENS_chamado;
         } catch (SQLException ex) {
             Logger.getLogger(ChamadosSuporteDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    //---------------------------------- CONSULTA DA SOLICITAÇÃO DO TÉCNICO DA UNIDADE PARA ATENDIMENTO -----------------
+    public List<SolicitacaoAtendimentoUsuarios> PESQUISAR_TODOS_SOLICITACOES_POR_TECNICO_read() throws Exception {
+        pTOTAL_REGISTROS_listados = 0;
+        conecta.abrirConexao();
+        List<SolicitacaoAtendimentoUsuarios> LISTA_soli01 = new ArrayList<SolicitacaoAtendimentoUsuarios>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "S.IdRegistroSolicitante, "
+                    + "S.DataSolicitacao, "
+                    + "S.StatusSolicitacao, "
+                    + "S.NomeSolicitante, "
+                    + "U.IdUsuario, "
+                    + "U.NomeUsuario, "
+                    + "S.NomeComputadorSolicitante, "
+                    + "S.IPcomputadorSolicitante, "
+                    + "S.TipoSolicitacao, "
+                    + "S.TextoSolicitacao,"
+                    + "S.UsuarioInsert, "
+                    + "S.DataInsert, "
+                    + "S.HorarioInsert "
+                    + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS AS S "
+                    + "INNER JOIN USUARIOS AS U "
+                    + "ON S.IdUsuario=U.IdUsuario "
+                    + "WHERE U.NomeUsuario='" + nameUser + "'");
+            while (conecta.rs.next()) {
+                SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
+                pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
+                pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                pTODAS_solicitacoes.setNomeComputadorSolicitante(conecta.rs.getString("NomeComputadorSolicitante"));
+                pTODAS_solicitacoes.setiPComputadorSolicitante(conecta.rs.getString("IPcomputadorSolicitante"));
+                pTODAS_solicitacoes.setTipoSolicitacao(conecta.rs.getString("TipoSolicitacao"));
+                pTODAS_solicitacoes.setTextoSolicitacao(conecta.rs.getString("TextoSolicitacao"));
+                pTODAS_solicitacoes.setUsuarioInsert(conecta.rs.getString("UsuarioInsert"));
+                pTODAS_solicitacoes.setDataInsert(conecta.rs.getString("DataInsert"));
+                pTODAS_solicitacoes.setHorarioInsert(conecta.rs.getString("HorarioInsert"));
+                LISTA_soli01.add(pTODAS_solicitacoes);
+                pTOTAL_REGISTROS_listados++;
+            }
+            return LISTA_soli01;
+        } catch (SQLException ex) {
+            Logger.getLogger(SolicitacaoAtendimentoDao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             conecta.desconecta();
         }
