@@ -9,10 +9,14 @@ import Modelo.SolicitacaoAtendimentoUsuarios;
 import static Visao.LoginHD.nameUser;
 import static Visao.LoginHD.nomeUserRegistro;
 import static Visao.LoginHD.pCODIGO_unidade;
+import static Visao.TelaSolicitacaoAtendimentoUsuarios.pTOTAL_REGISTROS_aberto;
+import static Visao.TelaSolicitacaoAtendimentoUsuarios.pTOTAL_REGISTROS_fechado;
 import static Visao.TelaSolicitacaoUsuario.dataFinal;
 import static Visao.TelaSolicitacaoUsuario.dataInicial;
 import static Visao.TelaSolicitacaoUsuario.idSolicitacaoTabela;
 import static Visao.TelaSolicitacaoUsuario.jComboBoxNomeTecnico;
+import static Visao.TelaSolicitacaoUsuario.jComboBoxStatusPesquisa;
+import static Visao.TelaSolicitacaoUsuario.jComboBoxTipoSolicitacaoPesquisa;
 import static Visao.TelaSolicitacaoUsuario.pTOTAL_registros;
 import static Visao.TelaSolicitacaoUsuario.pRESPOSTA;
 import static Visao.TelaSolicitacaoUsuario.nivelUsuario;
@@ -40,6 +44,11 @@ public class SolicitacaoAtendimentoDao {
     Integer pCODIGO_solicitante = null;
     String pCARGO_tecnico = "TECNICO EM INFORMATICA";
     String pSTATUS_usuario = "Ativo";
+    //
+    String pSTATUS_atendente = "Ativo";
+    String pSTATUS_CHAMADO_aberto = "ABERTO";
+    String pSTATUS_CHAMADO_fechado = "ENCERRADO";
+    String pSTATUS_CHAMADO_EM_atendimento = "EM ATENDIMENTO NO SUPORTE TÉCNICO";
 
     public SolicitacaoAtendimentoUsuarios incluirSolicitacaoAtencimento(SolicitacaoAtendimentoUsuarios objSolicita) {
         pBUSCAR_USUARIO_tecnico(objSolicita.getNomeTecnico());
@@ -576,5 +585,248 @@ public class SolicitacaoAtendimentoDao {
         }
         conecta.desconecta();
         return objSolicita;
+    }
+
+    //---------------------------------- PESQUISA POR TIPO DE SOLICITAÇÃO --------------------------------------------
+    public List<SolicitacaoAtendimentoUsuarios> PESQUISAR_TODOS_TIPO_SOLICITACAO_read() throws Exception {
+        pTOTAL_registros = 0;
+        conecta.abrirConexao();
+        List<SolicitacaoAtendimentoUsuarios> LISTA_todos = new ArrayList<SolicitacaoAtendimentoUsuarios>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdRegistroSolicitante, "
+                    + "DataSolicitacao, "
+                    + "StatusSolicitacao, "
+                    + "NomeSolicitante "
+                    + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS "
+                    + "WHERE TipoSolicitacao='" + jComboBoxTipoSolicitacaoPesquisa.getSelectedItem() + "'");
+            while (conecta.rs.next()) {
+                SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
+                pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
+                pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                LISTA_todos.add(pTODAS_solicitacoes);
+                pTOTAL_registros++;
+            }
+            return LISTA_todos;
+        } catch (SQLException ex) {
+            Logger.getLogger(SolicitacaoAtendimentoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    public List<SolicitacaoAtendimentoUsuarios> PESQUISAR_TODOS_TIPO_SOLICITACAO01_read() throws Exception {
+        pTOTAL_registros = 0;
+        conecta.abrirConexao();
+        List<SolicitacaoAtendimentoUsuarios> LISTA_soli01 = new ArrayList<SolicitacaoAtendimentoUsuarios>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdRegistroSolicitante, "
+                    + "DataSolicitacao, "
+                    + "StatusSolicitacao, "
+                    + "NomeSolicitante "
+                    + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS "
+                    + "WHERE TipoSolicitacao='" + jComboBoxTipoSolicitacaoPesquisa.getSelectedItem() + "'");
+            while (conecta.rs.next()) {
+                SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
+                pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
+                pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                LISTA_soli01.add(pTODAS_solicitacoes);
+                pTOTAL_registros++;
+            }
+            return LISTA_soli01;
+        } catch (SQLException ex) {
+            Logger.getLogger(SolicitacaoAtendimentoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    public List<SolicitacaoAtendimentoUsuarios> PESQUISAR_TODOS_TIPO_SOLICITACAO02_read() throws Exception {
+        pTOTAL_registros = 0;
+        conecta.abrirConexao();
+        List<SolicitacaoAtendimentoUsuarios> LISTA_soli02 = new ArrayList<SolicitacaoAtendimentoUsuarios>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdRegistroSolicitante, "
+                    + "DataSolicitacao, "
+                    + "StatusSolicitacao, "
+                    + "NomeSolicitante "
+                    + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS "
+                    + "WHERE NomeSolicitante='" + nomeSolicitante + "' "
+                    + "TipoSolicitacao='" + jComboBoxTipoSolicitacaoPesquisa.getSelectedItem() + "'");
+            while (conecta.rs.next()) {
+                SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
+                pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
+                pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                LISTA_soli02.add(pTODAS_solicitacoes);
+                pTOTAL_registros++;
+            }
+            return LISTA_soli02;
+        } catch (SQLException ex) {
+            Logger.getLogger(SolicitacaoAtendimentoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    //----------------------------------- PESQUISA POR STATUS ------------------------------------------------
+    public List<SolicitacaoAtendimentoUsuarios> PESQUISAR_TODOS_STATUS_read() throws Exception {
+        pTOTAL_registros = 0;
+        conecta.abrirConexao();
+        List<SolicitacaoAtendimentoUsuarios> LISTA_todos = new ArrayList<SolicitacaoAtendimentoUsuarios>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdRegistroSolicitante, "
+                    + "DataSolicitacao, "
+                    + "StatusSolicitacao, "
+                    + "NomeSolicitante "
+                    + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS "
+                    + "WHERE StatusSolicitacao='" + jComboBoxStatusPesquisa.getSelectedItem() + "'");
+            while (conecta.rs.next()) {
+                SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
+                pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
+                pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                LISTA_todos.add(pTODAS_solicitacoes);
+                pTOTAL_registros++;
+            }
+            return LISTA_todos;
+        } catch (SQLException ex) {
+            Logger.getLogger(SolicitacaoAtendimentoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    public List<SolicitacaoAtendimentoUsuarios> PESQUISAR_TODOS_STATUS01_read() throws Exception {
+        pTOTAL_registros = 0;
+        conecta.abrirConexao();
+        List<SolicitacaoAtendimentoUsuarios> LISTA_soli01 = new ArrayList<SolicitacaoAtendimentoUsuarios>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdRegistroSolicitante, "
+                    + "DataSolicitacao, "
+                    + "StatusSolicitacao, "
+                    + "NomeSolicitante "
+                    + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS "
+                    + "WHERE StatusSolicitacao='" + jComboBoxStatusPesquisa.getSelectedItem() + "'");
+            while (conecta.rs.next()) {
+                SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
+                pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
+                pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                LISTA_soli01.add(pTODAS_solicitacoes);
+                pTOTAL_registros++;
+            }
+            return LISTA_soli01;
+        } catch (SQLException ex) {
+            Logger.getLogger(SolicitacaoAtendimentoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    public List<SolicitacaoAtendimentoUsuarios> PESQUISAR_TODOS_STATUS02_read() throws Exception {
+        pTOTAL_registros = 0;
+        conecta.abrirConexao();
+        List<SolicitacaoAtendimentoUsuarios> LISTA_soli02 = new ArrayList<SolicitacaoAtendimentoUsuarios>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdRegistroSolicitante, "
+                    + "DataSolicitacao, "
+                    + "StatusSolicitacao, "
+                    + "NomeSolicitante "
+                    + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS "
+                    + "WHERE NomeSolicitante='" + nomeSolicitante + "' "
+                    + "StatusSolicitacao='" + jComboBoxStatusPesquisa.getSelectedItem() + "'");
+            while (conecta.rs.next()) {
+                SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
+                pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
+                pTODAS_solicitacoes.setDataSolicitacao(conecta.rs.getDate("DataSolicitacao"));
+                pTODAS_solicitacoes.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
+                pTODAS_solicitacoes.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                LISTA_soli02.add(pTODAS_solicitacoes);
+                pTOTAL_registros++;
+            }
+            return LISTA_soli02;
+        } catch (SQLException ex) {
+            Logger.getLogger(SolicitacaoAtendimentoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    //----------------------------------- CHAMADOS EM ABERTO E ENCERRADOS DO USUÁRIO SOLICITANTE NAS UNIDADES 
+    public List<SolicitacaoAtendimentoUsuarios> QUANDIDADE_CHAMADOS_USER_ABERTO_read() throws Exception {
+        pTOTAL_REGISTROS_aberto = 0;
+        conecta.abrirConexao();
+        List<SolicitacaoAtendimentoUsuarios> LISTA_ITENS_chamado = new ArrayList<SolicitacaoAtendimentoUsuarios>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdRegistroSolicitante, "
+                    + "StatusSolicitacao, "
+                    + "NomeSolicitante "
+                    + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS "
+                    + "WHERE NomeSolicitante='" + nameUser + "' "
+                    + "AND StatusSolicitacao LIKE'%" + pSTATUS_CHAMADO_aberto + "%'");
+            while (conecta.rs.next()) {
+                SolicitacaoAtendimentoUsuarios CHAMADOS_usuario = new SolicitacaoAtendimentoUsuarios();
+                CHAMADOS_usuario.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
+                CHAMADOS_usuario.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
+                CHAMADOS_usuario.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                LISTA_ITENS_chamado.add(CHAMADOS_usuario);
+                pTOTAL_REGISTROS_aberto++;
+            }
+            return LISTA_ITENS_chamado;
+        } catch (SQLException ex) {
+            Logger.getLogger(ChamadosSuporteDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    public List<SolicitacaoAtendimentoUsuarios> QUANDIDADE_CHAMADOS_USER_FECHADO_read() throws Exception {
+        pTOTAL_REGISTROS_fechado = 0;
+        conecta.abrirConexao();
+        List<SolicitacaoAtendimentoUsuarios> LISTA_ITENS_chamado = new ArrayList<SolicitacaoAtendimentoUsuarios>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdRegistroSolicitante, "
+                    + "StatusSolicitacao, "
+                    + "NomeSolicitante "
+                    + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS "
+                    + "WHERE NomeSolicitante='" + nameUser + "' "
+                    + "AND StatusCha LIKE'%" + pSTATUS_CHAMADO_fechado + "%'");
+            while (conecta.rs.next()) {
+                SolicitacaoAtendimentoUsuarios CHAMADOS_usuario = new SolicitacaoAtendimentoUsuarios();
+                CHAMADOS_usuario.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
+                CHAMADOS_usuario.setStatusSolicitacao(conecta.rs.getString("StatusSolicitacao"));
+                CHAMADOS_usuario.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                LISTA_ITENS_chamado.add(CHAMADOS_usuario);
+                pTOTAL_REGISTROS_fechado++;
+            }
+            return LISTA_ITENS_chamado;
+        } catch (SQLException ex) {
+            Logger.getLogger(ChamadosSuporteDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
     }
 }

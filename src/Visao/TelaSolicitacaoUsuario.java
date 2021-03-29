@@ -101,7 +101,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         jComboBoxStatusPesquisa = new javax.swing.JComboBox<>();
         jBtStatus = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
-        jBtAssunto = new javax.swing.JButton();
+        jBtTipoSolicitacao = new javax.swing.JButton();
         jComboBoxTipoSolicitacaoPesquisa = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTabelaSolicitacao = new javax.swing.JTable();
@@ -209,11 +209,11 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         jLabel19.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel19.setText("Tipo Solicitação:");
 
-        jBtAssunto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
-        jBtAssunto.setContentAreaFilled(false);
-        jBtAssunto.addActionListener(new java.awt.event.ActionListener() {
+        jBtTipoSolicitacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
+        jBtTipoSolicitacao.setContentAreaFilled(false);
+        jBtTipoSolicitacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtAssuntoActionPerformed(evt);
+                jBtTipoSolicitacaoActionPerformed(evt);
             }
         });
 
@@ -247,7 +247,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBtAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBtTipoSolicitacao, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jBtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jIdRegistroSolicitantePesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -275,7 +275,7 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
                     .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jBtAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtTipoSolicitacao, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19)
                     .addComponent(jComboBoxTipoSolicitacaoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -939,30 +939,66 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
 
     private void jBtStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtStatusActionPerformed
         // TODO add your handling code here:
-//        if (jComboBoxStatus.getSelectedItem().equals("")) {
-//            JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de status.");
-//        } else if (jComboBoxStatus.getSelectedItem().equals("Aberto")) {
-//            pLIMPAR_TABELA_chamados();
-//            MOSTRAR_STATUS_aberto();
-//        } else if (jComboBoxStatus.getSelectedItem().equals("Fechado")) {
-//            pLIMPAR_TABELA_chamados();
-//            MOSTRAR_STATUS_fechado();
-//        }else if(jComboBoxStatus.getSelectedItem().equals("Atendimento")){
-//            pLIMPAR_TABELA_chamados();
-//            MOSTRAR_STATUS_andamento();
-//        }
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+            if (jComboBoxStatusPesquisa.getSelectedItem().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de status.");
+            } else if (jComboBoxStatusPesquisa.getSelectedItem().equals("Aberto")) {
+                pLIMPAR_tabela();
+                MOSTRAR_STATUS_aberto();
+            } else if (jComboBoxStatusPesquisa.getSelectedItem().equals("Fechado")) {
+                pLIMPAR_tabela();
+                MOSTRAR_STATUS_fechado();
+            } else if (jComboBoxStatusPesquisa.getSelectedItem().equals("Atendimento")) {
+                pLIMPAR_tabela();
+                MOSTRAR_STATUS_andamento();
+            }
+        } else if (nivelUsuario == 0 || nivelUsuario == 1) {
+            if (jComboBoxStatusPesquisa.getSelectedItem().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de status.");
+            } else if (jComboBoxStatusPesquisa.getSelectedItem().equals("Aberto")) {
+                pLIMPAR_tabela();
+                MOSTRAR_STATUS_aberto();
+            } else if (jComboBoxStatusPesquisa.getSelectedItem().equals("Fechado")) {
+                pLIMPAR_tabela();
+                MOSTRAR_STATUS_fechado();
+            } else if (jComboBoxStatusPesquisa.getSelectedItem().equals("Atendimento")) {
+                pLIMPAR_tabela();
+                MOSTRAR_STATUS_andamento();
+            }
+        } else if (nivelUsuario == 2) {
+            if (jComboBoxStatusPesquisa.getSelectedItem().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de status.");
+            } else if (jComboBoxStatusPesquisa.getSelectedItem().equals("Aberto")) {
+                pLIMPAR_tabela();
+                MOSTRAR_STATUS_aberto();
+            } else if (jComboBoxStatusPesquisa.getSelectedItem().equals("Fechado")) {
+                pLIMPAR_tabela();
+                MOSTRAR_STATUS_fechado();
+            } else if (jComboBoxStatusPesquisa.getSelectedItem().equals("Atendimento")) {
+                pLIMPAR_tabela();
+                MOSTRAR_STATUS_andamento();
+            }
+        }
     }//GEN-LAST:event_jBtStatusActionPerformed
 
-    private void jBtAssuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAssuntoActionPerformed
+    private void jBtTipoSolicitacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtTipoSolicitacaoActionPerformed
         // TODO add your handling code here:
-//        flag = 1;
-//        if (jPesquisarAssunto.getText().equals("")) {
-//            JOptionPane.showMessageDialog(rootPane, "Informe o assunto para pesquisa.");
-//        } else {
-//            pLIMPAR_TABELA_chamados();
-//            MOSTRAR_TABELA_assuntos();
-//        }
-    }//GEN-LAST:event_jBtAssuntoActionPerformed
+        flag = 1;
+        if (jComboBoxTipoSolicitacaoPesquisa.getSelectedItem().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Informe o tipo de solicitação para pesquisa.");
+        } else {
+            if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                pLIMPAR_tabela();
+                MOSTRAR_DADOS_TIPO_SOLICITACAO_todos();
+            } else if (nivelUsuario == 0 || nivelUsuario == 1) {
+                pLIMPAR_tabela();
+                MOSTRAR_DADOS_TIPO_solicitantes01();
+            } else if (nivelUsuario == 2) {
+                pLIMPAR_tabela();
+                MOSTRAR_DADOS_TIPO_solicitantes02();
+            }
+        }
+    }//GEN-LAST:event_jBtTipoSolicitacaoActionPerformed
 
     private void jTabelaSolicitacaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaSolicitacaoMouseClicked
         // TODO add your handling code here:
@@ -1163,12 +1199,14 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
 
     private void jBtAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAuditoriaActionPerformed
         // TODO add your handling code here:
+        TelaAuditoriaChamdoUsuario objAudiUser = new TelaAuditoriaChamdoUsuario();
+        TelaSolicitacaoAtendimentoUsuarios.jPainelDesktopUser.add(objAudiUser);
+        objAudiUser.show();
     }//GEN-LAST:event_jBtAuditoriaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtAlterar;
-    private javax.swing.JButton jBtAssunto;
     private javax.swing.JButton jBtAuditoria;
     private javax.swing.JButton jBtCancelar;
     private javax.swing.JButton jBtExcluir;
@@ -1178,11 +1216,12 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtSair;
     private javax.swing.JButton jBtSalvar;
     private javax.swing.JButton jBtStatus;
+    private javax.swing.JButton jBtTipoSolicitacao;
     private javax.swing.JCheckBox jCheckBoxTodosCH;
     public static javax.swing.JComboBox<String> jComboBoxNomeTecnico;
-    private javax.swing.JComboBox<String> jComboBoxStatusPesquisa;
+    public static javax.swing.JComboBox<String> jComboBoxStatusPesquisa;
     private javax.swing.JComboBox<String> jComboBoxTipoSolicitacao;
-    private javax.swing.JComboBox<String> jComboBoxTipoSolicitacaoPesquisa;
+    public static javax.swing.JComboBox<String> jComboBoxTipoSolicitacaoPesquisa;
     public static com.toedter.calendar.JDateChooser jDataPesFinal;
     public static com.toedter.calendar.JDateChooser jDataPesqInicial;
     private com.toedter.calendar.JDateChooser jDataSolicitacao;
@@ -1555,6 +1594,156 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
         DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaSolicitacao.getModel();
         try {
             for (SolicitacaoAtendimentoUsuarios dd : DAOs.PESQUISAR_CODIGO_02_read()) {
+                pDATA_Registros = String.valueOf(dd.getDataSolicitacao());
+                String dia = pDATA_Registros.substring(8, 10);
+                String mes = pDATA_Registros.substring(5, 7);
+                String ano = pDATA_Registros.substring(0, 4);
+                pDATA_Registros = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaSolicitacao.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaSolicitacao.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void MOSTRAR_DADOS_TIPO_SOLICITACAO_todos() {
+        DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaSolicitacao.getModel();
+        try {
+            for (SolicitacaoAtendimentoUsuarios dd : DAOs.PESQUISAR_TODOS_TIPO_SOLICITACAO_read()) {
+                pDATA_Registros = String.valueOf(dd.getDataSolicitacao());
+                String dia = pDATA_Registros.substring(8, 10);
+                String mes = pDATA_Registros.substring(5, 7);
+                String ano = pDATA_Registros.substring(0, 4);
+                pDATA_Registros = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaSolicitacao.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaSolicitacao.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void MOSTRAR_DADOS_TIPO_solicitantes01() {
+        DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaSolicitacao.getModel();
+        try {
+            for (SolicitacaoAtendimentoUsuarios dd : DAOs.PESQUISAR_TODOS_TIPO_SOLICITACAO01_read()) {
+                pDATA_Registros = String.valueOf(dd.getDataSolicitacao());
+                String dia = pDATA_Registros.substring(8, 10);
+                String mes = pDATA_Registros.substring(5, 7);
+                String ano = pDATA_Registros.substring(0, 4);
+                pDATA_Registros = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaSolicitacao.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaSolicitacao.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void MOSTRAR_DADOS_TIPO_solicitantes02() {
+        DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaSolicitacao.getModel();
+        try {
+            for (SolicitacaoAtendimentoUsuarios dd : DAOs.PESQUISAR_TODOS_TIPO_SOLICITACAO02_read()) {
+                pDATA_Registros = String.valueOf(dd.getDataSolicitacao());
+                String dia = pDATA_Registros.substring(8, 10);
+                String mes = pDATA_Registros.substring(5, 7);
+                String ano = pDATA_Registros.substring(0, 4);
+                pDATA_Registros = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaSolicitacao.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaSolicitacao.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void MOSTRAR_STATUS_aberto() {
+        DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaSolicitacao.getModel();
+        try {
+            for (SolicitacaoAtendimentoUsuarios dd : DAOs.PESQUISAR_TODOS_STATUS_read()) {
+                pDATA_Registros = String.valueOf(dd.getDataSolicitacao());
+                String dia = pDATA_Registros.substring(8, 10);
+                String mes = pDATA_Registros.substring(5, 7);
+                String ano = pDATA_Registros.substring(0, 4);
+                pDATA_Registros = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaSolicitacao.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaSolicitacao.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void MOSTRAR_STATUS_fechado() {
+        DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaSolicitacao.getModel();
+        try {
+            for (SolicitacaoAtendimentoUsuarios dd : DAOs.PESQUISAR_TODOS_STATUS01_read()) {
+                pDATA_Registros = String.valueOf(dd.getDataSolicitacao());
+                String dia = pDATA_Registros.substring(8, 10);
+                String mes = pDATA_Registros.substring(5, 7);
+                String ano = pDATA_Registros.substring(0, 4);
+                pDATA_Registros = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                dadosOrigem.addRow(new Object[]{dd.getIdRegistroSolicitante(), pDATA_Registros, dd.getStatusSolicitacao(), dd.getNomeSolicitante()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaSolicitacao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaSolicitacao.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaSolicitacao.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void MOSTRAR_STATUS_andamento() {
+        DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaSolicitacao.getModel();
+        try {
+            for (SolicitacaoAtendimentoUsuarios dd : DAOs.PESQUISAR_TODOS_STATUS02_read()) {
                 pDATA_Registros = String.valueOf(dd.getDataSolicitacao());
                 String dia = pDATA_Registros.substring(8, 10);
                 String mes = pDATA_Registros.substring(5, 7);

@@ -8,10 +8,12 @@ package Visao;
 import Dao.ChamadosSuporteDao;
 import Dao.ConexaoBancoDados;
 import Dao.ControleAcessoGeral;
+import Dao.SolicitacaoAtendimentoDao;
 import Dao.telasSistemaDao;
 import Modelo.CadastroTelasSistema;
 import Modelo.CamposAcessos;
 import Modelo.ChamadoSuporte;
+import Modelo.SolicitacaoAtendimentoUsuarios;
 import static Visao.LoginHD.nameUser;
 import java.awt.Color;
 import java.beans.PropertyVetoException;
@@ -28,9 +30,8 @@ import javax.swing.JOptionPane;
  */
 public class TelaSolicitacaoAtendimentoUsuarios extends javax.swing.JFrame {
 
-    ConexaoBancoDados conecta = new ConexaoBancoDados();
     ChamadoSuporte objCHSup = new ChamadoSuporte();
-    ChamadosSuporteDao CONTROL = new ChamadosSuporteDao();
+    SolicitacaoAtendimentoDao CONTROL = new SolicitacaoAtendimentoDao();
     //
     ControleAcessoGeral pPESQUISAR_acessos = new ControleAcessoGeral();
     CamposAcessos objCampos = new CamposAcessos();
@@ -45,35 +46,12 @@ public class TelaSolicitacaoAtendimentoUsuarios extends javax.swing.JFrame {
     //
     public static int pTOTAL_REGISTROS_aberto = 0;
     public static int pTOTAL_REGISTROS_fechado = 0;
-    //
-    public static String tipoServidor = "";
-    public static String tipoBancoDados = "";
-    //
-//    public static int codigoUser = 0;
-//    public static int codUserAcesso = 0;
-//    public static int codigoUserGroup = 0;
-//    public static int codAbrir = 0;
-//    public static int codIncluir = 0;
-//    public static int codAlterar = 0;
-//    public static int codExcluir = 0;
-//    public static int codGravar = 0;
-//    public static int codConsultar = 0;
-//    public static int codigoGrupo = 0;
-//    public static String nomeGrupo = "";
-//    public static String nomeTela = "";
     //CADASTRO
-    public static String telaOcorrenciaManu = "Cadastro:Ocorrências:Manutenção";
-    public static String telaAgendaRecado = "Cadastro Agenda Recados:Manutenção";
-    public static String telaAgendaCompromisso = "Cadastro Agenda de Compromisso:Manutenção";
+    public static String telaOcorrenciaManu_USER = "Cadastro:Ocorrências:Manutenção - Usuários";
+    public static String telaAgendaRecado_USER = "Cadastro Agenda Recados:Manutenção - Usuário";
+    public static String telaAgendaCompromisso_USER = "Cadastro Agenda de Compromisso - Usuário:Manutenção";
     //SUPORTE CHAMADOS
     public static String telaChamadosSolicitacaoUsuarios = "Suporte Técnico:Solicitação Chamados Usuários:Manutenção";
-//    public static String telaItensChamadoSuporte = "Suporte Técnico:Chamados Suporte:Itens";
-//    public static String botaoEncerrarSup = "Encerrar Chamado no Suporte";
-//    public static String botaoImprimirSup = "Imprimir Chamado no Suporte";
-//    public static String botaoEnviarSup = "Enviar Chamado no Suporte";
-//    public static String botaoReabrirSup = "Reabrir Chamado no Suporte";
-//    //
-//    String pNomeCSU = "";
 
     /**
      * Creates new form TelaClienteChamadosSuporte
@@ -583,11 +561,11 @@ public class TelaSolicitacaoAtendimentoUsuarios extends javax.swing.JFrame {
     private void jBtOcorrenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtOcorrenciasActionPerformed
         // TODO add your handling code here:
         objCampos.setNomeUsuario(nameUser);
-        objCampos.setNomeTelaAcesso(telaOcorrenciaManu);
+        objCampos.setNomeTelaAcesso(telaOcorrenciaManu_USER);
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaOcorrenciaManu) && objCampos.getCodigoAbrir() == 1) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaOcorrenciaManu_USER) && objCampos.getCodigoAbrir() == 1) {
             if (objOcr == null || objOcr.isClosed()) {
                 objOcr = new TelaOcorrenciasHD();
                 jPainelDesktopUser.add(objOcr);
@@ -659,11 +637,11 @@ public class TelaSolicitacaoAtendimentoUsuarios extends javax.swing.JFrame {
     private void jOcorrenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jOcorrenciasActionPerformed
         // TODO add your handling code here:
         objCampos.setNomeUsuario(nameUser);
-        objCampos.setNomeTelaAcesso(telaOcorrenciaManu);
+        objCampos.setNomeTelaAcesso(telaOcorrenciaManu_USER);
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaOcorrenciaManu) && objCampos.getCodigoAbrir() == 1) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaOcorrenciaManu_USER) && objCampos.getCodigoAbrir() == 1) {
             if (objOcr == null || objOcr.isClosed()) {
                 objOcr = new TelaOcorrenciasHD();
                 jPainelDesktopUser.add(objOcr);
@@ -697,11 +675,11 @@ public class TelaSolicitacaoAtendimentoUsuarios extends javax.swing.JFrame {
     private void jAgendaRecadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgendaRecadosActionPerformed
         // TODO add your handling code here:
         objCampos.setNomeUsuario(nameUser);
-        objCampos.setNomeTelaAcesso(telaOcorrenciaManu);
+        objCampos.setNomeTelaAcesso(telaOcorrenciaManu_USER);
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaRecado) && objCampos.getCodigoAbrir() == 1) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaRecado_USER) && objCampos.getCodigoAbrir() == 1) {
             if (objjAgendaRec == null || objjAgendaRec.isClosed()) {
                 objjAgendaRec = new TelaRecadosCliente();
                 jPainelDesktopUser.add(objjAgendaRec);
@@ -735,11 +713,11 @@ public class TelaSolicitacaoAtendimentoUsuarios extends javax.swing.JFrame {
     private void jAgendaCompromissosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgendaCompromissosActionPerformed
         // TODO add your handling code here:
         objCampos.setNomeUsuario(nameUser);
-        objCampos.setNomeTelaAcesso(telaOcorrenciaManu);
+        objCampos.setNomeTelaAcesso(telaOcorrenciaManu_USER);
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaCompromisso) && objCampos.getCodigoAbrir() == 1) {
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaCompromisso_USER) && objCampos.getCodigoAbrir() == 1) {
             if (objAgendaComp == null || objAgendaComp.isClosed()) {
                 objAgendaComp = new TelaAgendaCompromissos();
                 jPainelDesktopUser.add(objAgendaComp);
@@ -826,9 +804,9 @@ public class TelaSolicitacaoAtendimentoUsuarios extends javax.swing.JFrame {
 
     private void jRelatoriosChamadosSuporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRelatoriosChamadosSuporteActionPerformed
         // TODO add your handling code here:
-        TelaRelatorioGeralChamadosSuporteTecnicoCliente objRelChamadoCliente = new TelaRelatorioGeralChamadosSuporteTecnicoCliente();
-        jPainelDesktopUser.add(objRelChamadoCliente);
-        objRelChamadoCliente.show();
+//        TelaRelatorioGeralChamadosSuporteTecnicoCliente objRelChamadoCliente = new TelaRelatorioGeralChamadosSuporteTecnicoCliente();
+//        jPainelDesktopUser.add(objRelChamadoCliente);
+//        objRelChamadoCliente.show();
     }//GEN-LAST:event_jRelatoriosChamadosSuporteActionPerformed
 
     /**
@@ -920,11 +898,11 @@ public class TelaSolicitacaoAtendimentoUsuarios extends javax.swing.JFrame {
         pTOTAL_REGISTROS_aberto = 0;
         pTOTAL_REGISTROS_fechado = 0;
         try {
-            for (ChamadoSuporte p : CONTROL.QUANDIDADE_CHAMADOS_ABERTO_read()) {
+            for (SolicitacaoAtendimentoUsuarios p : CONTROL.QUANDIDADE_CHAMADOS_USER_ABERTO_read()) {
                 jQtdChamadosAberto.setText(String.valueOf(pTOTAL_REGISTROS_aberto));
             }
 
-            for (ChamadoSuporte pp : CONTROL.QUANDIDADE_CHAMADOS_FECHADO_read()) {
+            for (SolicitacaoAtendimentoUsuarios pp : CONTROL.QUANDIDADE_CHAMADOS_USER_FECHADO_read()) {
                 jQtdChamadosFechados.setText(String.valueOf(pTOTAL_REGISTROS_fechado));
             }
         } catch (Exception ex) {
@@ -945,21 +923,5 @@ public class TelaSolicitacaoAtendimentoUsuarios extends javax.swing.JFrame {
             }
         } catch (InterruptedException ex) {
         }
-    }
-
-    // PARAMETRO PARA IDENTIFICAR O OS DO SERVIDOR DE BANCO DE DADOS.
-    public void verificarParametrosSRV() {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT "
-                    + "TipoServidor, "
-                    + "TipoBanco "
-                    + "FROM SOFTWARE");
-            conecta.rs.first();
-            tipoServidor = conecta.rs.getString("TipoServidor");
-            tipoBancoDados = conecta.rs.getString("TipoBanco");
-        } catch (Exception e) {
-        }
-        conecta.desconecta();
     }
 }

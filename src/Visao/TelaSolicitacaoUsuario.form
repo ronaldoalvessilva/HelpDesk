@@ -138,7 +138,7 @@
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
                                       <Component id="jBtPesqCHData" min="-2" pref="27" max="-2" attributes="0"/>
-                                      <Component id="jBtAssunto" min="-2" pref="25" max="-2" attributes="0"/>
+                                      <Component id="jBtTipoSolicitacao" min="-2" pref="25" max="-2" attributes="0"/>
                                       <Component id="jBtStatus" min="-2" pref="25" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -174,7 +174,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
-                              <Component id="jBtAssunto" alignment="2" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="jBtTipoSolicitacao" alignment="2" min="-2" pref="25" max="-2" attributes="0"/>
                               <Component id="jLabel19" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="jComboBoxTipoSolicitacaoPesquisa" alignment="2" min="-2" pref="19" max="-2" attributes="0"/>
                           </Group>
@@ -314,6 +314,7 @@
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JButton" name="jBtStatus">
@@ -335,7 +336,7 @@
                     <Property name="text" type="java.lang.String" value="Tipo Solicita&#xe7;&#xe3;o:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="jBtAssunto">
+                <Component class="javax.swing.JButton" name="jBtTipoSolicitacao">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/Imagens/Lupas_1338_05.gif"/>
@@ -343,7 +344,7 @@
                     <Property name="contentAreaFilled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtAssuntoActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtTipoSolicitacaoActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="jComboBoxTipoSolicitacaoPesquisa">
@@ -379,6 +380,7 @@
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
