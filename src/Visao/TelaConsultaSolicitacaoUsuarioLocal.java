@@ -388,13 +388,19 @@ public class TelaConsultaSolicitacaoUsuarioLocal extends javax.swing.JInternalFr
 
     private void jBtCopiarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCopiarTextoActionPerformed
         // TODO add your handling code here:
-        int resposta = JOptionPane.showConfirmDialog(this, "O texto da solicitação de atendimento do usuário, será copiado para a área de trabalho onde poderá ser colado no atendimento desejado.\nDeseja realmente copiar o texto para área de trabalho?", "Confirmação",
-                JOptionPane.YES_NO_OPTION);
-        if (resposta == JOptionPane.YES_OPTION) {
-            pTEXTO_SOLICIACAO_copiado.equals(jTextoSolicitanteRegistro.getText());
-            JOptionPane.showMessageDialog(rootPane, "Texto transferido para área de trabalho com sucesso.");
-        }else{
-            JOptionPane.showMessageDialog(rootPane, "Operação concelada pelo usuário.");
+        if (jIdRegistro.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Selecione o atendimento, para copiar o texto.");
+        } else if (jTextoSolicitanteRegistro.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Não existe texto a ser copiado.");
+        } else {
+            int resposta = JOptionPane.showConfirmDialog(this, "O texto da solicitação de atendimento do usuário, será copiado para a área de trabalho onde poderá ser colado no atendimento desejado.\nDeseja realmente copiar o texto para área de trabalho?", "Confirmação",
+                    JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
+                pTEXTO_SOLICIACAO_copiado.equals(jTextoSolicitanteRegistro.getText());
+                JOptionPane.showMessageDialog(rootPane, "Texto transferido para área de trabalho com sucesso.");
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Operação concelada pelo usuário.");
+            }
         }
     }//GEN-LAST:event_jBtCopiarTextoActionPerformed
 
