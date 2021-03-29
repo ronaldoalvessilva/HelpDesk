@@ -1060,19 +1060,23 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacaoUsuarios) && objCampos.getCodigoAlterar() == 1) {
-            DAOs.VERIFICAR_ORIGEM_usuario(objSolicita);
-            if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
-                statusMov = "Alterou";
-                horaMov = pHORA_sistema;
-                dataModFinal = pDATA_sistema;
-                BUSCAR_NOME_IP_desktop();
-                BUSCAR_tecnico();
-                bloquearBotoes(!true);
-                habilitarCampos(true);
-                acao = 2;
-                Alterar();
+            if (jStatusSolicitacao.getText().equals("ABERTO NO SOLICITANTE")) {
+                DAOs.VERIFICAR_ORIGEM_usuario(objSolicita);
+                if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                    statusMov = "Alterou";
+                    horaMov = pHORA_sistema;
+                    dataModFinal = pDATA_sistema;
+                    BUSCAR_NOME_IP_desktop();
+                    BUSCAR_tecnico();
+                    bloquearBotoes(!true);
+                    habilitarCampos(true);
+                    acao = 2;
+                    Alterar();
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
+                }
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
+                JOptionPane.showMessageDialog(rootPane, "Esse registro não pode ser modificado, está em atendimento.");
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1087,25 +1091,29 @@ public class TelaSolicitacaoUsuario extends javax.swing.JInternalFrame {
 //        pPESQUISAR_acessos.pesquisarNivelUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSolicitacaoUsuarios) && objCampos.getCodigoExcluir() == 1) {
-            DAOs.VERIFICAR_ORIGEM_usuario(objSolicita);
-            if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
-                int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
-                        JOptionPane.YES_NO_OPTION);
-                if (resposta == JOptionPane.YES_OPTION) {
-                    objSolicita.setIdRegistroSolicitante(Integer.parseInt(jIdRegistroSolicitante.getText()));
-                    DAOs.excluirSolicitacaoAtencimento(objSolicita);
-                    statusMov = "Excluiu";
-                    horaMov = pHORA_sistema;
-                    dataModFinal = pDATA_sistema;
-                    limparCampos();
-                    if (pRESPOSTA.equals("Sim")) {
-                        JOptionPane.showMessageDialog(rootPane, "Registro excluído com sucesso.");
-                    } else if (pRESPOSTA.equals("Não")) {
-                        JOptionPane.showMessageDialog(rootPane, "Não foi possívep excluir o registro, tente novamente.");
+            if (jStatusSolicitacao.getText().equals("ABERTO NO SOLICITANTE")) {
+                DAOs.VERIFICAR_ORIGEM_usuario(objSolicita);
+                if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+                    int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
+                            JOptionPane.YES_NO_OPTION);
+                    if (resposta == JOptionPane.YES_OPTION) {
+                        objSolicita.setIdRegistroSolicitante(Integer.parseInt(jIdRegistroSolicitante.getText()));
+                        DAOs.excluirSolicitacaoAtencimento(objSolicita);
+                        statusMov = "Excluiu";
+                        horaMov = pHORA_sistema;
+                        dataModFinal = pDATA_sistema;
+                        limparCampos();
+                        if (pRESPOSTA.equals("Sim")) {
+                            JOptionPane.showMessageDialog(rootPane, "Registro excluído com sucesso.");
+                        } else if (pRESPOSTA.equals("Não")) {
+                            JOptionPane.showMessageDialog(rootPane, "Não foi possívep excluir o registro, tente novamente.");
+                        }
                     }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
                 }
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Esse registro foi inserido pelo " + nomeUserRegistro + " só esse usuário ou administrador do sistema poderá modificar.");
+                JOptionPane.showMessageDialog(rootPane, "Esse registro não pode ser modificado, está em atendimento.");
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");

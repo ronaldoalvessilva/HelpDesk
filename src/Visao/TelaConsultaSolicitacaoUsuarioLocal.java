@@ -30,6 +30,9 @@ public class TelaConsultaSolicitacaoUsuarioLocal extends javax.swing.JInternalFr
     int flag = 0;
     public static String idSolicitacaoTabelaConsulta = "";
     public static String pTEXTO_SOLICIACAO_copiado = "";
+    public static String pRESPOSTA_status = "";
+    //
+    String pSTATUS_solicitacao = "EM ATENDIMENTO NO TÉCNICO INFORMÁTICA";
 
     /**
      * Creates new form TelaConsultaSolicitacaoUsuarioLocal
@@ -70,6 +73,7 @@ public class TelaConsultaSolicitacaoUsuarioLocal extends javax.swing.JInternalFr
         jStatusSolicitacao = new javax.swing.JTextField();
         jBtCopiarTexto = new javax.swing.JButton();
         jBtSair = new javax.swing.JButton();
+        jBtModificarStatus = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTabelaSolcitacaoUsuarios = new javax.swing.JTable();
         jPanel31 = new javax.swing.JPanel();
@@ -139,7 +143,7 @@ public class TelaConsultaSolicitacaoUsuarioLocal extends javax.swing.JInternalFr
         jStatusSolicitacao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jStatusSolicitacao.setEnabled(false);
 
-        jBtCopiarTexto.setForeground(new java.awt.Color(0, 102, 0));
+        jBtCopiarTexto.setForeground(new java.awt.Color(0, 0, 204));
         jBtCopiarTexto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Copy-16x16.png"))); // NOI18N
         jBtCopiarTexto.setText("Copiar Texto");
         jBtCopiarTexto.setToolTipText("Copia o texto da Solicitação para o Atendimento do Técnico de Informática");
@@ -158,54 +162,73 @@ public class TelaConsultaSolicitacaoUsuarioLocal extends javax.swing.JInternalFr
             }
         });
 
+        jBtModificarStatus.setForeground(new java.awt.Color(0, 102, 51));
+        jBtModificarStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/tick.png"))); // NOI18N
+        jBtModificarStatus.setText("Mudar Status");
+        jBtModificarStatus.setToolTipText("Modifica o status do atendimento na tela do usuário local");
+        jBtModificarStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtModificarStatusActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jBtCopiarTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(76, 76, 76)
+                .addComponent(jBtModificarStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBtSair, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jIdRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jDataRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jIdRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                        .addComponent(jHorarioRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jDataRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jHorarioRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jStatusSolicitacao, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(27, 27, 27)
-                                .addComponent(jLabel8)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jNomeComputadorRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jIPcomputadorRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane2)
-                    .addComponent(jSolicitanteRegistro)
+                        .addComponent(jStatusSolicitacao))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel7))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jBtCopiarTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBtSair, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel3)
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel8)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jNomeComputadorRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jIPcomputadorRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane2)
+                .addGap(10, 10, 10))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jSolicitanteRegistro)
+                .addGap(10, 10, 10))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel7))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtCopiarTexto, jBtSair});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtCopiarTexto, jBtModificarStatus, jBtSair});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,7 +259,8 @@ public class TelaConsultaSolicitacaoUsuarioLocal extends javax.swing.JInternalFr
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jBtModificarStatus)
                     .addComponent(jBtCopiarTexto)
                     .addComponent(jBtSair))
                 .addGap(4, 4, 4))
@@ -398,6 +422,21 @@ public class TelaConsultaSolicitacaoUsuarioLocal extends javax.swing.JInternalFr
             if (resposta == JOptionPane.YES_OPTION) {
                 pTEXTO_SOLICIACAO_copiado.equals(jTextoSolicitanteRegistro.getText());
                 JOptionPane.showMessageDialog(rootPane, "Texto transferido para área de trabalho com sucesso.");
+                int opcao = JOptionPane.showConfirmDialog(this, "Deseja modificar o status da solicitação de atendimento do usuário?", "Confirmação",
+                        JOptionPane.YES_NO_OPTION);
+                if (opcao == JOptionPane.YES_OPTION) {
+                    objSolicita.setIdRegistroSolicitante(Integer.parseInt(jIdRegistro.getText()));
+                    objSolicita.setStatusSolicitacao(pSTATUS_solicitacao);
+                    DAOs.alterarStatusAtendimento(objSolicita);
+                    LIMPAR_tabela();
+                    MOSTRAR_solicitacoes();
+                    LIMPAR_campos();
+                    if (pRESPOSTA_status.equals("Sim")) {
+                        JOptionPane.showMessageDialog(rootPane, "Registro modificado com sucesso.");
+                    } else if (pRESPOSTA_status.equals("Não")) {
+                        JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro, tente novamente.");
+                    }
+                }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Operação concelada pelo usuário.");
             }
@@ -409,9 +448,35 @@ public class TelaConsultaSolicitacaoUsuarioLocal extends javax.swing.JInternalFr
         dispose();
     }//GEN-LAST:event_jBtSairActionPerformed
 
+    private void jBtModificarStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtModificarStatusActionPerformed
+        // TODO add your handling code here:
+        if (jIdRegistro.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Não existe registro selecionado.");
+        } else if (jIdRegistro.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Não existe registro selecionado.");
+        } else {
+            int opcao = JOptionPane.showConfirmDialog(this, "Deseja modificar o status da solicitação de atendimento do usuário?", "Confirmação",
+                    JOptionPane.YES_NO_OPTION);
+            if (opcao == JOptionPane.YES_OPTION) {                    
+                objSolicita.setIdRegistroSolicitante(Integer.parseInt(jIdRegistro.getText()));
+                objSolicita.setStatusSolicitacao(pSTATUS_solicitacao);
+                DAOs.alterarStatusAtendimento(objSolicita);
+                LIMPAR_tabela();
+                MOSTRAR_solicitacoes();
+                LIMPAR_campos();
+                if (pRESPOSTA_status.equals("Sim")) {
+                    JOptionPane.showMessageDialog(rootPane, "Registro modificado com sucesso.");
+                } else if (pRESPOSTA_status.equals("Não")) {
+                    JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro, tente novamente.");
+                }
+            }
+        }
+    }//GEN-LAST:event_jBtModificarStatusActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtCopiarTexto;
+    private javax.swing.JButton jBtModificarStatus;
     private javax.swing.JButton jBtSair;
     private com.toedter.calendar.JDateChooser jDataRegistro;
     private javax.swing.JTextField jHorarioRegistro;
@@ -483,5 +548,24 @@ public class TelaConsultaSolicitacaoUsuarioLocal extends javax.swing.JInternalFr
         } catch (Exception ex) {
             Logger.getLogger(TelaConsultaSolicitacaoUsuarioLocal.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void LIMPAR_tabela() {
+        // APAGAR DADOS DA TABELA
+        while (jTabelaSolcitacaoUsuarios.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTabelaSolcitacaoUsuarios.getModel()).removeRow(0);
+        }
+        jtotalRegistros.setText("");
+    }
+    
+    public void LIMPAR_campos(){
+        jIdRegistro.setText("");
+        jDataRegistro.setDate(null);
+        jHorarioRegistro.setText("");
+        jStatusSolicitacao.setText("");
+        jSolicitanteRegistro.setText("");
+        jNomeComputadorRegistro.setText("");
+        jIPcomputadorRegistro.setText("");
+        jTextoSolicitanteRegistro.setText("");
     }
 }

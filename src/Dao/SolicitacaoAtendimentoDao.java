@@ -23,6 +23,7 @@ import static Visao.TelaSolicitacaoUsuario.pTOTAL_registros;
 import static Visao.TelaSolicitacaoUsuario.pRESPOSTA;
 import static Visao.TelaSolicitacaoUsuario.nivelUsuario;
 import static Visao.TelaSolicitacaoUsuario.nomeSolicitante;
+import static Visao.TelaConsultaSolicitacaoUsuarioLocal.pRESPOSTA_status;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class SolicitacaoAtendimentoDao {
     String pSTATUS_CHAMADO_aberto = "ABERTO";
     String pSTATUS_CHAMADO_fechado = "ENCERRADO";
     String pSTATUS_CHAMADO_EM_atendimento = "EM ATENDIMENTO NO SUPORTE TÉCNICO";
+    String pSTATUS_solicitacao = "ABERTO NO SOLICITANTE";
 
     public SolicitacaoAtendimentoUsuarios incluirSolicitacaoAtencimento(SolicitacaoAtendimentoUsuarios objSolicita) {
         pBUSCAR_USUARIO_tecnico(objSolicita.getNomeTecnico());
@@ -119,6 +121,21 @@ public class SolicitacaoAtendimentoDao {
         } catch (SQLException ex) {
             pRESPOSTA = "Não";
             JOptionPane.showMessageDialog(null, "Não Foi possivel EXCLUIR os Dados.\nERRO: " + ex);
+        }
+        conecta.desconecta();
+        return objSolicita;
+    }
+
+    public SolicitacaoAtendimentoUsuarios alterarStatusAtendimento(SolicitacaoAtendimentoUsuarios objSolicita) {
+        conecta.abrirConexao();
+        try {
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE SOLICITACAO_ATENDIMENTO_USUARIOS SET StatusSolicitacao=? WHERE IdRegistroSolicitante='" + objSolicita.getIdRegistroSolicitante() + "'");
+            pst.setString(1, objSolicita.getStatusSolicitacao());
+            pst.executeUpdate();
+            pRESPOSTA_status = "Sim";
+        } catch (SQLException ex) {
+            pRESPOSTA_status = "Não";
+            JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR Status do registro.\nERRO: " + ex);
         }
         conecta.desconecta();
         return objSolicita;
@@ -591,7 +608,6 @@ public class SolicitacaoAtendimentoDao {
         return objSolicita;
     }
 
-    
     public SolicitacaoAtendimentoUsuarios MOSTRA_PESQUISA_CANCELAR_operacao(SolicitacaoAtendimentoUsuarios objSolicita) {
         conecta.abrirConexao();
         try {
@@ -894,7 +910,8 @@ public class SolicitacaoAtendimentoDao {
                     + "FROM SOLICITACAO_ATENDIMENTO_USUARIOS AS S "
                     + "INNER JOIN USUARIOS AS U "
                     + "ON S.IdUsuario=U.IdUsuario "
-                    + "WHERE U.NomeUsuario='" + nameUser + "'");
+                    + "WHERE U.NomeUsuario='" + nameUser + "' "
+                    + "AND S.StatusSolicitacao='" + pSTATUS_solicitacao + "'");
             while (conecta.rs.next()) {
                 SolicitacaoAtendimentoUsuarios pTODAS_solicitacoes = new SolicitacaoAtendimentoUsuarios();
                 pTODAS_solicitacoes.setIdRegistroSolicitante(conecta.rs.getInt("IdRegistroSolicitante"));
