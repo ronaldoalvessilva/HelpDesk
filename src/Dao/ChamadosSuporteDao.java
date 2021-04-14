@@ -117,6 +117,21 @@ public class ChamadosSuporteDao {
         return objCHSup;
     }
 
+    public ChamadoSuporte alterarStatusChamadoSup(ChamadoSuporte objCHSup) {
+        conecta.abrirConexao();
+        try {
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE CHAMADOS_SUPORTE SET StatusCha=? WHERE IdCHSup='" + objCHSup.getIdCHSup() + "'");
+            pst.setString(1, objCHSup.getStatusCha());
+            pst.executeUpdate();
+            pRESPOSTA = "Sim";
+        } catch (SQLException ex) {
+            pRESPOSTA = "Não";
+            JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR os Dados.\nERRO: " + ex);
+        }
+        conecta.desconecta();
+        return objCHSup;
+    }
+
     public ChamadoSuporte encerrarChamadoSup(ChamadoSuporte objCHSup) {
 
         conecta.abrirConexao();
@@ -441,10 +456,10 @@ public class ChamadosSuporteDao {
             conecta.rs.first();
             while (conecta.rs.next()) {
                 ChamadoSuporte pSoftware = new ChamadoSuporte();
-                pSoftware.setIdCHSup(conecta.rs.getInt("IdSoftware"));
-                pSoftware.setDataCha(conecta.rs.getDate("DescricaoSoftware"));
-                pSoftware.setStatusCha(conecta.rs.getString("IdModulo"));
-                pSoftware.setAssunto(conecta.rs.getString("DescricaoModulo"));
+                pSoftware.setIdSoftware(conecta.rs.getInt("IdSoftware"));
+                pSoftware.setDescricaoSoftware(conecta.rs.getString("DescricaoSoftware"));
+                pSoftware.setIdModulo(conecta.rs.getInt("IdModulo"));
+                pSoftware.setDescricaoModulo(conecta.rs.getString("DescricaoModulo"));
                 LISTA_softwareMod.add(pSoftware);
                 pTOTAL_itens++;
             }
@@ -504,6 +519,47 @@ public class ChamadosSuporteDao {
                     + "INNER JOIN SOLICITANTES "
                     + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
                     + "WHERE AssuntoSuporte LIKE'%" + jPesquisarAssunto.getText() + "%'");
+            while (conecta.rs.next()) {
+                ChamadoSuporte pAssuntos = new ChamadoSuporte();
+                pAssuntos.setIdCHSup(conecta.rs.getInt("IdCHSup"));
+                pAssuntos.setDataCha(conecta.rs.getDate("DataCha"));
+                pAssuntos.setStatusCha(conecta.rs.getString("StatusCha"));
+                pAssuntos.setAssunto(conecta.rs.getString("AssuntoSuporte"));
+                pAssuntos.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                pAssuntos.setDescricaoUnidade(conecta.rs.getString("DescricaoUnidade"));
+                LISTA_assuntos.add(pAssuntos);
+                pTOTAL_registros++;
+            }
+            return LISTA_assuntos;
+        } catch (SQLException ex) {
+            Logger.getLogger(ChamadosSuporteDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    public List<ChamadoSuporte> PESQUISAR_ASSUNTOS_NINEL02_read() throws Exception {
+        pTOTAL_registros = 0;
+        conecta.abrirConexao();
+        List<ChamadoSuporte> LISTA_assuntos = new ArrayList<ChamadoSuporte>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdCHSup, "
+                    + "DataCha, "
+                    + "StatusCha, "
+                    + "AssuntoSuporte, "
+                    + "NomeSolicitante, "
+                    + "DescricaoUnidade "
+                    + "FROM CHAMADOS_SUPORTE "
+                    + "INNER JOIN USUARIOS "
+                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                    + "INNER JOIN SOLICITANTES "
+                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante  "
+                    + "WHERE AssuntoSuporte LIKE'%" + jPesquisarAssunto.getText() + "%' "
+                    + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
             while (conecta.rs.next()) {
                 ChamadoSuporte pAssuntos = new ChamadoSuporte();
                 pAssuntos.setIdCHSup(conecta.rs.getInt("IdCHSup"));
@@ -1058,6 +1114,73 @@ public class ChamadosSuporteDao {
         return null;
     }
 
+    public ChamadoSuporte ATUALIZAR_CHAMADO_suporte(ChamadoSuporte objCHSup) {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "CHAMADOS_SUPORTE.IdCHSup, "
+                    + "CHAMADOS_SUPORTE.DataCha, "
+                    + "CHAMADOS_SUPORTE.StatusCha, "
+                    + "ATENDENTES.NomeAtendente, "
+                    + "CHAMADOS_SUPORTE.IdSolicitante, "
+                    + "SOLICITANTES.NomeSolicitante, "
+                    + "CHAMADOS_SUPORTE.IdUnidEmp, "
+                    + "UNIDADE_PENAL_EMPRESA.DescricaoUnidade, "
+                    + "CHAMADOS_SUPORTE.AssuntoSuporte, "
+                    + "CHAMADOS_SUPORTE.TipoChamadoSuporte "
+                    + "FROM CHAMADOS_SUPORTE "
+                    + "INNER JOIN USUARIOS "
+                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
+                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
+                    + "ON CHAMADOS_SUPORTE.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
+                    + "INNER JOIN SOLICITANTES "
+                    + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
+                    + "INNER JOIN ATENDENTES "
+                    + "ON CHAMADOS_SUPORTE.IdAtendente=ATENDENTES.IdAtendente  "
+                    + "WHERE CHAMADOS_SUPORTE.IdCHSup='" + jIdChamado.getText() + "'");
+            conecta.rs.first();
+            objCHSup.setIdCHSup(conecta.rs.getInt("IdCHSup"));
+            objCHSup.setStatusCha(conecta.rs.getString("StatusCha"));
+            objCHSup.setDataCha(conecta.rs.getDate("DataCha"));
+            objCHSup.setNomeAtendente(conecta.rs.getString("NomeAtendente"));
+            objCHSup.setIdSolicitante(conecta.rs.getInt("IdSolicitante"));
+            objCHSup.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+            objCHSup.setIdUnidEmp(conecta.rs.getInt("IdUnidEmp"));
+            objCHSup.setDescricaoUnidade(conecta.rs.getString("DescricaoUnidade"));
+            objCHSup.setAssunto(conecta.rs.getString("AssuntoSuporte"));
+            objCHSup.setTipoChamadoSuporte(conecta.rs.getString("TipoChamadoSuporte"));
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
+        return objCHSup;
+    }
+
+//    public ChamadoSuporte VERIFICAR_NIVEL_usuario(ChamadoSuporte objCHSup) {
+//        conecta.abrirConexao();
+//        try {
+//            conecta.executaSQL("SELECT "
+//                    + "IdUsuario, "
+//                    + "NomeUsuario, "
+//                    + "LoginUsuario, "
+//                    + "NivelUsuario "                   
+//                    + "FROM USUARIOS "
+//                    + "WHERE LoginUsuario='" + nameUser + "'");
+//            conecta.rs.first();
+//            objCHSup.setIdUsuario(conecta.rs.getInt("IdCHSup"));
+//            objCHSup.set(conecta.rs.getString("StatusCha"));
+//            objCHSup.setDataCha(conecta.rs.getDate("DataCha"));
+//            objCHSup.setNomeAtendente(conecta.rs.getString("NomeAtendente"));
+//            objCHSup.setIdSolicitante(conecta.rs.getInt("IdSolicitante"));
+//            objCHSup.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+//            objCHSup.setIdUnidEmp(conecta.rs.getInt("IdUnidEmp"));
+//            objCHSup.setDescricaoUnidade(conecta.rs.getString("DescricaoUnidade"));
+//            objCHSup.setAssunto(conecta.rs.getString("AssuntoSuporte"));
+//            objCHSup.setTipoChamadoSuporte(conecta.rs.getString("TipoChamadoSuporte"));
+//        } catch (Exception e) {
+//        }
+//        conecta.desconecta();
+//        return objCHSup;
+//    }
     //------------------------------------- ITENS DO CHAMDO SUPORTE -----------------------------------
     public List<ChamadoSuporte> PESQUISAR_ITENS_CHAMADO_SUP_read() throws Exception {
         pTOTAL_itens = 0;
@@ -1303,8 +1426,8 @@ public class ChamadosSuporteDao {
         }
         return null;
     }
-    
-     public List<ChamadoSuporte> QUANDIDADE_CHAMADOS_EM_ATENDENTE_read() throws Exception {
+
+    public List<ChamadoSuporte> QUANDIDADE_CHAMADOS_EM_ATENDENTE_read() throws Exception {
         pTOTAL_REGISTROS_EM_atendimento = 0;
         conecta.abrirConexao();
         List<ChamadoSuporte> LISTA_ITENS_chamado = new ArrayList<ChamadoSuporte>();
@@ -1417,7 +1540,7 @@ public class ChamadosSuporteDao {
         }
         return null;
     }
-    
+
     public List<ChamadoSuporte> PESQUISAR_STATUS_andamento_read() throws Exception {
         pTOTAL_REGISTROS_dia = 0;
         conecta.abrirConexao();

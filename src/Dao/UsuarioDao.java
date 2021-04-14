@@ -43,7 +43,7 @@ public class UsuarioDao {
     Usuarios usuario = new Usuarios();
     //
     int nivel = 0;
-    String nivelNome = "";   
+    String nivelNome = "";
 
     public Usuarios incluirUsuarios(Usuarios objUser) {
         pBUSCA_CODIGO_unidade(objUser.getNomeUnidade());
@@ -166,7 +166,6 @@ public class UsuarioDao {
             pCODIGO_unidade = conecta.rs.getInt("IdUnidEmp");
             pSETOR_usuario = conecta.rs.getString("SetorUsuario");
         } catch (SQLException e) {
-
         }
         conecta.desconecta();
         return objUser;
@@ -377,5 +376,30 @@ public class UsuarioDao {
             conecta.desconecta();
         }
         return null;
+    }
+
+    public Usuarios VERIFICAR_NIVEL_usuario(Usuarios objUser) {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdUsuario, "
+                    + "NomeUsuario, "
+                    + "SetorUsuario, "
+                    + "CargoUsuario, "
+                    + "NivelUsuario, "
+                    + "LoginUsuario "
+                    + "FROM USUARIOS "
+                    + "WHERE LoginUsuario='" + nameUser + "'");
+            conecta.rs.first();
+            objUser.setIdUsuario(conecta.rs.getInt("IdUsuario"));
+            objUser.setNomeUsuario(conecta.rs.getString("NomeUsuario"));
+            objUser.setSetorUsuario(conecta.rs.getString("SetorUsuario"));
+            objUser.setCargoUsuario(conecta.rs.getString("CargoUsuario"));
+            objUser.setNivelUsuario(conecta.rs.getInt("NivelUsuario"));
+            objUser.setLoginUsuario(conecta.rs.getString("LoginUsuario"));
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
+        return objUser;
     }
 }

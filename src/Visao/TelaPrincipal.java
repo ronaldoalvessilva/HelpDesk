@@ -10,9 +10,11 @@ import Controle.converterDataStringDataDate;
 import static Controle.converterDataStringDataDate.dataSisConvert;
 import Dao.ChamadosSuporteDao;
 import Dao.ConexaoBancoDados;
+import Dao.UsuarioDao;
 import Dao.telasSistemaDao;
 import Modelo.CadastroTelasSistema;
 import Modelo.ChamadoSuporte;
+import Modelo.Usuarios;
 import Util.SQL.TableExample;
 import static Visao.LoginHD.nameUser;
 import static Visao.LoginHD.pTOTAL_REGISTROS_EM_atendimento;
@@ -105,6 +107,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private TelaChamadoSuporte objChamaSup = null;
     private TelaChamadoDesenvolvimento objChamaSupDesn = null;
     private TelaAtendentesSuporte objAtendente = null;
+    private TelaCadastroColaboradorCP objCadastroColaborador = null;
     //
     String statusAgenda = "Pendente";
     String usuarioLogado, dataLanc;
@@ -166,6 +169,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public static String telaCadastroAtendentes = "Cadastro:Atendentes:Manutenção";
     //
     public static String telaChamadosSolicitacao = "Suporte Técnico:Chamados Suporte:Manutenção";
+    //
+    public static String telaCadastroColaboradores = "Cadastro:Configurações:Colaboradores:Manutenção";
     // MENU CADASTRO
     //EMPRESA
     String pNomeCE = "";
@@ -209,6 +214,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     String pNomeAT = "";
     //
     String pNomeSAT = "";
+    //
+    String pNomeCC = "";
 
     public static String pDATA_pesquisa;
 
@@ -247,7 +254,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         pesquisarTelasAcessos();
-        threadMensagem(); // A cada 5 minutos verifica mensagem   
+        VERIFICAR_usuario();
+        THREAD_mensagens(); // A cada 5 minutos verifica mensagem   
         corCampos();
     }
 
@@ -318,10 +326,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jEmpresa = new javax.swing.JMenuItem();
         jOcorrencias = new javax.swing.JMenuItem();
         jSolicitantes = new javax.swing.JMenuItem();
-        jatendentes = new javax.swing.JMenuItem();
+        jAtendentes = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jMenu4 = new javax.swing.JMenu();
+        jConfiguracoes = new javax.swing.JMenu();
         jUsuarios = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        jColaboradores = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jSoftware = new javax.swing.JMenuItem();
         jModulosSistema = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -837,20 +848,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jCadastro.add(jSolicitantes);
 
-        jatendentes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
-        jatendentes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/tux.png"))); // NOI18N
-        jatendentes.setMnemonic('T');
-        jatendentes.setText("Atendentes de Suporte");
-        jatendentes.addActionListener(new java.awt.event.ActionListener() {
+        jAtendentes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
+        jAtendentes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/tux.png"))); // NOI18N
+        jAtendentes.setMnemonic('T');
+        jAtendentes.setText("Atendentes de Suporte");
+        jAtendentes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jatendentesActionPerformed(evt);
+                jAtendentesActionPerformed(evt);
             }
         });
-        jCadastro.add(jatendentes);
+        jCadastro.add(jAtendentes);
         jCadastro.add(jSeparator2);
 
-        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191524_16.png"))); // NOI18N
-        jMenu4.setText("Configurações");
+        jConfiguracoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191524_16.png"))); // NOI18N
+        jConfiguracoes.setText("Configurações");
 
         jUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         jUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191009_16.png"))); // NOI18N
@@ -861,7 +872,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 jUsuariosActionPerformed(evt);
             }
         });
-        jMenu4.add(jUsuarios);
+        jConfiguracoes.add(jUsuarios);
+        jConfiguracoes.add(jSeparator4);
+
+        jColaboradores.setText("Colaboradores");
+        jColaboradores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jColaboradoresActionPerformed(evt);
+            }
+        });
+        jConfiguracoes.add(jColaboradores);
+        jConfiguracoes.add(jSeparator5);
 
         jSoftware.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         jSoftware.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191524_16.png"))); // NOI18N
@@ -872,7 +893,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 jSoftwareActionPerformed(evt);
             }
         });
-        jMenu4.add(jSoftware);
+        jConfiguracoes.add(jSoftware);
 
         jModulosSistema.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
         jModulosSistema.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191718_16.png"))); // NOI18N
@@ -883,9 +904,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 jModulosSistemaActionPerformed(evt);
             }
         });
-        jMenu4.add(jModulosSistema);
+        jConfiguracoes.add(jModulosSistema);
 
-        jCadastro.add(jMenu4);
+        jCadastro.add(jConfiguracoes);
         jCadastro.add(jSeparator1);
 
         jAgendaRecados.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
@@ -2244,7 +2265,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jSobreMenuKeyPressed
 
-    private void jatendentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jatendentesActionPerformed
+    private void jAtendentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAtendentesActionPerformed
         // TODO add your handling code here:
         buscarAcessoUsuario(telaCadastroAtendentes);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroAtendentes) && codAbrir == 1) {
@@ -2276,7 +2297,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
-    }//GEN-LAST:event_jatendentesActionPerformed
+    }//GEN-LAST:event_jAtendentesActionPerformed
 
     private void jBtAtendentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAtendentesActionPerformed
         // TODO add your handling code here:
@@ -2311,6 +2332,40 @@ public class TelaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
     }//GEN-LAST:event_jBtAtendentesActionPerformed
+
+    private void jColaboradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jColaboradoresActionPerformed
+        // TODO add your handling code here:
+        buscarAcessoUsuario(telaCadastroColaboradores);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroColaboradores) && codAbrir == 1) {
+            if (objCadastroColaborador == null || objCadastroColaborador.isClosed()) {
+                objCadastroColaborador = new TelaCadastroColaboradorCP();
+                TelaPrincipal.jPainelPrincipal.add(objCadastroColaborador);
+                objCadastroColaborador.setVisible(true);
+            } else {
+                if (objAtendente.isVisible()) {
+                    if (objCadastroColaborador.isIcon()) { // Se esta minimizado
+                        try {
+                            objCadastroColaborador.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objCadastroColaborador.toFront(); // traz para frente
+                        objCadastroColaborador.pack();//volta frame 
+                    }
+                } else {
+                    objCadastroColaborador = new TelaCadastroColaboradorCP();
+                    TelaPrincipal.jPainelPrincipal.add(objCadastroColaborador);//adicona frame ao JDesktopPane  
+                    objCadastroColaborador.setVisible(true);
+                }
+            }
+            try {
+                objCadastroColaborador.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jColaboradoresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2350,6 +2405,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem jAgendaCompromisso;
     private javax.swing.JMenuItem jAgendaRecados;
+    private javax.swing.JMenuItem jAtendentes;
     private javax.swing.JButton jBtAgendaCompromisso;
     private javax.swing.JButton jBtAgendaRecados;
     private javax.swing.JButton jBtAtendentes;
@@ -2370,6 +2426,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jCadastro;
     private javax.swing.JMenuItem jChamadosDesenvolvimento;
     private javax.swing.JMenuItem jChamadosSuporte;
+    private javax.swing.JMenuItem jColaboradores;
+    private javax.swing.JMenu jConfiguracoes;
     private javax.swing.JMenuItem jConsultasSQL;
     public static javax.swing.JTextField jDataSistema;
     private javax.swing.JMenu jDesenvolvimento;
@@ -2387,7 +2445,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLoginConectado;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jModulosSistema;
     private javax.swing.JMenuItem jOcorrencias;
@@ -2402,6 +2459,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JMenu jSobre;
     private javax.swing.JMenuItem jSoftware;
     private javax.swing.JMenuItem jSolicitantes;
@@ -2415,7 +2474,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField jTotalChamadosEmAtendimento;
     private javax.swing.JTextField jTotalChamadosFechados;
     private javax.swing.JMenuItem jUsuarios;
-    private javax.swing.JMenuItem jatendentes;
     private javax.swing.JMenuItem listagemChamadosDesenvolvimento;
     private javax.swing.JMenuItem listagemChamadosSuporteTecnico;
     // End of variables declaration//GEN-END:variables
@@ -2428,15 +2486,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     // Verificar a cada 5 minutos se o recado foi lido (10/01/2015)
-    public void threadMensagem() {
+    public void THREAD_mensagens() {
         final Timer timer = new Timer();
 
         timer.scheduleAtFixedRate(new TimerTask() {
 
             public void run() {
+                TOTALIZADOR_CHAMADOS_atendente();
                 verificarRecado(); // Verificar recados a cada 5 minutos               
                 verificarAgendaCompromisso();
-                TOTALIZADOR_CHAMADOS_atendente();
             }
         }, periodo, tempo);
     }
@@ -2491,13 +2549,40 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }
 
+    public void VERIFICAR_usuario() {
+        Usuarios objUser = new Usuarios();
+        UsuarioDao DAOUser = new UsuarioDao();
+        DAOUser.VERIFICAR_NIVEL_usuario(objUser);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+            CONTROLE_menu(true);
+        } else if (objUser.getNivelUsuario() == 0) {
+            CONTROLE_menu(true);
+        } else if (objUser.getNivelUsuario() == 1) {
+            CONTROLE_menu(true);
+        } else if (objUser.getNivelUsuario() == 2) {
+            CONTROLE_menu(!true);
+        } else if (objUser.getNivelUsuario() == 3) {
+            CONTROLE_menu(!true);
+        }
+    }
+
+    public void CONTROLE_menu(boolean opcao) {
+        jEmpresa.setVisible(opcao);
+        jSolicitantes.setVisible(opcao);
+        jAtendentes.setVisible(opcao);
+        jConfiguracoes.setVisible(opcao);
+        jSeparator1.setVisible(opcao);
+    }
+
     // PESQUISA E CADASTRO DAS TELAS DO MÓDULO ENFERMARIA PARA CONTROLE DE ACESSO DE USUÁRIOS.
     public void pesquisarTelasAcessos() {
         //CADASTRO
         //EMPRESAS
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaCadastroEmpresa + "'");
             conecta.rs.first();
             pNomeCE = conecta.rs.getString("NomeTela");
@@ -2505,7 +2590,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         //UNIDADES
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaCadastroUnidades + "'");
             conecta.rs.first();
             pNomeCUN = conecta.rs.getString("NomeTela");
@@ -2513,7 +2600,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         //OCORRÊNCIAS
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaOcorrenciaManu + "'");
             conecta.rs.first();
             pNomeOCR = conecta.rs.getString("NomeTela");
@@ -2521,7 +2610,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         //SOLICITANTES
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaCadastroSolicitantes + "'");
             conecta.rs.first();
             pNomeCS = conecta.rs.getString("NomeTela");
@@ -2529,21 +2620,27 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         //USUÁRIOS
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaCadastroUsuarios + "'");
             conecta.rs.first();
             pNomeCU = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaCadastroAcessos + "'");
             conecta.rs.first();
             pNomeCAU = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaCadastroCopiar + "'");
             conecta.rs.first();
             pNomeCCAU = conecta.rs.getString("NomeTela");
@@ -2551,14 +2648,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         //SOFTWARE E MÓDULOS  
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaCadastroSistemas + "'");
             conecta.rs.first();
             pNomeSI = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaCadastroModulos + "'");
             conecta.rs.first();
             pNomeCM = conecta.rs.getString("NomeTela");
@@ -2566,14 +2667,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         // AGENDAS
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaAgendaRecado + "'");
             conecta.rs.first();
             pNomeARM = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaAgendaCompromisso + "'");
             conecta.rs.first();
             pNomeACM = conecta.rs.getString("NomeTela");
@@ -2581,42 +2686,54 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         //CHAMADOS SUPORTE
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaChamadosSuporte + "'");
             conecta.rs.first();
             pNomeCSU = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaItensChamadoSuporte + "'");
             conecta.rs.first();
             pNomeCSI = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + botaoEncerrarSup + "'");
             conecta.rs.first();
             pNomeBTE = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + botaoImprimirSup + "'");
             conecta.rs.first();
             pNomeBTI = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + botaoEnviarSup + "'");
             conecta.rs.first();
             pNomeBTV = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + botaoReabrirSup + "'");
             conecta.rs.first();
             pNomeBTR = conecta.rs.getString("NomeTela");
@@ -2624,57 +2741,72 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         //CHAMADOS DO DESENVOLVIMENTO
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaChamadosDesenvolvimento + "'");
             conecta.rs.first();
             pNomeCD = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaItensChamadoDesenvolvimento + "'");
             conecta.rs.first();
             pNomeCDI = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
-
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaConsultasSql + "'");
             conecta.rs.first();
             pNomeCSQL = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + botaoEncerrarDes + "'");
             conecta.rs.first();
             pNomeBTED = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + botaoImprimirDes + "'");
             conecta.rs.first();
             pNomeBTID = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + botaoEnviarDes + "'");
             conecta.rs.first();
             pNomeBTVD = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + botaoReabrirDes + "'");
             conecta.rs.first();
             pNomeBTRD = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + botaoBuscarCH + "'");
             conecta.rs.first();
             pNomeBCSD = conecta.rs.getString("NomeTela");
@@ -2682,14 +2814,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         //ATENDENTES
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaCadastroAtendentes + "'");
             conecta.rs.first();
             pNomeAT = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaChamadosSolicitacao + "'");
             conecta.rs.first();
             pNomeSAT = conecta.rs.getString("NomeTela");
@@ -2698,12 +2834,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
         //CHAMADOS SUPORTE USUÁRIOS DA UNIDADE
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM TELAS "
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
                     + "WHERE NomeTela='" + telaChamadosSolicitacaoUsuarios + "'");
             conecta.rs.first();
             pNomeCUAU = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
-        }        
+        }
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
+                    + "WHERE NomeTela='" + telaCadastroColaboradores + "'");
+            conecta.rs.first();
+            pNomeCC = conecta.rs.getString("NomeTela");
+        } catch (SQLException ex) {
+        }
         // CADASTRO
         //EMPRESA/UNIDADES
         if (!pNomeCE.equals(telaCadastroEmpresa) || pNomeCE == null || pNomeCE.equals("")) {
@@ -2827,6 +2975,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
             objCadastroTela.setNomeTela(telaChamadosSolicitacaoUsuarios);
             controle.incluirTelaAcesso(objCadastroTela);
         }
+        if (!pNomeCC.equals(telaChamadosSolicitacaoUsuarios) || pNomeCC == null || pNomeCC.equals("")) {
+            objCadastroTela.setNomeTela(telaCadastroColaboradores);
+            controle.incluirTelaAcesso(objCadastroTela);
+        }
     }
 
     public void buscarAcessoUsuario(String nomeTelaAcesso) {
@@ -2883,7 +3035,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         + "AND StatusAgenda='" + statusAgenda + "'");
                 conecta.rs.first();
                 if (codUsuario == conecta.rs.getInt("IdUsuario")) {
-
                     if (objjAgendaRec == null || objjAgendaRec.isClosed()) {
                         objjAgendaRec = new TelaRecados();
                         jPainelPrincipal.add(objjAgendaRec);
@@ -2909,7 +3060,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         objjAgendaRec.setSelected(true);
                     } catch (java.beans.PropertyVetoException e) {
                     }
-
                     flag = 1;
                     preencherTabelaTodosRecados("SELECT "
                             + "StatusAgenda, "
@@ -2957,7 +3107,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         conecta.desconecta();
                     }
                 }
-
             } catch (SQLException ex) {
             }
         } else {

@@ -1624,6 +1624,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             } else {
                 pLIMPAR_TABELA_chamados();
                 MOSTRAR_DADOS_CODIGO_adm();
+                if (pTOTAL_registros == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
             }
         } else if (nivelUsuario == 0 || nivelUsuario == 1) {
             pLIMPAR_TABELA_chamados();
@@ -1634,6 +1637,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             } else {
                 pLIMPAR_TABELA_chamados();
                 MOSTRAR_DADOS_NIVEL_2();
+                if (pTOTAL_registros == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
             }
         }
     }//GEN-LAST:event_jBtPesqCHCodigoActionPerformed
@@ -1663,6 +1669,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                             dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
                             pLIMPAR_TABELA_chamados();
                             MOSTRAR_DADOS_DATAS_adm();
+                            if (pTOTAL_registros == 0) {
+                                JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                            }
                         }
                     }
                 }
@@ -1684,6 +1693,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                                 dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
                                 pLIMPAR_TABELA_chamados();
                                 MOSTRAR_DADOS_DATAS_NIVEL_01();
+                                if (pTOTAL_registros == 0) {
+                                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                                }
                             }
                         }
                     }
@@ -1704,6 +1716,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                                 dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
                                 pLIMPAR_TABELA_chamados();
                                 MOSTRAR_DADOS_DATAS_NIVEL_2();
+                                if (pTOTAL_registros == 0) {
+                                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                                }
                             }
                         }
                     }
@@ -1726,6 +1741,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                                 dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
                                 pLIMPAR_TABELA_chamados();
                                 MOSTRAR_DADOS_DATAS_adm();
+                                if (pTOTAL_registros == 0) {
+                                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                                }
                             }
                         }
                     }
@@ -1746,6 +1764,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                                 dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
                                 pLIMPAR_TABELA_chamados();
                                 MOSTRAR_DADOS_DATAS_NIVEL_01();
+                                if (pTOTAL_registros == 0) {
+                                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                                }
                             }
                         }
                     }
@@ -1766,6 +1787,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                                 dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
                                 pLIMPAR_TABELA_chamados();
                                 MOSTRAR_DADOS_DATAS_NIVEL_2();
+                                if (pTOTAL_registros == 0) {
+                                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                                }
                             }
                         }
                     }
@@ -1784,6 +1808,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             } else {
                 pLIMPAR_TABELA_chamados();
                 MOSTRAR_DADOS_SOLICITANTES_adm();
+                if (pTOTAL_registros == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
             }
         } else if (nivelUsuario == 0 || nivelUsuario == 1) {
             pLIMPAR_TABELA_chamados();
@@ -1791,6 +1818,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         } else if (nivelUsuario == 2) {
             pLIMPAR_TABELA_chamados();
             MOSTRAR_DADOS_SOLICITANTES_NIVEL_2();
+            if (pTOTAL_registros == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+            }
         }
     }//GEN-LAST:event_jBtSolicitanteActionPerformed
 
@@ -1804,6 +1834,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             if (evt.getStateChange() == evt.SELECTED) {
                 pLIMPAR_TABELA_chamados();
                 MOSTRAR_DADOS_TODOS_adm();
+                if (pTOTAL_registros == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
             } else {
                 jtotalRegistros.setText("");
                 pLIMPAR_TABELA_chamados();
@@ -1812,6 +1845,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             if (evt.getStateChange() == evt.SELECTED) {
                 pLIMPAR_TABELA_chamados();
                 MOSTRAR_DADOS_TODOS_NIVEL_01();
+                if (pTOTAL_registros == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
             } else {
                 jtotalRegistros.setText("");
                 pLIMPAR_TABELA_chamados();
@@ -1820,6 +1856,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             if (evt.getStateChange() == evt.SELECTED) {
                 pLIMPAR_TABELA_chamados();
                 MOSTRAR_DADOS_TODOS_NIVEL_2();
+                if (pTOTAL_registros == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
             } else {
                 jtotalRegistros.setText("");
                 pLIMPAR_TABELA_chamados();
@@ -2767,8 +2806,19 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         if (jPesquisarAssunto.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Informe o assunto para pesquisa.");
         } else {
-            pLIMPAR_TABELA_chamados();
-            MOSTRAR_TABELA_assuntos();
+            if (nivelUsuario == 0 || nivelUsuario == 1) {
+                pLIMPAR_TABELA_chamados();
+                MOSTRAR_TABELA_assuntos();
+                if (pTOTAL_registros == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
+            } else if (nivelUsuario == 2) {
+                pLIMPAR_TABELA_chamados();
+                MOSTRAR_TABELA_NINEL02_assuntos();
+                if (pTOTAL_registros == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
+            }
         }
     }//GEN-LAST:event_jBtAssuntoActionPerformed
 
@@ -2779,12 +2829,21 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         } else if (jComboBoxStatus.getSelectedItem().equals("Aberto")) {
             pLIMPAR_TABELA_chamados();
             MOSTRAR_STATUS_aberto();
+            if (pTOTAL_REGISTROS_dia == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+            }
         } else if (jComboBoxStatus.getSelectedItem().equals("Fechado")) {
             pLIMPAR_TABELA_chamados();
             MOSTRAR_STATUS_fechado();
+            if (pTOTAL_registros == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+            }
         } else if (jComboBoxStatus.getSelectedItem().equals("Atendimento")) {
             pLIMPAR_TABELA_chamados();
             MOSTRAR_STATUS_andamento();
+            if (pTOTAL_REGISTROS_dia == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+            }
         }
     }//GEN-LAST:event_jBtStatusActionPerformed
 
@@ -3190,6 +3249,29 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     }
 
     public void NovoItem() {
+        if (jComboBoxAtendente.getSelectedItem().equals(nameUser)
+                && jStatusChamado.getText().equals("ABERTO NO SUPORTE TÉCNICO")) {
+            int resposta = JOptionPane.showConfirmDialog(this, "Deseja modificar o status do chamado selecionado?", "Confirmação",
+                    JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
+                jStatusChamado.setText("EM ATENDIMENTO NO SUPORTE TÉCNICO");
+                objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                objCHSup.setStatusCha(jStatusChamado.getText());
+                CONTROL.alterarStatusChamadoSup(objCHSup);
+                //ATUALIZAR DADOS DA TELA PRINCIPAL
+                CONTROL.ATUALIZAR_CHAMADO_suporte(objCHSup);
+                jIdChamado.setText(String.valueOf(objCHSup.getIdCHSup()));
+                jStatusChamado.setText(objCHSup.getStatusCha());
+                jDataChamado.setDate(objCHSup.getDataCha());
+                jComboBoxAtendente.addItem(objCHSup.getNomeAtendente());
+                idSolicitante = objCHSup.getIdSolicitante();
+                jSolicitante.setText(objCHSup.getNomeSolicitante());
+                idUnidade = objCHSup.getIdUnidEmp();
+                jUnidadePrisional.setText(objCHSup.getDescricaoUnidade());
+                jAssunto.setText(objCHSup.getAssunto());
+                jComboBoxTipoChamadoSuporte.setSelectedItem(objCHSup.getTipoChamadoSuporte());
+            }
+        }
         bloquearCampos();
         bloquearBotoes();
         limparCamposItens();
@@ -3393,6 +3475,32 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         ChamadoSuporte d = new ChamadoSuporte();
         try {
             for (ChamadoSuporte dd : CONTROL.PESQUISAR_ASSUNTOS_read()) {
+                pDATA_Registros = String.valueOf(dd.getDataCha());
+                String dia = pDATA_Registros.substring(8, 10);
+                String mes = pDATA_Registros.substring(5, 7);
+                String ano = pDATA_Registros.substring(0, 4);
+                pDATA_Registros = dia + "/" + mes + "/" + ano;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros));
+                dadosOrigem.addRow(new Object[]{dd.getIdCHSup(), pDATA_Registros, dd.getStatusCha(), dd.getAssunto(), dd.getNomeSolicitante(), dd.getDescricaoUnidade()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaChamdosSup.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void MOSTRAR_TABELA_NINEL02_assuntos() {
+        DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaChamdosSup.getModel();
+        ChamadoSuporte d = new ChamadoSuporte();
+        try {
+            for (ChamadoSuporte dd : CONTROL.PESQUISAR_ASSUNTOS_NINEL02_read()) {
                 pDATA_Registros = String.valueOf(dd.getDataCha());
                 String dia = pDATA_Registros.substring(8, 10);
                 String mes = pDATA_Registros.substring(5, 7);

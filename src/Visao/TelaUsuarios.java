@@ -1240,7 +1240,11 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         pTOTAL_usuarios = 0;
         flag = 1;
         if (evt.getStateChange() == evt.SELECTED) {
+            limparTabela();
             PESQUISAR_todos();
+            if (pTOTAL_usuarios == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+            }
         } else {
             limparTabela();
         }
@@ -1254,7 +1258,11 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(rootPane, "Informe dados para pesquisa.");
             jPesquisaUsuarioNome.requestFocus();
         } else {
+            limparTabela();
             PESQUISA_NOME_usuario();
+            if (pTOTAL_usuarios == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+            }
         }
     }//GEN-LAST:event_jBtPesquisarNomeUserActionPerformed
 
