@@ -348,7 +348,6 @@ public class ColaboradoresDao {
         } catch (Exception e) {
         }
         conecta.desconecta();
-
     }
 
     public Colaboradores PESQUISAR_COLABORADOR_historico(Colaboradores objColaborador) {

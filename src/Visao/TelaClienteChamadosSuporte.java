@@ -10,6 +10,8 @@ import Dao.ControleAcessoGeral;
 import Modelo.CamposAcessos;
 import Modelo.ChamadoSuporte;
 import static Visao.LoginHD.nameUser;
+import static Visao.LoginHD.pTOTAL_REGISTROS_aberto;
+import static Visao.LoginHD.pTOTAL_REGISTROS_fechado;
 import java.awt.Color;
 import java.beans.PropertyVetoException;
 import java.text.SimpleDateFormat;
@@ -37,10 +39,7 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     private TelaOcorrenciasHD objOcr = null;
     private TelaRecadosCliente objjAgendaRec = null;
     private TelaAgendaCompromissos objAgendaComp = null;
-    private TelaConsultaSolicitacaoUsuarioLocal objConsutaSoli = null;
-    //
-    public static int pTOTAL_REGISTROS_aberto = 0;
-    public static int pTOTAL_REGISTROS_fechado = 0;
+    private TelaConsultaSolicitacaoUsuarioLocal objConsutaSoli = null;    
     //
     public static int codigoUser = 0;
     public static int codUserAcesso = 0;
@@ -988,8 +987,6 @@ public class TelaClienteChamadosSuporte extends javax.swing.JFrame {
     }
 
     public void pCALCULAR_chamados() {
-        pTOTAL_REGISTROS_aberto = 0;
-        pTOTAL_REGISTROS_fechado = 0;
         try {
             for (ChamadoSuporte p : CONTROL.QUANDIDADE_CHAMADOS_ABERTO_read()) {
                 jQtdChamadosAberto.setText(String.valueOf(pTOTAL_REGISTROS_aberto));

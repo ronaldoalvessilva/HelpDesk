@@ -73,7 +73,7 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
         jLabel68 = new javax.swing.JLabel();
         jPanel34 = new javax.swing.JPanel();
         jPanel35 = new javax.swing.JPanel();
-        jtotalRegistros1 = new javax.swing.JLabel();
+        jtotalRegistros = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jPesquisaUsuarioNome = new javax.swing.JTextField();
@@ -133,7 +133,7 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
         jLabel67 = new javax.swing.JLabel();
         jPanel31 = new javax.swing.JPanel();
         jPanel32 = new javax.swing.JPanel();
-        jtotalRegistros = new javax.swing.JLabel();
+        jtotalRegistrosHistorico = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -173,17 +173,17 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
 
         jPanel35.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED)));
 
-        jtotalRegistros1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jtotalRegistros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         javax.swing.GroupLayout jPanel35Layout = new javax.swing.GroupLayout(jPanel35);
         jPanel35.setLayout(jPanel35Layout);
         jPanel35Layout.setHorizontalGroup(
             jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jtotalRegistros1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+            .addComponent(jtotalRegistros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
         jPanel35Layout.setVerticalGroup(
             jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jtotalRegistros1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE)
+            .addComponent(jtotalRegistros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE)
         );
 
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
@@ -750,11 +750,11 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Período 1", "Data Inicial", "Data Final", "Período 2", "Data Inicial ", "Data Final"
+                "Registro", "Data Entrada", "Data Saida", "Período"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -769,12 +769,8 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
             jTabelaHistoricoColaborador.getColumnModel().getColumn(1).setMaxWidth(80);
             jTabelaHistoricoColaborador.getColumnModel().getColumn(2).setMinWidth(80);
             jTabelaHistoricoColaborador.getColumnModel().getColumn(2).setMaxWidth(80);
-            jTabelaHistoricoColaborador.getColumnModel().getColumn(3).setMinWidth(100);
-            jTabelaHistoricoColaborador.getColumnModel().getColumn(3).setMaxWidth(100);
-            jTabelaHistoricoColaborador.getColumnModel().getColumn(4).setMinWidth(80);
-            jTabelaHistoricoColaborador.getColumnModel().getColumn(4).setMaxWidth(80);
-            jTabelaHistoricoColaborador.getColumnModel().getColumn(5).setMinWidth(80);
-            jTabelaHistoricoColaborador.getColumnModel().getColumn(5).setMaxWidth(80);
+            jTabelaHistoricoColaborador.getColumnModel().getColumn(3).setMinWidth(200);
+            jTabelaHistoricoColaborador.getColumnModel().getColumn(3).setMaxWidth(200);
         }
 
         jPanel30.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED)));
@@ -809,17 +805,17 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
 
         jPanel32.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED)));
 
-        jtotalRegistros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jtotalRegistrosHistorico.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
         jPanel32.setLayout(jPanel32Layout);
         jPanel32Layout.setHorizontalGroup(
             jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jtotalRegistros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+            .addComponent(jtotalRegistrosHistorico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
         jPanel32Layout.setVerticalGroup(
             jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jtotalRegistros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE)
+            .addComponent(jtotalRegistrosHistorico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -871,7 +867,7 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        setBounds(300, 60, 447, 465);
+        setBounds(360, 60, 447, 465);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
@@ -884,6 +880,7 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "Não existe dados a serem exibidos.");
             }
         } else {
+            jtotalRegistros.setText("");
             LIMPAR_tabela();
         }
     }//GEN-LAST:event_jCheckBox1ItemStateChanged
@@ -1169,7 +1166,7 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTabelaHistoricoColaborador;
     public static javax.swing.JTextField jUnidadeColaborador;
     private javax.swing.JLabel jtotalRegistros;
-    private javax.swing.JLabel jtotalRegistros1;
+    private javax.swing.JLabel jtotalRegistrosHistorico;
     // End of variables declaration//GEN-END:variables
 
     public void corCampos() {

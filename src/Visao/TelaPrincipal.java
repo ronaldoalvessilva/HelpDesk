@@ -43,8 +43,8 @@ import static Visao.TelaAgendaCompromissos.jNomeUsuarioAgenda;
 import static Visao.TelaAgendaCompromissos.jTabelaAgendaEventos;
 import static Visao.TelaAgendaCompromissos.jTextoEvento;
 import static Visao.TelaAgendaCompromissos.jtotalRegistros;
-import static Visao.TelaClienteChamadosSuporte.pTOTAL_REGISTROS_aberto;
-import static Visao.TelaClienteChamadosSuporte.pTOTAL_REGISTROS_fechado;
+import static Visao.LoginHD.pTOTAL_REGISTROS_aberto;
+import static Visao.LoginHD.pTOTAL_REGISTROS_fechado;
 import static Visao.TelaRecados.jBtAlterar;
 import static Visao.TelaRecados.jBtCancelar;
 import static Visao.TelaRecados.jBtConfirmar;
@@ -108,6 +108,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private TelaChamadoDesenvolvimento objChamaSupDesn = null;
     private TelaAtendentesSuporte objAtendente = null;
     private TelaCadastroColaboradorCP objCadastroColaborador = null;
+    private TelaRegistroPontoTrabalho objPonto = null;
     //
     String statusAgenda = "Pendente";
     String usuarioLogado, dataLanc;
@@ -171,6 +172,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public static String telaChamadosSolicitacao = "Suporte Técnico:Chamados Suporte:Manutenção";
     //
     public static String telaCadastroColaboradores = "Cadastro:Configurações:Colaboradores:Manutenção";
+    public static String telaRegistroPonto = "Suporte Técnico:Registro Ponto:Manutenção";
     // MENU CADASTRO
     //EMPRESA
     String pNomeCE = "";
@@ -216,9 +218,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     String pNomeSAT = "";
     //
     String pNomeCC = "";
-
+    String pNomeRP = "";
+    //
     public static String pDATA_pesquisa;
-
     public static TelaTrocaSenha telaTrocaSenha;
 
     /**
@@ -342,6 +344,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jSair = new javax.swing.JMenuItem();
         jSuporteTecnico = new javax.swing.JMenu();
         jChamadosSuporte = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        jRegistraPonto = new javax.swing.JMenuItem();
         jDesenvolvimento = new javax.swing.JMenu();
         jConsultasSQL = new javax.swing.JMenuItem();
         jChamadosDesenvolvimento = new javax.swing.JMenuItem();
@@ -477,7 +481,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPainelPrincipalLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(368, Short.MAX_VALUE))
+                .addContainerGap(356, Short.MAX_VALUE))
             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -966,6 +970,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         jSuporteTecnico.add(jChamadosSuporte);
+        jSuporteTecnico.add(jSeparator6);
+
+        jRegistraPonto.setText("Registrar Ponto");
+        jRegistraPonto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRegistraPontoActionPerformed(evt);
+            }
+        });
+        jSuporteTecnico.add(jRegistraPonto);
 
         jMenuBar1.add(jSuporteTecnico);
 
@@ -2342,7 +2355,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 TelaPrincipal.jPainelPrincipal.add(objCadastroColaborador);
                 objCadastroColaborador.setVisible(true);
             } else {
-                if (objAtendente.isVisible()) {
+                if (objCadastroColaborador.isVisible()) {
                     if (objCadastroColaborador.isIcon()) { // Se esta minimizado
                         try {
                             objCadastroColaborador.setIcon(false); // maximiniza
@@ -2366,6 +2379,40 @@ public class TelaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
     }//GEN-LAST:event_jColaboradoresActionPerformed
+
+    private void jRegistraPontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRegistraPontoActionPerformed
+        // TODO add your handling code here:
+        buscarAcessoUsuario(telaRegistroPonto);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaRegistroPonto) && codAbrir == 1) {
+            if (objPonto == null || objPonto.isClosed()) {
+                objPonto = new TelaRegistroPontoTrabalho();
+                TelaPrincipal.jPainelPrincipal.add(objPonto);
+                objPonto.setVisible(true);
+            } else {
+                if (objPonto.isVisible()) {
+                    if (objPonto.isIcon()) { // Se esta minimizado
+                        try {
+                            objPonto.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objPonto.toFront(); // traz para frente
+                        objPonto.pack();//volta frame 
+                    }
+                } else {
+                    objPonto = new TelaRegistroPontoTrabalho();
+                    TelaPrincipal.jPainelPrincipal.add(objPonto);//adicona frame ao JDesktopPane  
+                    objPonto.setVisible(true);
+                }
+            }
+            try {
+                objPonto.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jRegistraPontoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2454,6 +2501,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JMenuItem jRegistraPonto;
     private javax.swing.JMenu jRelatorios;
     private javax.swing.JMenuItem jSair;
     private javax.swing.JPopupMenu.Separator jSeparator1;
@@ -2461,6 +2509,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JMenu jSobre;
     private javax.swing.JMenuItem jSoftware;
     private javax.swing.JMenuItem jSolicitantes;
@@ -2852,6 +2901,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
             pNomeCC = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
+        try {
+            conecta.executaSQL("SELECT "
+                    + "NomeTela "
+                    + "FROM TELAS "
+                    + "WHERE NomeTela='" + telaRegistroPonto + "'");
+            conecta.rs.first();
+            pNomeRP = conecta.rs.getString("NomeTela");
+        } catch (SQLException ex) {
+        }
         // CADASTRO
         //EMPRESA/UNIDADES
         if (!pNomeCE.equals(telaCadastroEmpresa) || pNomeCE == null || pNomeCE.equals("")) {
@@ -2977,6 +3035,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         if (!pNomeCC.equals(telaChamadosSolicitacaoUsuarios) || pNomeCC == null || pNomeCC.equals("")) {
             objCadastroTela.setNomeTela(telaCadastroColaboradores);
+            controle.incluirTelaAcesso(objCadastroTela);
+        }
+        if (!pNomeRP.equals(telaRegistroPonto) || pNomeRP == null || pNomeRP.equals("")) {
+            objCadastroTela.setNomeTela(telaRegistroPonto);
             controle.incluirTelaAcesso(objCadastroTela);
         }
     }
