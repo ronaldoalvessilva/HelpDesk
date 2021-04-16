@@ -99,20 +99,49 @@ public class CadastroPontoDAO {
         return objCadPonto;
     }
 
-    public CadastroPonto alterarPonto(CadastroPonto objCadPonto) {
+    public CadastroPonto alterarEntradaPonto(CadastroPonto objCadPonto) {
         pBUSCA_CODIGO_usuario(objCadPonto.getNomeColaborador());
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE HISTORICO_COLABORADORES SET DataSaida=?,"
-                    + "Periodo=?,HorarioSaida=?,AssinaturaBiometriacaS=? WHERE IdHistoricoCU='" + objCadPonto.getIdHistoricoCU() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE HISTORICO_COLABORADORES SET DataEntrada=?,"
+                    + "StatusPonto=?,Periodo=?,HorarioEntrada=?,AssinaturaBiometriacaE=?,DataInsert=?,HorarioInsert=? WHERE IdHistoricoCU='" + objCadPonto.getIdHistoricoCU() + "'");
             if (objCadPonto.getDataSaida() != null) {
                 pst.setTimestamp(1, new java.sql.Timestamp(objCadPonto.getDataSaida().getTime()));
             } else {
                 pst.setDate(1, null);
             }
-            pst.setString(2, objCadPonto.getPeriodo());
-            pst.setString(3, objCadPonto.getHorarioSaida());
-            pst.setBytes(4, objCadPonto.getAssinaturaBiometriaca());
+            pst.setString(2, objCadPonto.getStatusPonto());
+            pst.setString(3, objCadPonto.getPeriodo());
+            pst.setString(4, objCadPonto.getHorarioSaida());
+            pst.setBytes(5, objCadPonto.getAssinaturaBiometriaca());
+            pst.setString(6, objCadPonto.getDataInsert());
+            pst.setString(7, objCadPonto.getHorarioInsert());
+            pst.executeUpdate(); // Executa a inserção
+            pRESPOSTA_ponto = "Sim";
+        } catch (SQLException ex) {
+            pRESPOSTA_ponto = "Não";
+        }
+        conecta.desconecta();
+        return objCadPonto;
+    }
+    
+    public CadastroPonto alterarSaidaPonto(CadastroPonto objCadPonto) {
+        pBUSCA_CODIGO_usuario(objCadPonto.getNomeColaborador());
+        conecta.abrirConexao();
+        try {
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE HISTORICO_COLABORADORES SET DataSaida=?,"
+                    + "StatusPonto=?,Periodo=?,HorarioSaida=?,AssinaturaBiometriacaS=?,DataInsert=?,HorarioInsert=? WHERE IdHistoricoCU='" + objCadPonto.getIdHistoricoCU() + "'");
+            if (objCadPonto.getDataSaida() != null) {
+                pst.setTimestamp(1, new java.sql.Timestamp(objCadPonto.getDataSaida().getTime()));
+            } else {
+                pst.setDate(1, null);
+            }
+            pst.setString(2, objCadPonto.getStatusPonto());
+            pst.setString(3, objCadPonto.getPeriodo());
+            pst.setString(4, objCadPonto.getHorarioSaida());
+            pst.setBytes(5, objCadPonto.getAssinaturaBiometriaca());
+            pst.setString(6, objCadPonto.getDataInsert());
+            pst.setString(7, objCadPonto.getHorarioInsert());
             pst.executeUpdate(); // Executa a inserção
             pRESPOSTA_ponto = "Sim";
         } catch (SQLException ex) {
@@ -193,6 +222,7 @@ public class CadastroPontoDAO {
         conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT "
+                    + "IdHistoricoCU, "
                     + "IdUsuario, "
                     + "StatusPonto, "
                     + "DataCadastro, "
@@ -201,6 +231,7 @@ public class CadastroPontoDAO {
                     + "WHERE IdUsuario='" + pCODIGO_PESQUISA_colaborador + "' "
                     + "AND CONVERT(DATE,DataCadastro)='" + pDATA_cadastro + "'");
             conecta.rs.last();
+            objCadPonto.setIdHistoricoCU(conecta.rs.getInt("IdHistoricoCU"));
             objCadPonto.setIdColaborador(conecta.rs.getInt("IdUsuario"));
             objCadPonto.setStatusPonto(conecta.rs.getString("StatusPonto"));
             objCadPonto.setDataEntrada(conecta.rs.getDate("DataCadastro"));

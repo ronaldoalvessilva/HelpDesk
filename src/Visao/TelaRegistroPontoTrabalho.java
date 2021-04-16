@@ -49,10 +49,10 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
     String nomeModuloTela = "Suporte Técnico:Registro de Ponto:Manutenção";
     public static String pRESPOSTA_ponto = "";
     //
-    public final static SimpleDateFormat parser = new SimpleDateFormat("HH:mm:ss");
-    public final static String PERIODO_matutino = "12:00:00";
-    public final static String PERIODO_vespertino = "18:00:00";
-    public final static String PERIODO_noturno = "00:00:00";
+    public final static SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
+    public final static String PERIODO_matutino = "12:00";
+    public final static String PERIODO_vespertino = "18:00";
+    public final static String PERIODO_noturno = "00:00";
     //
     boolean p1 = checkIfClosedM(jHoraSistema.getText());
     boolean p2 = checkIfClosedV(jHoraSistema.getText());
@@ -71,6 +71,8 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
     String pSTATUS_ponto = "";
     String pSTATUS_entrada = "Entrada";
     String pSTATUS_saida = "Saida";
+    String pSTATUS_ENTRADA_saida = "Entrada/Saida";
+    Integer pIDHistorico = null;
 
     /**
      * Creates new form TelaRegistroPontoTrabalho
@@ -346,12 +348,13 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
             if (Objects.equals(pCODIGO_PESQUISA_colaborador, pCODIGO_ENCONTRADO_colaborador)
                     && pDATA_PESQUISADA_convertida.equals(pDATA_cadastro)
                     && pSTATUS_ponto.equals(pSTATUS_entrada)) {
+                objCadPonto.setIdHistoricoCU(objCadPonto.getIdHistoricoCU());
                 objCadPonto.setDataSaida(jDataCadastro.getDate());
                 objCadPonto.setHorarioSaida(jHoraInicial.getText());
-                objCadPonto.setStatusPonto(pSTATUS_saida);
+                objCadPonto.setStatusPonto(pSTATUS_ENTRADA_saida);
                 objCadPonto.setDataInsert(dataModFinal);
                 objCadPonto.setHorarioInsert(horaMov);
-                DAOponto.incluirSaidaPonto(objCadPonto);
+                DAOponto.alterarSaidaPonto(objCadPonto);
                 BUSCAR_codigo();
                 objLog();
                 controlLog.incluirLogSistema(objLogSys); // Grava o log da operação 
@@ -364,6 +367,23 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
             } else if (Objects.equals(pCODIGO_PESQUISA_colaborador, pCODIGO_ENCONTRADO_colaborador)
                     && pDATA_PESQUISADA_convertida.equals(pDATA_cadastro)
                     && pSTATUS_ponto.equals(pSTATUS_saida)) {
+                objCadPonto.setIdHistoricoCU(objCadPonto.getIdHistoricoCU());
+                objCadPonto.setStatusPonto(pSTATUS_entrada);
+                objCadPonto.setDataEntrada(jDataCadastro.getDate());
+                objCadPonto.setHorarioEntrada(jHoraInicial.getText());
+                objCadPonto.setDataInsert(dataModFinal);
+                objCadPonto.setHorarioInsert(horaMov);
+                DAOponto.alterarEntradaPonto(objCadPonto);
+                BUSCAR_codigo();
+                objLog();
+                controlLog.incluirLogSistema(objLogSys); // Grava o log da operação 
+                Salvar();
+                if (pRESPOSTA_ponto.equals("Sim")) {
+                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                } else if (pRESPOSTA_ponto.equals("Não")) {
+                    JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro, tente novamente.");
+                }
+            } else {
                 objCadPonto.setStatusPonto(pSTATUS_entrada);
                 objCadPonto.setDataEntrada(jDataCadastro.getDate());
                 objCadPonto.setHorarioEntrada(jHoraInicial.getText());
@@ -485,6 +505,7 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
                 SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
                 pDATA_cadastro = formatoAmerica.format(jDataCadastro.getDate().getTime());
                 DAOponto.VERIFICAR_TABELA_historico(objCadPonto);
+                pIDHistorico = objCadPonto.getIdHistoricoCU();
                 pCODIGO_ENCONTRADO_colaborador = String.valueOf(objCadPonto.getIdColaborador());
                 pDATA_pesquisa = objCadPonto.getDataEntrada();
                 pSTATUS_ponto = objCadPonto.getStatusPonto();
@@ -555,11 +576,11 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
             Date present3 = parser.parse(time3);
             Date closed3 = parser.parse(PERIODO_noturno);
             if (present3.after(closed3)) {
-                return false;
+                return true;
             }
         } catch (ParseException e) {
             // Invalid date was entered
         }
-        return true;
+        return false;
     }
 }
