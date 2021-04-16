@@ -18,6 +18,7 @@ public class CadastroPonto {
     private Integer idColaborador;
     private String nomeColaborador;
     private String periodo;
+    private String statusPonto;
     private Date dataEntrada;
     private Date dataSaida;
     private String horarioEntrada;
@@ -33,12 +34,13 @@ public class CadastroPonto {
     public CadastroPonto() {
     }
 
-    public CadastroPonto(Integer idHistoricoCU, Date dataCadastro, Integer idColaborador, String nomeColaborador, String periodo, Date dataEntrada, Date dataSaida, String horarioEntrada, String horarioSaida, byte[] assinaturaBiometriaca, String usuarioInsert, String dataInsert, String horarioInsert, String usuarioUp, String dataUp, String horarioUp) {
+    public CadastroPonto(Integer idHistoricoCU, Date dataCadastro, Integer idColaborador, String nomeColaborador, String periodo, String statusPonto, Date dataEntrada, Date dataSaida, String horarioEntrada, String horarioSaida, byte[] assinaturaBiometriaca, String usuarioInsert, String dataInsert, String horarioInsert, String usuarioUp, String dataUp, String horarioUp) {
         this.idHistoricoCU = idHistoricoCU;
         this.dataCadastro = dataCadastro;
         this.idColaborador = idColaborador;
         this.nomeColaborador = nomeColaborador;
         this.periodo = periodo;
+        this.statusPonto = statusPonto;
         this.dataEntrada = dataEntrada;
         this.dataSaida = dataSaida;
         this.horarioEntrada = horarioEntrada;
@@ -120,6 +122,20 @@ public class CadastroPonto {
      */
     public void setPeriodo(String periodo) {
         this.periodo = periodo;
+    }
+
+    /**
+     * @return the statusPonto
+     */
+    public String getStatusPonto() {
+        return statusPonto;
+    }
+
+    /**
+     * @param statusPonto the statusPonto to set
+     */
+    public void setStatusPonto(String statusPonto) {
+        this.statusPonto = statusPonto;
     }
 
     /**

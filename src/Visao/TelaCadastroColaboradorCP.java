@@ -12,10 +12,12 @@ import Modelo.CamposAcessos;
 import Modelo.Colaboradores;
 import Modelo.LogSistema;
 import static Visao.LoginHD.nameUser;
+import static Visao.LoginHD.tipoServidor;
 import static Visao.TelaPrincipal.jDataSistema;
 import static Visao.TelaPrincipal.jHoraSistema;
 import static Visao.TelaPrincipal.telaCadastroColaboradores;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,7 +42,8 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
     //
     int acao = 0;
     int flag = 0;
-    String dataCadastro = "";
+    String dataEntrada = "";
+    String dataSaida = "";
     String statusMov;
     String horaMov;
     String dataModFinal;
@@ -49,6 +52,9 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
     public static String pRESPOSTA_colaborador = "";
     public static int pTOTAL_colaboradores = 0;
     public static String pCODIGO_colaborador = "";
+    //
+    public static String pDATA_inicial = "";
+    public static String pDATA_final = "";
 
     /**
      * Creates new form TelaCadastroColaboradorCP
@@ -124,8 +130,8 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
         jPanel8 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jDataPesqInicial = new com.toedter.calendar.JDateChooser();
+        jDataPesqFinal = new com.toedter.calendar.JDateChooser();
         jBtPesquisarHistoricoData = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTabelaHistoricoColaborador = new javax.swing.JTable();
@@ -707,12 +713,17 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel15.setText("Data Final:");
 
-        jDateChooser1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jDataPesqInicial.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
-        jDateChooser2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jDataPesqFinal.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jBtPesquisarHistoricoData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
         jBtPesquisarHistoricoData.setContentAreaFilled(false);
+        jBtPesquisarHistoricoData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtPesquisarHistoricoDataActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -722,11 +733,11 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
                 .addGap(21, 21, 21)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jDataPesqFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtPesquisarHistoricoData, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(30, Short.MAX_VALUE))
@@ -737,9 +748,9 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jBtPesquisarHistoricoData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDataPesqFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addGap(7, 7, 7))
         );
@@ -750,11 +761,11 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Registro", "Data Entrada", "Data Saida", "Período"
+                "Registro", "Período", "Data Entrada", "Hora Entrada", "Data Saida", "Hora Saida"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -763,14 +774,18 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(jTabelaHistoricoColaborador);
         if (jTabelaHistoricoColaborador.getColumnModel().getColumnCount() > 0) {
-            jTabelaHistoricoColaborador.getColumnModel().getColumn(0).setMinWidth(100);
-            jTabelaHistoricoColaborador.getColumnModel().getColumn(0).setMaxWidth(100);
-            jTabelaHistoricoColaborador.getColumnModel().getColumn(1).setMinWidth(80);
-            jTabelaHistoricoColaborador.getColumnModel().getColumn(1).setMaxWidth(80);
+            jTabelaHistoricoColaborador.getColumnModel().getColumn(0).setMinWidth(70);
+            jTabelaHistoricoColaborador.getColumnModel().getColumn(0).setMaxWidth(70);
+            jTabelaHistoricoColaborador.getColumnModel().getColumn(1).setMinWidth(100);
+            jTabelaHistoricoColaborador.getColumnModel().getColumn(1).setMaxWidth(100);
             jTabelaHistoricoColaborador.getColumnModel().getColumn(2).setMinWidth(80);
             jTabelaHistoricoColaborador.getColumnModel().getColumn(2).setMaxWidth(80);
-            jTabelaHistoricoColaborador.getColumnModel().getColumn(3).setMinWidth(200);
-            jTabelaHistoricoColaborador.getColumnModel().getColumn(3).setMaxWidth(200);
+            jTabelaHistoricoColaborador.getColumnModel().getColumn(3).setMinWidth(80);
+            jTabelaHistoricoColaborador.getColumnModel().getColumn(3).setMaxWidth(80);
+            jTabelaHistoricoColaborador.getColumnModel().getColumn(4).setMinWidth(80);
+            jTabelaHistoricoColaborador.getColumnModel().getColumn(4).setMaxWidth(80);
+            jTabelaHistoricoColaborador.getColumnModel().getColumn(5).setMinWidth(70);
+            jTabelaHistoricoColaborador.getColumnModel().getColumn(5).setMaxWidth(70);
         }
 
         jPanel30.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED)));
@@ -1098,6 +1113,37 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
         objPesqUser.show();
     }//GEN-LAST:event_jBtPesquisarUsuarioActionPerformed
 
+    private void jBtPesquisarHistoricoDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisarHistoricoDataActionPerformed
+        // TODO add your handling code here:
+        if (jIdColaborador.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "É necessário pesquisar primeiro o colaborador para fazer a pesquisa.");
+        } else if (jDataPesqInicial.getDate() == null) {
+            JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+            jDataPesqInicial.requestFocus();
+        } else if (jDataPesqFinal.getDate() == null) {
+            JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+            jDataPesqFinal.requestFocus();
+        } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
+            JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+        } else {
+            if (tipoServidor == null || tipoServidor.equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
+            } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
+                SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
+                pDATA_inicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                pDATA_final = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
+                LIMPAR_TABELA_historico();
+                MOSTRAR_DADOS_HISTORICO_colaborador();
+            } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
+                SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
+                pDATA_inicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                pDATA_final = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
+                LIMPAR_TABELA_historico();
+                MOSTRAR_DADOS_HISTORICO_colaborador();
+            }
+        }
+    }//GEN-LAST:event_jBtPesquisarHistoricoDataActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtAlterar;
@@ -1117,8 +1163,8 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jComboBoxTurmaColaborador;
     private javax.swing.JComboBox<String> jComboBoxTurnoColaborador;
     private com.toedter.calendar.JDateChooser jDataCadastro;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private com.toedter.calendar.JDateChooser jDataPesqFinal;
+    private com.toedter.calendar.JDateChooser jDataPesqInicial;
     private javax.swing.JTextField jHorarioInicioColaborador;
     private javax.swing.JTextField jHorarioTerminoColaborador;
     public static javax.swing.JTextField jIdColaborador;
@@ -1303,13 +1349,13 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
         DefaultTableModel dadosUsuarios = (DefaultTableModel) jTabelaColaboradores.getModel();
         try {
             for (Colaboradores dd : colaboradorDAO.pPESQUISA_todos_read()) {
-                dataCadastro = String.valueOf(dd.getDataCadastroColaborador());
-                String dia = dataCadastro.substring(8, 10);
-                String mes = dataCadastro.substring(5, 7);
-                String ano = dataCadastro.substring(0, 4);
-                dataCadastro = dia + "/" + mes + "/" + ano;
+                dataEntrada = String.valueOf(dd.getDataCadastroColaborador());
+                String dia = dataEntrada.substring(8, 10);
+                String mes = dataEntrada.substring(5, 7);
+                String ano = dataEntrada.substring(0, 4);
+                dataEntrada = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(pTOTAL_colaboradores)); // Converter inteiro em string para exibir na tela
-                dadosUsuarios.addRow(new Object[]{dd.getIdColaborador(), dataCadastro, dd.getStatusColaborador(), dd.getNomeUsuario()});
+                dadosUsuarios.addRow(new Object[]{dd.getIdColaborador(), dataEntrada, dd.getStatusColaborador(), dd.getNomeUsuario()});
                 // BARRA DE ROLAGEM HORIZONTAL
                 jTabelaColaboradores.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 // ALINHAR TEXTO DA TABELA CENTRALIZADO
@@ -1329,13 +1375,13 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
         DefaultTableModel dadosUsuarios = (DefaultTableModel) jTabelaColaboradores.getModel();
         try {
             for (Colaboradores dd : colaboradorDAO.pPESQUISA_nome_read()) {
-                dataCadastro = String.valueOf(dd.getDataCadastroColaborador());
-                String dia = dataCadastro.substring(8, 10);
-                String mes = dataCadastro.substring(5, 7);
-                String ano = dataCadastro.substring(0, 4);
-                dataCadastro = dia + "/" + mes + "/" + ano;
+                dataEntrada = String.valueOf(dd.getDataCadastroColaborador());
+                String dia = dataEntrada.substring(8, 10);
+                String mes = dataEntrada.substring(5, 7);
+                String ano = dataEntrada.substring(0, 4);
+                dataEntrada = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(pTOTAL_colaboradores)); // Converter inteiro em string para exibir na tela
-                dadosUsuarios.addRow(new Object[]{dd.getIdColaborador(), dataCadastro, dd.getStatusColaborador(), dd.getNomeUsuario()});
+                dadosUsuarios.addRow(new Object[]{dd.getIdColaborador(), dataEntrada, dd.getStatusColaborador(), dd.getNomeUsuario()});
                 // BARRA DE ROLAGEM HORIZONTAL
                 jTabelaColaboradores.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 // ALINHAR TEXTO DA TABELA CENTRALIZADO
@@ -1357,6 +1403,51 @@ public class TelaCadastroColaboradorCP extends javax.swing.JInternalFrame {
             ((DefaultTableModel) jTabelaColaboradores.getModel()).removeRow(0);
         }
         jtotalRegistros.setText("");
+    }
+
+    public void LIMPAR_TABELA_historico() {
+        // APAGAR DADOS DA TABELA
+        while (jTabelaHistoricoColaborador.getModel().getRowCount() > 0) {
+            ((DefaultTableModel) jTabelaHistoricoColaborador.getModel()).removeRow(0);
+        }
+        jtotalRegistrosHistorico.setText("");
+    }
+
+    public void MOSTRAR_DADOS_HISTORICO_colaborador() {
+        DefaultTableModel dadosHistorico = (DefaultTableModel) jTabelaHistoricoColaborador.getModel();
+        try {
+            for (Colaboradores hh : colaboradorDAO.pPESQUISA_HISTORICO_read()) {
+                if (hh.getDataEntrada() != null) {
+                    dataEntrada = hh.getDataEntrada().toString();
+                    String dia = dataEntrada.substring(8, 10);
+                    String mes = dataEntrada.substring(5, 7);
+                    String ano = dataEntrada.substring(0, 4);
+                    dataEntrada = dia + "/" + mes + "/" + ano;
+                }
+                if (hh.getDataSaida() != null) {
+                    dataSaida = hh.getDataSaida().toString();
+                    String dias = dataSaida.substring(8, 10);
+                    String mess = dataSaida.substring(5, 7);
+                    String anos = dataSaida.substring(0, 4);
+                    dataSaida = dias + "/" + mess + "/" + anos;
+                }
+                jtotalRegistrosHistorico.setText(Integer.toString(pTOTAL_colaboradores)); // Converter inteiro em string para exibir na tela
+                dadosHistorico.addRow(new Object[]{hh.getIdHistorico(), hh.getPeriodo(), dataEntrada, hh.getHorarioEntrada(), dataSaida, hh.getHorarioSaida()});
+                // BARRA DE ROLAGEM HORIZONTAL
+                jTabelaHistoricoColaborador.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                // ALINHAR TEXTO DA TABELA CENTRALIZADO
+                DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+                centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+                //
+                jTabelaHistoricoColaborador.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+                jTabelaHistoricoColaborador.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+                jTabelaHistoricoColaborador.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+                jTabelaHistoricoColaborador.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+                jTabelaHistoricoColaborador.getColumnModel().getColumn(5).setCellRenderer(centralizado);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaCadastroColaboradorCP.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void objLog() {

@@ -20,9 +20,12 @@ import static Visao.TelaPrincipal.telaRegistroPonto;
 import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -46,19 +49,28 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
     String nomeModuloTela = "Suporte Técnico:Registro de Ponto:Manutenção";
     public static String pRESPOSTA_ponto = "";
     //
-    public final static SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
-    public final static String PERIODO_matutino = "11:59";
-    public final static String PERIODO_vespertino = "17:59";
-    public final static String PERIODO_noturno = "05:59";
+    public final static SimpleDateFormat parser = new SimpleDateFormat("HH:mm:ss");
+    public final static String PERIODO_matutino = "12:00:00";
+    public final static String PERIODO_vespertino = "18:00:00";
+    public final static String PERIODO_noturno = "00:00:00";
     //
-    public static Integer pCODIGO_PESQUISA_colaborador = 0;
-    public static Integer pCODIGO_ENCONTRADO_colaborador = 0;
+    boolean p1 = checkIfClosedM(jHoraSistema.getText());
+    boolean p2 = checkIfClosedV(jHoraSistema.getText());
+    boolean p3 = checkIfClosedN(jHoraSistema.getText());
+    //
+    public static String pCODIGO_PESQUISA_colaborador = "";
+    public static String pCODIGO_ENCONTRADO_colaborador = "";
     public static String pNOME_USUARIO_colaborador = "";
     public static Date pDATA_pesquisa;
     //
     public static String pDATA_cadastro = "";
     String pDATA_PESQUISADA_convertida = "";
     public static String pTABELA_vazia = "";
+    public static int qteDeRegistro = 0;
+    public static int pTOTAL_registros = 0;
+    String pSTATUS_ponto = "";
+    String pSTATUS_entrada = "Entrada";
+    String pSTATUS_saida = "Saida";
 
     /**
      * Creates new form TelaRegistroPontoTrabalho
@@ -331,10 +343,12 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
             objCadPonto.setDataCadastro(jDataCadastro.getDate());
             objCadPonto.setNomeColaborador(jNomeColaborador.getText());
             VERIFICAR_DATA_ENTRADA_saida();
-            if (Objects.equals(pCODIGO_PESQUISA_colaborador, pCODIGO_ENCONTRADO_colaborador) && pDATA_PESQUISADA_convertida.equals(pDATA_cadastro)) {
+            if (Objects.equals(pCODIGO_PESQUISA_colaborador, pCODIGO_ENCONTRADO_colaborador)
+                    && pDATA_PESQUISADA_convertida.equals(pDATA_cadastro)
+                    && pSTATUS_ponto.equals(pSTATUS_entrada)) {
                 objCadPonto.setDataSaida(jDataCadastro.getDate());
                 objCadPonto.setHorarioSaida(jHoraInicial.getText());
-                objCadPonto.setUsuarioInsert(nameUser);
+                objCadPonto.setStatusPonto(pSTATUS_saida);
                 objCadPonto.setDataInsert(dataModFinal);
                 objCadPonto.setHorarioInsert(horaMov);
                 DAOponto.incluirSaidaPonto(objCadPonto);
@@ -347,10 +361,12 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
                 } else if (pRESPOSTA_ponto.equals("Não")) {
                     JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro, tente novamente.");
                 }
-            } else {
+            } else if (Objects.equals(pCODIGO_PESQUISA_colaborador, pCODIGO_ENCONTRADO_colaborador)
+                    && pDATA_PESQUISADA_convertida.equals(pDATA_cadastro)
+                    && pSTATUS_ponto.equals(pSTATUS_saida)) {
+                objCadPonto.setStatusPonto(pSTATUS_entrada);
                 objCadPonto.setDataEntrada(jDataCadastro.getDate());
                 objCadPonto.setHorarioEntrada(jHoraInicial.getText());
-                objCadPonto.setUsuarioInsert(nameUser);
                 objCadPonto.setDataInsert(dataModFinal);
                 objCadPonto.setHorarioInsert(horaMov);
                 DAOponto.incluirEntradaPonto(objCadPonto);
@@ -387,8 +403,8 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtSair;
     private javax.swing.JButton jBtSalvar;
     private javax.swing.JComboBox<String> jComboBoxPeriodo;
-    private com.toedter.calendar.JDateChooser jDataCadastro;
-    private javax.swing.JTextField jHoraInicial;
+    public static com.toedter.calendar.JDateChooser jDataCadastro;
+    public static javax.swing.JTextField jHoraInicial;
     public static javax.swing.JTextField jIdHistoricoCU;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -425,23 +441,20 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
 
     public void limparCampos() {
         jIdHistoricoCU.setText("");
-        jComboBoxPeriodo.setSelectedItem("Selecione...");
         jDataCadastro.setDate(null);
         jHoraInicial.setText("");
         jNomeColaborador.setText("");
     }
 
     public void Novo() {
+        bloquearBotoes(!true);
+        limparCampos();
         jDataCadastro.setCalendar(Calendar.getInstance());
         jNomeColaborador.setText(nameUser);
         jHoraInicial.setText(jHoraSistema.getText());
-        //        
-        bloquearBotoes(!true);
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
-        VERIFICAR_PERIODO_matutino();
-        VERIFICAR_PERIODO_vespertino();
-        VERIFICAR_PERIODO_noturno();
+        VERIFICAR_periodos();
         objCadPonto.setPeriodo((String) jComboBoxPeriodo.getSelectedItem());
     }
 
@@ -463,28 +476,32 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
     }
 
     public void VERIFICAR_DATA_ENTRADA_saida() {
-//        DAOponto.PESQUISAR_COLABORADOR_usuario(objCadPonto);
-//        DAOponto.VERIFICAR_TABELA_historico(objCadPonto);
-
         if (tipoServidor == null || tipoServidor.equals("")) {
             JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
         } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
             DAOponto.PESQUISAR_COLABORADOR_usuario(objCadPonto);
-//            DAOponto.VERIFICAR_TABELA_historico(objCadPonto);
-//            if(pTABELA_vazia.equals("Sim")){
+            DAOponto.VERIFICAR_TABELA_vazia(objCadPonto);
+            if (pTABELA_vazia.equals("Não")) {
+                SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
+                pDATA_cadastro = formatoAmerica.format(jDataCadastro.getDate().getTime());
                 DAOponto.VERIFICAR_TABELA_historico(objCadPonto);
-//            }
-            SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
-            pDATA_cadastro = formatoAmerica.format(jDataCadastro.getDate().getTime());
-            JOptionPane.showMessageDialog(rootPane, "DATA PESQUISA: " + pDATA_pesquisa);
-            pDATA_PESQUISADA_convertida = formatoAmerica.format(pDATA_pesquisa);
-            JOptionPane.showMessageDialog(rootPane, "DATA CADASTRADA VONVERTIDA: " +pDATA_cadastro + " DATA PESQUISADA CONVERTIDA: " + pDATA_PESQUISADA_convertida);
+                pCODIGO_ENCONTRADO_colaborador = String.valueOf(objCadPonto.getIdColaborador());
+                pDATA_pesquisa = objCadPonto.getDataEntrada();
+                pSTATUS_ponto = objCadPonto.getStatusPonto();
+                pDATA_PESQUISADA_convertida = formatoAmerica.format(pDATA_pesquisa);
+            }
         } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
             DAOponto.PESQUISAR_COLABORADOR_usuario(objCadPonto);
             DAOponto.VERIFICAR_TABELA_vazia(objCadPonto);
-            SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
-            pDATA_cadastro = formatoAmerica.format(jDataCadastro.getDate().getTime());
-            pDATA_PESQUISADA_convertida = formatoAmerica.format(pDATA_pesquisa);
+            if (pTABELA_vazia.equals("Não")) {
+                SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
+                pDATA_cadastro = formatoAmerica.format(jDataCadastro.getDate().getTime());
+                DAOponto.VERIFICAR_TABELA_historico(objCadPonto);
+                pCODIGO_ENCONTRADO_colaborador = String.valueOf(objCadPonto.getIdColaborador());
+                pDATA_pesquisa = objCadPonto.getDataEntrada();
+                pSTATUS_ponto = objCadPonto.getStatusPonto();
+                pDATA_PESQUISADA_convertida = formatoAmerica.format(pDATA_pesquisa);
+            }
         }
     }
 
@@ -497,27 +514,13 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
         objLogSys.setStatusMov(statusMov);
     }
 
-    public void VERIFICAR_PERIODO_matutino() {
-        boolean answer = checkIfClosedM(jHoraInicial.getText());
-        if (answer == true) {
+    public void VERIFICAR_periodos() {
+        if (p1 == true) {
             jComboBoxPeriodo.setSelectedItem("Matutino");
-            jComboBoxPeriodo.getSelectedItem().equals("Matutino");
-        }
-    }
-
-    public void VERIFICAR_PERIODO_vespertino() {
-        boolean answer = checkIfClosedV(jHoraInicial.getText());
-        if (answer == true) {
+        } else if (p2 == true) {
             jComboBoxPeriodo.setSelectedItem("Vespertino");
-            jComboBoxPeriodo.getSelectedItem().equals("Vespertino");
-        }
-    }
-
-    public void VERIFICAR_PERIODO_noturno() {
-        boolean answer = checkIfClosedN(jHoraInicial.getText());
-        if (answer == true) {
+        } else if (p3 == true) {
             jComboBoxPeriodo.setSelectedItem("Noturno");
-            jComboBoxPeriodo.getSelectedItem().equals("Noturno");
         }
     }
 
@@ -526,12 +529,12 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
             Date present1 = parser.parse(time1);
             Date closed1 = parser.parse(PERIODO_matutino);
             if (present1.after(closed1)) {
-                return true;
+                return false;
             }
         } catch (ParseException e) {
             // Invalid date was entered
         }
-        return false;
+        return true;
     }
 
     public static boolean checkIfClosedV(String time2) {
@@ -539,24 +542,24 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
             Date present2 = parser.parse(time2);
             Date closed2 = parser.parse(PERIODO_vespertino);
             if (present2.after(closed2)) {
-                return true;
+                return false;
             }
         } catch (ParseException e) {
             // Invalid date was entered
         }
-        return false;
+        return true;
     }
 
-    public static boolean checkIfClosedN(String time2) {
+    public static boolean checkIfClosedN(String time3) {
         try {
-            Date present2 = parser.parse(time2);
-            Date closed2 = parser.parse(PERIODO_noturno);
-            if (present2.after(closed2)) {
-                return true;
+            Date present3 = parser.parse(time3);
+            Date closed3 = parser.parse(PERIODO_noturno);
+            if (present3.after(closed3)) {
+                return false;
             }
         } catch (ParseException e) {
             // Invalid date was entered
         }
-        return false;
+        return true;
     }
 }

@@ -8,10 +8,13 @@ package Dao;
 import Modelo.Colaboradores;
 import static Visao.LoginHD.pCODIGO_unidade;
 import static Visao.TelaCadastroColaboradorCP.jIdColaborador;
+import static Visao.TelaCadastroColaboradorCP.jIdUsuarioColaborador;
 import static Visao.TelaCadastroColaboradorCP.jPesquisaUsuarioNome;
 import static Visao.TelaCadastroColaboradorCP.pRESPOSTA_colaborador;
 import static Visao.TelaCadastroColaboradorCP.pTOTAL_colaboradores;
 import static Visao.TelaCadastroColaboradorCP.pCODIGO_colaborador;
+import static Visao.TelaCadastroColaboradorCP.pDATA_final;
+import static Visao.TelaCadastroColaboradorCP.pDATA_inicial;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -364,5 +367,48 @@ public class ColaboradoresDao {
         }
         conecta.desconecta();
         return objColaborador;
+    }
+
+    //-------------------------------------- HISTÓRICO DE PONTO --------------------------------------------
+    public List<Colaboradores> pPESQUISA_HISTORICO_read() throws Exception {
+        pTOTAL_colaboradores = 0;
+        List<Colaboradores> LISTA_usuarios = new ArrayList<Colaboradores>();
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT DISTINCT "
+                    + "IdHistoricoCU, "
+                    + "DataCadastro, "
+                    + "IdUsuario, "
+                    + "StatusPonto, "
+                    + "Periodo, "
+                    + "DataEntrada, "
+                    + "HorarioEntrada, "
+                    + "DataSaida, "
+                    + "HorarioSaida "
+                    + "FROM HISTORICO_COLABORADORES "
+                    + "WHERE IdUsuario='" + jIdUsuarioColaborador.getText() + "' "
+                    + "AND CONVERT(DATE,DataCadastro) BETWEEN'" + pDATA_inicial + "' "
+                    + "AND '" + pDATA_final + "' "
+                    + "ORDER BY DataCadastro");
+            while (conecta.rs.next()) {
+                Colaboradores objColaborador = new Colaboradores();
+                objColaborador.setIdHistorico(conecta.rs.getInt("IdHistoricoCU"));
+                objColaborador.setIdColaborador(conecta.rs.getInt("IdUsuario"));
+                objColaborador.setStatusPonto(conecta.rs.getString("StatusPonto"));
+                objColaborador.setPeriodo(conecta.rs.getString("Periodo"));
+                objColaborador.setDataEntrada(conecta.rs.getDate("DataEntrada"));
+                objColaborador.setHorarioEntrada(conecta.rs.getString("HorarioEntrada"));
+                objColaborador.setDataSaida(conecta.rs.getDate("DataSaida"));
+                objColaborador.setHorarioSaida(conecta.rs.getString("HorarioSaida"));
+                LISTA_usuarios.add(objColaborador);
+                pTOTAL_colaboradores++;
+            }
+            return LISTA_usuarios;
+        } catch (SQLException ex) {
+            Logger.getLogger(ColaboradoresDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
     }
 }

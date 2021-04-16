@@ -33,11 +33,19 @@ public class Colaboradores {
     private String dataUp;
     private String horarioInsert;
     private String horarioUp;
+    //
+    private Integer idHistorico;
+    private String StatusPonto;
+    private String periodo;
+    private Date dataEntrada;
+    private String horarioEntrada;
+    private Date dataSaida;
+    private String horarioSaida;
 
     public Colaboradores() {
     }
 
-    public Colaboradores(Integer idColaborador, String StatusColaborador, Date dataCadastroColaborador, Integer idUsuario, String nomeUsuario, String departamentoColaborador, String cargoColaborador, Integer idUnidade, String descricaoUnidade, String turmaColaborador, String turnoColaborador, String cargaHorariaColaborador, String horarioInicialColaborador, String horarioTerminoColaborador, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp) {
+    public Colaboradores(Integer idColaborador, String StatusColaborador, Date dataCadastroColaborador, Integer idUsuario, String nomeUsuario, String departamentoColaborador, String cargoColaborador, Integer idUnidade, String descricaoUnidade, String turmaColaborador, String turnoColaborador, String cargaHorariaColaborador, String horarioInicialColaborador, String horarioTerminoColaborador, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, Integer idHistorico, String StatusPonto, String periodo, Date dataEntrada, String horarioEntrada, Date dataSaida, String horarioSaida) {
         this.idColaborador = idColaborador;
         this.StatusColaborador = StatusColaborador;
         this.dataCadastroColaborador = dataCadastroColaborador;
@@ -58,6 +66,13 @@ public class Colaboradores {
         this.dataUp = dataUp;
         this.horarioInsert = horarioInsert;
         this.horarioUp = horarioUp;
+        this.idHistorico = idHistorico;
+        this.StatusPonto = StatusPonto;
+        this.periodo = periodo;
+        this.dataEntrada = dataEntrada;
+        this.horarioEntrada = horarioEntrada;
+        this.dataSaida = dataSaida;
+        this.horarioSaida = horarioSaida;
     }
 
     /**
@@ -338,5 +353,103 @@ public class Colaboradores {
      */
     public void setHorarioUp(String horarioUp) {
         this.horarioUp = horarioUp;
+    }
+
+    /**
+     * @return the idHistorico
+     */
+    public Integer getIdHistorico() {
+        return idHistorico;
+    }
+
+    /**
+     * @param idHistorico the idHistorico to set
+     */
+    public void setIdHistorico(Integer idHistorico) {
+        this.idHistorico = idHistorico;
+    }
+
+    /**
+     * @return the StatusPonto
+     */
+    public String getStatusPonto() {
+        return StatusPonto;
+    }
+
+    /**
+     * @param StatusPonto the StatusPonto to set
+     */
+    public void setStatusPonto(String StatusPonto) {
+        this.StatusPonto = StatusPonto;
+    }
+
+    /**
+     * @return the periodo
+     */
+    public String getPeriodo() {
+        return periodo;
+    }
+
+    /**
+     * @param periodo the periodo to set
+     */
+    public void setPeriodo(String periodo) {
+        this.periodo = periodo;
+    }
+
+    /**
+     * @return the dataEntrada
+     */
+    public Date getDataEntrada() {
+        return dataEntrada;
+    }
+
+    /**
+     * @param dataEntrada the dataEntrada to set
+     */
+    public void setDataEntrada(Date dataEntrada) {
+        this.dataEntrada = dataEntrada;
+    }
+
+    /**
+     * @return the horarioEntrada
+     */
+    public String getHorarioEntrada() {
+        return horarioEntrada;
+    }
+
+    /**
+     * @param horarioEntrada the horarioEntrada to set
+     */
+    public void setHorarioEntrada(String horarioEntrada) {
+        this.horarioEntrada = horarioEntrada;
+    }
+
+    /**
+     * @return the dataSaida
+     */
+    public Date getDataSaida() {
+        return dataSaida;
+    }
+
+    /**
+     * @param dataSaida the dataSaida to set
+     */
+    public void setDataSaida(Date dataSaida) {
+        this.dataSaida = dataSaida;
+    }
+
+    /**
+     * @return the horarioSaida
+     */
+    public String getHorarioSaida() {
+        return horarioSaida;
+    }
+
+    /**
+     * @param horarioSaida the horarioSaida to set
+     */
+    public void setHorarioSaida(String horarioSaida) {
+        this.horarioSaida = horarioSaida;
     }
 }
