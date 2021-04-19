@@ -8,6 +8,7 @@ package Visao;
 import Dao.ConexaoBancoDados;
 import static Visao.LoginHD.nameUser;
 import static Visao.LoginHD.tipoServidor;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
@@ -21,7 +22,7 @@ import net.sf.jasperreports.view.JasperViewer;
  *
  * @author ronaldo.silva7
  */
-public class TelaRelatorioGeralChamadosSuporteTecnico extends javax.swing.JInternalFrame {
+public class TelaRelatorioCartaoPonto extends javax.swing.JInternalFrame {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     //
@@ -31,8 +32,9 @@ public class TelaRelatorioGeralChamadosSuporteTecnico extends javax.swing.JInter
     /**
      * Creates new form TelaRelatorioGeralChamadosSuporteTecnico
      */
-    public TelaRelatorioGeralChamadosSuporteTecnico() {
+    public TelaRelatorioCartaoPonto() {
         initComponents();
+        MOSTRAR_colaborador();
     }
 
     /**
@@ -48,7 +50,9 @@ public class TelaRelatorioGeralChamadosSuporteTecnico extends javax.swing.JInter
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jDataPesqInicial = new com.toedter.calendar.JDateChooser();
-        jDataPesFinal = new com.toedter.calendar.JDateChooser();
+        jDataPesqFinal = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBoxNomeColaborador = new javax.swing.JComboBox<>();
         jBtConfirmar = new javax.swing.JButton();
         jBtSair = new javax.swing.JButton();
 
@@ -59,41 +63,56 @@ public class TelaRelatorioGeralChamadosSuporteTecnico extends javax.swing.JInter
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel1.setText("Data Inicial");
+        jLabel1.setText("Data Inicial:");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel2.setText("Data Final");
+        jLabel2.setText("Data Final:");
 
         jDataPesqInicial.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
-        jDataPesFinal.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jDataPesqFinal.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel3.setText("Nome do Colaborador");
+
+        jComboBoxNomeColaborador.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxNomeColaborador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione..." }));
+        jComboBoxNomeColaborador.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(84, 84, 84)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addContainerGap(85, Short.MAX_VALUE))
+                    .addComponent(jComboBoxNomeColaborador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jDataPesqFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel2)
+                    .addComponent(jDataPesqFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxNomeColaborador, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -120,13 +139,13 @@ public class TelaRelatorioGeralChamadosSuporteTecnico extends javax.swing.JInter
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(95, 95, 95)
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
                         .addComponent(jBtConfirmar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtSair))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jBtSair)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -135,77 +154,71 @@ public class TelaRelatorioGeralChamadosSuporteTecnico extends javax.swing.JInter
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtConfirmar)
                     .addComponent(jBtSair))
-                .addGap(20, 20, 20))
+                .addGap(4, 4, 4))
         );
 
-        setBounds(500, 120, 399, 139);
+        setBounds(500, 120, 399, 161);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtConfirmarActionPerformed
         // TODO add your handling code here:
-        if (tipoServidor == null || tipoServidor.equals("")) {
+        if (jDataPesqInicial.getDate() == null) {
+            JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+            jDataPesqInicial.requestFocus();
+        } else if (jDataPesqFinal.getDate() == null) {
+            JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+            jDataPesqFinal.requestFocus();
+        } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
+            JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+        } else if (jComboBoxNomeColaborador.getSelectedItem().equals("Selecione...")) {
+            JOptionPane.showMessageDialog(rootPane, "Selecione o nome do colaborador.");
+        } else if (tipoServidor == null || tipoServidor.equals("")) {
             JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
         } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
             SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
             pDATA_PESQUISA_inicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-            pDATA_PESQUISA_final = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+            pDATA_PESQUISA_final = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
             final ViewAguardeProcessando carregando = new ViewAguardeProcessando(); //Teste tela aguarde
             carregando.setVisible(true);//Teste tela aguarde
             Thread t = new Thread() { //Teste tela aguarde
                 public void run() { //Teste
                     try {
                         conecta.abrirConexao();
-                        String path = "reports/RelatorioChamadosSuporte.jasper";
-                        conecta.executaSQL("SELECT "
-                                + "CHAMADOS_SUPORTE.IdCHSup, "
-                                + "CHAMADOS_SUPORTE.StatusCha, "
-                                + "CHAMADOS_SUPORTE.DataCha, "
-                                + "CHAMADOS_SUPORTE.AssuntoSuporte, "
-                                + "CHAMADOS_SUPORTE.TipoChamadoSuporte, "
-                                + "CHAMADOS_SUPORTE.IdUsuario, "
-                                + "CHAMADOS_SUPORTE.IdSolicitante, "
-                                + "SOLICITANTES.NomeSolicitante, "
-                                + "CHAMADOS_SUPORTE.IdAtendente, "
-                                + "ATENDENTES.NomeAtendente, "
-                                + "ITENS_CHAMADOS_SUPORTE.IdSoftware, "
-                                + "SOFTWARE.DescricaoSoftware, "
-                                + "ITENS_CHAMADOS_SUPORTE.IdModulo, "
-                                + "MODULOS.DescricaoModulo, "
-                                + "ITENS_CHAMADOS_SUPORTE.DataItemCh, "
-                                + "ITENS_CHAMADOS_SUPORTE.HorarioInicio, "
-                                + "ITENS_CHAMADOS_SUPORTE.HorarioTermino, "
-                                + "ITENS_CHAMADOS_SUPORTE.TextoSuporte, "
-                                + "ITENS_CHAMADOS_SUPORTE.TextoDesenvol "
-                                + "FROM CHAMADOS_SUPORTE "
-                                + "INNER JOIN ITENS_CHAMADOS_SUPORTE "
-                                + "ON CHAMADOS_SUPORTE.IdCHSup=ITENS_CHAMADOS_SUPORTE.IdCHSup "
-                                + "INNER JOIN USUARIOS "
-                                + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                                + "INNER JOIN SOLICITANTES "
-                                + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
-                                + "INNER JOIN ATENDENTES "
-                                + "ON CHAMADOS_SUPORTE.IdAtendente=ATENDENTES.IdAtendente "
-                                + "INNER JOIN SOFTWARE "
-                                + "ON ITENS_CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
-                                + "INNER JOIN MODULOS "
-                                + "ON ITENS_CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
-                                + "WHERE CHAMADOS_SUPORTE.DataCha BETWEEN'" + pDATA_PESQUISA_inicial + "' "
-                                + "AND'" + pDATA_PESQUISA_final + "'");
+                        String path = "reports/RelatorioCartaoPontoColaborador.jasper";
+                        conecta.executaSQL("SELECT DISTINCT "
+                                + "h.IdHistoricoCU, "
+                                + "h.DataCadastro, "
+                                + "h.IdUsuario, "
+                                + "h.StatusPonto, "
+                                + "h.Periodo, "
+                                + "h.DataEntrada, "
+                                + "h.HorarioEntrada, "
+                                + "h.DataSaida, "
+                                + "h.HorarioSaida, "
+                                + "u.NomeUsuario "
+                                + "FROM HISTORICO_COLABORADORES AS h "
+                                + "INNER JOIN USUARIOS AS u "
+                                + "ON h.IdUsuario=u.IdUsuario "
+                                + "WHERE CONVERT(DATE,h.DataCadastro) BETWEEN'" + pDATA_PESQUISA_inicial + "' "
+                                + "AND'" + pDATA_PESQUISA_final + "' "
+                                + "AND u.NomeUsuario='" + jComboBoxNomeColaborador.getSelectedItem() + "' "
+                                + "ORDER BY h.DataCadastro");
                         HashMap parametros = new HashMap();
                         parametros.put("pNOME_usuario", nameUser);
-                        parametros.put("dataInicial", pDATA_PESQUISA_inicial);
-                        parametros.put("dataFinal", pDATA_PESQUISA_final);
+                        parametros.put("pNOME_colaborador", jComboBoxNomeColaborador.getSelectedItem());
+                        parametros.put("pDATA_inicial", pDATA_PESQUISA_inicial);
+                        parametros.put("pDATA_final", pDATA_PESQUISA_final);
                         JRResultSetDataSource relatResul = new JRResultSetDataSource(conecta.rs); // Passa o resulSet Preenchido para o relatorio                                   
                         JasperPrint jpPrint = JasperFillManager.fillReport(path, parametros, relatResul); // indica o caminmho do relatório
                         JasperViewer jv = new JasperViewer(jpPrint, false); // Cria instancia para impressao          
                         jv.setExtendedState(JasperViewer.MAXIMIZED_BOTH); // Maximizar o relatório
-                        jv.setTitle("Relatório Geral de Chamados de Suporte Técnico"); // Titulo do relatório
+                        jv.setTitle("Relatório de Registro de Ponto Eletrônico"); // Titulo do relatório
                         jv.setVisible(true); // Chama o relatorio para ser visualizado                                    
                         jv.toFront(); // Traz o relatorio para frente da aplicação   
                         carregando.dispose(); //Teste tela aguarde
@@ -220,58 +233,42 @@ public class TelaRelatorioGeralChamadosSuporteTecnico extends javax.swing.JInter
         } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
             SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
             pDATA_PESQUISA_inicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-            pDATA_PESQUISA_final = formatoAmerica.format(jDataPesFinal.getDate().getTime());
+            pDATA_PESQUISA_final = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
             final ViewAguardeProcessando carregando = new ViewAguardeProcessando(); //Teste tela aguarde
             carregando.setVisible(true);//Teste tela aguarde
             Thread t = new Thread() { //Teste tela aguarde
                 public void run() { //Teste
                     try {
                         conecta.abrirConexao();
-                        String path = "reports/RelatorioChamadosSuporte.jasper";
-                        conecta.executaSQL("SELECT "
-                                + "CHAMADOS_SUPORTE.IdCHSup, "
-                                + "CHAMADOS_SUPORTE.StatusCha, "
-                                + "CHAMADOS_SUPORTE.DataCha, "
-                                + "CHAMADOS_SUPORTE.AssuntoSuporte, "
-                                + "CHAMADOS_SUPORTE.TipoChamadoSuporte, "
-                                + "CHAMADOS_SUPORTE.IdUsuario, "
-                                + "CHAMADOS_SUPORTE.IdSolicitante, "
-                                + "SOLICITANTES.NomeSolicitante, "
-                                + "CHAMADOS_SUPORTE.IdAtendente, "
-                                + "ATENDENTES.NomeAtendente, "
-                                + "ITENS_CHAMADOS_SUPORTE.IdSoftware, "
-                                + "SOFTWARE.DescricaoSoftware, "
-                                + "ITENS_CHAMADOS_SUPORTE.IdModulo, "
-                                + "MODULOS.DescricaoModulo, "
-                                + "ITENS_CHAMADOS_SUPORTE.DataItemCh, "
-                                + "ITENS_CHAMADOS_SUPORTE.HorarioInicio, "
-                                + "ITENS_CHAMADOS_SUPORTE.HorarioTermino, "
-                                + "ITENS_CHAMADOS_SUPORTE.TextoSuporte, "
-                                + "ITENS_CHAMADOS_SUPORTE.TextoDesenvol "
-                                + "FROM CHAMADOS_SUPORTE "
-                                + "INNER JOIN ITENS_CHAMADOS_SUPORTE "
-                                + "ON CHAMADOS_SUPORTE.IdCHSup=ITENS_CHAMADOS_SUPORTE.IdCHSup "
-                                + "INNER JOIN USUARIOS "
-                                + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                                + "INNER JOIN SOLICITANTES "
-                                + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
-                                + "INNER JOIN ATENDENTES "
-                                + "ON CHAMADOS_SUPORTE.IdAtendente=ATENDENTES.IdAtendente "
-                                + "INNER JOIN SOFTWARE "
-                                + "ON ITENS_CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
-                                + "INNER JOIN MODULOS "
-                                + "ON ITENS_CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
-                                + "WHERE CHAMADOS_SUPORTE.DataCha BETWEEN'" + pDATA_PESQUISA_inicial + "' "
-                                + "AND'" + pDATA_PESQUISA_final + "'");
+                        String path = "reports/RelatorioCartaoPontoColaborador.jasper";
+                        conecta.executaSQL("SELECT DISTINCT "
+                                + "h.IdHistoricoCU, "
+                                + "h.DataCadastro, "
+                                + "h.IdUsuario, "
+                                + "h.StatusPonto, "
+                                + "h.Periodo, "
+                                + "h.DataEntrada, "
+                                + "h.HorarioEntrada, "
+                                + "h.DataSaida, "
+                                + "h.HorarioSaida, "
+                                + "u.NomeUsuario "
+                                + "FROM HISTORICO_COLABORADORES AS h "
+                                + "INNER JOIN USUARIOS AS u "
+                                + "ON h.IdUsuario=u.IdUsuario "
+                                + "WHERE h.DataCadastro BETWEEN'" + pDATA_PESQUISA_inicial + "' "
+                                + "AND'" + pDATA_PESQUISA_final + "' "
+                                + "AND u.NomeUsuario='" + jComboBoxNomeColaborador.getSelectedItem() + "' "
+                                + "ORDER BY h.DataCadastro");
                         HashMap parametros = new HashMap();
                         parametros.put("pNOME_usuario", nameUser);
-                        parametros.put("dataInicial", pDATA_PESQUISA_inicial);
-                        parametros.put("dataFinal", pDATA_PESQUISA_final);
+                        parametros.put("pNOME_colaborador", jComboBoxNomeColaborador.getSelectedItem());
+                        parametros.put("pDATA_inicial", pDATA_PESQUISA_inicial);
+                        parametros.put("pDATA_final", pDATA_PESQUISA_final);
                         JRResultSetDataSource relatResul = new JRResultSetDataSource(conecta.rs); // Passa o resulSet Preenchido para o relatorio                                   
                         JasperPrint jpPrint = JasperFillManager.fillReport(path, parametros, relatResul); // indica o caminmho do relatório
                         JasperViewer jv = new JasperViewer(jpPrint, false); // Cria instancia para impressao          
                         jv.setExtendedState(JasperViewer.MAXIMIZED_BOTH); // Maximizar o relatório
-                        jv.setTitle("Relatório Geral de Chamados de Suporte Técnico"); // Titulo do relatório
+                        jv.setTitle("Relatório de Registro de Ponto Eletrônico"); // Titulo do relatório
                         jv.setVisible(true); // Chama o relatorio para ser visualizado                                    
                         jv.toFront(); // Traz o relatorio para frente da aplicação   
                         carregando.dispose(); //Teste tela aguarde
@@ -295,10 +292,29 @@ public class TelaRelatorioGeralChamadosSuporteTecnico extends javax.swing.JInter
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtConfirmar;
     private javax.swing.JButton jBtSair;
-    private com.toedter.calendar.JDateChooser jDataPesFinal;
+    private javax.swing.JComboBox<String> jComboBoxNomeColaborador;
+    private com.toedter.calendar.JDateChooser jDataPesqFinal;
     private com.toedter.calendar.JDateChooser jDataPesqInicial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
+    public void MOSTRAR_colaborador() {
+        jComboBoxNomeColaborador.removeAllItems();
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "NomeUsuario "
+                    + "FROM USUARIOS ");
+            conecta.rs.first();
+            do {
+                jComboBoxNomeColaborador.addItem(conecta.rs.getString("NomeUsuario"));
+            } while (conecta.rs.next());
+            jComboBoxNomeColaborador.updateUI();
+        } catch (SQLException ex) {
+        }
+        conecta.desconecta();
+    }
 }
