@@ -2568,6 +2568,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     public void TOTALIZADOR_CHAMADOS_atendente() {
+        pTOTAL_REGISTROS_aberto = 0;
+        pTOTAL_REGISTROS_fechado = 0;
+        pTOTAL_REGISTROS_EM_atendimento = 0;
         try {
             //CHAMADOS ABERTO POR USUÁRIO
             for (ChamadoSuporte cp1 : CONTROL.QUANDIDADE_CHAMADOS_ABERTO_ATENDENTE_read()) {
