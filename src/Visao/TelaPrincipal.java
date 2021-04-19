@@ -10,9 +10,11 @@ import Controle.converterDataStringDataDate;
 import static Controle.converterDataStringDataDate.dataSisConvert;
 import Dao.ChamadosSuporteDao;
 import Dao.ConexaoBancoDados;
+import Dao.ControleAcessoGeral;
 import Dao.UsuarioDao;
 import Dao.telasSistemaDao;
 import Modelo.CadastroTelasSistema;
+import Modelo.CamposAcessos;
 import Modelo.ChamadoSuporte;
 import Modelo.Usuarios;
 import Util.SQL.TableExample;
@@ -92,6 +94,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss"); // HORAIO DE 24 HORAS, PARA O DE 12 HORAS UTILIZAR hh:mm:ss
     SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
     converterDataStringDataDate convertedata = new converterDataStringDataDate();
+    //
+    ControleAcessoGeral pPESQUISAR_acessos = new ControleAcessoGeral();
+    CamposAcessos objCampos = new CamposAcessos();
     //
     ChamadoSuporte objCHSup = new ChamadoSuporte();
     ChamadosSuporteDao CONTROL = new ChamadosSuporteDao();
@@ -2519,8 +2524,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar3;
     private javax.swing.JToolBar jToolBar4;
     private javax.swing.JTextField jTotalChamadosAberto;
-    private javax.swing.JTextField jTotalChamadosAtendidosPeriodo;
-    private javax.swing.JTextField jTotalChamadosEmAtendimento;
+    public static javax.swing.JTextField jTotalChamadosAtendidosPeriodo;
+    public static javax.swing.JTextField jTotalChamadosEmAtendimento;
     private javax.swing.JTextField jTotalChamadosFechados;
     private javax.swing.JMenuItem jUsuarios;
     private javax.swing.JMenuItem listagemChamadosDesenvolvimento;
@@ -2585,10 +2590,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 String mes = pDATA_pesquisa.substring(3, 5);
                 String dia = pDATA_pesquisa.substring(0, 2);
                 pDATA_pesquisa = ano + "/" + mes + "/" + dia;
+                //EM ATENDIMENTO
+                for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
+                    jTotalChamadosEmAtendimento.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
+                }
+                //
                 for (ChamadoSuporte cp4 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
                     jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
                 }
             } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
+                //EM ATENDIMENTO
+                for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
+                    jTotalChamadosEmAtendimento.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
+                }
+                //
                 for (ChamadoSuporte cp4 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
                     jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
                 }
@@ -3084,8 +3099,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     public void verificarRecado() {
-        buscarAcessoUsuario(telaAgendaRecado);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaAgendaRecado) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaAgendaRecado);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaRecado) && objCampos.getCodigoAbrir() == 1) {
             buscarUsuario(nameUser);
             conecta.abrirConexao();
             try {
@@ -3228,8 +3246,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     public void verificarAgendaCompromisso() {
-        buscarAcessoUsuario(telaAgendaCompromisso);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaAgendaCompromisso) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaAgendaCompromisso);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaCompromisso) && objCampos.getCodigoIncluir() == 1) {
             convertedata.converter(jDataSistema.getText());
             if (tipoServidor == null || tipoServidor.equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");

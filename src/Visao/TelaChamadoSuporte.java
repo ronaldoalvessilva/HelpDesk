@@ -37,6 +37,12 @@ import static Visao.TelaPrincipal.telaChamadosSuporte;
 import static Visao.TelaPrincipal.telaItensChamadoSuporte;
 import static Visao.LoginHD.tipoServidor;
 import static Visao.LoginHD.nomeUserRegistro;
+import static Visao.LoginHD.pTOTAL_REGISTROS_EM_atendimento;
+import static Visao.LoginHD.pTOTAL_REGISTROS_dia;
+import static Visao.TelaPrincipal.jDataSistema;
+import static Visao.TelaPrincipal.jTotalChamadosAtendidosPeriodo;
+import static Visao.TelaPrincipal.jTotalChamadosEmAtendimento;
+import static Visao.TelaPrincipal.pDATA_pesquisa;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.ByteArrayOutputStream;
@@ -2131,11 +2137,48 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         objCHSup.setStatusCha(statusEncerrado);
                         objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
                         CONTROL.encerrarChamadoSup(objCHSup);
-                        jStatusChamado.setText(statusEncerrado);
-                        JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
-                        //
-                        jBtNovo.setEnabled(true);
-                        jBtAuditoria.setEnabled(true);
+                        //ATUALIZA OS REGISTROS EM ATENDIMENTO
+                        try {
+                            for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
+                                jTotalChamadosEmAtendimento.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
+                            }
+                        } catch (Exception ex) {
+                            Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        //ATENDIMENTOS NO DIA
+                        if (tipoServidor == null || tipoServidor.equals("")) {
+                            JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
+                        } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
+                            pDATA_pesquisa = jDataSistema.getText();
+                            String ano = pDATA_pesquisa.substring(6, 10);
+                            String mes = pDATA_pesquisa.substring(3, 5);
+                            String dia = pDATA_pesquisa.substring(0, 2);
+                            pDATA_pesquisa = ano + "/" + mes + "/" + dia;
+                            try {
+                                for (ChamadoSuporte cp4 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
+                                    jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
+                                }
+                            } catch (Exception ex) {
+                                Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
+                            try {
+                                for (ChamadoSuporte cp4 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
+                                    jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
+                                }
+                            } catch (Exception ex) {
+                                Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (pRESPOSTA.equals("Sim")) {
+                            jStatusChamado.setText(statusEncerrado);
+                            JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
+                            //
+                            jBtNovo.setEnabled(true);
+                            jBtAuditoria.setEnabled(true);
+                        } else if (pRESPOSTA.equals("Não")) {
+                            JOptionPane.showMessageDialog(rootPane, "Não foi possível encerrar o chamado, tente novamente.");
+                        }
                     }
                 }
             } else {
@@ -3495,7 +3538,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
             Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void MOSTRAR_TABELA_NINEL02_assuntos() {
         DefaultTableModel dadosOrigem = (DefaultTableModel) jTabelaChamdosSup.getModel();
         ChamadoSuporte d = new ChamadoSuporte();

@@ -20,12 +20,9 @@ import static Visao.TelaPrincipal.telaRegistroPonto;
 import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -73,6 +70,8 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
     String pSTATUS_saida = "Saida";
     String pSTATUS_ENTRADA_saida = "Entrada/Saida";
     Integer pIDHistorico = null;
+    //
+    public static int pCODIGO_COLABORADOR_teste = 0;
 
     /**
      * Creates new form TelaRegistroPontoTrabalho
@@ -383,7 +382,31 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
                 } else if (pRESPOSTA_ponto.equals("Não")) {
                     JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro, tente novamente.");
                 }
-            } else {
+            } else if (Objects.equals(pCODIGO_PESQUISA_colaborador, pCODIGO_ENCONTRADO_colaborador)
+                    && pDATA_PESQUISADA_convertida.equals(pDATA_cadastro)
+                    && pSTATUS_ponto.equals(pSTATUS_ENTRADA_saida)) {
+                objCadPonto.setIdHistoricoCU(objCadPonto.getIdHistoricoCU());
+                objCadPonto.setStatusPonto(pSTATUS_entrada);
+                objCadPonto.setDataEntrada(jDataCadastro.getDate());
+                objCadPonto.setHorarioEntrada(jHoraInicial.getText());
+                objCadPonto.setDataInsert(dataModFinal);
+                objCadPonto.setHorarioInsert(horaMov);
+                DAOponto.incluirEntradaPonto(objCadPonto);
+                BUSCAR_codigo();
+                objLog();
+                controlLog.incluirLogSistema(objLogSys); // Grava o log da operação 
+                Salvar();
+                if (pRESPOSTA_ponto.equals("Sim")) {
+                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                } else if (pRESPOSTA_ponto.equals("Não")) {
+                    JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro, tente novamente.");
+                }
+            } else if (Objects.equals(pCODIGO_PESQUISA_colaborador, pCODIGO_ENCONTRADO_colaborador)
+                    && !pDATA_PESQUISADA_convertida.equals(pDATA_cadastro)
+                    && !pSTATUS_ponto.equals(pSTATUS_saida) 
+                    || Objects.equals(pCODIGO_PESQUISA_colaborador, pCODIGO_ENCONTRADO_colaborador)
+                    && !pDATA_PESQUISADA_convertida.equals(pDATA_cadastro)
+                    && !pSTATUS_ponto.equals(pSTATUS_entrada)) {
                 objCadPonto.setStatusPonto(pSTATUS_entrada);
                 objCadPonto.setDataEntrada(jDataCadastro.getDate());
                 objCadPonto.setHorarioEntrada(jHoraInicial.getText());
@@ -509,7 +532,7 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
                 pCODIGO_ENCONTRADO_colaborador = String.valueOf(objCadPonto.getIdColaborador());
                 pDATA_pesquisa = objCadPonto.getDataEntrada();
                 pSTATUS_ponto = objCadPonto.getStatusPonto();
-                pDATA_PESQUISADA_convertida = formatoAmerica.format(pDATA_pesquisa);
+                pDATA_PESQUISADA_convertida = formatoAmerica.format(pDATA_pesquisa);               
             }
         } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
             DAOponto.PESQUISAR_COLABORADOR_usuario(objCadPonto);

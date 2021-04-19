@@ -124,7 +124,7 @@ public class CadastroPontoDAO {
         conecta.desconecta();
         return objCadPonto;
     }
-    
+
     public CadastroPonto alterarSaidaPonto(CadastroPonto objCadPonto) {
         pBUSCA_CODIGO_usuario(objCadPonto.getNomeColaborador());
         conecta.abrirConexao();
@@ -228,18 +228,50 @@ public class CadastroPontoDAO {
                     + "DataCadastro, "
                     + "HorarioInsert "
                     + "FROM HISTORICO_COLABORADORES "
-                    + "WHERE IdUsuario='" + pCODIGO_PESQUISA_colaborador + "' "
-                    + "AND CONVERT(DATE,DataCadastro)='" + pDATA_cadastro + "'");
+                    + "WHERE IdUsuario='" + pCODIGO_PESQUISA_colaborador + "' ");
             conecta.rs.last();
-            objCadPonto.setIdHistoricoCU(conecta.rs.getInt("IdHistoricoCU"));
-            objCadPonto.setIdColaborador(conecta.rs.getInt("IdUsuario"));
-            objCadPonto.setStatusPonto(conecta.rs.getString("StatusPonto"));
-            objCadPonto.setDataEntrada(conecta.rs.getDate("DataCadastro"));
-            objCadPonto.setHorarioInsert(conecta.rs.getString("HorarioInsert"));
+                objCadPonto.setIdHistoricoCU(conecta.rs.getInt("IdHistoricoCU"));
+                objCadPonto.setIdColaborador(conecta.rs.getInt("IdUsuario"));
+                objCadPonto.setStatusPonto(conecta.rs.getString("StatusPonto"));
+                objCadPonto.setDataEntrada(conecta.rs.getDate("DataCadastro"));
+                objCadPonto.setHorarioInsert(conecta.rs.getString("HorarioInsert"));
         } catch (SQLException ex) {
             Logger.getLogger(CadastroPontoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         conecta.desconecta();
         return objCadPonto;
+    }
+
+    public List<CadastroPonto> VERIFICAR_TABELA_HISTORICO_read() throws Exception {
+        pTOTAL_registros = 0;
+        conecta.abrirConexao();
+        List<CadastroPonto> LISTA_CODIGO_adm = new ArrayList<CadastroPonto>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "IdHistoricoCU, "
+                    + "IdUsuario, "
+                    + "StatusPonto, "
+                    + "DataCadastro, "
+                    + "HorarioInsert "
+                    + "FROM HISTORICO_COLABORADORES "
+                    + "WHERE IdUsuario='" + pCODIGO_PESQUISA_colaborador + "' "
+                    + "AND CONVERT(DATE,DataCadastro)='" + pDATA_cadastro + "'");
+            while (conecta.rs.next()) {
+                CadastroPonto pDados = new CadastroPonto();
+                pDados.setIdHistoricoCU(conecta.rs.getInt("IdHistoricoCU"));
+                pDados.setIdColaborador(conecta.rs.getInt("IdUsuario"));
+                pDados.setStatusPonto(conecta.rs.getString("StatusPonto"));
+                pDados.setDataEntrada(conecta.rs.getDate("DataCadastro"));
+                pDados.setHorarioInsert(conecta.rs.getString("HorarioInsert"));
+                LISTA_CODIGO_adm.add(pDados);
+                pTOTAL_registros++;
+            }
+            return LISTA_CODIGO_adm;
+        } catch (SQLException ex) {
+            Logger.getLogger(ChamadosSuporteDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
     }
 }
