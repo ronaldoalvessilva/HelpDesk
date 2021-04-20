@@ -38,6 +38,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -56,7 +58,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     ChamadoSuporte objCHSup = new ChamadoSuporte();
-    ChamadosDesenvolvimentoDao control = new ChamadosDesenvolvimentoDao();
+    ChamadosDesenvolvimentoDao CONTROLE = new ChamadosDesenvolvimentoDao();
     //
     LogSistemaDao controlLog = new LogSistemaDao();
     LogSistema objLogSys = new LogSistema();
@@ -69,7 +71,8 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     int count;
     int count0;
     int idItemChamadoSup;
-    String dataInicial, dataFinal, dataBrasil;
+
+    String dataBrasil;
     String dataEntrada;
     //
     public static int idUnidade;
@@ -83,16 +86,22 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     String statusDesenvol = "ENVIADO PARA O SUPORTE TÉCNICO";
     //
     String tipoSuporte = "DESENVOLVIMENTO";
-    //
-    String nomeAtendente = "";
+    //PESQUISAS
+    public static int pTOTAL_registros = 0;
+    public static int pTOTAL_REGISTROS_dia = 0;
+    public static String nomeAtendente = "";
+    public static String dataInicial = "";
+    public static String dataFinal = "";
     //
     String idRegChamadoDesc;
     String idItemChamadoDesc;
     String utilizado = "Sim";
-    int idItemCHSup;
+    public static int idItemCHSup;
     int nivelUsuario = 0;
     //
     public static String codigoChamadoSuporte = null;
+    public static String pRESPOSTA = "";
+    //
 
     /**
      * Creates new form TelaChamadoSuporte
@@ -153,6 +162,12 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         jDataPesFinal = new com.toedter.calendar.JDateChooser();
         jBtPesqCHData = new javax.swing.JButton();
         jBtSolicitante = new javax.swing.JButton();
+        jLabel24 = new javax.swing.JLabel();
+        jPesquisarAssunto = new javax.swing.JTextField();
+        jBtAssunto = new javax.swing.JButton();
+        jLabel25 = new javax.swing.JLabel();
+        jComboBoxStatus = new javax.swing.JComboBox<>();
+        jBtStatus = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jBtEncerrar = new javax.swing.JButton();
@@ -366,6 +381,34 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel24.setText("Assunto:");
+
+        jPesquisarAssunto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+        jBtAssunto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
+        jBtAssunto.setContentAreaFilled(false);
+        jBtAssunto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtAssuntoActionPerformed(evt);
+            }
+        });
+
+        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel25.setText("Status:");
+
+        jComboBoxStatus.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Aberto", "Fechado", "Atendimento" }));
+        jComboBoxStatus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+        jBtStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
+        jBtStatus.setContentAreaFilled(false);
+        jBtStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtStatusActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -373,30 +416,44 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(jLabel15)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jIdChamadoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtPesqCHCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(427, 427, 427)
+                                .addComponent(jCheckBoxTodosCH))
+                            .addComponent(jBtAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel10Layout.createSequentialGroup()
+                                        .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(35, 35, 35)
+                                        .addComponent(jLabel15)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(66, 66, 66)
+                                        .addComponent(jLabel25)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jComboBoxStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jPesqSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jBtSolicitante, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jBtStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel24)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel10Layout.createSequentialGroup()
-                            .addComponent(jIdChamadoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jBtPesqCHCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(427, 427, 427)
-                            .addComponent(jCheckBoxTodosCH))
-                        .addGroup(jPanel10Layout.createSequentialGroup()
-                            .addComponent(jPesqSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jBtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jPesquisarAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
@@ -409,18 +466,25 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                     .addComponent(jBtPesqCHCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBoxTodosCH))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                        .addComponent(jLabel15)
-                        .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel14)
-                        .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel14)
+                    .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15)
+                    .addComponent(jDataPesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtPesqCHData, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel25)
+                    .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jBtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPesqSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
+                .addGap(4, 4, 4)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel24)
+                    .addComponent(jPesquisarAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -449,7 +513,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1267,34 +1331,20 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     private void jBtPesqCHCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesqCHCodigoActionPerformed
         // TODO add your handling code here:
         nomeAtendente = nameUser;
+        buscarNivelUsuario();
         count = 0;
         flag = 1;
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
             if (jIdChamadoPesquisa.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
             } else {
-                preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
-                        + "INNER JOIN USUARIOS "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
-                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                        + "INNER JOIN SOLICITANTES "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante "
-                        + "WHERE CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamadoPesquisa.getText() + "'");
+                preencherTabelaChamadosCodigoAdm();
             }
         } else {
             if (jIdChamadoPesquisa.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
             } else {
-                preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
-                        + "INNER JOIN USUARIOS "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
-                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                        + "INNER JOIN SOLICITANTES "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante "
-                        + "WHERE CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamadoPesquisa.getText() + "' "
-                        + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+                preencherTabelaChamadosCodigoDsv();
             }
         }
     }//GEN-LAST:event_jBtPesqCHCodigoActionPerformed
@@ -1304,6 +1354,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         count = 0;
         flag = 1;
         nomeAtendente = nameUser;
+        buscarNivelUsuario();
         if (tipoServidor == null || tipoServidor.equals("")) {
             JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
         } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
@@ -1322,15 +1373,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                             SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
                             dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
                             dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                            preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
-                                    + "INNER JOIN USUARIOS "
-                                    + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
-                                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                                    + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                                    + "INNER JOIN SOLICITANTES "
-                                    + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante  "
-                                    + "WHERE DataCha BETWEEN'" + dataInicial + "' "
-                                    + "AND '" + dataFinal + "'");
+                            preencherTabelaChamadosDataAdm();
                         }
                     }
                 }
@@ -1349,16 +1392,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                             SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
                             dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
                             dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                            preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
-                                    + "INNER JOIN USUARIOS "
-                                    + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
-                                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                                    + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                                    + "INNER JOIN SOLICITANTES "
-                                    + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante  "
-                                    + "WHERE DataCha BETWEEN'" + dataInicial + "' "
-                                    + "AND '" + dataFinal + "' "
-                                    + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+                            preencherTabelaChamadosDataDsv();
                         }
                     }
                 }
@@ -1379,15 +1413,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                             SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
                             dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
                             dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                            preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
-                                    + "INNER JOIN USUARIOS "
-                                    + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
-                                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                                    + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                                    + "INNER JOIN SOLICITANTES "
-                                    + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante  "
-                                    + "WHERE DataCha BETWEEN'" + dataInicial + "' "
-                                    + "AND '" + dataFinal + "'");
+                            preencherTabelaChamadosDataAdm();
                         }
                     }
                 }
@@ -1406,16 +1432,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                             SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
                             dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
                             dataFinal = formatoAmerica.format(jDataPesFinal.getDate().getTime());
-                            preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
-                                    + "INNER JOIN USUARIOS "
-                                    + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
-                                    + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                                    + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                                    + "INNER JOIN SOLICITANTES "
-                                    + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante  "
-                                    + "WHERE DataCha BETWEEN'" + dataInicial + "' "
-                                    + "AND '" + dataFinal + "' "
-                                    + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+                            preencherTabelaChamadosDataDsv();
                         }
                     }
                 }
@@ -1427,32 +1444,18 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         count = 0;
         nomeAtendente = nameUser;
+        buscarNivelUsuario();
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
             if (jPesqSolicitante.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "É necessário informar um nome ou parte do nome para pesquuisa.");
             } else {
-                preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
-                        + "INNER JOIN USUARIOS "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
-                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                        + "INNER JOIN SOLICITANTES "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante "
-                        + "WHERE SOLICITANTES.NomeSolicitante LIKE'%" + jPesqSolicitante.getText() + "%'");
+                preencherTabelaChamadosSolicitanteAdm();
             }
         } else {
             if (jPesqSolicitante.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "É necessário informar um nome ou parte do nome para pesquuisa.");
             } else {
-                preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
-                        + "INNER JOIN USUARIOS "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
-                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                        + "INNER JOIN SOLICITANTES "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante "
-                        + "WHERE SOLICITANTES.NomeSolicitante LIKE'%" + jPesqSolicitante.getText() + "%' "
-                        + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+                preencherTabelaChamadosSolicitanteDsv();
             }
         }
     }//GEN-LAST:event_jBtSolicitanteActionPerformed
@@ -1465,27 +1468,14 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         buscarNivelUsuario();
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || nivelUsuario == 0) {
             if (evt.getStateChange() == evt.SELECTED) {
-                this.preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
-                        + "INNER JOIN USUARIOS "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
-                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                        + "INNER JOIN SOLICITANTES "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante");
+                preencherTabelaChamadosTodosAdm();
             } else {
                 jtotalRegistros.setText("");
                 limparTabelaFornecedor();
             }
         } else {
             if (evt.getStateChange() == evt.SELECTED) {
-                this.preencherTabelaChamados("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
-                        + "INNER JOIN USUARIOS "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
-                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                        + "INNER JOIN SOLICITANTES "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante "
-                        + "AND USUARIOS.NomeUsuario='" + nomeAtendente + "'");
+                preencherTabelaChamadosTodosDsv();
             } else {
                 jtotalRegistros.setText("");
                 limparTabelaFornecedor();
@@ -1539,8 +1529,13 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                         JOptionPane.YES_NO_OPTION);
                 if (resposta == JOptionPane.YES_OPTION) {
                     objCHSup.setIdSolicitante(Integer.valueOf(jIdChamado.getText()));
-                    control.excluirChamadoDesc(objCHSup);
+                    CONTROLE.excluirChamadoDesc(objCHSup);
                     Excluir();
+                    if (pRESPOSTA.equals("Sim")) {
+                        JOptionPane.showMessageDialog(rootPane, "Registro excluído com sucesso.");
+                    } else if (pRESPOSTA.equals("Não")) {
+                        JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o registro.");
+                    }
                 }
             }
         } else {
@@ -1572,26 +1567,34 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                     objCHSup.setUsuarioInsert(nameUser);
                     objCHSup.setDataInsert(dataModFinal);
                     objCHSup.setHorarioInsert(horaMov);
-                    control.incluirChamadoDes(objCHSup);
+                    CONTROLE.incluirChamadoDes(objCHSup);
                     jHorarioTermino.setText(objCHSup.getHorarioTermino());
                     buscarCodigo();
                     //
                     objLog();
                     controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                     Salvar();
-                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                    if (pRESPOSTA.equals("Sim")) {
+                        JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                    } else if (pRESPOSTA.equals("Não")) {
+                        JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro.");
+                    }
                 }
                 if (acao == 2) {
                     objCHSup.setUsuarioUp(nameUser);
                     objCHSup.setDataUp(dataModFinal);
                     objCHSup.setHorarioUp(horaMov);
                     objCHSup.setIdCHDes(Integer.valueOf(jIdChamado.getText()));
-                    control.alterarChamadoDes(objCHSup);
+                    CONTROLE.alterarChamadoDes(objCHSup);
                     //
                     objLog();
                     controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                     Salvar();
-                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                    if (pRESPOSTA.equals("Sim")) {
+                        JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                    } else if (pRESPOSTA.equals("Não")) {
+                        JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro.");
+                    }
                 }
             }
         } else {
@@ -1626,7 +1629,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 if (resposta == JOptionPane.YES_OPTION) {
                     objCHSup.setStatusCha(statusEncerrado);
                     objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                    control.encerrarChamadoDes(objCHSup);
+                    CONTROLE.encerrarChamadoDes(objCHSup);
                     jStatusChamado.setText(statusEncerrado);
                     JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
                     //
@@ -1667,7 +1670,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 if (resposta == JOptionPane.YES_OPTION) {
                     objCHSup.setStatusCha(statusDesenvol);
                     objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                    control.encerrarChamadoDes(objCHSup);
+                    CONTROLE.encerrarChamadoDes(objCHSup);
                     jStatusChamado.setText(statusDesenvol);
                     JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
                     //
@@ -1701,7 +1704,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 if (resposta == JOptionPane.YES_OPTION) {
                     objCHSup.setStatusCha(statusReabrir);
                     objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                    control.encerrarChamadoDes(objCHSup);
+                    CONTROLE.encerrarChamadoDes(objCHSup);
                     jStatusChamado.setText(statusReabrir);
                     JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
                     //
@@ -1749,35 +1752,17 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 //
                 jBtNovoItem.setEnabled(true);
             }
-            //
-            conecta.abrirConexao();
-            try {
-                conecta.executaSQL("SELECT * FROM CHAMADOS_DESENVOLVIMENTO "
-                        + "INNER JOIN USUARIOS "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario "
-                        + "INNER JOIN UNIDADE_PENAL_EMPRESA "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
-                        + "INNER JOIN SOLICITANTES "
-                        + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante "
-                        + "WHERE CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + idSoli + "'");
-                conecta.rs.first();
-                jIdChamado.setText(String.valueOf(conecta.rs.getInt("IdCHDes")));
-                jStatusChamado.setText(conecta.rs.getString("StatusCha"));
-                jDataChamado.setDate(conecta.rs.getDate("DataCha"));
-                jAtendente.setText(conecta.rs.getString("NomeUsuario"));
-                idSolicitante = conecta.rs.getInt("IdSolicitante");
-                jSolicitante.setText(conecta.rs.getString("NomeSolicitante"));
-                idUnidade = conecta.rs.getInt("IdUnidEmp");
-                jUnidadePrisional.setText(conecta.rs.getString("DescricaoUnidade"));
-                jAssunto.setText(conecta.rs.getString("AssuntoDesenvolvimento"));
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
-            }
-            preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
-                    + "INNER JOIN CHAMADOS_DESENVOLVIMENTO "
-                    + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes=CHAMADOS_DESENVOLVIMENTO.IdCHDes "
-                    + "WHERE ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamado.getText() + "'");
-            conecta.desconecta();
+            CONTROLE.MOSTRAR_DADOS_chamado(objCHSup);
+            jIdChamado.setText(String.valueOf(objCHSup.getIdCHDes()));
+            jStatusChamado.setText(objCHSup.getStatusCha());
+            jDataChamado.setDate(objCHSup.getDataCha());
+            jAtendente.setText(objCHSup.getNomeAtendente());
+            idSolicitante = objCHSup.getIdSolicitante();
+            jSolicitante.setText(objCHSup.getNomeSolicitante());
+            idUnidade = objCHSup.getIdUnidEmp();
+            jUnidadePrisional.setText(objCHSup.getDescricaoUnidade());
+            jAssunto.setText(objCHSup.getAssunto());
+            preencherTabelaItensChamadosDsv();
         }
     }//GEN-LAST:event_jTabelaChamdosSupMouseClicked
 
@@ -1814,7 +1799,6 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             } else if (jModulo.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o nome do módulo.");
             } else {
-                objCHSup.setIdItemCh(Integer.valueOf(jIdItemSup.getText()));
                 objCHSup.setIdCHDes(Integer.valueOf(jIdChamado.getText()));
                 objCHSup.setDataItemCh(jDataOcorrencia.getDate());
                 objCHSup.setDescricaoSoftware(jSoftware.getText());
@@ -1833,29 +1817,30 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                     } else {
                         objCHSup.setHorarioTermino(jHoraSistema.getText());
                     }
-                    control.incluirItensSupDes(objCHSup);
+                    CONTROLE.incluirItensSupDes(objCHSup);
                     jHorarioTermino.setText(objCHSup.getHorarioTermino());
                     buscarCodigoItem();
                     verificarGravacaoItem();
                     if (jIdChamado.getText().equals(idRegChamadoDesc) && jIdItem.getText().equals(idItemChamadoDesc)) {
                         //RESPONDE "Sim" AO CAMPO Utilizao DA TABELA ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO
                         objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                        objCHSup.setIdItemCh(Integer.valueOf(jIdItemSup.getText()));
+                        objCHSup.setIdItemCh(Integer.valueOf(idItemChamadoDesc));
                         objCHSup.setUtiliza(utilizado);
-                        control.repostaItensSupDes(objCHSup);
+                        CONTROLE.repostaItensSupDes(objCHSup);
                         //ATUALIZAR ATENDIMENTO DA TABELA ITENS_CHAMADOS_SUPORTE
-                        objCHSup.setIdItemCh(Integer.valueOf(jIdItemSup.getText()));
+                        objCHSup.setIdItemCh(Integer.valueOf(idItemChamadoDesc));
                         objCHSup.setTextoDesenvol(jTextoDesenvolvimento.getText());
-                        control.atualizatTextoItensSuporte(objCHSup);
+                        CONTROLE.atualizatTextoItensSuporte(objCHSup);
                         //
                         objLog1();
                         controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                         Salvar();
-                        preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
-                                + "INNER JOIN CHAMADOS_DESENVOLVIMENTO "
-                                + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes=CHAMADOS_DESENVOLVIMENTO.IdCHDes "
-                                + "WHERE ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamado.getText() + "'");
-                        JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                        preencherTabelaItensChamadosDsv();
+                        if (pRESPOSTA.equals("Sim")) {
+                            JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                        } else if (pRESPOSTA.equals("Não")) {
+                            JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro.");
+                        }
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro, tente novamente.");
                     }
@@ -1871,28 +1856,29 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                         objCHSup.setHorarioTermino(jHoraSistema.getText());
                     }
                     objCHSup.setIdItemDes(Integer.valueOf(jIdItem.getText()));
-                    control.alterarItensSupDes(objCHSup);
+                    CONTROLE.alterarItensSupDes(objCHSup);
                     jHorarioTermino.setText(objCHSup.getHorarioTermino());
                     verificarGravacaoItem();
                     if (jIdChamado.getText().equals(idRegChamadoDesc) && jIdItem.getText().equals(idItemChamadoDesc)) {
                         //RESPONDE "Sim" AO CAMPO Utilizao DA TABELA ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO
                         objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                        objCHSup.setIdItemCh(Integer.valueOf(jIdItemSup.getText()));
+                        objCHSup.setIdItemCh(Integer.valueOf(idItemChamadoDesc));
                         objCHSup.setUtiliza(utilizado);
-                        control.repostaItensSupDes(objCHSup);
+                        CONTROLE.repostaItensSupDes(objCHSup);
                         //ATUALIZAR ATENDIMENTO DA TABELA ITENS_CHAMADOS_SUPORTE
-                        objCHSup.setIdItemCh(Integer.valueOf(jIdItemSup.getText()));
+                        objCHSup.setIdItemCh(Integer.valueOf(idItemChamadoDesc));
                         objCHSup.setTextoDesenvol(jTextoDesenvolvimento.getText());
-                        control.atualizatTextoItensSuporte(objCHSup);
+                        CONTROLE.atualizatTextoItensSuporte(objCHSup);
                         //
                         objLog1();
                         controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                         Salvar();
-                        preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
-                                + "INNER JOIN CHAMADOS_DESENVOLVIMENTO "
-                                + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes=CHAMADOS_DESENVOLVIMENTO.IdCHDes "
-                                + "WHERE ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamado.getText() + "'");
-                        JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                        preencherTabelaItensChamadosDsv();
+                        if (pRESPOSTA.equals("Sim")) {
+                            JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+                        } else if (pRESPOSTA.equals("Não")) {
+                            JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro.");
+                        }
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Não foi possível gravar o registro, tente novamente.");
                     }
@@ -1983,20 +1969,21 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                         JOptionPane.YES_NO_OPTION);
                 if (resposta == JOptionPane.YES_OPTION) {
                     objCHSup.setIdItemCh(Integer.valueOf(jIdItem.getText()));
-                    control.excluirItensSupDes(objCHSup);
+                    CONTROLE.excluirItensSupDes(objCHSup);
                     //RESPONDE "Não" AO CAMPO Utilizao DA TABELA ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO
                     utilizado = "Não";
-                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
-                    objCHSup.setIdItemCh(Integer.valueOf(jIdItemSup.getText()));
+                    objCHSup.setIdCHSup(Integer.parseInt(jIdChamado.getText()));
+                    objCHSup.setIdItemCh(Integer.valueOf(idItemChamadoDesc));
                     objCHSup.setUtiliza(utilizado);
-                    control.repostaItensSupDes(objCHSup);
+                    CONTROLE.repostaItensSupDes(objCHSup);
                     //
                     ExcluirItem();
-                    preencherTabelaItensChamados("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
-                            + "INNER JOIN CHAMADOS_DESENVOLVIMENTO "
-                            + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes=CHAMADOS_DESENVOLVIMENTO.IdCHDes "
-                            + "WHERE ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamado.getText() + "'");
-                    JOptionPane.showMessageDialog(rootPane, "Registro excluido com sucesso.");
+                    preencherTabelaItensChamadosDsv();
+                    if (pRESPOSTA.equals("Sim")) {
+                        JOptionPane.showMessageDialog(rootPane, "Registro excluído com sucesso.");
+                    } else if (pRESPOSTA.equals("Não")) {
+                        JOptionPane.showMessageDialog(rootPane, "Não foi possível excluir o registro.");
+                    }
                 }
             }
         } else {
@@ -2023,47 +2010,24 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             jBtEnviar.setEnabled(true);
             jBtReabrir.setEnabled(true);
             //
-            conecta.abrirConexao();
-            try {
-                conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
-                        + "INNER JOIN CHAMADOS_DESENVOLVIMENTO "
-                        + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdCHDes=CHAMADOS_DESENVOLVIMENTO.IdCHDes "
-                        + "INNER JOIN SOFTWARE "
-                        + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdSoftware=SOFTWARE.IdSoftware "
-                        + "INNER JOIN MODULOS "
-                        + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdModulo=MODULOS.IdModulo "
-                        + "INNER JOIN ITENS_CHAMADOS_SUPORTE "
-                        + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdItem=ITENS_CHAMADOS_SUPORTE.IdItem "
-                        + "WHERE ITENS_CHAMADOS_DESENVOLVIMENTO.IdItemDes='" + idItem + "'");
-                conecta.rs.first();
-                jIdItem.setText(String.valueOf(conecta.rs.getInt("IdItemDes")));
-                idItemCHSup = conecta.rs.getInt("IdItem");
-                jDataOcorrencia.setDate(conecta.rs.getDate("DataItemCh"));
-                jHorarioInicio.setText(conecta.rs.getString("HorarioInicio"));
-                jHorarioTermino.setText(conecta.rs.getString("HorarioTermino"));
-                jSoftware.setText(conecta.rs.getString("DescricaoSoftware"));
-                jModulo.setText(conecta.rs.getString("DescricaoModulo"));
-                jTextoDesenvolvimento.setText(conecta.rs.getString("TextoDesenvol"));
-                //
-                conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_SUPORTE "
-                        + "INNER JOIN SOFTWARE "
-                        + "ON ITENS_CHAMADOS_SUPORTE.IdSoftware=SOFTWARE.IdSoftware "
-                        + "INNER JOIN MODULOS "
-                        + "ON ITENS_CHAMADOS_SUPORTE.IdModulo=MODULOS.IdModulo "
-                        + "INNER JOIN ITENS_CHAMADOS_DESENVOLVIMENTO "
-                        + "ON ITENS_CHAMADOS_SUPORTE.IdItem=ITENS_CHAMADOS_SUPORTE.IdItem "
-                        + "WHERE ITENS_CHAMADOS_SUPORTE.IdItem='" + idItemCHSup + "'");
-                conecta.rs.first();
-                jIdItemSup.setText(String.valueOf(conecta.rs.getInt("IdItem")));
-                jDataOcorrenciaSup.setDate(conecta.rs.getDate("DataItemCh"));
-                jHorarioInicioSup.setText(conecta.rs.getString("HorarioInicio"));
-                jHorarioTerminoSup.setText(conecta.rs.getString("HorarioTermino"));
-                jSoftwareSup.setText(conecta.rs.getString("DescricaoSoftware"));
-                jModuloSup.setText(conecta.rs.getString("DescricaoModulo"));
-                jTextoSuporte.setText(conecta.rs.getString("TextoSuporte"));
-            } catch (SQLException e) {
-//                JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa dos dados.\nERROR: " + e);
-            }
+            CONTROLE.MOSTRAR_ITENS_desenvolvimento(objCHSup);
+            jIdItem.setText(String.valueOf(objCHSup.getIdItemDes()));
+            idItemCHSup = objCHSup.getIdItemCh();
+            jDataOcorrencia.setDate(objCHSup.getDataItemCh());
+            jHorarioInicio.setText(objCHSup.getHorarioInicio());
+            jHorarioTermino.setText(objCHSup.getHorarioTermino());
+            jSoftware.setText(objCHSup.getDescricaoSoftware());
+            jModulo.setText(objCHSup.getDescricaoModulo());
+            jTextoDesenvolvimento.setText(objCHSup.getTextoDesenvol());
+            //
+            CONTROLE.MOSTRAR_ITENS_suporte(objCHSup);            
+            jIdItemSup.setText(String.valueOf(objCHSup.getIdItemCh()));
+            jDataOcorrenciaSup.setDate(objCHSup.getDataItemCh());
+            jHorarioInicioSup.setText(objCHSup.getHorarioInicio());
+            jHorarioTerminoSup.setText(objCHSup.getHorarioTermino());
+            jSoftwareSup.setText(objCHSup.getDescricaoSoftware());
+            jModuloSup.setText(objCHSup.getDescricaoModulo());
+            jTextoSuporte.setText(objCHSup.getTextoSuporte());
         }
     }//GEN-LAST:event_jTabelaItensMouseClicked
 
@@ -2074,12 +2038,75 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         objAudItens.show();
     }//GEN-LAST:event_jBtAuditoriaItemActionPerformed
 
+    private void jBtAssuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAssuntoActionPerformed
+        // TODO add your handling code here:
+        flag = 1;
+        nomeAtendente = nameUser;
+        buscarNivelUsuario();
+        if (jPesquisarAssunto.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Informe o assunto para pesquisa.");
+        } else {
+            if (nivelUsuario == 0 || nivelUsuario == 1) {
+                preencherTabelaChamadosAssuntoAdm();
+                if (pTOTAL_registros == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
+            }
+        }
+    }//GEN-LAST:event_jBtAssuntoActionPerformed
+
+    private void jBtStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtStatusActionPerformed
+        // TODO add your handling code here:
+        nomeAtendente = nameUser;
+        buscarNivelUsuario();
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
+            if (jComboBoxStatus.getSelectedItem().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de status.");
+            } else if (jComboBoxStatus.getSelectedItem().equals("Aberto")) {
+                preencherTabelaChamadosStatusAdm();
+                if (pTOTAL_REGISTROS_dia == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
+            } else if (jComboBoxStatus.getSelectedItem().equals("Fechado")) {
+                preencherTabelaChamadosStatusAdm();
+                if (pTOTAL_registros == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
+            } else if (jComboBoxStatus.getSelectedItem().equals("Atendimento")) {
+                preencherTabelaChamadosStatusAdm();
+                if (pTOTAL_REGISTROS_dia == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
+            }
+        } else {
+            if (jComboBoxStatus.getSelectedItem().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de status.");
+            } else if (jComboBoxStatus.getSelectedItem().equals("Aberto")) {
+                preencherTabelaChamadosStatusDsv();
+                if (pTOTAL_REGISTROS_dia == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
+            } else if (jComboBoxStatus.getSelectedItem().equals("Fechado")) {
+                preencherTabelaChamadosStatusDsv();
+                if (pTOTAL_registros == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
+            } else if (jComboBoxStatus.getSelectedItem().equals("Atendimento")) {
+                preencherTabelaChamadosStatusDsv();
+                if (pTOTAL_REGISTROS_dia == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
+                }
+            }
+        }
+    }//GEN-LAST:event_jBtStatusActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JTextField jAssunto;
     private javax.swing.JTextField jAtendente;
     private javax.swing.JButton jBtAlterar;
     private javax.swing.JButton jBtAlterarItem;
+    private javax.swing.JButton jBtAssunto;
     private javax.swing.JButton jBtAuditoria;
     private javax.swing.JButton jBtAuditoriaItem;
     private javax.swing.JButton jBtCancelar;
@@ -2101,7 +2128,9 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtSalvar;
     private javax.swing.JButton jBtSalvarItem;
     private javax.swing.JButton jBtSolicitante;
+    private javax.swing.JButton jBtStatus;
     private javax.swing.JCheckBox jCheckBoxTodosCH;
+    public static javax.swing.JComboBox<String> jComboBoxStatus;
     private com.toedter.calendar.JDateChooser jDataChamado;
     private com.toedter.calendar.JDateChooser jDataOcorrencia;
     public static com.toedter.calendar.JDateChooser jDataOcorrenciaSup;
@@ -2112,7 +2141,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField jHorarioTermino;
     public static javax.swing.JFormattedTextField jHorarioTerminoSup;
     public static javax.swing.JTextField jIdChamado;
-    private javax.swing.JTextField jIdChamadoPesquisa;
+    public static javax.swing.JTextField jIdChamadoPesquisa;
     public static javax.swing.JTextField jIdItem;
     public static javax.swing.JTextField jIdItemSup;
     private javax.swing.JLabel jLabel1;
@@ -2131,6 +2160,8 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2155,7 +2186,8 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JTextField jPesqSolicitante;
+    public static javax.swing.JTextField jPesqSolicitante;
+    public static javax.swing.JTextField jPesquisarAssunto;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -2522,47 +2554,472 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         conecta.desconecta();
     }
 
-    public void preencherTabelaChamados(String sql) {
+    public void preencherTabelaChamadosCodigoAdm() {
         ArrayList dados = new ArrayList();
         String[] Colunas = new String[]{"Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"};
-        conecta.abrirConexao();
-        conecta.executaSQL(sql);
         try {
-            conecta.rs.first();
-            do {
+            for (ChamadoSuporte ss : CONTROLE.PESQUISAR_CODIGO_ADM_read()) {
                 // Formatar a data no formato Brasil
-                dataBrasil = conecta.rs.getString("DataCha");
+                dataBrasil = String.valueOf(ss.getDataCha());
                 String dia = dataBrasil.substring(8, 10);
                 String mes = dataBrasil.substring(5, 7);
                 String ano = dataBrasil.substring(0, 4);
                 dataBrasil = dia + "/" + mes + "/" + ano;
                 count = count + 1;
-                jtotalRegistros.setText(Integer.toString(count)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{conecta.rs.getInt("IdCHDes"), dataBrasil, conecta.rs.getString("StatusCha"), conecta.rs.getString("AssuntoDesenvolvimento"), conecta.rs.getString("NomeSolicitante"), conecta.rs.getString("DescricaoUnidade")});
-            } while (conecta.rs.next());
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem exibidos....");
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros)); // Converter inteiro em string para exibir na tela
+                dados.add(new Object[]{ss.getIdCHDes(), dataBrasil, ss.getStatusCha(), ss.getAssunto(), ss.getNomeSolicitante(), ss.getDescricaoUnidade()});
+                ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+                jTabelaChamdosSup.setModel(modelo);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
+                jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
+                jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
+                jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+                alinhaCeluasTabelaFornecedor();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoDesenvolvimento.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
-        jTabelaChamdosSup.setModel(modelo);
-        jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
-        jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
-        jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
-        jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
-        jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
-        jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
-        jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
-        jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
-        jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
-        jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
-        jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
-        alinhaCeluasTabelaFornecedor();
-        conecta.desconecta();
+    }
+
+    public void preencherTabelaChamadosCodigoDsv() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"};
+        try {
+            for (ChamadoSuporte ss : CONTROLE.PESQUISAR_CODIGO_DSV_read()) {
+                // Formatar a data no formato Brasil
+                dataBrasil = String.valueOf(ss.getDataCha());
+                String dia = dataBrasil.substring(8, 10);
+                String mes = dataBrasil.substring(5, 7);
+                String ano = dataBrasil.substring(0, 4);
+                dataBrasil = dia + "/" + mes + "/" + ano;
+                count = count + 1;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros)); // Converter inteiro em string para exibir na tela
+                dados.add(new Object[]{ss.getIdCHDes(), dataBrasil, ss.getStatusCha(), ss.getAssunto(), ss.getNomeSolicitante(), ss.getDescricaoUnidade()});
+                ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+                jTabelaChamdosSup.setModel(modelo);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
+                jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
+                jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
+                jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+                alinhaCeluasTabelaFornecedor();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoDesenvolvimento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void preencherTabelaChamadosDataAdm() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"};
+        try {
+            for (ChamadoSuporte ss : CONTROLE.PESQUISAR_DATA_ADM_read()) {
+                // Formatar a data no formato Brasil
+                dataBrasil = String.valueOf(ss.getDataCha());
+                String dia = dataBrasil.substring(8, 10);
+                String mes = dataBrasil.substring(5, 7);
+                String ano = dataBrasil.substring(0, 4);
+                dataBrasil = dia + "/" + mes + "/" + ano;
+                count = count + 1;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros)); // Converter inteiro em string para exibir na tela
+                dados.add(new Object[]{ss.getIdCHDes(), dataBrasil, ss.getStatusCha(), ss.getAssunto(), ss.getNomeSolicitante(), ss.getDescricaoUnidade()});
+                ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+                jTabelaChamdosSup.setModel(modelo);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
+                jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
+                jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
+                jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+                alinhaCeluasTabelaFornecedor();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoDesenvolvimento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void preencherTabelaChamadosDataDsv() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"};
+        try {
+            for (ChamadoSuporte ss : CONTROLE.PESQUISAR_DATA_DSV_read()) {
+                // Formatar a data no formato Brasil
+                dataBrasil = String.valueOf(ss.getDataCha());
+                String dia = dataBrasil.substring(8, 10);
+                String mes = dataBrasil.substring(5, 7);
+                String ano = dataBrasil.substring(0, 4);
+                dataBrasil = dia + "/" + mes + "/" + ano;
+                count = count + 1;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros)); // Converter inteiro em string para exibir na tela
+                dados.add(new Object[]{ss.getIdCHDes(), dataBrasil, ss.getStatusCha(), ss.getAssunto(), ss.getNomeSolicitante(), ss.getDescricaoUnidade()});
+                ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+                jTabelaChamdosSup.setModel(modelo);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
+                jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
+                jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
+                jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+                alinhaCeluasTabelaFornecedor();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoDesenvolvimento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void preencherTabelaChamadosSolicitanteAdm() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"};
+        try {
+            for (ChamadoSuporte ss : CONTROLE.PESQUISAR_TODOS_ADM_read()) {
+                // Formatar a data no formato Brasil
+                dataBrasil = String.valueOf(ss.getDataCha());
+                String dia = dataBrasil.substring(8, 10);
+                String mes = dataBrasil.substring(5, 7);
+                String ano = dataBrasil.substring(0, 4);
+                dataBrasil = dia + "/" + mes + "/" + ano;
+                count = count + 1;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros)); // Converter inteiro em string para exibir na tela
+                dados.add(new Object[]{ss.getIdCHDes(), dataBrasil, ss.getStatusCha(), ss.getAssunto(), ss.getNomeSolicitante(), ss.getDescricaoUnidade()});
+                ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+                jTabelaChamdosSup.setModel(modelo);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
+                jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
+                jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
+                jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+                alinhaCeluasTabelaFornecedor();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoDesenvolvimento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void preencherTabelaChamadosSolicitanteDsv() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"};
+        try {
+            for (ChamadoSuporte ss : CONTROLE.PESQUISAR_SOLI_DSV_read()) {
+                // Formatar a data no formato Brasil
+                dataBrasil = String.valueOf(ss.getDataCha());
+                String dia = dataBrasil.substring(8, 10);
+                String mes = dataBrasil.substring(5, 7);
+                String ano = dataBrasil.substring(0, 4);
+                dataBrasil = dia + "/" + mes + "/" + ano;
+                count = count + 1;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros)); // Converter inteiro em string para exibir na tela
+                dados.add(new Object[]{ss.getIdCHDes(), dataBrasil, ss.getStatusCha(), ss.getAssunto(), ss.getNomeSolicitante(), ss.getDescricaoUnidade()});
+                ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+                jTabelaChamdosSup.setModel(modelo);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
+                jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
+                jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
+                jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+                alinhaCeluasTabelaFornecedor();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoDesenvolvimento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void preencherTabelaChamadosTodosAdm() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"};
+        try {
+            for (ChamadoSuporte ss : CONTROLE.PESQUISAR_TODOS_ADM_read()) {
+                // Formatar a data no formato Brasil
+                dataBrasil = String.valueOf(ss.getDataCha());
+                String dia = dataBrasil.substring(8, 10);
+                String mes = dataBrasil.substring(5, 7);
+                String ano = dataBrasil.substring(0, 4);
+                dataBrasil = dia + "/" + mes + "/" + ano;
+                count = count + 1;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros)); // Converter inteiro em string para exibir na tela
+                dados.add(new Object[]{ss.getIdCHDes(), dataBrasil, ss.getStatusCha(), ss.getAssunto(), ss.getNomeSolicitante(), ss.getDescricaoUnidade()});
+                ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+                jTabelaChamdosSup.setModel(modelo);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
+                jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
+                jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
+                jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+                alinhaCeluasTabelaFornecedor();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoDesenvolvimento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void preencherTabelaChamadosTodosDsv() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"};
+        try {
+            for (ChamadoSuporte ss : CONTROLE.PESQUISAR_TODOS_DSV_read()) {
+                // Formatar a data no formato Brasil
+                dataBrasil = String.valueOf(ss.getDataCha());
+                String dia = dataBrasil.substring(8, 10);
+                String mes = dataBrasil.substring(5, 7);
+                String ano = dataBrasil.substring(0, 4);
+                dataBrasil = dia + "/" + mes + "/" + ano;
+                count = count + 1;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros)); // Converter inteiro em string para exibir na tela
+                dados.add(new Object[]{ss.getIdCHDes(), dataBrasil, ss.getStatusCha(), ss.getAssunto(), ss.getNomeSolicitante(), ss.getDescricaoUnidade()});
+                ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+                jTabelaChamdosSup.setModel(modelo);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
+                jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
+                jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
+                jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+                alinhaCeluasTabelaFornecedor();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoDesenvolvimento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void preencherTabelaChamadosStatusAdm() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"};
+        try {
+            for (ChamadoSuporte ss : CONTROLE.PESQUISAR_STATUS_ADM_read()) {
+                // Formatar a data no formato Brasil
+                dataBrasil = String.valueOf(ss.getDataCha());
+                String dia = dataBrasil.substring(8, 10);
+                String mes = dataBrasil.substring(5, 7);
+                String ano = dataBrasil.substring(0, 4);
+                dataBrasil = dia + "/" + mes + "/" + ano;
+                count = count + 1;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros)); // Converter inteiro em string para exibir na tela
+                dados.add(new Object[]{ss.getIdCHDes(), dataBrasil, ss.getStatusCha(), ss.getAssunto(), ss.getNomeSolicitante(), ss.getDescricaoUnidade()});
+                ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+                jTabelaChamdosSup.setModel(modelo);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
+                jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
+                jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
+                jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+                alinhaCeluasTabelaFornecedor();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoDesenvolvimento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void preencherTabelaChamadosStatusDsv() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"};
+        try {
+            for (ChamadoSuporte ss : CONTROLE.PESQUISAR_STATUS_DSV_read()) {
+                // Formatar a data no formato Brasil
+                dataBrasil = String.valueOf(ss.getDataCha());
+                String dia = dataBrasil.substring(8, 10);
+                String mes = dataBrasil.substring(5, 7);
+                String ano = dataBrasil.substring(0, 4);
+                dataBrasil = dia + "/" + mes + "/" + ano;
+                count = count + 1;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros)); // Converter inteiro em string para exibir na tela
+                dados.add(new Object[]{ss.getIdCHDes(), dataBrasil, ss.getStatusCha(), ss.getAssunto(), ss.getNomeSolicitante(), ss.getDescricaoUnidade()});
+                ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+                jTabelaChamdosSup.setModel(modelo);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
+                jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
+                jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
+                jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+                alinhaCeluasTabelaFornecedor();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoDesenvolvimento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void preencherTabelaChamadosAssuntoAdm() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"};
+        try {
+            for (ChamadoSuporte ss : CONTROLE.PESQUISAR_ASSUM_ADM_read()) {
+                // Formatar a data no formato Brasil
+                dataBrasil = String.valueOf(ss.getDataCha());
+                String dia = dataBrasil.substring(8, 10);
+                String mes = dataBrasil.substring(5, 7);
+                String ano = dataBrasil.substring(0, 4);
+                dataBrasil = dia + "/" + mes + "/" + ano;
+                count = count + 1;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros)); // Converter inteiro em string para exibir na tela
+                dados.add(new Object[]{ss.getIdCHDes(), dataBrasil, ss.getStatusCha(), ss.getAssunto(), ss.getNomeSolicitante(), ss.getDescricaoUnidade()});
+                ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+                jTabelaChamdosSup.setModel(modelo);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
+                jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
+                jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
+                jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+                alinhaCeluasTabelaFornecedor();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoDesenvolvimento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void preencherTabelaChamadosAssuntoDsv() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Status", "Assunto", "Solicitante", "Unidade Prisional"};
+        try {
+            for (ChamadoSuporte ss : CONTROLE.PESQUISAR_ASSUM_DSV_read()) {
+                // Formatar a data no formato Brasil
+                dataBrasil = String.valueOf(ss.getDataCha());
+                String dia = dataBrasil.substring(8, 10);
+                String mes = dataBrasil.substring(5, 7);
+                String ano = dataBrasil.substring(0, 4);
+                dataBrasil = dia + "/" + mes + "/" + ano;
+                count = count + 1;
+                jtotalRegistros.setText(Integer.toString(pTOTAL_registros)); // Converter inteiro em string para exibir na tela
+                dados.add(new Object[]{ss.getIdCHDes(), dataBrasil, ss.getStatusCha(), ss.getAssunto(), ss.getNomeSolicitante(), ss.getDescricaoUnidade()});
+                ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+                jTabelaChamdosSup.setModel(modelo);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
+                jTabelaChamdosSup.getColumnModel().getColumn(0).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setPreferredWidth(80);
+                jTabelaChamdosSup.getColumnModel().getColumn(1).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setPreferredWidth(200);
+                jTabelaChamdosSup.getColumnModel().getColumn(2).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(3).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(4).setResizable(false);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setPreferredWidth(300);
+                jTabelaChamdosSup.getColumnModel().getColumn(5).setResizable(false);
+                jTabelaChamdosSup.getTableHeader().setReorderingAllowed(false);
+                jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
+                jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+                alinhaCeluasTabelaFornecedor();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoDesenvolvimento.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void alinhaCeluasTabelaFornecedor() {
@@ -2598,6 +3055,42 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         jTabelaChamdosSup.setAutoResizeMode(jTabelaChamdosSup.AUTO_RESIZE_OFF);
         jTabelaChamdosSup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         modelo.getLinhas().clear();
+    }
+
+    public void preencherTabelaItensChamadosDsv() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código", "Data", "Hora Inicial", "Hora Termino", "Texto Chamado"};
+        try {
+            for (ChamadoSuporte pp : CONTROLE.PESQUISAR_ITENS_read()) {
+                // Formatar a data no formato Brasil
+                dataEntrada = String.valueOf(pp.getDataItemCh());
+                String dia = dataEntrada.substring(8, 10);
+                String mes = dataEntrada.substring(5, 7);
+                String ano = dataEntrada.substring(0, 4);
+                dataEntrada = dia + "/" + mes + "/" + ano;
+                count = count + 1;
+                dados.add(new Object[]{pp.getIdItemDes(), dataEntrada, pp.getHorarioInicio(), pp.getHorarioTermino(), pp.getTextoDesenvol()});
+                ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+                jTabelaItens.setModel(modelo);
+                jTabelaItens.getColumnModel().getColumn(0).setPreferredWidth(70);
+                jTabelaItens.getColumnModel().getColumn(0).setResizable(false);
+                jTabelaItens.getColumnModel().getColumn(1).setPreferredWidth(70);
+                jTabelaItens.getColumnModel().getColumn(1).setResizable(false);
+                jTabelaItens.getColumnModel().getColumn(2).setPreferredWidth(80);
+                jTabelaItens.getColumnModel().getColumn(2).setResizable(false);
+                jTabelaItens.getColumnModel().getColumn(3).setPreferredWidth(80);
+                jTabelaItens.getColumnModel().getColumn(3).setResizable(false);
+                jTabelaItens.getColumnModel().getColumn(4).setPreferredWidth(550);
+                jTabelaItens.getColumnModel().getColumn(4).setResizable(false);
+                jTabelaItens.getTableHeader().setReorderingAllowed(false);
+                jTabelaItens.setAutoResizeMode(jTabelaItens.AUTO_RESIZE_OFF);
+                jTabelaItens.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                // MÉTODO PARA ALINHAR AS COLUNAS DA TABELA
+                alinhaCeluasTabelaItens();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaChamadoDesenvolvimento.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void preencherTabelaItensChamados(String sql) {
@@ -2679,14 +3172,19 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     public void buscarAcessoUsuario(String nomeTelaAcesso) {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM USUARIOS "
+            conecta.executaSQL("SELECT "
+                    + "IdUsuario, "
+                    + "NomeUsuario "
+                    + "FROM USUARIOS "
                     + "WHERE NomeUsuario='" + nameUser + "'");
             conecta.rs.first();
             codigoUser = conecta.rs.getInt("IdUsuario");
         } catch (Exception e) {
         }
         try {
-            conecta.executaSQL("SELECT * FROM TELAS_ACESSO "
+            conecta.executaSQL("SELECT "
+                    + "* "
+                    + "FROM TELAS_ACESSO "
                     + "WHERE IdUsuario='" + codigoUser + "' "
                     + "AND NomeTela='" + nomeTelaAcesso + "'");
             conecta.rs.first();
@@ -2724,7 +3222,11 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     public void buscarNivelUsuario() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM USUARIOS WHERE NomeUsuario='" + nameUser + "'");
+            conecta.executaSQL("SELECT "
+                    + "NomeUsuario, "
+                    + "NivelUsuario "
+                    + "FROM USUARIOS "
+                    + "WHERE NomeUsuario='" + nameUser + "'");
             conecta.rs.first();
             nivelUsuario = conecta.rs.getInt("NivelUsuario");
         } catch (Exception e) {

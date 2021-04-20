@@ -353,12 +353,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jRegistraPonto = new javax.swing.JMenuItem();
         jDesenvolvimento = new javax.swing.JMenu();
         jConsultasSQL = new javax.swing.JMenuItem();
+        jSeparator9 = new javax.swing.JPopupMenu.Separator();
         jChamadosDesenvolvimento = new javax.swing.JMenuItem();
         jRelatorios = new javax.swing.JMenu();
+        jRelatoriosSuporteTecnico = new javax.swing.JMenu();
         listagemChamadosSuporteTecnico = new javax.swing.JMenuItem();
-        jSeparator7 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jRelatorioCartaoPontoColaborador = new javax.swing.JMenuItem();
         jSeparator8 = new javax.swing.JPopupMenu.Separator();
+        jMenu1 = new javax.swing.JMenu();
         listagemChamadosDesenvolvimento = new javax.swing.JMenuItem();
         jSobre = new javax.swing.JMenu();
         jInformacoes = new javax.swing.JMenuItem();
@@ -971,7 +973,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jChamadosSuporte.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         jChamadosSuporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskFem_16.png"))); // NOI18N
         jChamadosSuporte.setMnemonic('H');
-        jChamadosSuporte.setText("Chamados");
+        jChamadosSuporte.setText("Chamados - Atendimentos");
         jChamadosSuporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jChamadosSuporteActionPerformed(evt);
@@ -1015,11 +1017,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         jDesenvolvimento.add(jConsultasSQL);
+        jDesenvolvimento.add(jSeparator9);
 
         jChamadosDesenvolvimento.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
         jChamadosDesenvolvimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskMas_16.png"))); // NOI18N
         jChamadosDesenvolvimento.setMnemonic('D');
-        jChamadosDesenvolvimento.setText("Chamados");
+        jChamadosDesenvolvimento.setText("Chamados - (Atendimentos)");
         jChamadosDesenvolvimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jChamadosDesenvolvimentoActionPerformed(evt);
@@ -1032,34 +1035,43 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jRelatorios.setMnemonic('R');
         jRelatorios.setText("Relatórios");
 
-        listagemChamadosSuporteTecnico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/gtklp-icone-3770-16.png"))); // NOI18N
+        jRelatoriosSuporteTecnico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/gtklp-icone-3770-16.png"))); // NOI18N
+        jRelatoriosSuporteTecnico.setText("Relatórios do Suporte Técnico");
+
+        listagemChamadosSuporteTecnico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskFem_16.png"))); // NOI18N
         listagemChamadosSuporteTecnico.setText("Chamados Suporte Técnico");
         listagemChamadosSuporteTecnico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 listagemChamadosSuporteTecnicoActionPerformed(evt);
             }
         });
-        jRelatorios.add(listagemChamadosSuporteTecnico);
-        jRelatorios.add(jSeparator7);
+        jRelatoriosSuporteTecnico.add(listagemChamadosSuporteTecnico);
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/gtklp-icone-3770-16.png"))); // NOI18N
-        jMenuItem1.setText("Relatório Registro Cartão Ponto");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jRelatorioCartaoPontoColaborador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/time-to-get-up-icon.png"))); // NOI18N
+        jRelatorioCartaoPontoColaborador.setText("Relatório Registro Cartão Ponto");
+        jRelatorioCartaoPontoColaborador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jRelatorioCartaoPontoColaboradorActionPerformed(evt);
             }
         });
-        jRelatorios.add(jMenuItem1);
+        jRelatoriosSuporteTecnico.add(jRelatorioCartaoPontoColaborador);
+
+        jRelatorios.add(jRelatoriosSuporteTecnico);
         jRelatorios.add(jSeparator8);
 
-        listagemChamadosDesenvolvimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119193225_16.png"))); // NOI18N
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119193225_16.png"))); // NOI18N
+        jMenu1.setText("jRelatoriosDesenvomento");
+
+        listagemChamadosDesenvolvimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskMas_16.png"))); // NOI18N
         listagemChamadosDesenvolvimento.setText("Chamados Desenvolvimento");
         listagemChamadosDesenvolvimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 listagemChamadosDesenvolvimentoActionPerformed(evt);
             }
         });
-        jRelatorios.add(listagemChamadosDesenvolvimento);
+        jMenu1.add(listagemChamadosDesenvolvimento);
+
+        jRelatorios.add(jMenu1);
 
         jMenuBar1.add(jRelatorios);
 
@@ -2468,12 +2480,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jRegistraPontoActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jRelatorioCartaoPontoColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRelatorioCartaoPontoColaboradorActionPerformed
         // TODO add your handling code here:
         TelaRelatorioCartaoPonto objRelCP = new TelaRelatorioCartaoPonto();
         jPainelPrincipal.add(objRelCP);
         objRelCP.show();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jRelatorioCartaoPontoColaboradorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2553,8 +2565,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLoginConectado;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jModulosSistema;
     private javax.swing.JMenuItem jOcorrencias;
     public static javax.swing.JDesktopPane jPainelPrincipal;
@@ -2564,7 +2576,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JMenuItem jRegistraPonto;
+    private javax.swing.JMenuItem jRelatorioCartaoPontoColaborador;
     private javax.swing.JMenu jRelatorios;
+    private javax.swing.JMenu jRelatoriosSuporteTecnico;
     private javax.swing.JMenuItem jSair;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
@@ -2572,8 +2586,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
-    private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JPopupMenu.Separator jSeparator8;
+    private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JMenu jSobre;
     private javax.swing.JMenuItem jSoftware;
     private javax.swing.JMenuItem jSolicitantes;
