@@ -8,7 +8,9 @@ package Visao;
 import Controle.ModeloTabela;
 import Dao.ChamadosDesenvolvimentoDao;
 import Dao.ConexaoBancoDados;
+import Dao.ControleAcessoGeral;
 import Dao.LogSistemaDao;
+import Modelo.CamposAcessos;
 import Modelo.ChamadoSuporte;
 import Modelo.LogSistema;
 import static Visao.LoginHD.nameUser;
@@ -17,18 +19,9 @@ import static Visao.TelaPrincipal.botaoEncerrarDes;
 import static Visao.TelaPrincipal.botaoEnviarDes;
 import static Visao.TelaPrincipal.botaoImprimirDes;
 import static Visao.TelaPrincipal.botaoReabrirDes;
-import static Visao.TelaPrincipal.codAbrir;
-import static Visao.TelaPrincipal.codAlterar;
-import static Visao.TelaPrincipal.codConsultar;
-import static Visao.TelaPrincipal.codExcluir;
-import static Visao.TelaPrincipal.codGravar;
-import static Visao.TelaPrincipal.codIncluir;
-import static Visao.TelaPrincipal.codUserAcesso;
-import static Visao.TelaPrincipal.codigoUser;
 import static Visao.TelaPrincipal.jDataSistema;
 import static Visao.TelaPrincipal.jHoraSistema;
 import static Visao.TelaPrincipal.jPainelPrincipal;
-import static Visao.TelaPrincipal.nomeTela;
 import static Visao.TelaPrincipal.telaChamadosDesenvolvimento;
 import static Visao.TelaPrincipal.telaItensChamadoDesenvolvimento;
 import static Visao.LoginHD.tipoServidor;
@@ -59,6 +52,9 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     ChamadoSuporte objCHSup = new ChamadoSuporte();
     ChamadosDesenvolvimentoDao CONTROLE = new ChamadosDesenvolvimentoDao();
+    //
+    ControleAcessoGeral pPESQUISAR_acessos = new ControleAcessoGeral();
+    CamposAcessos objCampos = new CamposAcessos();
     //
     LogSistemaDao controlLog = new LogSistemaDao();
     LogSistema objLogSys = new LogSistema();
@@ -1485,8 +1481,11 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
     private void jBtNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosDesenvolvimento);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosDesenvolvimento) && codIncluir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaChamadosDesenvolvimento);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosDesenvolvimento) && objCampos.getCodigoIncluir() == 1) {
             statusMov = "Incluiu";
             horaMov = jHoraSistema.getText();
             dataModFinal = jDataSistema.getText();
@@ -1498,9 +1497,12 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtNovoActionPerformed
 
     private void jBtAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosDesenvolvimento);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosDesenvolvimento) && codAlterar == 1) {
+        // TODO add your handling code here:    
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaChamadosDesenvolvimento);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosDesenvolvimento) && objCampos.getCodigoAlterar() == 1) {
             if (jStatusChamado.getText().equals(statusEncerrado)) {
                 JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encerrado...");
             } else {
@@ -1516,9 +1518,12 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtAlterarActionPerformed
 
     private void jBtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosDesenvolvimento);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosDesenvolvimento) && codExcluir == 1) {
+        // TODO add your handling code here:      
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaChamadosDesenvolvimento);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosDesenvolvimento) && objCampos.getCodigoExcluir() == 1) {
             if (jStatusChamado.getText().equals(statusEncerrado)) {
                 JOptionPane.showMessageDialog(rootPane, "Não é possível excluir esse registro. Registro já encerrado...");
             } else {
@@ -1545,8 +1550,11 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
     private void jBtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSalvarActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosDesenvolvimento);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosDesenvolvimento) && codIncluir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaChamadosDesenvolvimento);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosDesenvolvimento) && objCampos.getCodigoGravar() == 1) {
             if (jDataChamado.getDate() == null) {
                 JOptionPane.showMessageDialog(rootPane, "Informe a data do chamado.");
             } else if (jUnidadePrisional.getText().equals("")) {
@@ -1614,8 +1622,10 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
     private void jBtEncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtEncerrarActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(botaoEncerrarDes);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoEncerrarDes) && codAbrir == 1) {
+        objCampos.setNomeTelaAcesso(botaoEncerrarDes);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(botaoEncerrarDes) && objCampos.getCodigoAbrir() == 1) {
             Integer row = jTabelaItens.getRowCount();
             if (jStatusChamado.getText().equals(statusEncerrado)) {
                 JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro. Registro já encerrado...");
@@ -1643,9 +1653,12 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtEncerrarActionPerformed
 
     private void jBtImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtImprimirActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(botaoImprimirDes);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoImprimirDes) && codAbrir == 1) {
+        // TODO add your handling code here:    
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(botaoImprimirDes);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(botaoImprimirDes) && objCampos.getCodigoAbrir() == 1) {
             if (jIdChamado.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Não existe registro a ser impresso, selecione um registro antes de imprimir.");
             } else {
@@ -1658,8 +1671,11 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
     private void jBtEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtEnviarActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(botaoEnviarDes);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoEnviarDes) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(botaoEnviarDes);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(botaoEnviarDes) && objCampos.getCodigoAbrir() == 1) {
             if (jStatusChamado.getText().equals(statusEncerrado)) {
                 JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro.Registro já encerrado...");
             } else {
@@ -1689,9 +1705,12 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtEnviarActionPerformed
 
     private void jBtReabrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtReabrirActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(botaoReabrirDes);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoReabrirDes) && codAbrir == 1) {
+        // TODO add your handling code here:   
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(botaoReabrirDes);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(botaoReabrirDes) && objCampos.getCodigoAbrir() == 1) {
             if (!jStatusChamado.getText().equals(statusEncerrado)) {
                 JOptionPane.showMessageDialog(rootPane, "Registro não se encontra encerrado.");
             } else if (jStatusChamado.getText().equals(statusDesenvol)) {
@@ -1767,9 +1786,12 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTabelaChamdosSupMouseClicked
 
     private void jBtDownLoadChamadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtDownLoadChamadosActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(botaoBuscarCH);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoBuscarCH) && codAbrir == 1) {
+        // TODO add your handling code here:   
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(botaoBuscarCH);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(botaoBuscarCH) && objCampos.getCodigoAbrir() == 1) {
             mostrarBuscaCH();
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -1787,9 +1809,12 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtPesquisaModuloActionPerformed
 
     private void jBtSalvarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSalvarItemActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaItensChamadoDesenvolvimento);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoDesenvolvimento) && codGravar == 1) {
+        // TODO add your handling code here:      
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaItensChamadoDesenvolvimento);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaItensChamadoDesenvolvimento) && objCampos.getCodigoGravar() == 1) {
             if (jDataOcorrencia.getDate() == null) {
                 JOptionPane.showMessageDialog(rootPane, "Informe a data do chamado.");
             } else if (jHorarioInicio.getText().equals("")) {
@@ -1895,9 +1920,12 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtCancelarItemActionPerformed
 
     private void jBtAlterarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarItemActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaItensChamadoDesenvolvimento);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoDesenvolvimento) && codAlterar == 1) {
+        // TODO add your handling code here:     
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaItensChamadoDesenvolvimento);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaItensChamadoDesenvolvimento) && objCampos.getCodigoAlterar() == 1) {
             if (jStatusChamado.getText().equals(statusEncerrado)) {
                 JOptionPane.showMessageDialog(rootPane, "Não é possível alterar o registro, o mesmo já foi encerrado.");
             } else if (jStatusChamado.getText().equals(statusDesenvol)) {
@@ -1918,7 +1946,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                     AlterarItem();
                 }
                 if (rows != 0) {
-                    verificarSofMod();
+                    verificarSofwareMododulo();
                 }
             }
         } else {
@@ -1927,9 +1955,12 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtAlterarItemActionPerformed
 
     private void jBtNovoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoItemActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaItensChamadoDesenvolvimento);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoDesenvolvimento) && codIncluir == 1) {
+        // TODO add your handling code here:     
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaItensChamadoDesenvolvimento);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaItensChamadoDesenvolvimento) && objCampos.getCodigoIncluir() == 1) {
             Integer rows = jTabelaItens.getRowCount();
             statusMov = "Incluiu";
             horaMov = jHoraSistema.getText();
@@ -1945,7 +1976,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                     NovoItem();
                 }
                 if (rows != 0) {
-                    verificarSofMod();
+                    verificarSofwareMododulo();
                 }
             }
         } else {
@@ -1955,8 +1986,11 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
     private void jBtExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirItemActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaItensChamadoDesenvolvimento);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoDesenvolvimento) && codExcluir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaItensChamadoDesenvolvimento);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaItensChamadoDesenvolvimento) && objCampos.getCodigoExcluir() == 1) {
             statusMov = "Excluiu";
             horaMov = jHoraSistema.getText();
             dataModFinal = jDataSistema.getText();
@@ -2020,7 +2054,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             jModulo.setText(objCHSup.getDescricaoModulo());
             jTextoDesenvolvimento.setText(objCHSup.getTextoDesenvol());
             //
-            CONTROLE.MOSTRAR_ITENS_suporte(objCHSup);            
+            CONTROLE.MOSTRAR_ITENS_suporte(objCHSup);
             jIdItemSup.setText(String.valueOf(objCHSup.getIdItemCh()));
             jDataOcorrenciaSup.setDate(objCHSup.getDataItemCh());
             jHorarioInicioSup.setText(objCHSup.getHorarioInicio());
@@ -2406,23 +2440,12 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         }
     }
 
-    public void verificarSofMod() {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
-                    + "INNER JOIN SOFTWARE "
-                    + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdSoftware=SOFTWARE.IdSoftware "
-                    + "INNER JOIN MODULOS "
-                    + "ON ITENS_CHAMADOS_DESENVOLVIMENTO.IdModulo=MODULOS.IdModulo "
-                    + "WHERE IdCHDes='" + jIdChamado.getText() + "'");
-            conecta.rs.first();
-            idSoftware = conecta.rs.getInt("IdSoftware");
-            jSoftware.setText(conecta.rs.getString("DescricaoSoftware"));
-            idModulo = conecta.rs.getInt("IdModulo");
-            jModulo.setText(conecta.rs.getString("DescricaoModulo"));
-        } catch (Exception e) {
-        }
-        conecta.desconecta();
+    public void verificarSofwareMododulo() {
+        CONTROLE.VERIFICAR_SOFTWARE_Mododulo(objCHSup);
+        idSoftware = objCHSup.getIdSoftware();
+        jSoftware.setText(objCHSup.getDescricaoSoftware());
+        idModulo = objCHSup.getIdModulo();
+        jModulo.setText(objCHSup.getDescricaoModulo());
     }
 
     public void NovoItem() {
@@ -2484,40 +2507,19 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }
 
     public void buscarCodigo() {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT * FROM CHAMADOS_DESENVOLVIMENTO");
-            conecta.rs.last();
-            jIdChamado.setText(conecta.rs.getString("IdCHDes"));
-        } catch (Exception e) {
-        }
-        conecta.desconecta();
+        CONTROLE.BUSCAR_CODIGO_chamado(objCHSup);
     }
 
     public void buscarCodigoItem() {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO");
-            conecta.rs.last();
-            idItemChamadoSup = conecta.rs.getInt("IdItem");
-            jIdItem.setText(conecta.rs.getString("IdItemDes"));
-        } catch (Exception e) {
-        }
-        conecta.desconecta();
+        CONTROLE.BUSCAR_CODIGO_item(objCHSup);
+        idItemChamadoSup = objCHSup.getIdItemCh();
+        jIdItem.setText(String.valueOf(objCHSup.getIdItemDes()));
     }
 
     public void verificarGravacaoItem() {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
-                    + "WHERE IdCHDes='" + jIdChamado.getText() + "' "
-                    + "AND IdItemDes='" + jIdItem.getText() + "'");
-            conecta.rs.first();
-            idRegChamadoDesc = conecta.rs.getString("IdCHDes");
-            idItemChamadoDesc = conecta.rs.getString("IdItemDes");
-        } catch (Exception e) {
-        }
-        conecta.desconecta();
+        CONTROLE.VERIFICAR_GRAVACAO_Item(objCHSup);
+        idRegChamadoDesc = String.valueOf(objCHSup.getIdCHDes());
+        idItemChamadoDesc = String.valueOf(objCHSup.getIdItemDes());
     }
 
     public void relatorioChamadosST() {
@@ -3169,38 +3171,6 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         modelo.getLinhas().clear();
     }
 
-    public void buscarAcessoUsuario(String nomeTelaAcesso) {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT "
-                    + "IdUsuario, "
-                    + "NomeUsuario "
-                    + "FROM USUARIOS "
-                    + "WHERE NomeUsuario='" + nameUser + "'");
-            conecta.rs.first();
-            codigoUser = conecta.rs.getInt("IdUsuario");
-        } catch (Exception e) {
-        }
-        try {
-            conecta.executaSQL("SELECT "
-                    + "* "
-                    + "FROM TELAS_ACESSO "
-                    + "WHERE IdUsuario='" + codigoUser + "' "
-                    + "AND NomeTela='" + nomeTelaAcesso + "'");
-            conecta.rs.first();
-            codUserAcesso = conecta.rs.getInt("IdUsuario");
-            codAbrir = conecta.rs.getInt("Abrir");
-            codIncluir = conecta.rs.getInt("Incluir");
-            codAlterar = conecta.rs.getInt("Alterar");
-            codExcluir = conecta.rs.getInt("Excluir");
-            codGravar = conecta.rs.getInt("Gravar");
-            codConsultar = conecta.rs.getInt("Consultar");
-            nomeTela = conecta.rs.getString("NomeTela");
-        } catch (Exception e) {
-        }
-        conecta.desconecta();
-    }
-
     public void objLog() {
         objLogSys.setDataMov(dataModFinal);
         objLogSys.setHorarioMov(horaMov);
@@ -3220,17 +3190,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }
 
     public void buscarNivelUsuario() {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT "
-                    + "NomeUsuario, "
-                    + "NivelUsuario "
-                    + "FROM USUARIOS "
-                    + "WHERE NomeUsuario='" + nameUser + "'");
-            conecta.rs.first();
-            nivelUsuario = conecta.rs.getInt("NivelUsuario");
-        } catch (Exception e) {
-        }
-        conecta.desconecta();
+        CONTROLE.VERIFICAR_NIVEL_acesso(objCHSup);
+        nivelUsuario = objCHSup.getNivelAcessoUsuario();
     }
 }

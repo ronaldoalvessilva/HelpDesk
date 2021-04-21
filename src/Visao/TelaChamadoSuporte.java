@@ -5,34 +5,23 @@
  */
 package Visao;
 
-import Controle.ModeloTabela;
 import Dao.ChamadosSuporteDao;
 import Dao.ConexaoBancoDados;
+import Dao.ControleAcessoGeral;
 import Dao.LogSistemaDao;
+import Modelo.CamposAcessos;
 import Modelo.ChamadoSuporte;
 import Modelo.LogSistema;
 import static Visao.LoginHD.nameUser;
-import static Visao.LoginHD.nomeUserRegistro;
 import static Visao.LoginHD.pCLIENTE_servidor;
 import static Visao.LoginHD.pDATA_sistema;
 import static Visao.LoginHD.pHORA_sistema;
-import static Visao.LoginHD.pTOTAL_REGISTROS_dia;
 import static Visao.TelaPrincipal.botaoEncerrarSup;
 import static Visao.TelaPrincipal.botaoEnviarSup;
 import static Visao.TelaPrincipal.botaoImprimirSup;
 import static Visao.TelaPrincipal.botaoReabrirSup;
-import static Visao.TelaPrincipal.codAbrir;
-import static Visao.TelaPrincipal.codAlterar;
-import static Visao.TelaPrincipal.codConsultar;
-import static Visao.TelaPrincipal.codExcluir;
-import static Visao.TelaPrincipal.codGravar;
-import static Visao.TelaPrincipal.codIncluir;
-import static Visao.TelaPrincipal.codUserAcesso;
-import static Visao.TelaPrincipal.codigoUser;
-import static Visao.TelaPrincipal.jDataSistema;
 import static Visao.TelaPrincipal.jHoraSistema;
 import static Visao.TelaPrincipal.jPainelPrincipal;
-import static Visao.TelaPrincipal.nomeTela;
 import static Visao.TelaPrincipal.telaChamadosSuporte;
 import static Visao.TelaPrincipal.telaItensChamadoSuporte;
 import static Visao.LoginHD.tipoServidor;
@@ -40,8 +29,6 @@ import static Visao.LoginHD.nomeUserRegistro;
 import static Visao.LoginHD.pTOTAL_REGISTROS_EM_atendimento;
 import static Visao.LoginHD.pTOTAL_REGISTROS_dia;
 import static Visao.TelaPrincipal.jDataSistema;
-import static Visao.TelaPrincipal.jTotalChamadosAtendidosPeriodo;
-import static Visao.TelaPrincipal.jTotalChamadosEmAtendimento;
 import static Visao.TelaPrincipal.pDATA_pesquisa;
 import java.awt.Color;
 import java.awt.Image;
@@ -66,6 +53,8 @@ import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
+import static Visao.TelaPrincipal.jTotalChamadosEmAtendimentoSUP;
+import static Visao.TelaPrincipal.jTotalChamadosAtendidosPeriodoSUP;
 
 /**
  *
@@ -76,6 +65,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     ChamadoSuporte objCHSup = new ChamadoSuporte();
     ChamadosSuporteDao CONTROL = new ChamadosSuporteDao();
+    //
+    ControleAcessoGeral pPESQUISAR_acessos = new ControleAcessoGeral();
+    CamposAcessos objCampos = new CamposAcessos();
     //
     LogSistemaDao controlLog = new LogSistemaDao();
     LogSistema objLogSys = new LogSistema();
@@ -1653,6 +1645,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private void jBtPesqCHDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesqCHDataActionPerformed
         // TODO add your handling code here:
         nomeAtendente = nameUser;
+        buscarNivelUsuario();
         count = 0;
         flag = 1;
         if (tipoServidor == null || tipoServidor.equals("")) {
@@ -1807,6 +1800,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     private void jBtSolicitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSolicitanteActionPerformed
         // TODO add your handling code here:
         nomeAtendente = nameUser;
+        buscarNivelUsuario();
         count = 0;
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
             if (jPesqSolicitante.getText().equals("")) {
@@ -1873,9 +1867,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jCheckBoxTodosCHItemStateChanged
 
     private void jBtNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codIncluir == 1) {
+        // TODO add your handling code here:   
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaChamadosSuporte);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSuporte) && objCampos.getCodigoIncluir() == 1) {
             if (pCLIENTE_servidor.equals("Cliente")) {
                 statusMov = "Incluiu";
                 horaMov = pHORA_sistema;
@@ -1907,9 +1904,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtNovoActionPerformed
 
     private void jBtAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codAlterar == 1) {
+        // TODO add your handling code here:    
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaChamadosSuporte);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSuporte) && objCampos.getCodigoAlterar() == 1) {
             CONTROL.VERIFICAR_ORIGEM_usuario(objCHSup);
             if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
                 if (jStatusChamado.getText().equals(statusEncerrado)) {
@@ -1951,8 +1951,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
 
     private void jBtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codExcluir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaChamadosSuporte);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSuporte) && objCampos.getCodigoExcluir() == 1) {
             CONTROL.VERIFICAR_ORIGEM_usuario(objCHSup);
             if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
                 if (jStatusChamado.getText().equals(statusEncerrado)) {
@@ -2029,9 +2032,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtExcluirActionPerformed
 
     private void jBtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSalvarActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codIncluir == 1) {
+        // TODO add your handling code here:    
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaChamadosSuporte);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSuporte) && objCampos.getCodigoGravar() == 1) {
             if (jDataChamado.getDate() == null) {
                 JOptionPane.showMessageDialog(rootPane, "Informe a data do chamado.");
             } else if (jUnidadePrisional.getText().equals("")) {
@@ -2118,9 +2124,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtPesquisaSoliActionPerformed
 
     private void jBtEncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtEncerrarActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(botaoEncerrarSup);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoEncerrarSup) && codAbrir == 1) {
+        // TODO add your handling code here:     
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(botaoEncerrarSup);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(botaoEncerrarSup) && objCampos.getCodigoAbrir() == 1) {
             Integer row = jTabelaItens.getRowCount();
             CONTROL.VERIFICAR_ORIGEM_usuario(objCHSup);
             if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
@@ -2140,7 +2149,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         //ATUALIZA OS REGISTROS EM ATENDIMENTO
                         try {
                             for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
-                                jTotalChamadosEmAtendimento.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
+                                jTotalChamadosEmAtendimentoSUP.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
                             }
                         } catch (Exception ex) {
                             Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
@@ -2156,7 +2165,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                             pDATA_pesquisa = ano + "/" + mes + "/" + dia;
                             try {
                                 for (ChamadoSuporte cp4 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
-                                    jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
+                                    jTotalChamadosAtendidosPeriodoSUP.setText(String.valueOf(pTOTAL_REGISTROS_dia));
                                 }
                             } catch (Exception ex) {
                                 Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
@@ -2164,7 +2173,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
                             try {
                                 for (ChamadoSuporte cp4 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
-                                    jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
+                                    jTotalChamadosAtendidosPeriodoSUP.setText(String.valueOf(pTOTAL_REGISTROS_dia));
                                 }
                             } catch (Exception ex) {
                                 Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
@@ -2192,9 +2201,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtEncerrarActionPerformed
 
     private void jBtImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtImprimirActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(botaoImprimirSup);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoImprimirSup) && codAbrir == 1) {
+        // TODO add your handling code here:   
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(botaoImprimirSup);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(botaoImprimirSup) && objCampos.getCodigoAbrir() == 1) {
             if (jIdChamado.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Não existe registro a ser impresso, selecione um registro antes de imprimir.");
             } else {
@@ -2206,9 +2218,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtImprimirActionPerformed
 
     private void jBtEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtEnviarActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(botaoEnviarSup);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoEnviarSup) && codAbrir == 1) {
+        // TODO add your handling code here:    
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(botaoEnviarSup);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(botaoEnviarSup) && objCampos.getCodigoAbrir() == 1) {
             CONTROL.VERIFICAR_ORIGEM_usuario(objCHSup);
             if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
                 if (jStatusChamado.getText().equals(statusEncerrado)) {
@@ -2243,9 +2258,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtEnviarActionPerformed
 
     private void jBtReabrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtReabrirActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(botaoReabrirSup);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(botaoReabrirSup) && codAbrir == 1) {
+        // TODO add your handling code here:    
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(botaoReabrirSup);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(botaoReabrirSup) && objCampos.getCodigoAbrir() == 1) {
             CONTROL.VERIFICAR_ORIGEM_usuario(objCHSup);
             if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
                 if (!jStatusChamado.getText().equals(statusEncerrado)) {
@@ -2333,9 +2351,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTabelaChamdosSupMouseClicked
 
     private void jBtNovoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoItemActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaItensChamadoSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoSuporte) && codIncluir == 1) {
+        // TODO add your handling code here:      
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaItensChamadoSuporte);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaItensChamadoSuporte) && objCampos.getCodigoIncluir() == 1) {
             CONTROL.VERIFICAR_ORIGEM_usuario(objCHSup);
             if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
                 Integer rows = jTabelaItens.getRowCount();
@@ -2375,9 +2396,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtNovoItemActionPerformed
 
     private void jBtAlterarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarItemActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaItensChamadoSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoSuporte) && codAlterar == 1) {
+        // TODO add your handling code here:   
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaItensChamadoSuporte);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaItensChamadoSuporte) && objCampos.getCodigoAlterar() == 1) {
             CONTROL.VERIFICAR_ORIGEM_usuario(objCHSup);
             if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
                 if (jStatusChamado.getText().equals(statusEncerrado)) {
@@ -2422,9 +2446,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtAlterarItemActionPerformed
 
     private void jBtExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirItemActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaItensChamadoSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoSuporte) && codExcluir == 1) {
+        // TODO add your handling code here:     
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaItensChamadoSuporte);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaItensChamadoSuporte) && objCampos.getCodigoExcluir() == 1) {
             CONTROL.VERIFICAR_ORIGEM_usuario(objCHSup);
             if (nomeUserRegistro == null ? nameUser == null : nomeUserRegistro.equals(nameUser) || nameUser.equals("ADMINISTRADOR DO SISTEMA")) {
                 statusMov = "Excluiu";
@@ -2459,9 +2486,12 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtExcluirItemActionPerformed
 
     private void jBtSalvarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSalvarItemActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaItensChamadoSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaItensChamadoSuporte) && codGravar == 1) {
+        // TODO add your handling code here:     
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaItensChamadoSuporte);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaItensChamadoSuporte) && objCampos.getCodigoGravar() == 1) {
             if (jDataOcorrencia.getDate() == null) {
                 JOptionPane.showMessageDialog(rootPane, "Informe a data do chamado.");
             } else if (jHorarioInicio.getText().equals("")) {
@@ -3984,58 +4014,9 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
         }
     }
 
-    public void buscarAcessoUsuario(String nomeTelaAcesso) {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT "
-                    + "IdUsuario, "
-                    + "NomeUsuario "
-                    + "FROM USUARIOS "
-                    + "WHERE NomeUsuario='" + nameUser + "'");
-            conecta.rs.first();
-            codigoUser = conecta.rs.getInt("IdUsuario");
-        } catch (Exception e) {
-        }
-        try {
-            conecta.executaSQL("SELECT "
-                    + "IdUsuario, "
-                    + "Abrir, "
-                    + "Incluir, "
-                    + "Alterar, "
-                    + "Excluir, "
-                    + "Gravar, "
-                    + "Consultar, "
-                    + "NomeTela "
-                    + "FROM TELAS_ACESSO "
-                    + "WHERE IdUsuario='" + codigoUser + "' "
-                    + "AND NomeTela='" + nomeTelaAcesso + "'");
-            conecta.rs.first();
-            codUserAcesso = conecta.rs.getInt("IdUsuario");
-            codAbrir = conecta.rs.getInt("Abrir");
-            codIncluir = conecta.rs.getInt("Incluir");
-            codAlterar = conecta.rs.getInt("Alterar");
-            codExcluir = conecta.rs.getInt("Excluir");
-            codGravar = conecta.rs.getInt("Gravar");
-            codConsultar = conecta.rs.getInt("Consultar");
-            nomeTela = conecta.rs.getString("NomeTela");
-        } catch (Exception e) {
-        }
-        conecta.desconecta();
-    }
-
     public void buscarNivelUsuario() {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT "
-                    + "NivelUsuario, "
-                    + "NomeUsuario "
-                    + "FROM USUARIOS "
-                    + "WHERE NomeUsuario='" + nameUser + "'");
-            conecta.rs.first();
-            nivelUsuario = conecta.rs.getInt("NivelUsuario");
-        } catch (Exception e) {
-        }
-        conecta.desconecta();
+        CONTROL.VERIFICAR_NIVEL_acesso(objCHSup);
+        nivelUsuario = objCHSup.getNivelAcessoUsuario();
     }
 
     public void objLog() {

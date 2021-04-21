@@ -8,6 +8,7 @@ package Visao;
 import Controle.ModeloTabela;
 import Controle.converterDataStringDataDate;
 import static Controle.converterDataStringDataDate.dataSisConvert;
+import Dao.ChamadosDesenvolvimentoDao;
 import Dao.ChamadosSuporteDao;
 import Dao.ConexaoBancoDados;
 import Dao.ControleAcessoGeral;
@@ -22,6 +23,10 @@ import static Visao.LoginHD.nameUser;
 import static Visao.LoginHD.pTOTAL_REGISTROS_EM_atendimento;
 import static Visao.LoginHD.pTOTAL_REGISTROS_dia;
 import static Visao.LoginHD.tipoServidor;
+import static Visao.LoginHD.pTOTAL_REGISTROS_DSV_aberto;
+import static Visao.LoginHD.pTOTAL_REGISTROS_DSV_fechado;
+import static Visao.LoginHD.pTOTAL_REGISTROS_DSV_EM_atendimento;
+import static Visao.LoginHD.pTOTAL_REGISTROS_DSV_dia;
 import static Visao.TelaAgendaCompromissos.jAssunto;
 import static Visao.TelaAgendaCompromissos.jBtAlterarComp;
 import static Visao.TelaAgendaCompromissos.jBtCancelarComp;
@@ -100,6 +105,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     //
     ChamadoSuporte objCHSup = new ChamadoSuporte();
     ChamadosSuporteDao CONTROL = new ChamadosSuporteDao();
+    ChamadosDesenvolvimentoDao CONTROLE = new ChamadosDesenvolvimentoDao();
     //    
     private TelaEmpresa objEmp = null;
     private TelaOcorrenciasHD objOcr = null;
@@ -226,6 +232,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     String pNomeRP = "";
     //
     public static String pDATA_pesquisa;
+    public static String pDATA_DSV_pesquisa;
     public static TelaTrocaSenha telaTrocaSenha;
 
     /**
@@ -290,11 +297,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTotalChamadosAtendidosPeriodo = new javax.swing.JTextField();
-        jTotalChamadosFechados = new javax.swing.JTextField();
-        jTotalChamadosAberto = new javax.swing.JTextField();
+        jTotalChamadosAtendidosPeriodoSUP = new javax.swing.JTextField();
+        jTotalChamadosFechadosSUP = new javax.swing.JTextField();
+        jTotalChamadosAbertoSUP = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jTotalChamadosEmAtendimento = new javax.swing.JTextField();
+        jTotalChamadosEmAtendimentoSUP = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jTotalChamadosAtendidosPeriodoDSV = new javax.swing.JTextField();
+        jTotalChamadosFechadosDSV = new javax.swing.JTextField();
+        jTotalChamadosAbertoDSV = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jTotalChamadosEmAtendimentoDSV = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jBtOcorrencias = new javax.swing.JButton();
         jBtEmpresa = new javax.swing.JButton();
@@ -375,7 +391,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/help-desk-icon-button-online-600w-193844171.jpg"))); // NOI18N
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true), "Atendimentos Suporte Técnico", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(153, 0, 0));
@@ -389,36 +405,36 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(0, 0, 204));
         jLabel9.setText("Atendimentos no dia:");
 
-        jTotalChamadosAtendidosPeriodo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jTotalChamadosAtendidosPeriodo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTotalChamadosAtendidosPeriodo.setText("0");
-        jTotalChamadosAtendidosPeriodo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jTotalChamadosAtendidosPeriodo.setDisabledTextColor(new java.awt.Color(0, 0, 204));
-        jTotalChamadosAtendidosPeriodo.setEnabled(false);
+        jTotalChamadosAtendidosPeriodoSUP.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTotalChamadosAtendidosPeriodoSUP.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalChamadosAtendidosPeriodoSUP.setText("0");
+        jTotalChamadosAtendidosPeriodoSUP.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalChamadosAtendidosPeriodoSUP.setDisabledTextColor(new java.awt.Color(0, 0, 204));
+        jTotalChamadosAtendidosPeriodoSUP.setEnabled(false);
 
-        jTotalChamadosFechados.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jTotalChamadosFechados.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTotalChamadosFechados.setText("0");
-        jTotalChamadosFechados.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jTotalChamadosFechados.setDisabledTextColor(new java.awt.Color(0, 102, 0));
-        jTotalChamadosFechados.setEnabled(false);
+        jTotalChamadosFechadosSUP.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTotalChamadosFechadosSUP.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalChamadosFechadosSUP.setText("0");
+        jTotalChamadosFechadosSUP.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalChamadosFechadosSUP.setDisabledTextColor(new java.awt.Color(0, 102, 0));
+        jTotalChamadosFechadosSUP.setEnabled(false);
 
-        jTotalChamadosAberto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jTotalChamadosAberto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTotalChamadosAberto.setText("0");
-        jTotalChamadosAberto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jTotalChamadosAberto.setDisabledTextColor(new java.awt.Color(153, 0, 0));
-        jTotalChamadosAberto.setEnabled(false);
+        jTotalChamadosAbertoSUP.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTotalChamadosAbertoSUP.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalChamadosAbertoSUP.setText("0");
+        jTotalChamadosAbertoSUP.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalChamadosAbertoSUP.setDisabledTextColor(new java.awt.Color(153, 0, 0));
+        jTotalChamadosAbertoSUP.setEnabled(false);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel10.setText("Chamados em Atendimento:");
 
-        jTotalChamadosEmAtendimento.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jTotalChamadosEmAtendimento.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTotalChamadosEmAtendimento.setText("0");
-        jTotalChamadosEmAtendimento.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jTotalChamadosEmAtendimento.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTotalChamadosEmAtendimento.setEnabled(false);
+        jTotalChamadosEmAtendimentoSUP.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTotalChamadosEmAtendimentoSUP.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalChamadosEmAtendimentoSUP.setText("0");
+        jTotalChamadosEmAtendimentoSUP.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalChamadosEmAtendimentoSUP.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTotalChamadosEmAtendimentoSUP.setEnabled(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -433,20 +449,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTotalChamadosEmAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTotalChamadosAberto, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTotalChamadosEmAtendimentoSUP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTotalChamadosAbertoSUP, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTotalChamadosFechados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTotalChamadosAtendidosPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTotalChamadosFechadosSUP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTotalChamadosAtendidosPeriodoSUP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTotalChamadosAberto, jTotalChamadosAtendidosPeriodo, jTotalChamadosEmAtendimento, jTotalChamadosFechados});
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTotalChamadosAbertoSUP, jTotalChamadosAtendidosPeriodoSUP, jTotalChamadosEmAtendimentoSUP, jTotalChamadosFechadosSUP});
 
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -454,36 +470,138 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTotalChamadosAberto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTotalChamadosAbertoSUP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTotalChamadosEmAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTotalChamadosEmAtendimentoSUP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTotalChamadosFechados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTotalChamadosFechadosSUP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel9)
-                    .addComponent(jTotalChamadosAtendidosPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTotalChamadosAtendidosPeriodoSUP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jTotalChamadosAberto, jTotalChamadosAtendidosPeriodo, jTotalChamadosFechados});
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jTotalChamadosAbertoSUP, jTotalChamadosAtendidosPeriodoSUP, jTotalChamadosFechadosSUP});
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true), "Atendimentos Desenvolvimento", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(204, 0, 0))); // NOI18N
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel11.setText("Chamados em Aberto:");
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(153, 0, 0));
+        jLabel12.setText("Chamados Atendidos:");
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 102, 0));
+        jLabel13.setText("Atendimentos no dia:");
+
+        jTotalChamadosAtendidosPeriodoDSV.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTotalChamadosAtendidosPeriodoDSV.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalChamadosAtendidosPeriodoDSV.setText("0");
+        jTotalChamadosAtendidosPeriodoDSV.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalChamadosAtendidosPeriodoDSV.setDisabledTextColor(new java.awt.Color(0, 102, 0));
+        jTotalChamadosAtendidosPeriodoDSV.setEnabled(false);
+
+        jTotalChamadosFechadosDSV.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTotalChamadosFechadosDSV.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalChamadosFechadosDSV.setText("0");
+        jTotalChamadosFechadosDSV.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalChamadosFechadosDSV.setDisabledTextColor(new java.awt.Color(153, 0, 0));
+        jTotalChamadosFechadosDSV.setEnabled(false);
+
+        jTotalChamadosAbertoDSV.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTotalChamadosAbertoDSV.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalChamadosAbertoDSV.setText("0");
+        jTotalChamadosAbertoDSV.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalChamadosAbertoDSV.setDisabledTextColor(new java.awt.Color(0, 0, 204));
+        jTotalChamadosAbertoDSV.setEnabled(false);
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel14.setText("Chamados em Atendimento:");
+
+        jTotalChamadosEmAtendimentoDSV.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTotalChamadosEmAtendimentoDSV.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalChamadosEmAtendimentoDSV.setText("0");
+        jTotalChamadosEmAtendimentoDSV.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalChamadosEmAtendimentoDSV.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTotalChamadosEmAtendimentoDSV.setEnabled(false);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTotalChamadosAbertoDSV, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTotalChamadosEmAtendimentoDSV, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel13))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTotalChamadosFechadosDSV, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                            .addComponent(jTotalChamadosAtendidosPeriodoDSV))))
+                .addContainerGap())
+        );
+
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTotalChamadosAbertoDSV, jTotalChamadosAtendidosPeriodoDSV, jTotalChamadosEmAtendimentoDSV, jTotalChamadosFechadosDSV});
+
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jTotalChamadosAbertoDSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(jTotalChamadosEmAtendimentoDSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jTotalChamadosFechadosDSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTotalChamadosAtendidosPeriodoDSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jTotalChamadosAbertoDSV, jTotalChamadosAtendidosPeriodoDSV, jTotalChamadosEmAtendimentoDSV, jTotalChamadosFechadosDSV});
 
         jPainelPrincipal.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jPainelPrincipal.setLayer(jPanel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jPainelPrincipal.setLayer(jPanel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jPainelPrincipalLayout = new javax.swing.GroupLayout(jPainelPrincipal);
         jPainelPrincipal.setLayout(jPainelPrincipalLayout);
         jPainelPrincipalLayout.setHorizontalGroup(
             jPainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPainelPrincipalLayout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(jPainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPainelPrincipalLayout.setVerticalGroup(
@@ -491,8 +609,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPainelPrincipalLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(356, Short.MAX_VALUE))
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204))));
@@ -1183,8 +1303,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEmpresaActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroEmpresa);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroEmpresa) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaCadastroEmpresa);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroEmpresa) && objCampos.getCodigoAbrir() == 1) {
             if (objEmp == null || objEmp.isClosed()) {
                 objEmp = new TelaEmpresa();
                 TelaPrincipal.jPainelPrincipal.add(objEmp);
@@ -1217,8 +1340,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jOcorrenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jOcorrenciasActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaOcorrenciaManu);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaOcorrenciaManu) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaOcorrenciaManu);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaOcorrenciaManu) && objCampos.getCodigoAbrir() == 1) {
             if (objOcr == null || objOcr.isClosed()) {
                 objOcr = new TelaOcorrenciasHD();
                 TelaPrincipal.jPainelPrincipal.add(objOcr);
@@ -1251,8 +1377,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jSolicitantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSolicitantesActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroSolicitantes);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroSolicitantes) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaCadastroSolicitantes);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroSolicitantes) && objCampos.getCodigoAbrir() == 1) {
             if (objSoli == null || objSoli.isClosed()) {
                 objSoli = new TelaSolicitantes();
                 TelaPrincipal.jPainelPrincipal.add(objSoli);
@@ -1284,9 +1413,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jSolicitantesActionPerformed
 
     private void jUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUsuariosActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroUsuarios);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroUsuarios) && codAbrir == 1) {
+        // TODO add your handling code here: 
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaCadastroUsuarios);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroUsuarios) && objCampos.getCodigoAbrir() == 1) {
             if (objUser == null || objUser.isClosed()) {
                 objUser = new TelaUsuarios();
                 TelaPrincipal.jPainelPrincipal.add(objUser);
@@ -1319,8 +1451,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jSoftwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSoftwareActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroSistemas);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroSistemas) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaCadastroSistemas);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroSistemas) && objCampos.getCodigoAbrir() == 1) {
             if (objSoftware == null || objSoftware.isClosed()) {
                 objSoftware = new TelaSoftware();
                 TelaPrincipal.jPainelPrincipal.add(objSoftware);
@@ -1353,8 +1488,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jModulosSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jModulosSistemaActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroModulos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroModulos) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaCadastroModulos);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroModulos) && objCampos.getCodigoAbrir() == 1) {
             if (objModulo == null || objModulo.isClosed()) {
                 objModulo = new TelaModuloSistema();
                 TelaPrincipal.jPainelPrincipal.add(objModulo);
@@ -1387,8 +1525,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jAgendaRecadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgendaRecadosActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaAgendaRecado);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaAgendaRecado) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaAgendaRecado);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaRecado) && objCampos.getCodigoAbrir() == 1) {
             if (objjAgendaRec == null || objjAgendaRec.isClosed()) {
                 objjAgendaRec = new TelaRecados();
                 jPainelPrincipal.add(objjAgendaRec);
@@ -1421,8 +1562,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jAgendaCompromissoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgendaCompromissoActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaAgendaCompromisso);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaAgendaCompromisso) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaAgendaCompromisso);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaCompromisso) && objCampos.getCodigoAbrir() == 1) {
             if (objAgendaComp == null || objAgendaComp.isClosed()) {
                 objAgendaComp = new TelaAgendaCompromissos();
                 TelaPrincipal.jPainelPrincipal.add(objAgendaComp);
@@ -1459,9 +1603,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jSairActionPerformed
 
     private void jChamadosSuporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChamadosSuporteActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codAbrir == 1) {
+        // TODO add your handling code here:     
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaChamadosSuporte);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSuporte) && objCampos.getCodigoAbrir() == 1) {
             if (objChamaSup == null || objChamaSup.isClosed()) {
                 objChamaSup = new TelaChamadoSuporte();
                 TelaPrincipal.jPainelPrincipal.add(objChamaSup);
@@ -1493,9 +1640,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jChamadosSuporteActionPerformed
 
     private void jConsultasSQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConsultasSQLActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaConsultasSql);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaConsultasSql) && codAbrir == 1) {
+        // TODO add your handling code here:        
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaConsultasSql);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaConsultasSql) && objCampos.getCodigoAbrir() == 1) {
             TableExample objSQL = new TableExample();
             objSQL.createConnectionDialog();
         } else {
@@ -1505,8 +1655,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jChamadosDesenvolvimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChamadosDesenvolvimentoActionPerformed
         // TODO add your handling code here:TelaChamadoDesenvolvimento
-        buscarAcessoUsuario(telaChamadosDesenvolvimento);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosDesenvolvimento) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaChamadosDesenvolvimento);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosDesenvolvimento) && objCampos.getCodigoAbrir() == 1) {
             if (objChamaSupDesn == null || objChamaSupDesn.isClosed()) {
                 objChamaSupDesn = new TelaChamadoDesenvolvimento();
                 TelaPrincipal.jPainelPrincipal.add(objChamaSupDesn);
@@ -1544,8 +1697,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtEmpresaActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroEmpresa);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroEmpresa) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaCadastroEmpresa);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroEmpresa) && objCampos.getCodigoAbrir() == 1) {
             if (objEmp == null || objEmp.isClosed()) {
                 objEmp = new TelaEmpresa();
                 TelaPrincipal.jPainelPrincipal.add(objEmp);
@@ -1578,8 +1734,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtOcorrenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtOcorrenciasActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaOcorrenciaManu);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaOcorrenciaManu) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaOcorrenciaManu);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaOcorrenciaManu) && objCampos.getCodigoAbrir() == 1) {
             if (objOcr == null || objOcr.isClosed()) {
                 objOcr = new TelaOcorrenciasHD();
                 TelaPrincipal.jPainelPrincipal.add(objOcr);
@@ -1612,8 +1771,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtSolicitantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSolicitantesActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroSolicitantes);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroSolicitantes) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaCadastroSolicitantes);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroSolicitantes) && objCampos.getCodigoAbrir() == 1) {
             if (objSoli == null || objSoli.isClosed()) {
                 objSoli = new TelaSolicitantes();
                 TelaPrincipal.jPainelPrincipal.add(objSoli);
@@ -1646,8 +1808,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtUsuariosActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroUsuarios);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroUsuarios) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaCadastroUsuarios);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroUsuarios) && objCampos.getCodigoAbrir() == 1) {
             if (objUser == null || objUser.isClosed()) {
                 objUser = new TelaUsuarios();
                 TelaPrincipal.jPainelPrincipal.add(objUser);
@@ -1680,8 +1845,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtSistemasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSistemasActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroSistemas);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroSistemas) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaCadastroSistemas);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroSistemas) && objCampos.getCodigoAbrir() == 1) {
             if (objSoftware == null || objSoftware.isClosed()) {
                 objSoftware = new TelaSoftware();
                 TelaPrincipal.jPainelPrincipal.add(objSoftware);
@@ -1714,8 +1882,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtModulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtModulosActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroModulos);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroModulos) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaCadastroModulos);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroModulos) && objCampos.getCodigoAbrir() == 1) {
             if (objModulo == null || objModulo.isClosed()) {
                 objModulo = new TelaModuloSistema();
                 TelaPrincipal.jPainelPrincipal.add(objModulo);
@@ -1748,8 +1919,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtAgendaRecadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAgendaRecadosActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaAgendaRecado);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaAgendaRecado) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaAgendaRecado);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaRecado) && objCampos.getCodigoAbrir() == 1) {
             if (objjAgendaRec == null || objjAgendaRec.isClosed()) {
                 objjAgendaRec = new TelaRecados();
                 jPainelPrincipal.add(objjAgendaRec);
@@ -1782,8 +1956,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtAgendaCompromissoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAgendaCompromissoActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaAgendaCompromisso);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaAgendaCompromisso) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaAgendaCompromisso);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaCompromisso) && objCampos.getCodigoAbrir() == 1) {
             if (objAgendaComp == null || objAgendaComp.isClosed()) {
                 objAgendaComp = new TelaAgendaCompromissos();
                 TelaPrincipal.jPainelPrincipal.add(objAgendaComp);
@@ -1815,9 +1992,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtAgendaCompromissoActionPerformed
 
     private void jBtChamadosSuporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtChamadosSuporteActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosSuporte);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codAbrir == 1) {
+        // TODO add your handling code here:   
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaChamadosSuporte);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSuporte) && objCampos.getCodigoAbrir() == 1) {
             if (objChamaSup == null || objChamaSup.isClosed()) {
                 objChamaSup = new TelaChamadoSuporte();
                 TelaPrincipal.jPainelPrincipal.add(objChamaSup);
@@ -1850,8 +2030,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtConsultasDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtConsultasDBActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaConsultasSql);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaConsultasSql) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaConsultasSql);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaConsultasSql) && objCampos.getCodigoAbrir() == 1) {
             TableExample objSQL = new TableExample();
             objSQL.createConnectionDialog();
         } else {
@@ -1861,8 +2044,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtChamadosDesenvolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtChamadosDesenvolActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosDesenvolvimento);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosDesenvolvimento) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaChamadosDesenvolvimento);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosDesenvolvimento) && objCampos.getCodigoAbrir() == 1) {
             if (objChamaSupDesn == null || objChamaSupDesn.isClosed()) {
                 objChamaSupDesn = new TelaChamadoDesenvolvimento();
                 TelaPrincipal.jPainelPrincipal.add(objChamaSupDesn);
@@ -1917,8 +2103,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_E:
-                buscarAcessoUsuario(telaCadastroEmpresa);
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroEmpresa) && codAbrir == 1) {
+                objCampos.setNomeUsuario(nameUser);
+                objCampos.setNomeTelaAcesso(telaCadastroEmpresa);
+                pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+                pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroEmpresa) && objCampos.getCodigoAbrir() == 1) {
                     if (objEmp == null || objEmp.isClosed()) {
                         objEmp = new TelaEmpresa();
                         TelaPrincipal.jPainelPrincipal.add(objEmp);
@@ -1949,8 +2138,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 }
                 break;
             case KeyEvent.VK_O:
-                buscarAcessoUsuario(telaOcorrenciaManu);
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaOcorrenciaManu) && codAbrir == 1) {
+                objCampos.setNomeUsuario(nameUser);
+                objCampos.setNomeTelaAcesso(telaOcorrenciaManu);
+                pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+                pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaOcorrenciaManu) && objCampos.getCodigoAbrir() == 1) {
                     if (objOcr == null || objOcr.isClosed()) {
                         objOcr = new TelaOcorrenciasHD();
                         TelaPrincipal.jPainelPrincipal.add(objOcr);
@@ -1981,8 +2173,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 }
                 break;
             case KeyEvent.VK_S:
-                buscarAcessoUsuario(telaCadastroSolicitantes);
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroSolicitantes) && codAbrir == 1) {
+                objCampos.setNomeUsuario(nameUser);
+                objCampos.setNomeTelaAcesso(telaCadastroSolicitantes);
+                pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+                pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroSolicitantes) && objCampos.getCodigoAbrir() == 1) {
                     if (objSoli == null || objSoli.isClosed()) {
                         objSoli = new TelaSolicitantes();
                         TelaPrincipal.jPainelPrincipal.add(objSoli);
@@ -2013,8 +2208,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 }
                 break;
             case KeyEvent.VK_U:
-                buscarAcessoUsuario(telaCadastroUsuarios);
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroUsuarios) && codAbrir == 1) {
+                objCampos.setNomeUsuario(nameUser);
+                objCampos.setNomeTelaAcesso(telaCadastroUsuarios);
+                pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+                pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroUsuarios) && objCampos.getCodigoAbrir() == 1) {
                     if (objUser == null || objUser.isClosed()) {
                         objUser = new TelaUsuarios();
                         TelaPrincipal.jPainelPrincipal.add(objUser);
@@ -2045,8 +2243,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 }
                 break;
             case KeyEvent.VK_F:
-                buscarAcessoUsuario(telaCadastroSistemas);
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroSistemas) && codAbrir == 1) {
+                objCampos.setNomeUsuario(nameUser);
+                objCampos.setNomeTelaAcesso(telaCadastroSistemas);
+                pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+                pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroSistemas) && objCampos.getCodigoAbrir() == 1) {
                     if (objSoftware == null || objSoftware.isClosed()) {
                         objSoftware = new TelaSoftware();
                         TelaPrincipal.jPainelPrincipal.add(objSoftware);
@@ -2077,8 +2278,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 }
                 break;
             case KeyEvent.VK_M:
-                buscarAcessoUsuario(telaCadastroModulos);
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroModulos) && codAbrir == 1) {
+                objCampos.setNomeUsuario(nameUser);
+                objCampos.setNomeTelaAcesso(telaCadastroModulos);
+                pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+                pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroModulos) && objCampos.getCodigoAbrir() == 1) {
                     if (objModulo == null || objModulo.isClosed()) {
                         objModulo = new TelaModuloSistema();
                         TelaPrincipal.jPainelPrincipal.add(objModulo);
@@ -2108,9 +2312,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
                 }
                 break;
+
             case KeyEvent.VK_A:
-                buscarAcessoUsuario(telaAgendaRecado);
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaAgendaRecado) && codAbrir == 1) {
+                objCampos.setNomeUsuario(nameUser);
+                objCampos.setNomeTelaAcesso(telaAgendaRecado);
+                pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+                pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaRecado) && objCampos.getCodigoAbrir() == 1) {
                     if (objjAgendaRec == null || objjAgendaRec.isClosed()) {
                         objjAgendaRec = new TelaRecados();
                         jPainelPrincipal.add(objjAgendaRec);
@@ -2141,8 +2349,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 }
                 break;
             case KeyEvent.VK_G:
-                buscarAcessoUsuario(telaAgendaCompromisso);
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaAgendaCompromisso) && codAbrir == 1) {
+                objCampos.setNomeUsuario(nameUser);
+                objCampos.setNomeTelaAcesso(telaAgendaCompromisso);
+                pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+                pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaAgendaCompromisso) && objCampos.getCodigoAbrir() == 1) {
                     if (objAgendaComp == null || objAgendaComp.isClosed()) {
                         objAgendaComp = new TelaAgendaCompromissos();
                         TelaPrincipal.jPainelPrincipal.add(objAgendaComp);
@@ -2173,8 +2384,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 }
                 break;
             case KeyEvent.VK_T:
-                buscarAcessoUsuario(telaCadastroAtendentes);
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroAtendentes) && codAbrir == 1) {
+                objCampos.setNomeUsuario(nameUser);
+                objCampos.setNomeTelaAcesso(telaCadastroAtendentes);
+                pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+                pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroAtendentes) && objCampos.getCodigoAbrir() == 1) {
                     if (objAtendente == null || objAtendente.isClosed()) {
                         objAtendente = new TelaAtendentesSuporte();
                         TelaPrincipal.jPainelPrincipal.add(objAtendente);
@@ -2213,8 +2427,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_C:
-                buscarAcessoUsuario(telaChamadosSuporte);
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codAbrir == 1) {
+                objCampos.setNomeUsuario(nameUser);
+                objCampos.setNomeTelaAcesso(telaChamadosSuporte);
+                pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+                pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosSuporte) && objCampos.getCodigoAbrir() == 1) {
                     if (objChamaSup == null || objChamaSup.isClosed()) {
                         objChamaSup = new TelaChamadoSuporte();
                         TelaPrincipal.jPainelPrincipal.add(objChamaSup);
@@ -2245,8 +2462,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 }
                 break;
             case KeyEvent.VK_L:
-                buscarAcessoUsuario(telaRegistroPonto);
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaRegistroPonto) && codAbrir == 1) {
+                objCampos.setNomeUsuario(nameUser);
+                objCampos.setNomeTelaAcesso(telaRegistroPonto);
+                pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+                pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaRegistroPonto) && objCampos.getCodigoAbrir() == 1) {
                     if (objPonto == null || objPonto.isClosed()) {
                         objPonto = new TelaRegistroPontoTrabalho();
                         TelaPrincipal.jPainelPrincipal.add(objPonto);
@@ -2283,8 +2503,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_Q:
-                buscarAcessoUsuario(telaConsultasSql);
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaConsultasSql) && codAbrir == 1) {
+                objCampos.setNomeUsuario(nameUser);
+                objCampos.setNomeTelaAcesso(telaConsultasSql);
+                pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+                pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaConsultasSql) && objCampos.getCodigoAbrir() == 1) {
                     TableExample objSQL = new TableExample();
                     objSQL.createConnectionDialog();
                 } else {
@@ -2292,8 +2515,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 }
                 break;
             case KeyEvent.VK_D:
-                buscarAcessoUsuario(telaChamadosDesenvolvimento);
-                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosDesenvolvimento) && codAbrir == 1) {
+                objCampos.setNomeUsuario(nameUser);
+                objCampos.setNomeTelaAcesso(telaChamadosDesenvolvimento);
+                pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+                pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+                if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaChamadosDesenvolvimento) && objCampos.getCodigoAbrir() == 1) {
                     if (objChamaSupDesn == null || objChamaSupDesn.isClosed()) {
                         objChamaSupDesn = new TelaChamadoDesenvolvimento();
                         TelaPrincipal.jPainelPrincipal.add(objChamaSupDesn);
@@ -2345,9 +2571,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jSobreMenuKeyPressed
 
     private void jAtendentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAtendentesActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroAtendentes);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroAtendentes) && codAbrir == 1) {
+        // TODO add your handling code here:  
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaCadastroAtendentes);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroAtendentes) && objCampos.getCodigoAbrir() == 1) {
             if (objAtendente == null || objAtendente.isClosed()) {
                 objAtendente = new TelaAtendentesSuporte();
                 TelaPrincipal.jPainelPrincipal.add(objAtendente);
@@ -2380,8 +2609,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtAtendentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAtendentesActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroAtendentes);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroAtendentes) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaCadastroAtendentes);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroAtendentes) && objCampos.getCodigoAbrir() == 1) {
             if (objAtendente == null || objAtendente.isClosed()) {
                 objAtendente = new TelaAtendentesSuporte();
                 TelaPrincipal.jPainelPrincipal.add(objAtendente);
@@ -2414,8 +2646,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jColaboradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jColaboradoresActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroColaboradores);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroColaboradores) && codAbrir == 1) {
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaCadastroColaboradores);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaCadastroColaboradores) && objCampos.getCodigoAbrir() == 1) {
             if (objCadastroColaborador == null || objCadastroColaborador.isClosed()) {
                 objCadastroColaborador = new TelaCadastroColaboradorCP();
                 TelaPrincipal.jPainelPrincipal.add(objCadastroColaborador);
@@ -2447,9 +2682,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jColaboradoresActionPerformed
 
     private void jRegistraPontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRegistraPontoActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaRegistroPonto);
-        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaRegistroPonto) && codAbrir == 1) {
+        // TODO add your handling code here:      
+        objCampos.setNomeUsuario(nameUser);
+        objCampos.setNomeTelaAcesso(telaRegistroPonto);
+        pPESQUISAR_acessos.pesquisarUsuario(objCampos);
+        pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(telaRegistroPonto) && objCampos.getCodigoAbrir() == 1) {
             if (objPonto == null || objPonto.isClosed()) {
                 objPonto = new TelaRegistroPontoTrabalho();
                 TelaPrincipal.jPainelPrincipal.add(objPonto);
@@ -2556,6 +2794,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jInformacoes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -2574,6 +2816,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JMenuItem jRegistraPonto;
     private javax.swing.JMenuItem jRelatorioCartaoPontoColaborador;
@@ -2596,20 +2839,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
     private javax.swing.JToolBar jToolBar4;
-    private javax.swing.JTextField jTotalChamadosAberto;
-    public static javax.swing.JTextField jTotalChamadosAtendidosPeriodo;
-    public static javax.swing.JTextField jTotalChamadosEmAtendimento;
-    private javax.swing.JTextField jTotalChamadosFechados;
+    private javax.swing.JTextField jTotalChamadosAbertoDSV;
+    private javax.swing.JTextField jTotalChamadosAbertoSUP;
+    public static javax.swing.JTextField jTotalChamadosAtendidosPeriodoDSV;
+    public static javax.swing.JTextField jTotalChamadosAtendidosPeriodoSUP;
+    public static javax.swing.JTextField jTotalChamadosEmAtendimentoDSV;
+    public static javax.swing.JTextField jTotalChamadosEmAtendimentoSUP;
+    private javax.swing.JTextField jTotalChamadosFechadosDSV;
+    private javax.swing.JTextField jTotalChamadosFechadosSUP;
     private javax.swing.JMenuItem jUsuarios;
     private javax.swing.JMenuItem listagemChamadosDesenvolvimento;
     private javax.swing.JMenuItem listagemChamadosSuporteTecnico;
     // End of variables declaration//GEN-END:variables
 
     public void corCampos() {
-        jTotalChamadosAberto.setBackground(Color.white);
-        jTotalChamadosEmAtendimento.setBackground(Color.white);
-        jTotalChamadosFechados.setBackground(Color.white);
-        jTotalChamadosAtendidosPeriodo.setBackground(Color.white);
+        jTotalChamadosAbertoSUP.setBackground(Color.white);
+        jTotalChamadosEmAtendimentoSUP.setBackground(Color.white);
+        jTotalChamadosFechadosSUP.setBackground(Color.white);
+        jTotalChamadosAtendidosPeriodoSUP.setBackground(Color.white);
     }
 
     // Verificar a cada 5 minutos se o recado foi lido (10/01/2015)
@@ -2620,6 +2867,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
             public void run() {
                 TOTALIZADOR_CHAMADOS_atendente();
+                TOTALIZADOR_CHAMADOS_DSV_atendente();
                 verificarRecado(); // Verificar recados a cada 5 minutos               
                 verificarAgendaCompromisso();
             }
@@ -2647,15 +2895,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
         try {
             //CHAMADOS ABERTO POR USUÁRIO
             for (ChamadoSuporte cp1 : CONTROL.QUANDIDADE_CHAMADOS_ABERTO_ATENDENTE_read()) {
-                jTotalChamadosAberto.setText(String.valueOf(pTOTAL_REGISTROS_aberto));
+                jTotalChamadosAbertoSUP.setText(String.valueOf(pTOTAL_REGISTROS_aberto));
             }
             //CHAMDOS FECHADO POR USUÁRIO
             for (ChamadoSuporte cp2 : CONTROL.QUANDIDADE_CHAMADOS_FECHADO_ATENDENTE_read()) {
-                jTotalChamadosFechados.setText(String.valueOf(pTOTAL_REGISTROS_fechado));
+                jTotalChamadosFechadosSUP.setText(String.valueOf(pTOTAL_REGISTROS_fechado));
             }
             //EM ATENDIMENTO
             for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
-                jTotalChamadosEmAtendimento.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
+                jTotalChamadosEmAtendimentoSUP.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
             }
             //ATENDIMENTOS NO DIA
             if (tipoServidor == null || tipoServidor.equals("")) {
@@ -2668,20 +2916,69 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 pDATA_pesquisa = ano + "/" + mes + "/" + dia;
                 //EM ATENDIMENTO
                 for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
-                    jTotalChamadosEmAtendimento.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
+                    jTotalChamadosEmAtendimentoSUP.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
                 }
                 //
                 for (ChamadoSuporte cp4 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
-                    jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
+                    jTotalChamadosAtendidosPeriodoSUP.setText(String.valueOf(pTOTAL_REGISTROS_dia));
                 }
             } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
                 //EM ATENDIMENTO
                 for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
-                    jTotalChamadosEmAtendimento.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
+                    jTotalChamadosEmAtendimentoSUP.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
                 }
                 //
                 for (ChamadoSuporte cp4 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
-                    jTotalChamadosAtendidosPeriodo.setText(String.valueOf(pTOTAL_REGISTROS_dia));
+                    jTotalChamadosAtendidosPeriodoSUP.setText(String.valueOf(pTOTAL_REGISTROS_dia));
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void TOTALIZADOR_CHAMADOS_DSV_atendente() {
+        pTOTAL_REGISTROS_DSV_aberto = 0;
+        pTOTAL_REGISTROS_DSV_fechado = 0;
+        pTOTAL_REGISTROS_DSV_EM_atendimento = 0;
+        try {
+            //CHAMADOS ABERTO POR USUÁRIO
+            for (ChamadoSuporte cp5 : CONTROLE.QUANDIDADE_CHAMADOS_ABERTO_DSV_ATENDENTE_read()) {
+                jTotalChamadosAbertoDSV.setText(String.valueOf(pTOTAL_REGISTROS_DSV_aberto));
+            }
+            //CHAMDOS FECHADO POR USUÁRIO
+            for (ChamadoSuporte cp6 : CONTROLE.QUANDIDADE_CHAMADOS_FECHADO_DSV_ATENDENTE_read()) {
+                jTotalChamadosFechadosDSV.setText(String.valueOf(pTOTAL_REGISTROS_DSV_fechado));
+            }
+            //EM ATENDIMENTO
+            for (ChamadoSuporte cp7 : CONTROLE.QUANDIDADE_CHAMADOS_DSV_EM_ATENDENTE_read()) {
+                jTotalChamadosEmAtendimentoDSV.setText(String.valueOf(pTOTAL_REGISTROS_DSV_EM_atendimento));
+            }
+            //ATENDIMENTOS NO DIA
+            if (tipoServidor == null || tipoServidor.equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
+            } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
+                pDATA_DSV_pesquisa = jDataSistema.getText();
+                String ano = pDATA_DSV_pesquisa.substring(6, 10);
+                String mes = pDATA_DSV_pesquisa.substring(3, 5);
+                String dia = pDATA_DSV_pesquisa.substring(0, 2);
+                pDATA_DSV_pesquisa = ano + "/" + mes + "/" + dia;
+                //EM ATENDIMENTO
+                for (ChamadoSuporte cp7 : CONTROLE.QUANDIDADE_CHAMADOS_DSV_EM_ATENDENTE_read()) {
+                    jTotalChamadosEmAtendimentoDSV.setText(String.valueOf(pTOTAL_REGISTROS_DSV_EM_atendimento));
+                }
+                //
+                for (ChamadoSuporte cp8 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
+                    jTotalChamadosAtendidosPeriodoDSV.setText(String.valueOf(pTOTAL_REGISTROS_DSV_dia));
+                }
+            } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
+                //EM ATENDIMENTO
+                for (ChamadoSuporte cp7 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
+                    jTotalChamadosEmAtendimentoDSV.setText(String.valueOf(pTOTAL_REGISTROS_DSV_EM_atendimento));
+                }
+                //
+                for (ChamadoSuporte cp8 : CONTROLE.QUANDIDADE_CHAMADOS_DSV_ATENDIDOS_DIA_read()) {
+                    jTotalChamadosAtendidosPeriodoDSV.setText(String.valueOf(pTOTAL_REGISTROS_DSV_dia));
                 }
             }
         } catch (Exception ex) {

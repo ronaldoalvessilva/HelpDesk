@@ -62,11 +62,16 @@ public class LoginHD extends javax.swing.JDialog {
     //
     public static String pDATA_sistema;
     public static String pHORA_sistema;
-    //
+    //VARIAVEIS QUE ATENDE AOS CHAMADOS DO SUPORTE
     public static int pTOTAL_REGISTROS_dia = 0;
     public static int pTOTAL_REGISTROS_EM_atendimento = 0;
     public static int pTOTAL_REGISTROS_aberto = 0;
     public static int pTOTAL_REGISTROS_fechado = 0;
+    //VARIAVEIS QUE ATENDE AO DESENVOLVIMENTO
+    public static int pTOTAL_REGISTROS_DSV_dia = 0;
+    public static int pTOTAL_REGISTROS_DSV_EM_atendimento = 0;
+    public static int pTOTAL_REGISTROS_DSV_aberto = 0;
+    public static int pTOTAL_REGISTROS_DSV_fechado = 0;
     //VARIAVEL QUE IMPEDI OUTRO USUÁRIO A EDITAR OU EXCLUIR O REGISTRO CRIADO PELO USUÁRIO QUE CRIOU
     public static String nomeUserRegistro;
     //

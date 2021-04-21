@@ -1581,4 +1581,20 @@ public class ChamadosSuporteDao {
         }
         return null;
     }
+    
+    public ChamadoSuporte VERIFICAR_NIVEL_acesso(ChamadoSuporte objCHSup) {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "NomeUsuario, "
+                    + "NivelUsuario "
+                    + "FROM USUARIOS "
+                    + "WHERE NomeUsuario='" + nameUser + "'");
+            conecta.rs.first();
+            objCHSup.setNivelAcessoUsuario(conecta.rs.getInt("NivelUsuario"));
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
+        return objCHSup;
+    }
 }

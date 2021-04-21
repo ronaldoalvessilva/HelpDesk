@@ -52,11 +52,12 @@ public class ChamadoSuporte {
     private byte[] imagemDocumento2;
     private byte[] imagemDocumento3;
     private String tipoChamadoSuporte;
+    private int nivelAcessoUsuario;
 
     public ChamadoSuporte() {
     }
 
-    public ChamadoSuporte(int idCHSup, int idCHDes, String statusCha, Date dataCha, String assunto, String horarioInicio, String horarioTermino, int idUsuario, String NomeUsuario, int idAtendente, String nomeAtendente, int idEmpresa, String descricaoEmpresa, int idUnidEmp, String descricaoUnidade, int idSoftware, String descricaoSoftware, int idModulo, String descricaoModulo, int idSolicitante, String nomeSolicitante, String textoSuporte, int idItemDes, String textoDesenvol, String tipoChamado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idItemCh, Date dataItemCh, String utiliza, byte[] imagemDocumento, byte[] imagemDocumento1, byte[] imagemDocumento2, byte[] imagemDocumento3, String tipoChamadoSuporte) {
+    public ChamadoSuporte(int idCHSup, int idCHDes, String statusCha, Date dataCha, String assunto, String horarioInicio, String horarioTermino, int idUsuario, String NomeUsuario, int idAtendente, String nomeAtendente, int idEmpresa, String descricaoEmpresa, int idUnidEmp, String descricaoUnidade, int idSoftware, String descricaoSoftware, int idModulo, String descricaoModulo, int idSolicitante, String nomeSolicitante, String textoSuporte, int idItemDes, String textoDesenvol, String tipoChamado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idItemCh, Date dataItemCh, String utiliza, byte[] imagemDocumento, byte[] imagemDocumento1, byte[] imagemDocumento2, byte[] imagemDocumento3, String tipoChamadoSuporte, int nivelAcessoUsuario) {
         this.idCHSup = idCHSup;
         this.idCHDes = idCHDes;
         this.statusCha = statusCha;
@@ -96,6 +97,7 @@ public class ChamadoSuporte {
         this.imagemDocumento2 = imagemDocumento2;
         this.imagemDocumento3 = imagemDocumento3;
         this.tipoChamadoSuporte = tipoChamadoSuporte;
+        this.nivelAcessoUsuario = nivelAcessoUsuario;
     }
 
     /**
@@ -642,5 +644,19 @@ public class ChamadoSuporte {
      */
     public void setTipoChamadoSuporte(String tipoChamadoSuporte) {
         this.tipoChamadoSuporte = tipoChamadoSuporte;
+    }
+
+    /**
+     * @return the nivelAcessoUsuario
+     */
+    public int getNivelAcessoUsuario() {
+        return nivelAcessoUsuario;
+    }
+
+    /**
+     * @param nivelAcessoUsuario the nivelAcessoUsuario to set
+     */
+    public void setNivelAcessoUsuario(int nivelAcessoUsuario) {
+        this.nivelAcessoUsuario = nivelAcessoUsuario;
     }
 }
