@@ -1180,7 +1180,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jRelatorios.add(jSeparator8);
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119193225_16.png"))); // NOI18N
-        jMenu1.setText("jRelatoriosDesenvomento");
+        jMenu1.setText("RelatoriosDesenvomento");
 
         listagemChamadosDesenvolvimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskMas_16.png"))); // NOI18N
         listagemChamadosDesenvolvimento.setText("Chamados Desenvolvimento");

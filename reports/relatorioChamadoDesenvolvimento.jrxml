@@ -16,7 +16,7 @@
 	<parameter name="idChamado" class="java.lang.String"/>
 	<parameter name="nomeUsuario" class="java.lang.String"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\Socializa TI 02\\Documents\\NetBeansProjects\\HelpDesk\\reports\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["\\HELP_DESK\\reports\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT * FROM CHAMADOS_DESENVOLVIMENTO INNER JOIN USUARIOS ON CHAMADOS_DESENVOLVIMENTO.IdUsuario=USUARIOS.IdUsuario INNER JOIN UNIDADE_PENAL_EMPRESA ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp INNER JOIN SOLICITANTES ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante WHERE CHAMADOS_DESENVOLVIMENTO.IdCHDes=$P{idChamado}]]>
