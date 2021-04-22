@@ -2147,6 +2147,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
                         CONTROL.encerrarChamadoSup(objCHSup);
                         //ATUALIZA OS REGISTROS EM ATENDIMENTO
+                        pTOTAL_REGISTROS_dia = 0;
+                        pTOTAL_REGISTROS_EM_atendimento = 0;
                         try {
                             for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
                                 jTotalChamadosEmAtendimentoSUP.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
@@ -2162,7 +2164,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                             String ano = pDATA_pesquisa.substring(6, 10);
                             String mes = pDATA_pesquisa.substring(3, 5);
                             String dia = pDATA_pesquisa.substring(0, 2);
-                            pDATA_pesquisa = ano + "/" + mes + "/" + dia;
+                            pDATA_pesquisa = ano + "/" + mes + "/" + dia;                            
                             try {
                                 for (ChamadoSuporte cp4 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
                                     jTotalChamadosAtendidosPeriodoSUP.setText(String.valueOf(pTOTAL_REGISTROS_dia));
