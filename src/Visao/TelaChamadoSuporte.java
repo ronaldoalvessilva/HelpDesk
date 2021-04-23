@@ -2164,7 +2164,7 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                             String ano = pDATA_pesquisa.substring(6, 10);
                             String mes = pDATA_pesquisa.substring(3, 5);
                             String dia = pDATA_pesquisa.substring(0, 2);
-                            pDATA_pesquisa = ano + "/" + mes + "/" + dia;                            
+                            pDATA_pesquisa = ano + "/" + mes + "/" + dia;
                             try {
                                 for (ChamadoSuporte cp4 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
                                     jTotalChamadosAtendidosPeriodoSUP.setText(String.valueOf(pTOTAL_REGISTROS_dia));
@@ -3325,8 +3325,11 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
     }
 
     public void NovoItem() {
+        nomeAtendente = nameUser;
+        buscarNivelUsuario();
         if (jComboBoxAtendente.getSelectedItem().equals(nameUser)
-                && jStatusChamado.getText().equals("ABERTO NO SUPORTE TÉCNICO")) {
+                && jStatusChamado.getText().equals("ABERTO NO SUPORTE TÉCNICO")
+                && nivelUsuario == 0) {
             int resposta = JOptionPane.showConfirmDialog(this, "Deseja modificar o status do chamado selecionado?", "Confirmação",
                     JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {

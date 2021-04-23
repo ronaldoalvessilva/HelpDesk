@@ -23,7 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -50,6 +52,9 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
     public final static String PERIODO_matutino = "12:00";
     public final static String PERIODO_vespertino = "18:00";
     public final static String PERIODO_noturno = "00:00";
+    //
+    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss"); // HORAIO DE 24 HORAS, PARA O DE 12 HORAS UTILIZAR hh:mm:ss
+    SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
     //
     boolean p1 = checkIfClosedM(jHoraSistema.getText());
     boolean p2 = checkIfClosedV(jHoraSistema.getText());
@@ -79,6 +84,21 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
     public TelaRegistroPontoTrabalho() {
         initComponents();
         corCampos();
+        Thread threadRelogio = new Thread() {
+
+            @Override
+            public void run() {
+                rodaRelogio();
+            }
+        };
+        threadRelogio.start();
+        Date data = new Date();
+        String hora = formatter.format(data); // Data da conexão
+        String date = formatter2.format(data); // Hora da conexão
+        jHoraSistema.setText(String.valueOf(hora));    // no lugar do label, por seu JTextField    
+        jDataSistema.setText(String.valueOf(date));
+        //
+        ACESSO_direto();
     }
 
     /**
@@ -144,6 +164,7 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
 
         jHoraInicial.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jHoraInicial.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jHoraInicial.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         jHoraInicial.setEnabled(false);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -161,25 +182,26 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jNomeColaborador)
                     .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(0, 283, Short.MAX_VALUE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
+                            .addComponent(jLabel1)
+                            .addComponent(jIdHistoricoCU, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jComboBoxPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jDataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel9Layout.createSequentialGroup()
-                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jIdHistoricoCU, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jComboBoxPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jDataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jHoraInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9))))
-                        .addGap(0, 45, Short.MAX_VALUE)))
+                                .addComponent(jLabel9)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jHoraInicial))))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -211,6 +233,7 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
 
         jBtNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/page_add.png"))); // NOI18N
         jBtNovo.setToolTipText("Novo");
+        jBtNovo.setEnabled(false);
         jBtNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtNovoActionPerformed(evt);
@@ -219,7 +242,6 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
 
         jBtSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/1294_16x16.png"))); // NOI18N
         jBtSalvar.setToolTipText("Gravar");
-        jBtSalvar.setEnabled(false);
         jBtSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtSalvarActionPerformed(evt);
@@ -244,6 +266,7 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
         });
 
         jBtBiometria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Biometria16Vermelho.png"))); // NOI18N
+        jBtBiometria.setEnabled(false);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -403,7 +426,7 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
                 }
             } else if (Objects.equals(pCODIGO_PESQUISA_colaborador, pCODIGO_ENCONTRADO_colaborador)
                     && !pDATA_PESQUISADA_convertida.equals(pDATA_cadastro)
-                    && !pSTATUS_ponto.equals(pSTATUS_saida) 
+                    && !pSTATUS_ponto.equals(pSTATUS_saida)
                     || Objects.equals(pCODIGO_PESQUISA_colaborador, pCODIGO_ENCONTRADO_colaborador)
                     && !pDATA_PESQUISADA_convertida.equals(pDATA_cadastro)
                     && !pSTATUS_ponto.equals(pSTATUS_entrada)) {
@@ -494,9 +517,7 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
         limparCampos();
         jDataCadastro.setCalendar(Calendar.getInstance());
         jNomeColaborador.setText(nameUser);
-        jHoraInicial.setText(jHoraSistema.getText());
         jBtSalvar.setEnabled(true);
-        jBtCancelar.setEnabled(true);
         VERIFICAR_periodos();
         objCadPonto.setPeriodo((String) jComboBoxPeriodo.getSelectedItem());
     }
@@ -518,6 +539,16 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
         DAOponto.BUSCAR_ULTIMO_codigo(objCadPonto);
     }
 
+    public void ACESSO_direto() {
+        bloquearBotoes(!true);
+        limparCampos();
+        jDataCadastro.setCalendar(Calendar.getInstance());
+        jNomeColaborador.setText(nameUser);
+        jBtSalvar.setEnabled(true);
+        VERIFICAR_periodos();
+        objCadPonto.setPeriodo((String) jComboBoxPeriodo.getSelectedItem());
+    }
+
     public void VERIFICAR_DATA_ENTRADA_saida() {
         if (tipoServidor == null || tipoServidor.equals("")) {
             JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
@@ -532,7 +563,7 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
                 pCODIGO_ENCONTRADO_colaborador = String.valueOf(objCadPonto.getIdColaborador());
                 pDATA_pesquisa = objCadPonto.getDataEntrada();
                 pSTATUS_ponto = objCadPonto.getStatusPonto();
-                pDATA_PESQUISADA_convertida = formatoAmerica.format(pDATA_pesquisa);               
+                pDATA_PESQUISADA_convertida = formatoAmerica.format(pDATA_pesquisa);
             }
         } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
             DAOponto.PESQUISAR_COLABORADOR_usuario(objCadPonto);
@@ -606,4 +637,19 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
         }
         return false;
     }
+
+    public void rodaRelogio() {
+        try {
+            while (true) {
+                Date data = new Date();
+                String hora = formatter.format(data);
+                String date = formatter2.format(data);
+                jHoraInicial.setText(String.valueOf(hora));    // no lugar do label, por seu JTextField    
+                jDataSistema.setText(String.valueOf(date));
+                Thread.sleep(1000);
+            }
+        } catch (InterruptedException ex) {
+        }
+    }
+    
 }
