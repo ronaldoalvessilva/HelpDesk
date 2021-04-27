@@ -23,6 +23,7 @@ import static Visao.TelaChamadoDesenvolvimento.jIdChamado;
 import static Visao.TelaChamadoDesenvolvimento.jIdItem;
 import static Visao.TelaChamadoDesenvolvimento.pRESPOSTA;
 import static Visao.TelaChamadoDesenvolvimento.idItemCHSup;
+import static Visao.TelaChamadoDesenvolvimento.idItem;
 import static Visao.TelaPrincipal.pDATA_DSV_pesquisa;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -1001,6 +1002,7 @@ public class ChamadosDesenvolvimentoDao {
                     + "i.DataItemCh, "
                     + "i.HorarioInicio, "
                     + "i.HorarioTermino, "
+                    + "i.TextoDesenvol, "
                     + "i.TextoSuporte "
                     + "FROM ITENS_CHAMADOS_DESENVOLVIMENTO AS i "
                     + "INNER JOIN CHAMADOS_DESENVOLVIMENTO AS d "
@@ -1012,7 +1014,8 @@ public class ChamadosDesenvolvimentoDao {
                 pItens.setDataItemCh(conecta.rs.getDate("DataItemCh"));
                 pItens.setHorarioInicio(conecta.rs.getString("HorarioInicio"));
                 pItens.setHorarioTermino(conecta.rs.getString("HorarioTermino"));
-                pItens.setTextoDesenvol(conecta.rs.getString("TextoSuporte"));
+                pItens.setTextoDesenvol(conecta.rs.getString("TextoDesenvol"));
+                pItens.setTextoSuporte(conecta.rs.getString("TextoSuporte"));
                 LISTA_itens.add(pItens);
                 pTOTAL_registros++;
             }
@@ -1038,8 +1041,6 @@ public class ChamadosDesenvolvimentoDao {
                     + "m.DescricaoModulo, "
                     + "i.TextoDesenvol "
                     + "FROM ITENS_CHAMADOS_DESENVOLVIMENTO AS i "
-                    + "INNER JOIN CHAMADOS_DESENVOLVIMENTO AS d "
-                    + "ON i.IdCHDes=d.IdCHDes "
                     + "INNER JOIN SOFTWARE AS s "
                     + "ON i.IdSoftware=s.IdSoftware "
                     + "INNER JOIN MODULOS m "

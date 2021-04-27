@@ -98,6 +98,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     public static String codigoChamadoSuporte = null;
     public static String pRESPOSTA = "";
     //
+    public static String idItem = "";
 
     /**
      * Creates new form TelaChamadoSuporte
@@ -2029,7 +2030,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         flag = 1;
         if (flag == 1) {
-            String idItem = "" + jTabelaItens.getValueAt(jTabelaItens.getSelectedRow(), 0);
+            idItem = "" + jTabelaItens.getValueAt(jTabelaItens.getSelectedRow(), 0);
             jIdItem.setText(idItem);
             //
             bloquearCampos();

@@ -355,7 +355,9 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
         if (jIdChamadoPesquisa.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Informe o código para pesquisa.");
         } else {
-            preencherTabelaChamados("SELECT * FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO "
+            preencherTabelaChamados("SELECT "
+                    + "* "
+                    + "FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO "
                     + "INNER JOIN CHAMADOS_SUPORTE "
                     + "ON ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO.IdCHSup=CHAMADOS_SUPORTE.IdCHSup "
                     + "INNER JOIN SOLICITANTES "
