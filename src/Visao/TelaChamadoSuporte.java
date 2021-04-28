@@ -2152,11 +2152,6 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         try {
                             for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
                                 jTotalChamadosEmAtendimentoSUP.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
-                                cp3.getIdCHSup();
-                                if(cp3.getIdCHSup() == 0){
-                                    pTOTAL_REGISTROS_EM_atendimento = 0;
-                                    jTotalChamadosEmAtendimentoSUP.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
-                                }
                             }
                         } catch (Exception ex) {
                             Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
@@ -3354,6 +3349,14 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                 jUnidadePrisional.setText(objCHSup.getDescricaoUnidade());
                 jAssunto.setText(objCHSup.getAssunto());
                 jComboBoxTipoChamadoSuporte.setSelectedItem(objCHSup.getTipoChamadoSuporte());
+                pTOTAL_REGISTROS_EM_atendimento = 0;
+                try {
+                    for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
+                        jTotalChamadosEmAtendimentoSUP.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaChamadoSuporte.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         bloquearCampos();
