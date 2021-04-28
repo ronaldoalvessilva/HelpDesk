@@ -1623,6 +1623,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
 
     private void jBtEncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtEncerrarActionPerformed
         // TODO add your handling code here:
+        objCampos.setNomeUsuario(nameUser);
         objCampos.setNomeTelaAcesso(botaoEncerrarDes);
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
@@ -2099,7 +2100,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de status.");
             } else if (jComboBoxStatus.getSelectedItem().equals("Aberto")) {
                 preencherTabelaChamadosStatusAdm();
-                if (pTOTAL_REGISTROS_dia == 0) {
+                if (pTOTAL_registros == 0) {
                     JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
                 }
             } else if (jComboBoxStatus.getSelectedItem().equals("Fechado")) {
@@ -2118,7 +2119,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de status.");
             } else if (jComboBoxStatus.getSelectedItem().equals("Aberto")) {
                 preencherTabelaChamadosStatusDsv();
-                if (pTOTAL_REGISTROS_dia == 0) {
+                if (pTOTAL_registros == 0) {
                     JOptionPane.showMessageDialog(rootPane, "Não existe registros a serem exibidos.");
                 }
             } else if (jComboBoxStatus.getSelectedItem().equals("Fechado")) {
@@ -2555,7 +2556,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                     jv.setVisible(true); // Chama o relatorio para ser visualizado                                    
                     jv.toFront(); // Traz o relatorio para frente da aplicação         
                     carregando.dispose(); //Teste tela aguarde
-                    conecta.desconecta();                    
+                    conecta.desconecta();
                 } catch (JRException e) {
                     carregando.dispose(); //Teste tela aguarde
                     JOptionPane.showMessageDialog(rootPane, "Erro ao chamar o Relatório. \n\nERRO :" + e);
