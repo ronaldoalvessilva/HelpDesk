@@ -3481,8 +3481,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
             conecta.abrirConexao();
             try {
                 conecta.executaSQL("SELECT "
+                        + "IdLanc, "
+                        + "StatusAgenda, "
+                        + "DataLanc, "
+                        + "NomeUsuarioLogado, "
                         + "IdUsuario, "
-                        + "StatusAgenda "
+                        + "NomeUsuario "
                         + "FROM AGENDA_RECADOS "
                         + "WHERE IdUsuario='" + codUsuario + "' "
                         + "AND StatusAgenda='" + statusAgenda + "'");
@@ -3515,7 +3519,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     }
                     flag = 1;
                     preencherTabelaTodosRecados("SELECT "
+                            + "IdLanc, "
                             + "StatusAgenda, "
+                            + "DataLanc, "
+                            + "NomeUsuarioLogado, "
+                            + "IdUsuario, "
                             + "NomeUsuario "
                             + "FROM AGENDA_RECADOS "
                             + "INNER JOIN USUARIOS "
@@ -3632,11 +3640,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 conecta.abrirConexao();
                 try {
                     conecta.executaSQL("SELECT "
+                            + "IdAgenda, "
                             + "StatusAgenda, "
+                            + "DataAgenda, "
                             + "DataLembrete, "
                             + "HoraLembrete, "
-                            + "UsuarioAgenda, "
-                            + "IdAgenda "
+                            + "Assunto, "
+                            + "UsuarioAgenda "
                             + "FROM AGENDA_COMPROMISSOS "
                             + "WHERE UsuarioAgenda='" + nameUser + "' "
                             + "AND StatusAgenda='" + statusAgenda + "' "
@@ -3656,14 +3666,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         preencherTabelaAgendaCompromisso("SELECT "
                                 + "IdAgenda, "
                                 + "StatusAgenda, "
+                                + "DataAgenda, "
                                 + "DataLembrete, "
                                 + "HoraLembrete, "
+                                + "Assunto, "
                                 + "UsuarioAgenda "
                                 + "FROM AGENDA_COMPROMISSOS "
                                 + "WHERE AGENDA_COMPROMISSOS.UsuarioAgenda='" + nameUser + "' "
                                 + "AND AGENDA_COMPROMISSOS.StatusAgenda='" + statusAgenda + "' "
                                 + "AND DataLembrete='" + dataSisConvert + "' "
-                                + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "' "
+                                + "AND HoraLembrete<='" + jHoraSistema.getText() + "' "
                                 + "AND IdAgenda='" + codigoAgendaComp + "'");
                         if (flag == 1) {
                             jBtNovoComp.setEnabled(true);
@@ -3679,7 +3691,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                                         + "FROM AGENDA_COMPROMISSOS "
                                         + "WHERE AGENDA_COMPROMISSOS.UsuarioAgenda='" + nomeUsuarioCompromisso + "' "
                                         + "AND AGENDA_COMPROMISSOS.StatusAgenda='" + statusAgenda + "' "
-                                        + "AND HoraLembrete<='" + jHoraSistema.getText().toString() + "' "
+                                        + "AND HoraLembrete<='" + jHoraSistema.getText() + "' "
                                         + "AND IdAgenda='" + codigoAgendaComp + "'");
                                 conecta.rs.first();
                                 jCodigoAgendaComp.setText(String.valueOf(conecta.rs.getInt("IdAgenda")));
@@ -3713,8 +3725,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     conecta.executaSQL("SELECT "
                             + "IdAgenda, "
                             + "StatusAgenda, "
+                            + "DataAgenda, "
                             + "DataLembrete, "
                             + "HoraLembrete, "
+                            + "Assunto, "
                             + "UsuarioAgenda "
                             + "FROM AGENDA_COMPROMISSOS "
                             + "WHERE UsuarioAgenda='" + nameUser + "' "
@@ -3735,8 +3749,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         preencherTabelaAgendaCompromisso("SELECT "
                                 + "IdAgenda, "
                                 + "StatusAgenda, "
+                                + "DataAgenda, "
                                 + "DataLembrete, "
                                 + "HoraLembrete, "
+                                + "Assunto, "
                                 + "UsuarioAgenda "
                                 + "FROM AGENDA_COMPROMISSOS "
                                 + "WHERE AGENDA_COMPROMISSOS.UsuarioAgenda='" + nameUser + "' "
