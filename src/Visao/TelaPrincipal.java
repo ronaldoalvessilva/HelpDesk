@@ -3484,9 +3484,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         + "IdLanc, "
                         + "StatusAgenda, "
                         + "DataLanc, "
-                        + "NomeUsuarioLogado, "
                         + "IdUsuario, "
-                        + "NomeUsuario "
+                        + "NomeUsuarioLogado "
                         + "FROM AGENDA_RECADOS "
                         + "WHERE IdUsuario='" + codUsuario + "' "
                         + "AND StatusAgenda='" + statusAgenda + "'");
@@ -3519,17 +3518,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     }
                     flag = 1;
                     preencherTabelaTodosRecados("SELECT "
-                            + "IdLanc, "
-                            + "StatusAgenda, "
-                            + "DataLanc, "
-                            + "NomeUsuarioLogado, "
-                            + "IdUsuario, "
-                            + "NomeUsuario "
-                            + "FROM AGENDA_RECADOS "
-                            + "INNER JOIN USUARIOS "
-                            + "ON AGENDA_RECADOS.IdUsuario=USUARIOS.IdUsuario "
-                            + "WHERE NomeUsuario='" + nameUser + "' "
-                            + "AND StatusAgenda='" + statusAgenda + "'");
+                            + "a.IdLanc, "
+                            + "a.StatusAgenda, "
+                            + "a.DataLanc, "
+                            + "a.NomeUsuarioLogado, "
+                            + "u.IdUsuario, "
+                            + "u.NomeUsuario "
+                            + "FROM AGENDA_RECADOS AS a "
+                            + "INNER JOIN USUARIOS AS u "
+                            + "ON a.IdUsuario=u.IdUsuario "
+                            + "WHERE u.NomeUsuario='" + nameUser + "' "
+                            + "AND a.StatusAgenda='" + statusAgenda + "'");
                     if (flag == 1) {
                         jBtNovo.setEnabled(true);
                         jBtAlterar.setEnabled(true);
@@ -3541,18 +3540,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         conecta.abrirConexao();
                         try {
                             conecta.executaSQL("SELECT "
-                                    + "IdLanc, "
-                                    + "DataLanc, "
-                                    + "Horario, "
-                                    + "StatusAgenda, "
-                                    + "NomeUsuarioLogado, "
-                                    + "NomeUsuario, "
-                                    + "Recados "
-                                    + "FROM AGENDA_RECADOS "
-                                    + "INNER JOIN USUARIOS "
-                                    + "ON AGENDA_RECADOS.IdUsuario=USUARIOS.IdUsuario "
-                                    + "WHERE NomeUsuario='" + nameUser + "' "
-                                    + "AND StatusAgenda='" + statusAgenda + "'");
+                                    + "a.IdLanc, "
+                                    + "a.StatusAgenda, "
+                                    + "a.DataLanc, "
+                                    + "a.NomeUsuarioLogado, "
+                                    + "u.IdUsuario, "
+                                    + "u.NomeUsuario "
+                                    + "FROM AGENDA_RECADOS AS a "
+                                    + "INNER JOIN USUARIOS AS u "
+                                    + "ON a.IdUsuario=u.IdUsuario "
+                                    + "WHERE u.NomeUsuario='" + nameUser + "' "
+                                    + "AND a.StatusAgenda='" + statusAgenda + "'");
                             conecta.rs.last();
                             jIDLanc.setText(String.valueOf(conecta.rs.getInt("IdLanc")));
                             jDataLanc.setDate(conecta.rs.getDate("DataLanc"));
