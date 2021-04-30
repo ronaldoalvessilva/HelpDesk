@@ -2914,20 +2914,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 String mes = pDATA_pesquisa.substring(3, 5);
                 String dia = pDATA_pesquisa.substring(0, 2);
                 pDATA_pesquisa = ano + "/" + mes + "/" + dia;
-                //EM ATENDIMENTO
-                for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
-                    jTotalChamadosEmAtendimentoSUP.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
-                }
                 //
                 for (ChamadoSuporte cp4 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
                     jTotalChamadosAtendidosPeriodoSUP.setText(String.valueOf(pTOTAL_REGISTROS_dia));
                 }
             } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
-                //EM ATENDIMENTO
-                for (ChamadoSuporte cp3 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
-                    jTotalChamadosEmAtendimentoSUP.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
-                }
-                //
                 for (ChamadoSuporte cp4 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
                     jTotalChamadosAtendidosPeriodoSUP.setText(String.valueOf(pTOTAL_REGISTROS_dia));
                 }
@@ -2963,20 +2954,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 String mes = pDATA_DSV_pesquisa.substring(3, 5);
                 String dia = pDATA_DSV_pesquisa.substring(0, 2);
                 pDATA_DSV_pesquisa = ano + "/" + mes + "/" + dia;
-                //EM ATENDIMENTO
-                for (ChamadoSuporte cp7 : CONTROLE.QUANDIDADE_CHAMADOS_DSV_EM_ATENDENTE_read()) {
-                    jTotalChamadosEmAtendimentoDSV.setText(String.valueOf(pTOTAL_REGISTROS_DSV_EM_atendimento));
-                }
                 //
                 for (ChamadoSuporte cp8 : CONTROL.QUANDIDADE_CHAMADOS_ATENDIDOS_DIA_read()) {
                     jTotalChamadosAtendidosPeriodoDSV.setText(String.valueOf(pTOTAL_REGISTROS_DSV_dia));
                 }
             } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
-                //EM ATENDIMENTO
-                for (ChamadoSuporte cp7 : CONTROL.QUANDIDADE_CHAMADOS_EM_ATENDENTE_read()) {
-                    jTotalChamadosEmAtendimentoDSV.setText(String.valueOf(pTOTAL_REGISTROS_DSV_EM_atendimento));
-                }
-                //
                 for (ChamadoSuporte cp8 : CONTROLE.QUANDIDADE_CHAMADOS_DSV_ATENDIDOS_DIA_read()) {
                     jTotalChamadosAtendidosPeriodoDSV.setText(String.valueOf(pTOTAL_REGISTROS_DSV_dia));
                 }
@@ -3544,8 +3526,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
                                     + "a.StatusAgenda, "
                                     + "a.DataLanc, "
                                     + "a.NomeUsuarioLogado, "
+                                    + "a.Horario, "
                                     + "u.IdUsuario, "
-                                    + "u.NomeUsuario "
+                                    + "u.NomeUsuario, "
+                                    + "a.Recados "
                                     + "FROM AGENDA_RECADOS AS a "
                                     + "INNER JOIN USUARIOS AS u "
                                     + "ON a.IdUsuario=u.IdUsuario "

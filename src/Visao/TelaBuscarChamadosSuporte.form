@@ -121,7 +121,7 @@
                           <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jIdChamadoPesquisa" min="-2" pref="58" max="-2" attributes="0"/>
+                          <Component id="jIdChamadoBuscaPesquisa" min="-2" pref="58" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jBtPesqCHCodigo" min="-2" pref="27" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
@@ -138,7 +138,7 @@
                   <EmptySpace min="16" pref="16" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="jLabel12" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jIdChamadoPesquisa" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="jIdChamadoBuscaPesquisa" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="jBtPesqCHCodigo" alignment="2" min="-2" pref="17" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -170,7 +170,7 @@
             <Property name="text" type="java.lang.String" value="C&#xf3;digo:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jIdChamadoPesquisa">
+        <Component class="javax.swing.JTextField" name="jIdChamadoBuscaPesquisa">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -179,6 +179,9 @@
               </Border>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="jBtPesqCHCodigo">
           <Properties>
@@ -219,6 +222,9 @@
               </Border>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel14">
           <Properties>

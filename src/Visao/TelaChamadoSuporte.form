@@ -292,21 +292,22 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="jPesqSolicitante" linkSize="21" min="-2" pref="446" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jBtSolicitante" min="-2" pref="25" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jIdChamadoPesquisa" min="-2" pref="58" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jBtPesqCHCodigo" min="-2" pref="27" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jIdChamadoPesquisa" min="-2" pref="58" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jBtPesqCHCodigo" min="-2" pref="27" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jPesquisarAssunto" linkSize="21" min="-2" pref="309" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jBtAssunto" min="-2" pref="25" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="jCheckBoxTodosCH" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jPesqSolicitante" linkSize="21" min="-2" pref="446" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jBtSolicitante" min="-2" pref="25" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jDataPesqInicial" min="-2" max="-2" attributes="0"/>
@@ -322,17 +323,9 @@
                                   <Component id="jComboBoxStatus" min="-2" pref="115" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jBtStatus" min="-2" pref="25" max="-2" attributes="0"/>
-                                  <EmptySpace pref="28" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jPesquisarAssunto" linkSize="21" min="-2" pref="309" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jBtAssunto" min="-2" pref="25" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="jCheckBoxTodosCH" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -342,32 +335,32 @@
                           <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
                               <Component id="jLabel12" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="jIdChamadoPesquisa" linkSize="5" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="jBtPesqCHCodigo" linkSize="5" alignment="2" min="-2" pref="17" max="-2" attributes="0"/>
+                              <Component id="jIdChamadoPesquisa" linkSize="5" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
-                              <Component id="jBtStatus" alignment="2" min="-2" pref="16" max="-2" attributes="0"/>
-                              <Component id="jComboBoxStatus" alignment="2" min="-2" pref="18" max="-2" attributes="0"/>
-                              <Component id="jLabel20" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="jBtPesqCHData" alignment="2" min="-2" pref="16" max="-2" attributes="0"/>
-                              <Component id="jDataPesFinal" alignment="2" min="-2" pref="19" max="-2" attributes="0"/>
-                              <Component id="jLabel15" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="jDataPesqInicial" alignment="2" min="-2" pref="19" max="-2" attributes="0"/>
                               <Component id="jLabel14" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jDataPesqInicial" alignment="2" min="-2" pref="19" max="-2" attributes="0"/>
+                              <Component id="jLabel15" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jDataPesFinal" alignment="2" min="-2" pref="19" max="-2" attributes="0"/>
+                              <Component id="jBtPesqCHData" alignment="2" min="-2" pref="16" max="-2" attributes="0"/>
+                              <Component id="jLabel20" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jComboBoxStatus" alignment="2" min="-2" pref="18" max="-2" attributes="0"/>
+                              <Component id="jBtStatus" alignment="2" min="-2" pref="16" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
-                              <Component id="jBtSolicitante" alignment="2" min="-2" pref="25" max="-2" attributes="0"/>
-                              <Component id="jPesqSolicitante" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel13" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jPesqSolicitante" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jBtSolicitante" alignment="2" min="-2" pref="25" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
-                              <Component id="jCheckBoxTodosCH" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="jBtAssunto" alignment="2" min="-2" pref="25" max="-2" attributes="0"/>
-                              <Component id="jPesquisarAssunto" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel19" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jPesquisarAssunto" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jBtAssunto" alignment="2" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="jCheckBoxTodosCH" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>

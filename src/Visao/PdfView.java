@@ -685,6 +685,7 @@ public class PdfView extends javax.swing.JDialog {
         jCodigoCHAMADO_PDF.setBackground(Color.white);
         JCNCInternoPDF.setBackground(Color.white);
         jNomeAtendentePDF.setBackground(Color.white);
+        txtPesquisa.setBackground(Color.white);
     }
 
     public void salvarPdf(int codigo, int codInt, String nome, File rota) {

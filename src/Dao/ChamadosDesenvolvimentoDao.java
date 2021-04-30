@@ -11,6 +11,8 @@ import static Visao.LoginHD.pTOTAL_REGISTROS_DSV_EM_atendimento;
 import static Visao.LoginHD.pTOTAL_REGISTROS_DSV_aberto;
 import static Visao.LoginHD.pTOTAL_REGISTROS_DSV_dia;
 import static Visao.LoginHD.pTOTAL_REGISTROS_DSV_fechado;
+import static Visao.TelaBuscarChamadosSuporte.jIdChamadoBuscaPesquisa;
+import static Visao.TelaBuscarChamadosSuporte.pTOTAL_REGISTROS_busca;
 import static Visao.TelaChamadoDesenvolvimento.dataFinal;
 import static Visao.TelaChamadoDesenvolvimento.dataInicial;
 import static Visao.TelaChamadoDesenvolvimento.pTOTAL_registros;
@@ -32,6 +34,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static Visao.TelaBuscarChamadosSuporte.pDATA_BUSCA_inicial;
+import static Visao.TelaBuscarChamadosSuporte.pDATA_BUSCA_final;
 
 /**
  *
@@ -52,6 +56,8 @@ public class ChamadosDesenvolvimentoDao {
     String pSTATUS_CHAMADO_aberto = "ABERTO";
     String pSTATUS_CHAMADO_fechado = "ENCERRADO";
     String pSTATUS_CHAMADO_EM_atendimento = "EM ATENDIMENTO NO DESENVOLVIMENTO";
+    //BUSCAR CHAMADOS DO SUPORTE PARA O DESENVOLVIMENTO
+    String utilizado = "Não";
 
     public ChamadoSuporte incluirChamadoDes(ChamadoSuporte objCHSup) {
         pesquisarUsuario(objCHSup.getNomeUsuario());
@@ -488,8 +494,8 @@ public class ChamadosDesenvolvimentoDao {
                     + "ON d.IdUnidEmp=e.IdUnidEmp "
                     + "INNER JOIN SOLICITANTES AS s "
                     + "ON d.IdSolicitante=s.IdSolicitante "
-                    + "WHERE d.DataCha BETWEEN'" + dataInicial + "' "
-                    + "AND '" + dataFinal + "'");
+                    + "WHERE d.DataCha BETWEEN'" + pDATA_BUSCA_inicial + "' "
+                    + "AND '" + pDATA_BUSCA_final + "'");
             while (conecta.rs.next()) {
                 ChamadoSuporte pDataAdm = new ChamadoSuporte();
                 pDataAdm.setIdCHDes(conecta.rs.getInt("IdCHDes"));
@@ -530,8 +536,8 @@ public class ChamadosDesenvolvimentoDao {
                     + "ON d.IdUnidEmp=e.IdUnidEmp "
                     + "INNER JOIN SOLICITANTES AS s "
                     + "ON d.IdSolicitante=s.IdSolicitante "
-                    + "WHERE d.DataCha BETWEEN'" + dataInicial + "' "
-                    + "AND '" + dataFinal + "' "
+                    + "WHERE d.DataCha BETWEEN'" + pDATA_BUSCA_inicial + "' "
+                    + "AND '" + pDATA_BUSCA_final + "' "
                     + "AND u.NomeUsuario='" + nomeAtendente + "'");
             while (conecta.rs.next()) {
                 ChamadoSuporte pDataDsv = new ChamadoSuporte();
@@ -1187,7 +1193,7 @@ public class ChamadosDesenvolvimentoDao {
         conecta.desconecta();
         return objCHSup;
     }
-    
+
     //CONTABILIZAÇÃO DOS CHAMADOS DO DESENVOLVIMENTO 
     public List<ChamadoSuporte> QUANDIDADE_CHAMADOS_ABERTO_DSV_ATENDENTE_read() throws Exception {
         pTOTAL_REGISTROS_DSV_aberto = 0;
@@ -1220,7 +1226,7 @@ public class ChamadosDesenvolvimentoDao {
         }
         return null;
     }
-    
+
     public List<ChamadoSuporte> QUANDIDADE_CHAMADOS_FECHADO_DSV_ATENDENTE_read() throws Exception {
         pTOTAL_REGISTROS_DSV_fechado = 0;
         conecta.abrirConexao();
@@ -1252,7 +1258,7 @@ public class ChamadosDesenvolvimentoDao {
         }
         return null;
     }
-    
+
     public List<ChamadoSuporte> QUANDIDADE_CHAMADOS_DSV_EM_ATENDENTE_read() throws Exception {
         pTOTAL_REGISTROS_DSV_EM_atendimento = 0;
         conecta.abrirConexao();
@@ -1284,7 +1290,7 @@ public class ChamadosDesenvolvimentoDao {
         }
         return null;
     }
-    
+
     public List<ChamadoSuporte> QUANDIDADE_CHAMADOS_DSV_ATENDIDOS_DIA_read() throws Exception {
         pTOTAL_REGISTROS_DSV_dia = 0;
         conecta.abrirConexao();
@@ -1316,5 +1322,226 @@ public class ChamadosDesenvolvimentoDao {
             conecta.desconecta();
         }
         return null;
+    }
+
+    //----------------------------------- BUSCAR CHAMADOS DO SUPORTE ------------------------------------------
+    public List<ChamadoSuporte> BUSCAR_CHAMADO_SUPORTE_codigo() throws Exception {
+        pTOTAL_REGISTROS_busca = 0;
+        conecta.abrirConexao();
+        List<ChamadoSuporte> LISTA_ATENDIMENTO_chamado = new ArrayList<ChamadoSuporte>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "i.IdCHSup, "
+                    + "i.Item, "
+                    + "i.DataItemCh, "
+                    + "i.HorarioInicio, "
+                    + "i.HorarioTermino, "
+                    + "s.NomeSolicitante, "
+                    + "i.TextoSuporte "
+                    + "FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO AS i "
+                    + "INNER JOIN CHAMADOS_SUPORTE AS c "
+                    + "ON i.IdCHSup=i.IdCHSup "
+                    + "INNER JOIN SOLICITANTES AS s"
+                    + "ON c.IdSolicitante=s.IdSolicitante "
+                    + "INNER JOIN MODULOS AS m "
+                    + "ON i.IdModulo=m.IdModulo "
+                    + "INNER JOIN SOFTWARE AS o "
+                    + "ON i.IdSoftware=o.IdSoftware  "
+                    + "WHERE i.IdCHSup='" + jIdChamadoPesquisa.getText() + "' "
+                    + "AND i.Utilizado='" + utilizado + "'");
+            while (conecta.rs.next()) {
+                ChamadoSuporte pITENS_chamado = new ChamadoSuporte();
+                objCHSup.setIdCHSup(conecta.rs.getInt("IdCHSup"));
+                objCHSup.setIdItemCh(conecta.rs.getInt("IdItem"));
+                objCHSup.setDataItemCh(conecta.rs.getDate("DataItemCh"));
+                objCHSup.setHorarioInicio(conecta.rs.getString("HorarioInicio"));
+                objCHSup.setHorarioTermino(conecta.rs.getString("HorarioTermino"));
+                objCHSup.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                objCHSup.setTextoSuporte(conecta.rs.getString("TextoSuporte"));
+                LISTA_ATENDIMENTO_chamado.add(pITENS_chamado);
+                pTOTAL_REGISTROS_busca++;
+            }
+            return LISTA_ATENDIMENTO_chamado;
+        } catch (SQLException ex) {
+            Logger.getLogger(ChamadosDesenvolvimentoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    public List<ChamadoSuporte> BUSCAR_CHAMADO_SUPORTE_todos() throws Exception {
+        pTOTAL_REGISTROS_busca = 0;
+        conecta.abrirConexao();
+        List<ChamadoSuporte> LISTA_ATENDIMENTO_chamado = new ArrayList<ChamadoSuporte>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "i.IdCHSup, "
+                    + "i.Item, "
+                    + "i.DataItemCh, "
+                    + "i.HorarioInicio, "
+                    + "i.HorarioTermino, "
+                    + "s.NomeSolicitante, "
+                    + "i.TextoSuporte "
+                    + "FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO AS i "
+                    + "INNER JOIN CHAMADOS_SUPORTE AS c "
+                    + "ON i.IdCHSup=i.IdCHSup "
+                    + "INNER JOIN SOLICITANTES AS s"
+                    + "ON c.IdSolicitante=s.IdSolicitante "
+                    + "INNER JOIN MODULOS AS m "
+                    + "ON i.IdModulo=m.IdModulo "
+                    + "INNER JOIN SOFTWARE AS o "
+                    + "ON i.IdSoftware=o.IdSoftware  "
+                    + "WHERE i.Utilizado='" + utilizado + "'");
+            while (conecta.rs.next()) {
+                ChamadoSuporte pITENS_chamado = new ChamadoSuporte();
+                objCHSup.setIdCHSup(conecta.rs.getInt("IdCHSup"));
+                objCHSup.setIdItemCh(conecta.rs.getInt("IdItem"));
+                objCHSup.setDataItemCh(conecta.rs.getDate("DataItemCh"));
+                objCHSup.setHorarioInicio(conecta.rs.getString("HorarioInicio"));
+                objCHSup.setHorarioTermino(conecta.rs.getString("HorarioTermino"));
+                objCHSup.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                objCHSup.setTextoSuporte(conecta.rs.getString("TextoSuporte"));
+                LISTA_ATENDIMENTO_chamado.add(pITENS_chamado);
+                pTOTAL_REGISTROS_busca++;
+            }
+            return LISTA_ATENDIMENTO_chamado;
+        } catch (SQLException ex) {
+            Logger.getLogger(ChamadosDesenvolvimentoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    public List<ChamadoSuporte> BUSCAR_CHAMADO_SUPORTE_data() throws Exception {
+        pTOTAL_REGISTROS_busca = 0;
+        conecta.abrirConexao();
+        List<ChamadoSuporte> LISTA_ATENDIMENTO_chamado = new ArrayList<ChamadoSuporte>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "i.IdCHSup, "
+                    + "i.Item, "
+                    + "i.DataItemCh, "
+                    + "i.HorarioInicio, "
+                    + "i.HorarioTermino, "
+                    + "s.NomeSolicitante, "
+                    + "i.TextoSuporte "
+                    + "FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO AS i "
+                    + "INNER JOIN CHAMADOS_SUPORTE AS c "
+                    + "ON i.IdCHSup=i.IdCHSup "
+                    + "INNER JOIN SOLICITANTES AS s"
+                    + "ON c.IdSolicitante=s.IdSolicitante "
+                    + "INNER JOIN MODULOS AS m "
+                    + "ON i.IdModulo=m.IdModulo "
+                    + "INNER JOIN SOFTWARE AS o "
+                    + "ON i.IdSoftware=o.IdSoftware "
+                    + "WHERE i.DataItemCh BETWEEN'" + pDATA_BUSCA_inicial + "' "
+                    + "AND '" + pDATA_BUSCA_final + "' "
+                    + "AND i.Utilizado='" + utilizado + "'");
+            while (conecta.rs.next()) {
+                ChamadoSuporte pITENS_chamado = new ChamadoSuporte();
+                objCHSup.setIdCHSup(conecta.rs.getInt("IdCHSup"));
+                objCHSup.setIdItemCh(conecta.rs.getInt("IdItem"));
+                objCHSup.setDataItemCh(conecta.rs.getDate("DataItemCh"));
+                objCHSup.setHorarioInicio(conecta.rs.getString("HorarioInicio"));
+                objCHSup.setHorarioTermino(conecta.rs.getString("HorarioTermino"));
+                objCHSup.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                objCHSup.setTextoSuporte(conecta.rs.getString("TextoSuporte"));
+                LISTA_ATENDIMENTO_chamado.add(pITENS_chamado);
+                pTOTAL_REGISTROS_busca++;
+            }
+            return LISTA_ATENDIMENTO_chamado;
+        } catch (SQLException ex) {
+            Logger.getLogger(ChamadosDesenvolvimentoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    public List<ChamadoSuporte> BUSCAR_CHAMADO_SUPORTE_solicitante() throws Exception {
+        pTOTAL_REGISTROS_busca = 0;
+        conecta.abrirConexao();
+        List<ChamadoSuporte> LISTA_ATENDIMENTO_chamado = new ArrayList<ChamadoSuporte>();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "i.IdCHSup, "
+                    + "i.Item, "
+                    + "i.DataItemCh, "
+                    + "i.HorarioInicio, "
+                    + "i.HorarioTermino, "
+                    + "s.NomeSolicitante, "
+                    + "i.TextoSuporte "
+                    + "FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO AS i "
+                    + "INNER JOIN CHAMADOS_SUPORTE AS c "
+                    + "ON i.IdCHSup=i.IdCHSup "
+                    + "INNER JOIN SOLICITANTES AS s"
+                    + "ON c.IdSolicitante=s.IdSolicitante "
+                    + "INNER JOIN MODULOS AS m "
+                    + "ON i.IdModulo=m.IdModulo "
+                    + "INNER JOIN SOFTWARE AS o "
+                    + "ON i.IdSoftware=o.IdSoftware "
+                    + "WHERE SOLICITANTES.NomeSolicitante LIKE'%" + jPesqSolicitante.getText() + "%' "
+                    + "AND i.Utilizado='" + utilizado + "'");
+            while (conecta.rs.next()) {
+                ChamadoSuporte pITENS_chamado = new ChamadoSuporte();
+                objCHSup.setIdCHSup(conecta.rs.getInt("IdCHSup"));
+                objCHSup.setIdItemCh(conecta.rs.getInt("IdItem"));
+                objCHSup.setDataItemCh(conecta.rs.getDate("DataItemCh"));
+                objCHSup.setHorarioInicio(conecta.rs.getString("HorarioInicio"));
+                objCHSup.setHorarioTermino(conecta.rs.getString("HorarioTermino"));
+                objCHSup.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                objCHSup.setTextoSuporte(conecta.rs.getString("TextoSuporte"));
+                LISTA_ATENDIMENTO_chamado.add(pITENS_chamado);
+                pTOTAL_REGISTROS_busca++;
+            }
+            return LISTA_ATENDIMENTO_chamado;
+        } catch (SQLException ex) {
+            Logger.getLogger(ChamadosDesenvolvimentoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
+    }
+
+    public ChamadoSuporte MOSTRAR_RESULTADO_busca(ChamadoSuporte objCHSup) {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT "
+                    + "i.IdItem, "
+                    + "i.DataItemCh, "
+                    + "i.HorarioInicio, "
+                    + "i.HorarioTermino, "
+                    + "i.IdSoftware, "
+                    + "o.DescricaoSoftware, "
+                    + "i.IdModulo, "
+                    + "m.DescricaoModulo, "
+                    + "i.TextoSuporte "
+                    + "FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO AS i "
+                    + "INNER JOIN CHAMADOS_SUPORTE AS c "
+                    + "ON i.IdCHSup=c.IdCHSup "
+                    + "INNER JOIN SOLICITANTES AS s "
+                    + "ON c.IdSolicitante=s.IdSolicitante "
+                    + "INNER JOIN MODULOS AS m "
+                    + "ON i.IdModulo=m.IdModulo "
+                    + "INNER JOIN SOFTWARE AS o "
+                    + "ON i.IdSoftware=o.IdSoftware "
+                    + "WHERE i.IdItem='" + jIdChamadoBuscaPesquisa.getText() + "'");
+            conecta.rs.first();
+            objCHSup.setIdItemCh(conecta.rs.getInt("IdItem"));
+            objCHSup.setDataItemCh(conecta.rs.getDate("DataItemCh"));
+            objCHSup.setHorarioInicio(conecta.rs.getString("HorarioInicio"));
+            objCHSup.setHorarioTermino(conecta.rs.getString("HorarioTermino"));
+            objCHSup.setIdSoftware(conecta.rs.getInt("IdSoftware"));
+            objCHSup.setDescricaoSoftware(conecta.rs.getString("DescricaoSoftware"));
+            objCHSup.setIdModulo(conecta.rs.getInt("IdModulo"));
+            objCHSup.setDescricaoModulo(conecta.rs.getString("DescricaoModulo"));
+            objCHSup.setTextoSuporte(conecta.rs.getString("TextoSuporte"));
+        } catch (SQLException ex) {
+            Logger.getLogger(ChamadosDesenvolvimentoDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conecta.desconecta();
+        return objCHSup;
     }
 }

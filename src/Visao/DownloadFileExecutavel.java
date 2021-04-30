@@ -690,6 +690,7 @@ public class DownloadFileExecutavel extends javax.swing.JDialog {
         jCodigoCHAMADO_PDF.setBackground(Color.white);
         JCNCInternoPDF.setBackground(Color.white);
         jNomeAtendentePDF.setBackground(Color.white);
+        txtPesquisa.setBackground(Color.white);
     }
 
     public void salvarExe(int codigo, int codInt, String nome, File rota) {

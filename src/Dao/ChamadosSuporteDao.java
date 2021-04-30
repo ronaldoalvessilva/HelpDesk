@@ -57,7 +57,7 @@ public class ChamadosSuporteDao {
     String pSTATUS_atendente = "Ativo";
     String pSTATUS_CHAMADO_aberto = "ABERTO";
     String pSTATUS_CHAMADO_fechado = "ENCERRADO";
-    String pSTATUS_CHAMADO_EM_atendimento = "EM ATENDIMENTO NO SUPORTE TÉCNICO";
+    String pSTATUS_CHAMADO_EM_atendimento = "EM ATENDIMENTO";
 
     public ChamadoSuporte incluirChamadoSup(ChamadoSuporte objCHSup) {
         pesquisarUsuario(objCHSup.getNomeUsuario());
@@ -1433,15 +1433,15 @@ public class ChamadosSuporteDao {
         List<ChamadoSuporte> LISTA_ITENS_chamado = new ArrayList<ChamadoSuporte>();
         try {
             conecta.executaSQL("SELECT "
-                    + "IdCHSup, "
-                    + "StatusCha, "
-                    + "DataCha, "
-                    + "NomeUsuario "
-                    + "FROM CHAMADOS_SUPORTE "
-                    + "INNER JOIN USUARIOS "
-                    + "ON CHAMADOS_SUPORTE.IdUsuario=USUARIOS.IdUsuario "
-                    + "WHERE NomeUsuario='" + nameUser + "' "
-                    + "AND StatusCha LIKE'%" + pSTATUS_CHAMADO_EM_atendimento + "%'");
+                    + "c.IdCHSup, "
+                    + "c.StatusCha, "
+                    + "c.DataCha, "
+                    + "u.NomeUsuario "
+                    + "FROM CHAMADOS_SUPORTE AS c "
+                    + "INNER JOIN USUARIOS AS u "
+                    + "ON c.IdUsuario=c.IdUsuario "
+                    + "WHERE u.NomeUsuario='" + nameUser + "' "
+                    + "AND c.StatusCha LIKE'%" + pSTATUS_CHAMADO_EM_atendimento + "%'");
             while (conecta.rs.next()) {
                 ChamadoSuporte pITENS_chamado = new ChamadoSuporte();
                 pITENS_chamado.setIdCHSup(conecta.rs.getInt("IdCHSup"));
