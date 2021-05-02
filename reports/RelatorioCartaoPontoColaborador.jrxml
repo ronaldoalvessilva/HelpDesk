@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioCartaoPontoColaborador" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3973f06a-5dea-4baa-97cc-9a5483083f55">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="29"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -220,7 +220,7 @@ AND u.NomeUsuario=$P{pNOME_colaborador} ORDER BY h.DataCadastro]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch">
+		<band height="57" splitType="Stretch">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="f9c5785e-9546-4ead-8bf4-ab18149c0d02"/>
 				<graphicElement>
@@ -265,6 +265,40 @@ AND u.NomeUsuario=$P{pNOME_colaborador} ORDER BY h.DataCadastro]]>
 		</band>
 	</pageFooter>
 	<summary>
-		<band splitType="Stretch"/>
+		<band height="115" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="1" width="555" height="114" uuid="ba0d1160-7467-44d2-8d6f-a71959b834e5"/>
+			</rectangle>
+			<line>
+				<reportElement x="6" y="80" width="278" height="1" uuid="db0c3d7e-f561-41b1-b5e4-6ee63efa0cc9"/>
+			</line>
+			<staticText>
+				<reportElement x="6" y="85" width="278" height="14" uuid="f0f32d96-5fa2-4b43-91c6-1de606e7c972"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Responsável pelo Setor:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="297" y="80" width="244" height="1" uuid="a0e2248c-51fc-4668-8919-10f2c2b3520d"/>
+			</line>
+			<staticText>
+				<reportElement x="297" y="85" width="244" height="14" uuid="84068687-76d4-4129-ab46-5ef7f42766d5"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Colaborador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="21" width="81" height="15" uuid="ffeb0fc8-eadf-4616-bb01-99ea71da13d2"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Local e Data: ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="95" y="35" width="194" height="1" uuid="052de5d1-169b-41ee-92b1-52537bdfe110"/>
+			</line>
+		</band>
 	</summary>
 </jasperReport>
