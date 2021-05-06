@@ -2178,7 +2178,8 @@ public class TelaChamadoSuporte extends javax.swing.JInternalFrame {
                         }
                         if (pRESPOSTA.equals("Sim")) {
                             jStatusChamado.setText(statusEncerrado);
-                            pTOTAL_REGISTROS_EM_atendimento = 0;
+//                            pTOTAL_REGISTROS_EM_atendimento = 0;
+                            jTotalChamadosEmAtendimentoSUP.setText(String.valueOf(pTOTAL_REGISTROS_EM_atendimento));
                             JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
                             //
                             jBtNovo.setEnabled(true);
