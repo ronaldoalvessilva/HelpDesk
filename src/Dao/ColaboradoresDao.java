@@ -34,6 +34,7 @@ public class ColaboradoresDao {
     Colaboradores objColabora = new Colaboradores();
     //
     Integer pCODIGO_usuario = 0;
+    String pSTATUS_colaborador = "Ativo";
 
     public Colaboradores incluirColaborador(Colaboradores objColabora) {
         pBUSCA_CODIGO_unidade(objColabora.getDescricaoUnidade());
@@ -191,9 +192,11 @@ public class ColaboradoresDao {
         try {
             conecta.executaSQL("SELECT "
                     + "IdUsuario, "
+                    + "StatusUsuario, "
                     + "NomeUsuario "
                     + "FROM USUARIOS "
-                    + "WHERE NomeUsuario LIKE'%" + jPesquisarUsuarioColaborador.getText() + "%'");
+                    + "WHERE NomeUsuario LIKE'%" + jPesquisarUsuarioColaborador.getText() + "%' "
+                    + "AND StatusUsuario='" + pSTATUS_colaborador + "'");
             while (conecta.rs.next()) {
                 Colaboradores objColaborador = new Colaboradores();
                 objColaborador.setIdColaborador(conecta.rs.getInt("IdUsuario"));
@@ -217,8 +220,10 @@ public class ColaboradoresDao {
         try {
             conecta.executaSQL("SELECT "
                     + "IdUsuario, "
+                    + "StatusUsuario, "
                     + "NomeUsuario "
-                    + "FROM USUARIOS ");
+                    + "FROM USUARIOS "
+                    + "WHERE StatusUsuario='" + pSTATUS_colaborador + "'");
             while (conecta.rs.next()) {
                 Colaboradores objColaborador = new Colaboradores();
                 objColaborador.setIdColaborador(conecta.rs.getInt("IdUsuario"));

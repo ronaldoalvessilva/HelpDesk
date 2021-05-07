@@ -58,7 +58,7 @@ public class TelaRelatorioCartaoPonto extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("...::: Relatório Geral de Chamados Suporte Técnico :::...");
+        setTitle("...::: Relatório Cartão Ponto Por Colaborador :::...");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
 
@@ -302,12 +302,14 @@ public class TelaRelatorioCartaoPonto extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     public void MOSTRAR_colaborador() {
+        String pSTATUS_usuario = "Ativo";
         jComboBoxNomeColaborador.removeAllItems();
         conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT "
                     + "NomeUsuario "
-                    + "FROM USUARIOS ");
+                    + "FROM USUARIOS "
+                    + "WHERE StatusUsuario='" + pSTATUS_usuario + "'");
             conecta.rs.first();
             do {
                 jComboBoxNomeColaborador.addItem(conecta.rs.getString("NomeUsuario"));
