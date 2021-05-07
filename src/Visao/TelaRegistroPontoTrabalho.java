@@ -89,6 +89,7 @@ public class TelaRegistroPontoTrabalho extends javax.swing.JInternalFrame {
             @Override
             public void run() {
                 rodaRelogio();
+                VERIFICAR_periodos();
             }
         };
         threadRelogio.start();
