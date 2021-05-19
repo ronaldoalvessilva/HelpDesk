@@ -1561,7 +1561,7 @@ public class ChamadosSuporteDao {
                     + "INNER JOIN SOLICITANTES "
                     + "ON CHAMADOS_SUPORTE.IdSolicitante=SOLICITANTES.IdSolicitante "
                     + "WHERE NomeUsuario='" + nameUser + "' "
-                    + "AND StatusCha='" + pSTATUS_CHAMADO_EM_atendimento + "' ");
+                    + "AND StatusCha LIKE'%" + pSTATUS_CHAMADO_EM_atendimento + "%' ");
             while (conecta.rs.next()) {
                 ChamadoSuporte chamadoSuporte = new ChamadoSuporte();
                 chamadoSuporte.setIdCHSup(conecta.rs.getInt("IdCHSup"));
