@@ -372,7 +372,7 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
         // TODO add your handling code here:
         flag = 1;
         if (evt.getStateChange() == evt.SELECTED) {
-            preencherTabelaChamadosCodigo();
+            preencherTabelaChamadosTodos();
             if (pTOTAL_REGISTROS_busca == 0) {
                 JOptionPane.showMessageDialog(rootPane, "Não existe registro a ser exibido.");
             }

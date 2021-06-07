@@ -944,7 +944,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jIdChamado" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
+                                      <Component id="jIdChamadoDes" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -1007,7 +1007,7 @@
                               <Component id="jAtendente" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="jDataChamado" alignment="2" min="-2" pref="19" max="-2" attributes="0"/>
                               <Component id="jStatusChamado" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="jIdChamado" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jIdChamadoDes" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -1072,7 +1072,7 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jIdChamado">
+                <Component class="javax.swing.JTextField" name="jIdChamadoDes">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="4"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">

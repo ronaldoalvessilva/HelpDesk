@@ -21,7 +21,6 @@ import static Visao.TelaChamadoDesenvolvimento.jPesqSolicitante;
 import static Visao.TelaChamadoDesenvolvimento.jPesquisarAssunto;
 import static Visao.TelaChamadoDesenvolvimento.nomeAtendente;
 import static Visao.TelaChamadoDesenvolvimento.jComboBoxStatus;
-import static Visao.TelaChamadoDesenvolvimento.jIdChamado;
 import static Visao.TelaChamadoDesenvolvimento.jIdItem;
 import static Visao.TelaChamadoDesenvolvimento.pRESPOSTA;
 import static Visao.TelaChamadoDesenvolvimento.idItemCHSup;
@@ -36,6 +35,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static Visao.TelaBuscarChamadosSuporte.pDATA_BUSCA_inicial;
 import static Visao.TelaBuscarChamadosSuporte.pDATA_BUSCA_final;
+import static Visao.TelaChamadoDesenvolvimento.jIdChamadoDes;
 
 /**
  *
@@ -298,8 +298,9 @@ public class ChamadosDesenvolvimentoDao {
 
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE ITENS_CHAMADOS_SUPORTE SET TextoDesenvol=? WHERE IdItem='" + objCHSup.getIdItemCh() + "'");
-            pst.setString(1, objCHSup.getTextoDesenvol());
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE ITENS_CHAMADOS_SUPORTE SET Utilizado=?,TextoDesenvol=? WHERE IdItem='" + objCHSup.getIdItemCh() + "'");
+            pst.setString(1, objCHSup.getUtiliza());
+            pst.setString(2, objCHSup.getTextoDesenvol());
             pst.executeUpdate();
             pRESPOSTA = "Sim";
         } catch (SQLException ex) {
@@ -1013,7 +1014,7 @@ public class ChamadosDesenvolvimentoDao {
                     + "FROM ITENS_CHAMADOS_DESENVOLVIMENTO AS i "
                     + "INNER JOIN CHAMADOS_DESENVOLVIMENTO AS d "
                     + "ON i.IdCHDes=d.IdCHDes "
-                    + "WHERE i.IdCHDes='" + jIdChamado.getText() + "'");
+                    + "WHERE i.IdCHDes='" + jIdChamadoDes.getText() + "'");
             while (conecta.rs.next()) {
                 ChamadoSuporte pItens = new ChamadoSuporte();
                 pItens.setIdItemDes(conecta.rs.getInt("IdItemDes"));
@@ -1127,7 +1128,7 @@ public class ChamadosDesenvolvimentoDao {
                     + "IdCHDes "
                     + "FROM CHAMADOS_DESENVOLVIMENTO");
             conecta.rs.last();
-            jIdChamado.setText(conecta.rs.getString("IdCHDes"));
+            jIdChamadoDes.setText(conecta.rs.getString("IdCHDes"));
         } catch (Exception e) {
         }
         conecta.desconecta();
@@ -1157,7 +1158,7 @@ public class ChamadosDesenvolvimentoDao {
                     + "IdCHDes, "
                     + "IdItemDes "
                     + "FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
-                    + "WHERE IdCHDes='" + jIdChamado.getText() + "' "
+                    + "WHERE IdCHDes='" + jIdChamadoDes.getText() + "' "
                     + "AND IdItemDes='" + jIdItem.getText() + "'");
             conecta.rs.first();
             objCHSup.setIdCHDes(conecta.rs.getInt("IdCHDes"));
@@ -1182,7 +1183,7 @@ public class ChamadosDesenvolvimentoDao {
                     + "ON i.IdSoftware=s.IdSoftware "
                     + "INNER JOIN MODULOS AS m "
                     + "ON i.IdModulo=m.IdModulo "
-                    + "WHERE i.IdCHDes='" + jIdChamado.getText() + "'");
+                    + "WHERE i.IdCHDes='" + jIdChamadoDes.getText() + "'");
             conecta.rs.first();
             objCHSup.setIdSoftware(conecta.rs.getInt("IdSoftware"));
             objCHSup.setDescricaoSoftware(conecta.rs.getString("DescricaoSoftware"));
@@ -1337,10 +1338,11 @@ public class ChamadosDesenvolvimentoDao {
                     + "i.HorarioInicio, "
                     + "i.HorarioTermino, "
                     + "s.NomeSolicitante, "
+                    + "i.Utilizado, "
                     + "i.TextoSuporte "
                     + "FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO AS i "
                     + "INNER JOIN CHAMADOS_SUPORTE AS c "
-                    + "ON i.IdCHSup=i.IdCHSup "
+                    + "ON i.IdCHSup=c.IdCHSup "
                     + "INNER JOIN SOLICITANTES AS s"
                     + "ON c.IdSolicitante=s.IdSolicitante "
                     + "INNER JOIN MODULOS AS m "
@@ -1382,10 +1384,11 @@ public class ChamadosDesenvolvimentoDao {
                     + "i.HorarioInicio, "
                     + "i.HorarioTermino, "
                     + "s.NomeSolicitante, "
+                    + "i.Utilizado, "
                     + "i.TextoSuporte "
                     + "FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO AS i "
                     + "INNER JOIN CHAMADOS_SUPORTE AS c "
-                    + "ON i.IdCHSup=i.IdCHSup "
+                    + "ON i.IdCHSup=c.IdCHSup "
                     + "INNER JOIN SOLICITANTES AS s"
                     + "ON c.IdSolicitante=s.IdSolicitante "
                     + "INNER JOIN MODULOS AS m "
@@ -1426,10 +1429,11 @@ public class ChamadosDesenvolvimentoDao {
                     + "i.HorarioInicio, "
                     + "i.HorarioTermino, "
                     + "s.NomeSolicitante, "
+                    + "i.Utilizado, "
                     + "i.TextoSuporte "
                     + "FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO AS i "
                     + "INNER JOIN CHAMADOS_SUPORTE AS c "
-                    + "ON i.IdCHSup=i.IdCHSup "
+                    + "ON i.IdCHSup=c.IdCHSup "
                     + "INNER JOIN SOLICITANTES AS s"
                     + "ON c.IdSolicitante=s.IdSolicitante "
                     + "INNER JOIN MODULOS AS m "
@@ -1475,7 +1479,7 @@ public class ChamadosDesenvolvimentoDao {
                     + "i.TextoSuporte "
                     + "FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO AS i "
                     + "INNER JOIN CHAMADOS_SUPORTE AS c "
-                    + "ON i.IdCHSup=i.IdCHSup "
+                    + "ON i.IdCHSup=c.IdCHSup "
                     + "INNER JOIN SOLICITANTES AS s"
                     + "ON c.IdSolicitante=s.IdSolicitante "
                     + "INNER JOIN MODULOS AS m "

@@ -187,7 +187,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jDataChamado = new com.toedter.calendar.JDateChooser();
-        jIdChamado = new javax.swing.JTextField();
+        jIdChamadoDes = new javax.swing.JTextField();
         jStatusChamado = new javax.swing.JTextField();
         jAtendente = new javax.swing.JTextField();
         jSolicitante = new javax.swing.JTextField();
@@ -755,9 +755,9 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         jDataChamado.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jDataChamado.setEnabled(false);
 
-        jIdChamado.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jIdChamado.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jIdChamado.setEnabled(false);
+        jIdChamadoDes.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jIdChamadoDes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jIdChamadoDes.setEnabled(false);
 
         jStatusChamado.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jStatusChamado.setForeground(new java.awt.Color(204, 0, 0));
@@ -806,7 +806,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jIdChamado, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jIdChamadoDes, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -853,7 +853,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                     .addComponent(jAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDataChamado, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jStatusChamado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jIdChamado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jIdChamadoDes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -1534,7 +1534,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
                         JOptionPane.YES_NO_OPTION);
                 if (resposta == JOptionPane.YES_OPTION) {
-                    objCHSup.setIdSolicitante(Integer.valueOf(jIdChamado.getText()));
+                    objCHSup.setIdSolicitante(Integer.valueOf(jIdChamadoDes.getText()));
                     CONTROLE.excluirChamadoDesc(objCHSup);
                     Excluir();
                     if (pRESPOSTA.equals("Sim")) {
@@ -1593,7 +1593,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                     objCHSup.setUsuarioUp(nameUser);
                     objCHSup.setDataUp(dataModFinal);
                     objCHSup.setHorarioUp(horaMov);
-                    objCHSup.setIdCHDes(Integer.valueOf(jIdChamado.getText()));
+                    objCHSup.setIdCHDes(Integer.valueOf(jIdChamadoDes.getText()));
                     CONTROLE.alterarChamadoDes(objCHSup);
                     //
                     objLog();
@@ -1640,7 +1640,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                         JOptionPane.YES_NO_OPTION);
                 if (resposta == JOptionPane.YES_OPTION) {
                     objCHSup.setStatusCha(statusEncerrado);
-                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamadoDes.getText()));
                     CONTROLE.encerrarChamadoDes(objCHSup);
                     jStatusChamado.setText(statusEncerrado);
                     JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
@@ -1661,7 +1661,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         pPESQUISAR_acessos.pesquisarUsuario(objCampos);
         pPESQUISAR_acessos.pesquisarTelasAcesso(objCampos);
         if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || objCampos.getCodigoUsuario() == objCampos.getCodigoUsuarioAcesso() && objCampos.getNomeTelaAcesso().equals(botaoImprimirDes) && objCampos.getCodigoAbrir() == 1) {
-            if (jIdChamado.getText().equals("")) {
+            if (jIdChamadoDes.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Não existe registro a ser impresso, selecione um registro antes de imprimir.");
             } else {
                 relatorioChamadosST();
@@ -1687,7 +1687,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                         JOptionPane.YES_NO_OPTION);
                 if (resposta == JOptionPane.YES_OPTION) {
                     objCHSup.setStatusCha(statusDesenvol);
-                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamadoDes.getText()));
                     CONTROLE.encerrarChamadoDes(objCHSup);
                     jStatusChamado.setText(statusDesenvol);
                     JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
@@ -1724,7 +1724,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                         JOptionPane.YES_NO_OPTION);
                 if (resposta == JOptionPane.YES_OPTION) {
                     objCHSup.setStatusCha(statusReabrir);
-                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                    objCHSup.setIdCHSup(Integer.valueOf(jIdChamadoDes.getText()));
                     CONTROLE.encerrarChamadoDes(objCHSup);
                     jStatusChamado.setText(statusReabrir);
                     JOptionPane.showMessageDialog(rootPane, "Registro encerrado com sucesso.");
@@ -1757,7 +1757,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             String idSoli = "" + jTabelaChamdosSup.getValueAt(jTabelaChamdosSup.getSelectedRow(), 0);
             jIdChamadoPesquisa.setText(idSoli);
             //            
-            if (!jIdChamado.getText().equals("")) {
+            if (!jIdChamadoDes.getText().equals("")) {
                 limparTodosCampos();
                 bloquearCampos();
                 bloquearBotoes();
@@ -1774,7 +1774,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                 jBtNovoItem.setEnabled(true);
             }
             CONTROLE.MOSTRAR_DADOS_chamado(objCHSup);
-            jIdChamado.setText(String.valueOf(objCHSup.getIdCHDes()));
+            jIdChamadoDes.setText(String.valueOf(objCHSup.getIdCHDes()));
             jStatusChamado.setText(objCHSup.getStatusCha());
             jDataChamado.setDate(objCHSup.getDataCha());
             jAtendente.setText(objCHSup.getNomeAtendente());
@@ -1826,7 +1826,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
             } else if (jModulo.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o nome do módulo.");
             } else {
-                objCHSup.setIdCHDes(Integer.valueOf(jIdChamado.getText()));
+                objCHSup.setIdCHDes(Integer.valueOf(jIdChamadoDes.getText()));
                 objCHSup.setDataItemCh(jDataOcorrencia.getDate());
                 objCHSup.setDescricaoSoftware(jSoftware.getText());
                 objCHSup.setDescricaoModulo(jModulo.getText());
@@ -1848,9 +1848,9 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                     jHorarioTermino.setText(objCHSup.getHorarioTermino());
                     buscarCodigoItem();
                     verificarGravacaoItem();
-                    if (jIdChamado.getText().equals(idRegChamadoDesc) && jIdItem.getText().equals(idItemChamadoDesc)) {
+                    if (jIdChamadoDes.getText().equals(idRegChamadoDesc) && jIdItem.getText().equals(idItemChamadoDesc)) {
                         //RESPONDE "Sim" AO CAMPO Utilizao DA TABELA ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO
-                        objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                        objCHSup.setIdCHSup(Integer.valueOf(jIdChamadoDes.getText()));
                         objCHSup.setIdItemCh(Integer.valueOf(idItemChamadoDesc));
                         objCHSup.setUtiliza(utilizado);
                         CONTROLE.repostaItensSupDes(objCHSup);
@@ -1886,9 +1886,9 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                     CONTROLE.alterarItensSupDes(objCHSup);
                     jHorarioTermino.setText(objCHSup.getHorarioTermino());
                     verificarGravacaoItem();
-                    if (jIdChamado.getText().equals(idRegChamadoDesc) && jIdItem.getText().equals(idItemChamadoDesc)) {
+                    if (jIdChamadoDes.getText().equals(idRegChamadoDesc) && jIdItem.getText().equals(idItemChamadoDesc)) {
                         //RESPONDE "Sim" AO CAMPO Utilizao DA TABELA ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO
-                        objCHSup.setIdCHSup(Integer.valueOf(jIdChamado.getText()));
+                        objCHSup.setIdCHSup(Integer.valueOf(jIdChamadoDes.getText()));
                         objCHSup.setIdItemCh(Integer.valueOf(idItemChamadoDesc));
                         objCHSup.setUtiliza(utilizado);
                         CONTROLE.repostaItensSupDes(objCHSup);
@@ -2008,7 +2008,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                     CONTROLE.excluirItensSupDes(objCHSup);
                     //RESPONDE "Não" AO CAMPO Utilizao DA TABELA ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO
                     utilizado = "Não";
-                    objCHSup.setIdCHSup(Integer.parseInt(jIdChamado.getText()));
+                    objCHSup.setIdCHSup(Integer.parseInt(jIdChamadoDes.getText()));
                     objCHSup.setIdItemCh(Integer.valueOf(idItemChamadoDesc));
                     objCHSup.setUtiliza(utilizado);
                     CONTROLE.repostaItensSupDes(objCHSup);
@@ -2176,7 +2176,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     public static javax.swing.JFormattedTextField jHorarioInicioSup;
     private javax.swing.JFormattedTextField jHorarioTermino;
     public static javax.swing.JFormattedTextField jHorarioTerminoSup;
-    public static javax.swing.JTextField jIdChamado;
+    public static javax.swing.JTextField jIdChamadoDes;
     public static javax.swing.JTextField jIdChamadoPesquisa;
     public static javax.swing.JTextField jIdItem;
     public static javax.swing.JTextField jIdItemSup;
@@ -2251,7 +2251,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }
 
     public void corCampos() {
-        jIdChamado.setBackground(Color.white);
+        jIdChamadoDes.setBackground(Color.white);
         jStatusChamado.setBackground(Color.white);
         jDataChamado.setBackground(Color.white);
         jSolicitante.setBackground(Color.white);
@@ -2275,7 +2275,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }
 
     public void bloquearCampos() {
-        jIdChamado.setEnabled(!true);
+        jIdChamadoDes.setEnabled(!true);
         jStatusChamado.setEnabled(!true);
         jDataChamado.setEnabled(!true);
         jAssunto.setEnabled(!true);
@@ -2318,7 +2318,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }
 
     public void limparTodosCampos() {
-        jIdChamado.setText("");
+        jIdChamadoDes.setText("");
         jStatusChamado.setText("");
         jDataChamado.setDate(null);
         jAtendente.setText("");
@@ -2419,7 +2419,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
     }
 
     public void Cancelar() {
-        if (jIdChamado.getText().equals("")) {
+        if (jIdChamadoDes.getText().equals("")) {
             limparTodosCampos();
             bloquearCampos();
             bloquearBotoes();
@@ -2539,9 +2539,9 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
                             + "ON CHAMADOS_DESENVOLVIMENTO.IdUnidEmp=UNIDADE_PENAL_EMPRESA.IdUnidEmp "
                             + "INNER JOIN SOLICITANTES "
                             + "ON CHAMADOS_DESENVOLVIMENTO.IdSolicitante=SOLICITANTES.IdSolicitante "
-                            + "WHERE CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamado.getText() + "'");
+                            + "WHERE CHAMADOS_DESENVOLVIMENTO.IdCHDes='" + jIdChamadoDes.getText() + "'");
                     HashMap parametros = new HashMap();
-                    parametros.put("idChamado", jIdChamado.getText());
+                    parametros.put("idChamado", jIdChamadoDes.getText());
                     parametros.put("nomeUsuario", nameUser);
                     // Sub Relatório
                     try {
@@ -3186,7 +3186,7 @@ public class TelaChamadoDesenvolvimento extends javax.swing.JInternalFrame {
         objLogSys.setDataMov(dataModFinal);
         objLogSys.setHorarioMov(horaMov);
         objLogSys.setNomeModuloTela(nomeModuloTela);
-        objLogSys.setIdLancMov(Integer.valueOf(jIdChamado.getText()));
+        objLogSys.setIdLancMov(Integer.valueOf(jIdChamadoDes.getText()));
         objLogSys.setNomeUsuarioLogado(nameUser);
         objLogSys.setStatusMov(statusMov);
     }

@@ -6,9 +6,9 @@
 package Visao;
 
 import Dao.ConexaoBancoDados;
-import static Visao.TelaChamadoDesenvolvimento.jIdChamado;
 import static Visao.TelaChamadoDesenvolvimento.jIdItem;
 import java.sql.SQLException;
+import static Visao.TelaChamadoDesenvolvimento.jIdChamadoDes;
 
 /**
  *
@@ -251,7 +251,7 @@ public class TelaAuditoriaCHDesenvolvimentoItens extends javax.swing.JInternalFr
         try {
             conecta.abrirConexao();
             conecta.executaSQL("SELECT * FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
-                    + "WHERE IdCHDes='" + jIdChamado.getText() + "' "
+                    + "WHERE IdCHDes='" + jIdChamadoDes.getText() + "' "
                     + "AND IdItemDes='" + jIdItem.getText() + "'");
             conecta.rs.first();
             jUsuarioInsert.setText(conecta.rs.getString("UsuarioInsert"));
