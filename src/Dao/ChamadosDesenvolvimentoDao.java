@@ -13,18 +13,14 @@ import static Visao.LoginHD.pTOTAL_REGISTROS_DSV_dia;
 import static Visao.LoginHD.pTOTAL_REGISTROS_DSV_fechado;
 import static Visao.TelaBuscarChamadosSuporte.jIdChamadoBuscaPesquisa;
 import static Visao.TelaBuscarChamadosSuporte.pTOTAL_REGISTROS_busca;
-import static Visao.TelaChamadoDesenvolvimento.dataFinal;
-import static Visao.TelaChamadoDesenvolvimento.dataInicial;
 import static Visao.TelaChamadoDesenvolvimento.pTOTAL_registros;
 import static Visao.TelaChamadoDesenvolvimento.jIdChamadoPesquisa;
-import static Visao.TelaChamadoDesenvolvimento.jPesqSolicitante;
+import static Visao.TelaBuscarChamadosSuporte.jPesqSolicitante;
 import static Visao.TelaChamadoDesenvolvimento.jPesquisarAssunto;
 import static Visao.TelaChamadoDesenvolvimento.nomeAtendente;
 import static Visao.TelaChamadoDesenvolvimento.jComboBoxStatus;
-import static Visao.TelaChamadoDesenvolvimento.jIdItem;
 import static Visao.TelaChamadoDesenvolvimento.pRESPOSTA;
 import static Visao.TelaChamadoDesenvolvimento.idItemCHSup;
-import static Visao.TelaChamadoDesenvolvimento.idItem;
 import static Visao.TelaPrincipal.pDATA_DSV_pesquisa;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -36,6 +32,7 @@ import javax.swing.JOptionPane;
 import static Visao.TelaBuscarChamadosSuporte.pDATA_BUSCA_inicial;
 import static Visao.TelaBuscarChamadosSuporte.pDATA_BUSCA_final;
 import static Visao.TelaChamadoDesenvolvimento.jIdChamadoDes;
+import static Visao.TelaChamadoDesenvolvimento.jIdItemDes;
 
 /**
  *
@@ -1005,6 +1002,7 @@ public class ChamadosDesenvolvimentoDao {
         List<ChamadoSuporte> LISTA_itens = new ArrayList<ChamadoSuporte>();
         try {
             conecta.executaSQL("SELECT "
+                    + "i.IdCHDes, "
                     + "i.IdItemDes, "
                     + "i.DataItemCh, "
                     + "i.HorarioInicio, "
@@ -1048,13 +1046,13 @@ public class ChamadosDesenvolvimentoDao {
                     + "m.DescricaoModulo, "
                     + "i.TextoDesenvol "
                     + "FROM ITENS_CHAMADOS_DESENVOLVIMENTO AS i "
+                    + "INNER JOIN CHAMADOS_DESENVOLVIMENTO AS d "
+                    + "ON i.IdCHDes=d.IdCHDes "
                     + "INNER JOIN SOFTWARE AS s "
                     + "ON i.IdSoftware=s.IdSoftware "
                     + "INNER JOIN MODULOS m "
-                    + "ON i.IdModulo=m.IdModulo "
-                    + "INNER JOIN ITENS_CHAMADOS_SUPORTE AS p "
-                    + "ON i.IdItem=p.IdItem "
-                    + "WHERE i.IdItemDes='" + jIdItem.getText() + "'");
+                    + "ON i.IdModulo=m.IdModulo "                                        
+                    + "WHERE i.IdItemDes='" + jIdItemDes.getText() + "'");
             conecta.rs.first();
             objCHSup.setIdItemDes(conecta.rs.getInt("IdItemDes"));
             objCHSup.setIdItemCh(conecta.rs.getInt("IdItem"));
@@ -1159,7 +1157,7 @@ public class ChamadosDesenvolvimentoDao {
                     + "IdItemDes "
                     + "FROM ITENS_CHAMADOS_DESENVOLVIMENTO "
                     + "WHERE IdCHDes='" + jIdChamadoDes.getText() + "' "
-                    + "AND IdItemDes='" + jIdItem.getText() + "'");
+                    + "AND IdItemDes='" + jIdItemDes.getText() + "'");
             conecta.rs.first();
             objCHSup.setIdCHDes(conecta.rs.getInt("IdCHDes"));
             objCHSup.setIdItemDes(conecta.rs.getInt("IdItemDes"));
@@ -1333,7 +1331,7 @@ public class ChamadosDesenvolvimentoDao {
         try {
             conecta.executaSQL("SELECT "
                     + "i.IdCHSup, "
-                    + "i.Item, "
+                    + "i.IdItem, "
                     + "i.DataItemCh, "
                     + "i.HorarioInicio, "
                     + "i.HorarioTermino, "
@@ -1343,23 +1341,23 @@ public class ChamadosDesenvolvimentoDao {
                     + "FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO AS i "
                     + "INNER JOIN CHAMADOS_SUPORTE AS c "
                     + "ON i.IdCHSup=c.IdCHSup "
-                    + "INNER JOIN SOLICITANTES AS s"
+                    + "INNER JOIN SOLICITANTES AS s "
                     + "ON c.IdSolicitante=s.IdSolicitante "
                     + "INNER JOIN MODULOS AS m "
                     + "ON i.IdModulo=m.IdModulo "
                     + "INNER JOIN SOFTWARE AS o "
                     + "ON i.IdSoftware=o.IdSoftware  "
-                    + "WHERE i.IdCHSup='" + jIdChamadoPesquisa.getText() + "' "
+                    + "WHERE i.IdItem='" + jIdChamadoBuscaPesquisa.getText() + "' "
                     + "AND i.Utilizado='" + utilizado + "'");
             while (conecta.rs.next()) {
                 ChamadoSuporte pITENS_chamado = new ChamadoSuporte();
-                objCHSup.setIdCHSup(conecta.rs.getInt("IdCHSup"));
-                objCHSup.setIdItemCh(conecta.rs.getInt("IdItem"));
-                objCHSup.setDataItemCh(conecta.rs.getDate("DataItemCh"));
-                objCHSup.setHorarioInicio(conecta.rs.getString("HorarioInicio"));
-                objCHSup.setHorarioTermino(conecta.rs.getString("HorarioTermino"));
-                objCHSup.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
-                objCHSup.setTextoSuporte(conecta.rs.getString("TextoSuporte"));
+                pITENS_chamado.setIdCHSup(conecta.rs.getInt("IdCHSup"));
+                pITENS_chamado.setIdItemCh(conecta.rs.getInt("IdItem"));
+                pITENS_chamado.setDataItemCh(conecta.rs.getDate("DataItemCh"));
+                pITENS_chamado.setHorarioInicio(conecta.rs.getString("HorarioInicio"));
+                pITENS_chamado.setHorarioTermino(conecta.rs.getString("HorarioTermino"));
+                pITENS_chamado.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                pITENS_chamado.setTextoSuporte(conecta.rs.getString("TextoSuporte"));
                 LISTA_ATENDIMENTO_chamado.add(pITENS_chamado);
                 pTOTAL_REGISTROS_busca++;
             }
@@ -1379,7 +1377,7 @@ public class ChamadosDesenvolvimentoDao {
         try {
             conecta.executaSQL("SELECT "
                     + "i.IdCHSup, "
-                    + "i.Item, "
+                    + "i.IdItem, "
                     + "i.DataItemCh, "
                     + "i.HorarioInicio, "
                     + "i.HorarioTermino, "
@@ -1389,22 +1387,22 @@ public class ChamadosDesenvolvimentoDao {
                     + "FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO AS i "
                     + "INNER JOIN CHAMADOS_SUPORTE AS c "
                     + "ON i.IdCHSup=c.IdCHSup "
-                    + "INNER JOIN SOLICITANTES AS s"
+                    + "INNER JOIN SOLICITANTES AS s "
                     + "ON c.IdSolicitante=s.IdSolicitante "
                     + "INNER JOIN MODULOS AS m "
                     + "ON i.IdModulo=m.IdModulo "
                     + "INNER JOIN SOFTWARE AS o "
-                    + "ON i.IdSoftware=o.IdSoftware  "
+                    + "ON i.IdSoftware=o.IdSoftware "
                     + "WHERE i.Utilizado='" + utilizado + "'");
             while (conecta.rs.next()) {
                 ChamadoSuporte pITENS_chamado = new ChamadoSuporte();
-                objCHSup.setIdCHSup(conecta.rs.getInt("IdCHSup"));
-                objCHSup.setIdItemCh(conecta.rs.getInt("IdItem"));
-                objCHSup.setDataItemCh(conecta.rs.getDate("DataItemCh"));
-                objCHSup.setHorarioInicio(conecta.rs.getString("HorarioInicio"));
-                objCHSup.setHorarioTermino(conecta.rs.getString("HorarioTermino"));
-                objCHSup.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
-                objCHSup.setTextoSuporte(conecta.rs.getString("TextoSuporte"));
+                pITENS_chamado.setIdCHSup(conecta.rs.getInt("IdCHSup"));
+                pITENS_chamado.setIdItemCh(conecta.rs.getInt("IdItem"));
+                pITENS_chamado.setDataItemCh(conecta.rs.getDate("DataItemCh"));
+                pITENS_chamado.setHorarioInicio(conecta.rs.getString("HorarioInicio"));
+                pITENS_chamado.setHorarioTermino(conecta.rs.getString("HorarioTermino"));
+                pITENS_chamado.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                pITENS_chamado.setTextoSuporte(conecta.rs.getString("TextoSuporte"));
                 LISTA_ATENDIMENTO_chamado.add(pITENS_chamado);
                 pTOTAL_REGISTROS_busca++;
             }
@@ -1424,7 +1422,7 @@ public class ChamadosDesenvolvimentoDao {
         try {
             conecta.executaSQL("SELECT "
                     + "i.IdCHSup, "
-                    + "i.Item, "
+                    + "i.IdItem, "
                     + "i.DataItemCh, "
                     + "i.HorarioInicio, "
                     + "i.HorarioTermino, "
@@ -1434,7 +1432,7 @@ public class ChamadosDesenvolvimentoDao {
                     + "FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO AS i "
                     + "INNER JOIN CHAMADOS_SUPORTE AS c "
                     + "ON i.IdCHSup=c.IdCHSup "
-                    + "INNER JOIN SOLICITANTES AS s"
+                    + "INNER JOIN SOLICITANTES AS s "
                     + "ON c.IdSolicitante=s.IdSolicitante "
                     + "INNER JOIN MODULOS AS m "
                     + "ON i.IdModulo=m.IdModulo "
@@ -1445,13 +1443,13 @@ public class ChamadosDesenvolvimentoDao {
                     + "AND i.Utilizado='" + utilizado + "'");
             while (conecta.rs.next()) {
                 ChamadoSuporte pITENS_chamado = new ChamadoSuporte();
-                objCHSup.setIdCHSup(conecta.rs.getInt("IdCHSup"));
-                objCHSup.setIdItemCh(conecta.rs.getInt("IdItem"));
-                objCHSup.setDataItemCh(conecta.rs.getDate("DataItemCh"));
-                objCHSup.setHorarioInicio(conecta.rs.getString("HorarioInicio"));
-                objCHSup.setHorarioTermino(conecta.rs.getString("HorarioTermino"));
-                objCHSup.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
-                objCHSup.setTextoSuporte(conecta.rs.getString("TextoSuporte"));
+                pITENS_chamado.setIdCHSup(conecta.rs.getInt("IdCHSup"));
+                pITENS_chamado.setIdItemCh(conecta.rs.getInt("IdItem"));
+                pITENS_chamado.setDataItemCh(conecta.rs.getDate("DataItemCh"));
+                pITENS_chamado.setHorarioInicio(conecta.rs.getString("HorarioInicio"));
+                pITENS_chamado.setHorarioTermino(conecta.rs.getString("HorarioTermino"));
+                pITENS_chamado.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                pITENS_chamado.setTextoSuporte(conecta.rs.getString("TextoSuporte"));
                 LISTA_ATENDIMENTO_chamado.add(pITENS_chamado);
                 pTOTAL_REGISTROS_busca++;
             }
@@ -1471,7 +1469,7 @@ public class ChamadosDesenvolvimentoDao {
         try {
             conecta.executaSQL("SELECT "
                     + "i.IdCHSup, "
-                    + "i.Item, "
+                    + "i.IdItem, "
                     + "i.DataItemCh, "
                     + "i.HorarioInicio, "
                     + "i.HorarioTermino, "
@@ -1480,23 +1478,23 @@ public class ChamadosDesenvolvimentoDao {
                     + "FROM ITENS_CHAMADOS_SUPORTE_DESENVOLVIMENTO AS i "
                     + "INNER JOIN CHAMADOS_SUPORTE AS c "
                     + "ON i.IdCHSup=c.IdCHSup "
-                    + "INNER JOIN SOLICITANTES AS s"
+                    + "INNER JOIN SOLICITANTES AS s "
                     + "ON c.IdSolicitante=s.IdSolicitante "
                     + "INNER JOIN MODULOS AS m "
                     + "ON i.IdModulo=m.IdModulo "
                     + "INNER JOIN SOFTWARE AS o "
                     + "ON i.IdSoftware=o.IdSoftware "
-                    + "WHERE SOLICITANTES.NomeSolicitante LIKE'%" + jPesqSolicitante.getText() + "%' "
+                    + "WHERE s.NomeSolicitante LIKE'%" + jPesqSolicitante.getText() + "%' "
                     + "AND i.Utilizado='" + utilizado + "'");
             while (conecta.rs.next()) {
                 ChamadoSuporte pITENS_chamado = new ChamadoSuporte();
-                objCHSup.setIdCHSup(conecta.rs.getInt("IdCHSup"));
-                objCHSup.setIdItemCh(conecta.rs.getInt("IdItem"));
-                objCHSup.setDataItemCh(conecta.rs.getDate("DataItemCh"));
-                objCHSup.setHorarioInicio(conecta.rs.getString("HorarioInicio"));
-                objCHSup.setHorarioTermino(conecta.rs.getString("HorarioTermino"));
-                objCHSup.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
-                objCHSup.setTextoSuporte(conecta.rs.getString("TextoSuporte"));
+                pITENS_chamado.setIdCHSup(conecta.rs.getInt("IdCHSup"));
+                pITENS_chamado.setIdItemCh(conecta.rs.getInt("IdItem"));
+                pITENS_chamado.setDataItemCh(conecta.rs.getDate("DataItemCh"));
+                pITENS_chamado.setHorarioInicio(conecta.rs.getString("HorarioInicio"));
+                pITENS_chamado.setHorarioTermino(conecta.rs.getString("HorarioTermino"));
+                pITENS_chamado.setNomeSolicitante(conecta.rs.getString("NomeSolicitante"));
+                pITENS_chamado.setTextoSuporte(conecta.rs.getString("TextoSuporte"));
                 LISTA_ATENDIMENTO_chamado.add(pITENS_chamado);
                 pTOTAL_REGISTROS_busca++;
             }

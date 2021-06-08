@@ -1289,7 +1289,7 @@
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jIdItem" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
+                                              <Component id="jIdItemDes" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
@@ -1332,7 +1332,7 @@
                                               <Component id="jHorarioTermino" alignment="2" min="-2" max="-2" attributes="0"/>
                                               <Component id="jHorarioInicio" alignment="2" min="-2" max="-2" attributes="0"/>
                                               <Component id="jDataOcorrencia" alignment="2" min="-2" pref="19" max="-2" attributes="0"/>
-                                              <Component id="jIdItem" alignment="2" min="-2" pref="18" max="-2" attributes="0"/>
+                                              <Component id="jIdItemDes" alignment="2" min="-2" pref="18" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="1" attributes="0">
@@ -1432,7 +1432,7 @@
                             <Property name="text" type="java.lang.String" value="C&#xf3;digo"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="jIdItem">
+                        <Component class="javax.swing.JTextField" name="jIdItemDes">
                           <Properties>
                             <Property name="horizontalAlignment" type="int" value="4"/>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">

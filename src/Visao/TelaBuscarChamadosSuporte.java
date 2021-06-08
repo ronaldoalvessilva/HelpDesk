@@ -553,7 +553,7 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
                 String ano = dataBrasil.substring(0, 4);
                 dataBrasil = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(pTOTAL_REGISTROS_busca)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{pp.getIdItemDes(), dataBrasil, pp.getHorarioInicio(), pp.getHorarioTermino(), pp.getTextoDesenvol()});
+                dados.add(new Object[]{pp.getIdCHSup(), pp.getIdItemCh(), dataBrasil, pp.getHorarioInicio(), pp.getHorarioTermino(), pp.getNomeSolicitante(), pp.getTextoSuporte()});
                 ModeloTabela modelo = new ModeloTabela(dados, Colunas);
                 jTabelaChamdosSup.setModel(modelo);
                 jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
@@ -588,12 +588,14 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
             for (ChamadoSuporte pp : CONTROLE.BUSCAR_CHAMADO_SUPORTE_todos()) {
                 // Formatar a data no formato Brasil
                 dataBrasil = String.valueOf(pp.getDataItemCh());
-                String dia = dataBrasil.substring(8, 10);
-                String mes = dataBrasil.substring(5, 7);
-                String ano = dataBrasil.substring(0, 4);
-                dataBrasil = dia + "/" + mes + "/" + ano;
+                if (dataBrasil != null) {
+                    String dia = dataBrasil.substring(8, 10);
+                    String mes = dataBrasil.substring(5, 7);
+                    String ano = dataBrasil.substring(0, 4);
+                    dataBrasil = dia + "/" + mes + "/" + ano;
+                }
                 jtotalRegistros.setText(Integer.toString(pTOTAL_REGISTROS_busca)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{pp.getIdItemDes(), dataBrasil, pp.getHorarioInicio(), pp.getHorarioTermino(), pp.getTextoDesenvol()});
+                dados.add(new Object[]{pp.getIdCHSup(), pp.getIdItemCh(), dataBrasil, pp.getHorarioInicio(), pp.getHorarioTermino(), pp.getNomeSolicitante(), pp.getTextoSuporte()});
                 ModeloTabela modelo = new ModeloTabela(dados, Colunas);
                 jTabelaChamdosSup.setModel(modelo);
                 jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
@@ -628,12 +630,14 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
             for (ChamadoSuporte pp : CONTROLE.BUSCAR_CHAMADO_SUPORTE_data()) {
                 // Formatar a data no formato Brasil
                 dataBrasil = String.valueOf(pp.getDataItemCh());
-                String dia = dataBrasil.substring(8, 10);
-                String mes = dataBrasil.substring(5, 7);
-                String ano = dataBrasil.substring(0, 4);
-                dataBrasil = dia + "/" + mes + "/" + ano;
+                if (dataBrasil != null) {
+                    String dia = dataBrasil.substring(8, 10);
+                    String mes = dataBrasil.substring(5, 7);
+                    String ano = dataBrasil.substring(0, 4);
+                    dataBrasil = dia + "/" + mes + "/" + ano;
+                }
                 jtotalRegistros.setText(Integer.toString(pTOTAL_REGISTROS_busca)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{pp.getIdItemDes(), dataBrasil, pp.getHorarioInicio(), pp.getHorarioTermino(), pp.getTextoDesenvol()});
+                dados.add(new Object[]{pp.getIdCHSup(), pp.getIdItemCh(), dataBrasil, pp.getHorarioInicio(), pp.getHorarioTermino(), pp.getNomeSolicitante(), pp.getTextoSuporte()});
                 ModeloTabela modelo = new ModeloTabela(dados, Colunas);
                 jTabelaChamdosSup.setModel(modelo);
                 jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
@@ -668,12 +672,14 @@ public class TelaBuscarChamadosSuporte extends javax.swing.JDialog {
             for (ChamadoSuporte pp : CONTROLE.BUSCAR_CHAMADO_SUPORTE_solicitante()) {
                 // Formatar a data no formato Brasil
                 dataBrasil = String.valueOf(pp.getDataItemCh());
-                String dia = dataBrasil.substring(8, 10);
-                String mes = dataBrasil.substring(5, 7);
-                String ano = dataBrasil.substring(0, 4);
-                dataBrasil = dia + "/" + mes + "/" + ano;
+                if (dataBrasil != null) {
+                    String dia = dataBrasil.substring(8, 10);
+                    String mes = dataBrasil.substring(5, 7);
+                    String ano = dataBrasil.substring(0, 4);
+                    dataBrasil = dia + "/" + mes + "/" + ano;
+                }
                 jtotalRegistros.setText(Integer.toString(pTOTAL_REGISTROS_busca)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{pp.getIdItemDes(), dataBrasil, pp.getHorarioInicio(), pp.getHorarioTermino(), pp.getTextoDesenvol()});
+                dados.add(new Object[]{pp.getIdCHSup(), pp.getIdItemCh(), dataBrasil, pp.getHorarioInicio(), pp.getHorarioTermino(), pp.getNomeSolicitante(), pp.getTextoSuporte()});
                 ModeloTabela modelo = new ModeloTabela(dados, Colunas);
                 jTabelaChamdosSup.setModel(modelo);
                 jTabelaChamdosSup.getColumnModel().getColumn(0).setPreferredWidth(70);
